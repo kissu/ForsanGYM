@@ -10,7 +10,7 @@
       </div>
       <ul class="app-menu">
         <li v-for="(item,index) in list" :key='index'>
-          <a class="app-menu__item" href="">
+          <a class="app-menu__item" :href="item.route">
             <i :class="`app-menu__icon ${item.icon}`"></i>
             <span class="app-menu__label">{{item.text}}</span>
           </a>
@@ -28,9 +28,9 @@ export default {
   data(){
     return{
       list:[
-          {text: "Players", icon: "fa fa-user", route: '/'},     
-          {text: "Ended Subscription", icon: "fa fa-user", route: '/'},        
-          {text: "Plans", icon: "fa fa-user", route: '/'},      
+          {text: "Players", icon: "fa fa-user", route: '/players'},     
+          {text: "Ended Subscription", icon: "fa fa-calendar-times-o", route: '/'},        
+          {text: "Plans", icon: "fa fa-bar-chart", route: '/plans'},      
       ]
     }
   },
