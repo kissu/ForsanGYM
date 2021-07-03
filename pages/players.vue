@@ -126,7 +126,7 @@
                     <th>Phone Number</th>
                     <th>Begin Date</th>
                     <th>End Date</th>
-                    <th>Plane</th>
+                    <th>Plan</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -19,7 +19,7 @@
               <tr>
                 <td>1</td>
                 <td>abdullah Ibrahim</td>
-                <td>654321</th>
+                <td>654321</td>
                 <td>10-06-2020</td>
                 <td>20-09-2020</td>
                 <td>Quarterly</td>
