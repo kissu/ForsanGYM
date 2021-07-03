@@ -131,36 +131,36 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <th>1</th>
-                    <th>Sadd Saeed</th>
-                    <th>123456</th>
-                    <th>20-10-2020</th>
-                    <th>20-11-2020</th>
-                    <th>Monthly</th>
+                    <td>1</td>
+                    <td>Sadd Saeed</td>
+                    <td>123456</td>
+                    <td>20-10-2020</td>
+                    <td>20-11-2020</td>
+                    <td>Monthly</td>
                   </tr>
                   <tr>
-                    <th>2</th>
-                    <th>abdullah Ibrahim</th>
-                    <th>654321</th>
-                    <th>10-06-2020</th>
-                    <th>20-09-2020</th>
-                    <th>Quarterly</th>
+                    <td>2</td>
+                    <td>abdullah Ibrahim</td>
+                    <td>654321</td>
+                    <td>10-06-2020</td>
+                    <td>20-09-2020</td>
+                    <td>Quarterly</td>
                   </tr>
                   <tr>
-                    <th>3</th>
-                    <th>Yassir Ahmed</th>
-                    <th>987654</th>
-                    <th>20-10-2020</th>
-                    <th>20-11-2021</th>
-                    <th>Yearly</th>
+                    <td>3</td>
+                    <td>Yassir Ahmed</td>
+                    <td>987654</td>
+                    <td>20-10-2020</td>
+                    <td>20-11-2021</td>
+                    <td>Yearly</td>
                   </tr>
                   <tr>
-                    <th>4</th>
-                    <th>Ali Mohammed</th>
-                    <th>456789</th>
-                    <th>03-01-2020</th>
-                    <th>03-07-2020</th>
-                    <th>Half Year</th>
+                    <td>4</td>
+                    <td>Ali Mohammed</td>
+                    <td>456789</td>
+                    <td>03-01-2020</td>
+                    <td>03-07-2020</td>
+                    <td>Half Year</td>
                   </tr>
                 </tbody>
               </table>
