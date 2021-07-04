@@ -21,31 +21,31 @@
                 <td>40</td>
               </tr>
               <tr>
-                <td>1</td>
+                <td>2</td>
                 <td>Monthly (groups)</td>
                 <td>1 month of subscription.</td>
                 <td>300</td>
               </tr>
               <tr>
-                <td>1</td>
+                <td>3</td>
                 <td>Monthly</td>
                 <td>1 month of subscription.</td>
                 <td>400</td>
               </tr>
               <tr>
-                <td>2</td>
+                <td>4</td>
                 <td>Quarterly</td>
                 <td>3 monthes of subscription.</td>
                 <td>700</td>
               </tr>
               <tr>
-                <td>3</td>
+                <td>5</td>
                 <td>Half year</td>
                 <td>6 months of subscription.</td>
                 <td>1250</td>
               </tr>
               <tr>
-                <td>5</td>
+                <td>6</td>
                 <td>Yearly</td>
                 <td>12 months of subscription.</td>
                 <td>2200</td>

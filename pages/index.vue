@@ -35,26 +35,38 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+              <tr>
               <td>1</td>
+              <td>Daily</td>
+              <td>2</td>
+              <td>80</td>
+            </tr>
+            <tr>
+              <td>2</td>
               <td>Monthly</td>
               <td>3</td>
               <td>1200</td>
             </tr>
             <tr>
-              <td>2</td>
-              <td>Quarterly</td>
-              <td>1</td>
-              <td>750</td>
+              <td>3</td>
+              <td>Monthly Groups</td>
+              <td>5</td>
+              <td>1500</td>
             </tr>
             <tr>
-              <td>3</td>
+              <td>4</td>
+              <td>Quarterly</td>
+              <td>1</td>
+              <td>700</td>
+            </tr>
+            <tr>
+              <td>5</td>
               <td>Half year</td>
               <td>0</td>
               <td>0</td>
             </tr>
             <tr>
-              <td>4</td>
+              <td>6</td>
               <td>Yearly</td>
               <td>0</td>
               <td>0</td>
