@@ -25,7 +25,7 @@
       <div class="col-md-6">
         <div class="tile">
           <h3 class="tile-title">Summary of today's subscritions</h3>
-          <table class="table table-striped">
+          <table style="font-size:17px" class="table table-striped">
             <thead>
               <tr>
                 <th>#</th>
@@ -64,10 +64,10 @@
         </div>
       </div>
 
-      <div class="col-md-6">
-        <div class="tile">
+      <div class="col-md-6" >
+        <div class="tile" >
           <h3 class="tile-title">Summary of other services</h3>
-          <table class="table table-striped">
+          <table style="font-size:17px"  class="table table-striped">
             <thead>
               <tr>
                 <th>#</th>
@@ -106,6 +106,57 @@
         </div>
       </div>
     </div>
+    
+    <!-- counter table -->
+    <div class="row">
+      <div class="col-md-3">
+          <div class="tile">
+            <h3 class="tile-title">Service</h3>
+            <div class="tile-body">
+              <form class="form-horizontal">
+                
+                <div class="form-group row">
+                  <div class="col-md-9">
+                    <div class="form-check">
+                      <label class="form-check-label" style="font-size:20px">
+                        <input class="form-check-input" style = "height:20px" type="radio" name="gender">Water--3
+                      </label>
+                    </div>
+                    <div class="form-check" style="font-size:20px">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" style = "height:20px" name="gender">Checken Meal--45
+                      </label>
+                    </div>
+                    <div class="form-check" style="font-size:20px">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" style = "height:20px" name="gender">Oats Meal--15
+                      </label>
+                    </div>
+                    <div class="form-check" style="font-size:20px">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" style = "height:20px" name="gender">Cotton T-Shert--120
+                      </label>
+                    </div>
+                    <div class="form-check" style="font-size:20px">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" style = "height:20px" name="gender">stretch T-Shert--150
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tile-footer">
+              <div class="row">
+                <div class="col-md-8 col-md-offset-3">
+                  <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Submit</button>&nbsp;&nbsp;&nbsp;
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
   </div>
 </template>
 
