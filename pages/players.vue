@@ -130,8 +130,8 @@
 
                   <div id="col-md-4">
                     <div id="sampleTable_length" class="dataTables_length">
-                      <label
-                        >&nbsp;&nbsp;&nbsp;Search By
+                      <label style="margin-left:10px"
+                        >Search By
                         <select
                           name="sampleTable_length"
                           aria-controls="sampleTable"
@@ -142,9 +142,9 @@
                       </label>
                     </div>
                   </div>
-                  &nbsp;&nbsp;&nbsp;
+                  
                   <div id="col-md-4">
-                    <button class="btn btn-info" type="button">
+                    <button class="btn btn-info" type="button" style="margin-left:10px">
                       &nbsp;&nbsp;&nbsp; Search &nbsp;&nbsp;&nbsp;
                     </button>
                   </div>
@@ -180,9 +180,9 @@
                           <td>20-10-2020</td>
                           <td>20-11-2020</td>
                           <td>Monthly</td>
-                          <td><button class="btn btn-primary" type="button">View</button>
-                              <button class="btn btn-warning" type="button">Edit</button>
-                              <button class="btn btn-danger" type="button">Delete</button>
+                          <td><button class="btn btn-primary" type="button" >View</button>
+                              <button class="btn btn-warning" type="button" style="margin-left:5px">Edit</button>
+                              <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
                           </td>
                         </tr>
                         <tr>
@@ -192,9 +192,9 @@
                           <td>10-06-2020</td>
                           <td>20-09-2020</td>
                           <td>Quarterly</td>
-                          <td><button class="btn btn-primary" type="button">View</button>
-                              <button class="btn btn-warning" type="button">Edit</button>
-                              <button class="btn btn-danger" type="button">Delete</button>
+                          <td><button class="btn btn-primary" type="button" >View</button>
+                              <button class="btn btn-warning" type="button" style="margin-left:5px">Edit</button>
+                              <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
                           </td>
                         </tr>
                         <tr>
@@ -204,9 +204,9 @@
                           <td>20-10-2020</td>
                           <td>20-11-2021</td>
                           <td>Yearly</td>
-                          <td><button class="btn btn-primary" type="button">View</button>
-                              <button class="btn btn-warning" type="button">Edit</button>
-                              <button class="btn btn-danger" type="button">Delete</button>
+                          <td><button class="btn btn-primary" type="button" >View</button>
+                              <button class="btn btn-warning" type="button" style="margin-left:5px">Edit</button>
+                              <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
                           </td>
                         </tr>
                         <tr>
@@ -217,8 +217,8 @@
                           <td>03-07-2020</td>
                           <td>Half Year</td>
                           <td><button class="btn btn-primary" type="button">View</button>
-                              <button class="btn btn-warning" type="button">Edit</button>
-                              <button class="btn btn-danger" type="button">Delete</button>
+                              <button class="btn btn-warning" type="button" style="margin-left:5px">Edit</button>
+                              <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
                           </td>
                         </tr>
                       </tbody>
