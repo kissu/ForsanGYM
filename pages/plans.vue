@@ -22,8 +22,8 @@
               </tr>
               <tr>
                 <td>2</td>
-                <td>Monthly (groups)</td>
-                <td>1 month of subscription.</td>
+                <td>Monthly (Groups)</td>
+                <td>1 month of subscription with Groups.</td>
                 <td>300</td>
               </tr>
               <tr>

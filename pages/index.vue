@@ -49,7 +49,7 @@
             </tr>
             <tr>
               <td>3</td>
-              <td>Monthly Groups</td>
+              <td>Monthly (Groups)</td>
               <td>5</td>
               <td>1500</td>
             </tr>
