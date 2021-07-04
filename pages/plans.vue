@@ -16,9 +16,21 @@
             <tbody>
               <tr>
                 <td>1</td>
-                <td>Monthly</td>
+                <td>Daily</td>
+                <td>1 day of subscription.</td>
+                <td>40</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Monthly (groups)</td>
                 <td>1 month of subscription.</td>
                 <td>300</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Monthly</td>
+                <td>1 month of subscription.</td>
+                <td>400</td>
               </tr>
               <tr>
                 <td>2</td>
