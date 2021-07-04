@@ -30,7 +30,7 @@ export default {
       list:[
           {text: "Players", icon: "fa fa-user", route: '/players'},     
           {text: "Ended Subscription", icon: "fa fa-calendar-times-o", route: '/ended-subscriptions'},        
-          {text: "Plans", icon: "fa fa-bar-chart", route: '/plans'},      
+          {text: "Plans", icon: "fa fa-bar-chart", route: '/plans'},     
       ]
     }
   },
