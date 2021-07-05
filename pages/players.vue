@@ -1,7 +1,8 @@
 <template>
   <div id="PlayersPage">
-    <div id="row">
-      <div class="col-md-6">
+    <page-title title="Players" icon="fa fa-user" />
+    <div class="row">
+      <div class="col-md-12">
         <div class="tile">
           <h3 class="tile-title">Add new player</h3>
           <div class="tile-body">
@@ -101,7 +102,7 @@
     </div>
 
     <!--Testing area -->
-    <div id="row">
+    <div class="row">
       <div class="col-md-12">
         <div class="tile">
           <div class="tile-body">
@@ -142,7 +143,7 @@
                       </label>
                     </div>
                   </div>
-                  
+
                   <div id="col-md-4">
                     <button class="btn btn-info" type="button" style="margin-left:10px">
                       &nbsp;&nbsp;&nbsp; Search &nbsp;&nbsp;&nbsp;
@@ -333,7 +334,10 @@
 </template>
 
 <script>
-export default {};
+import PageTitle from "../components/layout/pageTitle";
+export default {
+  components: {PageTitle}
+};
 </script>
 
 <style>

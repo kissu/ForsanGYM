@@ -1,6 +1,7 @@
 <template>
   <div id="plan">
-    <div id="row">
+    <page-title title="Plans" icon="fa fa-bar-chart" />
+    <div class="row">
       <div class="col-md-12">
         <div class="tile">
           <h3 class="tile-title">Plans</h3>
@@ -55,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div id="row">
+    <div class="row">
       <div id="col-md-3">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <button class="btn btn-success" type="button">Add Plan</button>
@@ -67,7 +68,10 @@
 </template>
 
 <script>
-export default {};
+import PageTitle from "../components/layout/pageTitle";
+export default {
+  components: {PageTitle}
+};
 </script>
 
 <style>

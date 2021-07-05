@@ -1,6 +1,7 @@
-<template>
+ <template>
   <div id="ended_page">
-    <div id="row">
+    <page-title title="Ended Subscriptions" icon="fa fa-calendar-times-o" />
+    <div class="row">
       <div class="col-md-12">
         <div class="tile">
           <h3 class="tile-title">Ended Subscriptions</h3>
@@ -51,7 +52,10 @@
 </template>
 
 <script>
-export default {};
+import PageTitle from "../components/layout/pageTitle";
+export default {
+  components: {PageTitle}
+};
 </script>
 
 <style>
