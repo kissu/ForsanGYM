@@ -1,6 +1,9 @@
 <template>
   <div id="activirties-page">
     <page-title title="Activies" icon="fa fa-bars"/>
+    <div class="row mb-2 mr-2" style="justify-content: flex-end">
+      <button class="btn btn-primary">Add New Activity</button>
+    </div>
     <div class="row" >
       <div class="col-md-4" v-for="(item, index) in activities" :key="index">
         <div class="tile" >
@@ -30,11 +33,11 @@ export default {
   data(){
     return {
       activities:[
-        {name:"actv1", description:"loooooooooool", coachName:"Enta"},
-        {name:"actv2", description:"loooooooooool2", coachName:"Ana"},
-        {name:"actv3", description:"loooooooooool3", coachName:"Homa"},
-        {name:"actv4", description:"loooooooooool4", coachName:"Lees"},
-        {name:"actv5", description:"loooooooooool5", coachName:"Sool"},
+        {name:"actv1", description:"Activity 1 description", coachName:"Enta"},
+        {name:"actv2", description:"Activity 2 description", coachName:"Ana"},
+        {name:"actv3", description:"Activity 3 description", coachName:"Homa"},
+        {name:"actv4", description:"Activity 4 description", coachName:"Lees"},
+        {name:"actv5", description:"Activity 5 description", coachName:"Sool"},
 
       ]
     }
