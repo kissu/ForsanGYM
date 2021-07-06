@@ -35,6 +35,7 @@ export default {
         {name:"actv3", description:"Activity 3 description", coachName:"Homa"},
         {name:"actv4", description:"Activity 4 description", coachName:"Lees"},
         {name:"actv5", description:"Activity 5 description", coachName:"Sool"},
+        {name:"actv6", description:"Activity 6 description", coachName:"So"},
 
       ]
     }
