@@ -1,7 +1,7 @@
 <template>
   <div class="app-title">
     <div>
-      <h1><i :class="icon+' mr-1'"></i>{{title}}</h1>
+      <h1><i :class="icon+' mr-2'"></i>{{title}}</h1>
     </div>
     <slot />
   </div>

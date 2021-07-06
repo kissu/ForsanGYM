@@ -5,52 +5,22 @@
       <div class="col-md-12">
         <div class="tile">
           <h3 class="tile-title">Plans</h3>
-          <table class="table table-striped">
+          <table class="table table-striped" >
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-              </tr>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+            </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Daily</td>
-                <td>1 day of subscription.</td>
-                <td>40</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Monthly (Groups)</td>
-                <td>1 month of subscription with Groups.</td>
-                <td>300</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Monthly</td>
-                <td>1 month of subscription.</td>
-                <td>400</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>Quarterly</td>
-                <td>3 monthes of subscription.</td>
-                <td>700</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>Half year</td>
-                <td>6 months of subscription.</td>
-                <td>1250</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>Yearly</td>
-                <td>12 months of subscription.</td>
-                <td>2200</td>
-              </tr>
+            <tbody >
+            <tr v-for="(plan, index) in plans" :key="index" >
+              <td>{{ index+1 }}</td>
+              <td>{{ plan.name }}</td>
+              <td>{{ plan.description}}</td>
+              <td>{{ plan.price}}</td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -70,7 +40,20 @@
 <script>
 import PageTitle from "../components/layout/pageTitle";
 export default {
-  components: {PageTitle}
+  components: {PageTitle},
+  data(){
+    return {
+      plans:[
+        {name: "Daily", description: "1 Day of subscription.", price:40},
+        {name: "Monthly (Groups)", description: "1 month of subscription with Groups.", price:300},
+        {name: "Monthly", description: "1 month of subscription .", price:400},
+        {name: "Quarterly", description: "3 months of subscription.", price:700},
+        {name: "Half year", description: "6 months of subscription.", price:1250},
+        {name: "Yearly", description: "12 months of subscription.", price:2200},
+
+      ]
+    }
+  },
 };
 </script>
 
