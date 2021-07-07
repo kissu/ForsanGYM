@@ -29,20 +29,24 @@
             </div>
 
             <div class="form-group row">
-              <label class="col-md-3 text-center" for="descriptionTextarea">Description</label>
-              <textarea class="form-control col-md-8" id="descriptionTextarea" rows="3"></textarea>
-            </div>
-
-            <div class="form-group row">
-              <label class="control-label col-md-3 text-center" for="exampleSelect1">Select Activity</label>
+              <label class=" control-label col-md-3 text-center" for="descriptionTextarea">Description</label>
               <div class="col-md-8">
-                <div class="form-group ">
-                  <select class="form-control" id="exampleSelect1">
-                    <option v-for="item in activityList">{{item.name}}</option>
-                  </select>
-                </div>
+                <textarea
+                  class="form-control col-md-10" id="descriptionTextarea" rows="2" placeholder="Describe The activity"
+                ></textarea>
               </div>
             </div>
+
+<!--            <div class="form-group row">-->
+<!--              <label class="control-label col-md-3 text-center" for="exampleSelect1">Select Activity</label>-->
+<!--              <div class="col-md-8">-->
+<!--                <div class="form-group ">-->
+<!--                  <select class="form-control" id="exampleSelect1">-->
+<!--                    <option v-for="item in activityList">{{item.name}}</option>-->
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
             <!--            <div class="form-group row">-->
             <!--              <label class="control-label col-md-3">Identity Proof</label>-->
             <!--              <div class="col-md-8">-->
@@ -54,7 +58,7 @@
         <div class="tile-footer">
           <div class="row justify-content-center">
             <div class="col-md-0 ">
-              <button class="btn btn-primary " type="button">
+              <button @click="register" class="btn btn-primary " type="button">
                 <i class="fa fa-fw fa-lg fa-check-circle"></i>
                 Register</button>
             </div>
@@ -72,6 +76,10 @@ import PageTitle from "../../components/layout/pageTitle";
 
 export default {
   components: {PageTitle},
-
+  methods:{
+    register: function (){
+      this.$router.push("../activities")
+    }
+  }
 };
 </script>

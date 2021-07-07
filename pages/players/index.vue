@@ -35,7 +35,7 @@
                     </div>
                   </div>
 
-                  <div id="col-md-4">
+                  <div class="col-md-4">
                     <div id="sampleTable_length" class="dataTables_length">
                       <label style="margin-left:10px"
                       >Search By
@@ -109,7 +109,7 @@
                       <ul class="pagination">
                         <li
                           class="paginate_button page-item previous"
-                          id="sampleTable_previous"
+                          id="previous_btn"
                         >
                           <a
                             href="#"
@@ -131,7 +131,7 @@
                           >
                         <li
                           class="paginate_button page-item previous disabled"
-                          id="sampleTable_previous"
+                          id="Next_btn"
                         >
                           <a
                             href="#"

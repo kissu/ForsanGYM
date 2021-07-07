@@ -1,6 +1,7 @@
 <template>
   <div id="activirties-page">
     <PageTitle title="Ativities" icon="fa fa-bars"/>
+
     <AppActivities/>
     <playerActivity/>
   </div>
