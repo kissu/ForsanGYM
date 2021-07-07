@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name: "servicesSummaryTable"
+  name: "servicesSummary"
 }
 </script>
 

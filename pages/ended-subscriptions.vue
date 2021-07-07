@@ -17,21 +17,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>abdullah Ibrahim</td>
-                <td>654321</td>
-                <td>10-06-2020</td>
-                <td>20-09-2020</td>
-                <td>Quarterly</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Ali Mohammed</td>
-                <td>456789</td>
-                <td>03-01-2020</td>
-                <td>03-07-2020</td>
-                <td>Half Year</td>
+              <tr v-for="(item, index) in list" :key="index">
+                <td>{{index}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.phoneNumber}}</td>
+                <td>{{item.beginDate}}</td>
+                <td>{{item.endDate}}</td>
+                <td>{{item.plan}}</td>
               </tr>
             </tbody>
           </table>
@@ -54,7 +46,19 @@
 <script>
 import PageTitle from "../components/layout/pageTitle";
 export default {
-  components: {PageTitle}
+  components: {PageTitle},
+  data(){
+    return{
+      list:[
+        {
+          name: "Ahmed", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
+        },
+        {
+          name: "ALi", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
+        },
+      ]
+    }
+  },
 };
 </script>
 
