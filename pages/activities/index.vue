@@ -1,7 +1,10 @@
 <template>
   <div id="activirties-page">
-    <PageTitle title="Ativities" icon="fa fa-bars"/>
-
+    <PageTitle title="Activities" icon="fa fa-bars"
+               :add-btn="{to:'/activities/new',text:'Add New Activity'}"
+    >
+      <!-- slot content here -->
+    </PageTitle>
     <AppActivities/>
     <playerActivity/>
   </div>

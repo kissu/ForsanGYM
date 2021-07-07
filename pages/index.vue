@@ -1,7 +1,10 @@
 <template>
   <div id="HomePage">
+    <page-title v-on:incrementClicks="increment"
+                icon="fa fa-dashboard" :title="'Dashboard '+clicks" />
     <div class="row">
       <div class="col-md-6 col-lg-3">
+        <!-- TODO: Make this a reusable component @Ahmedgamal77823 -->
         <div class="widget-small primary coloured-icon">
           <i class="icon fa fa-users fa-3x"></i>
           <div class="info">
@@ -133,7 +136,19 @@
 
 <script>
 import ServicesSummaryTable from "../components/dashboard/servicesSummaryTable";
+import PageTitle from "../components/layout/pageTitle";
 export default {
-  components: {ServicesSummaryTable}
+  components: {PageTitle, ServicesSummaryTable},
+  data() {
+    return {
+      clicks: 0
+    }
+  },
+  methods: {
+    increment: function (args) {
+      console.log(args)
+      this.clicks = ++this.clicks
+    }
+  }
 };
 </script>

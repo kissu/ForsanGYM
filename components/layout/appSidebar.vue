@@ -10,7 +10,8 @@
       </div>
       <ul class="app-menu">
         <li v-for="(item,index) in list" :key='index'>
-          <router-link class="app-menu__item" :to="item.route">
+          <router-link class="app-menu__item"
+                       :to="item.route">
             <i :class="`app-menu__icon ${item.icon}`"></i>
             <span class="app-menu__label">{{item.text}}</span>
           </router-link>
