@@ -201,7 +201,8 @@ export default {
           name: "ALi", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
         }
       ],
-      dropDowns: []
+      dropDowns: [],
+      popUpOpen: false,
     }
   },
   methods: {
@@ -213,13 +214,15 @@ export default {
         // now i have to hide it
         $(dropDwn).dropdown('hide');
         this.dropDowns[dropDwn] = false;
-      } else {
+        this.popUpOpen = false;
+      } else if(this.popUpOpen == false){
         console.log(dropDwn+' is not in array and it\'s value is false')
         // dropdown not in array or it's value is false
         // now i have to show it
         $(dropDwn).dropdown('show');
         // update it's value in array
         this.dropDowns[dropDwn] = true;
+        this.popUpOpen = true;
       }
     }
   }
