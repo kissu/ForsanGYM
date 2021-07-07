@@ -1,0 +1,232 @@
+<template>
+  <div id="PlayersPage">
+    <page-title title="Players" icon="fa fa-user"/>
+    <div class="row">
+      <div class="col-md-6">
+        <add-new-player/>
+      </div>
+    </div>
+
+    <!--Testing area -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <div class="tile-body">
+            <div class="table-responsive">
+              <div
+                id="sampleTable_wrapper"
+                class="
+                  dataTables_wrapper
+                  container-fluid
+                  dt-bootstrap4
+                  no-footer
+                "
+              >
+                <div class="row">
+                  <div id="col-md-6">
+                    <div id="sampleTable_filter" class="dataTables_filter">
+                      <label
+                      >Search:<input
+                        type="search"
+                        class="form-control form-control-sm"
+                        placeholder=""
+                        aria-controls="sampleTable"
+                      /></label>
+                    </div>
+                  </div>
+
+                  <div id="col-md-4">
+                    <div id="sampleTable_length" class="dataTables_length">
+                      <label style="margin-left:10px"
+                      >Search By
+                        <select
+                          name="sampleTable_length"
+                          aria-controls="sampleTable"
+                          class="form-control form-control-sm"
+                        >
+                          <option value="Plan">Plan</option>
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div id="col-md-4">
+                    <button class="btn btn-info" type="button" style="margin-left:10px">
+                      &nbsp;&nbsp;&nbsp; Search &nbsp;&nbsp;&nbsp;
+                    </button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table
+                      class="
+                        table table-hover table-bordered
+                        dataTable
+                        no-footer
+                      "
+                      id="sampleTable"
+                      role="grid"
+                      aria-describedby="sampleTable_info"
+                    >
+                      <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Begin Date</th>
+                        <th>End Date</th>
+                        <th>Plan</th>
+                        <th>Operations</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <!-- Start looping -->
+                      <tr v-for="(item, index) in users" :key="index">
+                        <td>{{ index }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.phoneNumber }}</td>
+                        <td>{{ item.beginDate }}</td>
+                        <td>{{ item.endDate }}</td>
+                        <td>{{ item.plan }}</td>
+                        <td>
+                          <router-link to="players/view" class="btn btn-primary" type="button">View</router-link>
+                          <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
+                          <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
+                        </td>
+                      </tr>
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-md-5"></div>
+                  <div class="col-sm-12 col-md-7">
+                    <div
+                      class="dataTables_paginate paging_simple_numbers"
+                      id="sampleTable_paginate"
+                    >
+                      <ul class="pagination">
+                        <li
+                          class="paginate_button page-item previous"
+                          id="sampleTable_previous"
+                        >
+                          <a
+                            href="#"
+                            aria-controls="sampleTable"
+                            data-dt-idx="0"
+                            tabindex="0"
+                            class="page-link"
+                          >Previous</a
+                          >
+                        </li>
+                        <li class="paginate_button page-item active">
+                          <a
+                            href="#"
+                            aria-controls="sampleTable"
+                            data-dt-idx="1"
+                            tabindex="0"
+                            class="page-link"
+                          >1</a
+                          >
+                        <li
+                          class="paginate_button page-item previous disabled"
+                          id="sampleTable_previous"
+                        >
+                          <a
+                            href="#"
+                            aria-controls="sampleTable"
+                            data-dt-idx="0"
+                            tabindex="0"
+                            class="page-link"
+                          >Next</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-auto">
+        <div class="dropdown">
+          <h3 aria-haspopup="true" aria-expanded="false" data-target="dropdown"
+              @click="toggleDropDown('#editName')" class="hi">123</h3>
+          <form id="editName" style="width: 250px" class="dropdown-menu p-4">
+            <div class="form-group">
+              <label for="exampleDropdownFormEmail2">Email address</label>
+              <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </form>
+        </div>
+        <div class="dropdown">
+          <h3 aria-haspopup="true" aria-expanded="false" data-target="dropdown"
+              @click="toggleDropDown('#editName1')" class="hi">nnnnnn</h3>
+          <form id="editName1" style="width: 250px" class="dropdown-menu p-4">
+            <div class="form-group">
+              <label for="exampleDropdownFormEmail2">Email</label>
+              <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</template>
+
+<script>
+import PageTitle from "../../components/layout/pageTitle";
+import AddNewPlayer from '../../components/players/addNewPlayer.vue';
+
+export default {
+  components: {PageTitle, AddNewPlayer},
+  data() {
+    return {
+      users: [
+        {
+          name: "Ahmed", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
+        },
+        {
+          name: "ALi", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
+        }
+      ],
+      dropDowns: [],
+      popUpOpen: false,
+    }
+  },
+  methods: {
+    toggleDropDown : function (dropDwn) {
+      console.log('requested toggle on '+dropDwn)
+      if (this.dropDowns[dropDwn]) {
+        console.log(dropDwn+' is in array and it\'s value is true')
+        // the dropdown is active and shown
+        // now i have to hide it
+        $(dropDwn).dropdown('hide');
+        this.dropDowns[dropDwn] = false;
+        this.popUpOpen = false;
+      } else if(this.popUpOpen == false){
+        console.log(dropDwn+' is not in array and it\'s value is false')
+        // dropdown not in array or it's value is false
+        // now i have to show it
+        $(dropDwn).dropdown('show');
+        // update it's value in array
+        this.dropDowns[dropDwn] = true;
+        this.popUpOpen = true;
+      }
+    }
+  }
+};
+</script>
+
+<style>
+</style>

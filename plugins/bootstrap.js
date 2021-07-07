@@ -1,2 +1,3 @@
 import 'jquery'
-// import 'bootstrap/dist/js/bootstrap.min'
+import 'popper.js'
+import 'bootstrap/dist/js/bootstrap.min'
