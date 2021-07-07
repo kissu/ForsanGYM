@@ -10,10 +10,10 @@
       </div>
       <ul class="app-menu">
         <li v-for="(item,index) in list" :key='index'>
-          <a class="app-menu__item" :href="item.route">
+          <router-link class="app-menu__item" :to="item.route">
             <i :class="`app-menu__icon ${item.icon}`"></i>
             <span class="app-menu__label">{{item.text}}</span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </aside>
@@ -29,10 +29,10 @@ export default {
     return{
       list:[
           {text: "Dashboard", icon: "fa fa-home", route: '/'},
-          {text: "Players", icon: "fa fa-user", route: '/players'},     
-          {text: "Ended Subscription", icon: "fa fa-calendar-times-o", route: '/ended-subscriptions'},        
+          {text: "Players", icon: "fa fa-user", route: '/players'},
+          {text: "Ended Subscription", icon: "fa fa-calendar-times-o", route: '/ended-subscriptions'},
           {text: "Plans", icon: "fa fa-bar-chart", route: '/plans'},
-          {text: "More Activities", icon: "fa fa-bars", route:"/activities"},     
+          {text: "More Activities", icon: "fa fa-bars", route:"/activities"},
       ]
     }
   },

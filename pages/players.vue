@@ -168,12 +168,12 @@ export default {
             },
             {
                 name: "ALi", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
-            }  
+            }
           ],
       }
   }
 };
 </script>
-    
+
 <style>
 </style>
