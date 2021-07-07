@@ -89,8 +89,7 @@
                         <td>{{ item.endDate }}</td>
                         <td>{{ item.plan }}</td>
                         <td>
-                          <button class="btn btn-primary" type="button">View</button>
-                          <button class="btn btn-warning" type="button" style="margin-left:5px">Edit</button>
+                          <router-link to="players/view" class="btn btn-primary" type="button">View</router-link>
                           <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
                           <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
                         </td>
@@ -109,7 +108,7 @@
                     >
                       <ul class="pagination">
                         <li
-                          class="paginate_button page-item previous disabled"
+                          class="paginate_button page-item previous"
                           id="sampleTable_previous"
                         >
                           <a
@@ -186,8 +185,8 @@
 </template>
 
 <script>
-import PageTitle from "../components/layout/pageTitle";
-import AddNewPlayer from '../components/players/addNewPlayer.vue';
+import PageTitle from "../../components/layout/pageTitle";
+import AddNewPlayer from '../../components/players/addNewPlayer.vue';
 
 export default {
   components: {PageTitle, AddNewPlayer},
