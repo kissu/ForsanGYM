@@ -25,7 +25,7 @@ export default {
     script: [
       { src: '/js/jquery-3.3.1.min.js' },
       { src: '/js/popper.min.js' },
-      { src: '/js/bootstrap.min.js' },
+      // { src: '/js/bootstrap.min.js' },
       { src: '/js/main.js' },
       { src: '/js/plugins/bootstrap-datepicker.min.js'},
       { src: '/js/plugins/bootstrap-notify.min.js' },
