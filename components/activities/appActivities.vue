@@ -6,7 +6,13 @@
         <div class="tile-title-w-btn">
           <h3 class="title">{{item.name}}</h3>
           <div class="btn-group">
-            <a class="btn btn-warning" href="#"><i class="fa fa-lg fa-edit"></i></a>
+              <button type="button"
+                      class="btn btn-primary mx-auto w-100"
+                      data-toggle="modal"
+                      data-target="#staticBackdrop">
+                <i class="mdi mdi-clipboard-edit"></i>
+              </button>
+              <Edit />
             <a class="btn btn-danger" href="#"><i class="fa fa-lg fa-trash"></i></a>
           </div>
         </div>
@@ -21,8 +27,10 @@
 </template>
 
 <script>
+import Edit from "../activities/edit";
 export default {
   name: "appActivities",
+  components: {Edit},
   data(){
     return {
       activities:[

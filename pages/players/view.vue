@@ -10,7 +10,15 @@
             alt=""
           />
         </div>
-        <div class="d-flex actions mx-auto text-center mt-3 w-100">
+        <div class="d-flex actions  text-center mt-3 mx-auto w-100" >
+          <button
+            type="button"
+            class="btn btn-primary mx-auto w-100"
+            data-toggle="modal"
+            data-target="#staticBackdrop"
+          >
+            Edit
+          </button>
           <!-- adding the popup window-->
           <button
             type="button"
@@ -41,7 +49,7 @@
                   <span class="mb-0 mdi mdi-phone"></span> Phone Number
                 </h5>
               </div>
-              
+
               <div class="col-md-9">
                 <h5 class="mb-0 font-weight-normal">01027568941</h5>
               </div>

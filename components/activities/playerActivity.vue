@@ -46,7 +46,7 @@
                       </div>
 
                       <div class="form-group row">
-                        <label class="control-label col-md-3" for="exampleSelect1">Select Activity</label>
+                        <label class="control-label col-md-3" for="activitySelect">Select Activity</label>
                         <div class="col-md-8">
                           <div class="form-group ">
                             <select class="form-control" id="activitySelect">
@@ -66,7 +66,7 @@
                   <div class="tile-footer">
                     <div class="row">
                       <div class="col-md-8 ">
-                        <button class="btn btn-primary" type="button">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne" >
                           <i class="fa fa-fw fa-lg fa-check-circle"></i>
                           Register</button>
                       </div>

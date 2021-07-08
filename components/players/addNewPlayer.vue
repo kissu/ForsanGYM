@@ -21,7 +21,7 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Name</label>
                           <div class="col-md-8">
-                            <input class="form-control" type="text" placeholder="Enter full name">
+                            <input class="form-control" type="text" placeholder="Enter full name" >
                           </div>
                         </div>
                         <div class="form-group row">
