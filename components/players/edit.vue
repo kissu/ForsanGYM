@@ -1,13 +1,5 @@
 <template>
   <div id="editButton">
-    <button
-      type="button"
-      class="btn btn-primary w-50 mx-1"
-      data-toggle="modal"
-      data-target="#staticBackdrop"
-    >
-      Edit
-    </button>
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -38,11 +30,51 @@
                 <div class="tile-body">
                   <form>
                     <div class="form-group">
+                      <label class="control-label">Full name</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        :value="playersData.playerName"
+                      />
+                    </div>
+                    <div class="form-group">
                       <label class="control-label">Phone Number</label>
                       <input
                         class="form-control"
                         type="text"
-                        placeholder="Enter full name"
+                        :value="playersData.PhoneNumber"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Weight</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        :value="playersData.Weight"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Height</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        :value="playersData.height"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">beginDate</label>
+                      <input
+                        class="form-control"
+                        type="date"
+                        :value="playersData.BeginDate"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">endDate</label>
+                      <input
+                        class="form-control"
+                        type="date"
+                        :value="playersData.EndDate"
                       />
                     </div>
                     <div class="form-group">
@@ -50,7 +82,7 @@
                       <textarea
                         class="form-control"
                         rows="4"
-                        placeholder="Enter your address"
+                        :value="playersData.TrainingPlan"
                       ></textarea>
                     </div>
                     <div class="form-group">
@@ -58,7 +90,7 @@
                       <textarea
                         class="form-control"
                         rows="4"
-                        placeholder="Enter your address"
+                        :value="playersData.Diet"
                       ></textarea>
                     </div>
                   </form>
@@ -83,7 +115,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props:{
+    playersData:{
+      type: 'Object'
+    },
+  }
+};
 </script>
 
 <style>
