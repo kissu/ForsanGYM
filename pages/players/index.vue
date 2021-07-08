@@ -150,35 +150,6 @@
         </div>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col-auto">
-        <div class="dropdown">
-          <h3 aria-haspopup="true" aria-expanded="false" data-target="dropdown"
-              @click="toggleDropDown('#editName')" class="hi">123</h3>
-          <form id="editName" style="width: 250px" class="dropdown-menu p-4">
-            <div class="form-group">
-              <label for="exampleDropdownFormEmail2">Email address</label>
-              <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
-            </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
-          </form>
-        </div>
-        <div class="dropdown">
-          <h3 aria-haspopup="true" aria-expanded="false" data-target="dropdown"
-              @click="toggleDropDown('#editName1')" class="hi">nnnnnn</h3>
-          <form id="editName1" style="width: 250px" class="dropdown-menu p-4">
-            <div class="form-group">
-              <label for="exampleDropdownFormEmail2">Email</label>
-              <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
-            </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-
   </div>
 </template>
 
@@ -203,25 +174,7 @@ export default {
     }
   },
   methods: {
-    toggleDropDown : function (dropDwn) {
-      console.log('requested toggle on '+dropDwn)
-      if (this.dropDowns[dropDwn]) {
-        console.log(dropDwn+' is in array and it\'s value is true')
-        // the dropdown is active and shown
-        // now i have to hide it
-        $(dropDwn).dropdown('hide');
-        this.dropDowns[dropDwn] = false;
-        this.popUpOpen = false;
-      } else if(this.popUpOpen == false){
-        console.log(dropDwn+' is not in array and it\'s value is false')
-        // dropdown not in array or it's value is false
-        // now i have to show it
-        $(dropDwn).dropdown('show');
-        // update it's value in array
-        this.dropDowns[dropDwn] = true;
-        this.popUpOpen = true;
-      }
-    }
+    
   }
 };
 </script>

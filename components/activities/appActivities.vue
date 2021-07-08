@@ -1,8 +1,5 @@
 <template>
 <div id="appActivties">
-  <div class="row mb-3 mr-2" style="justify-content: flex-end">
-    <router-link class="btn btn-primary " to="/activities/new" >Add New Activity</router-link>
-  </div>
   <div class="row " >
     <div class="col-md-4 " v-for="(item, index) in activities" :key="index">
       <div class="tile" >
