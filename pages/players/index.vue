@@ -1,14 +1,12 @@
 <template>
   <div id="PlayersPage">
     <page-title title="Players" icon="fa fa-user"/>
-    <div class="row">
-      <div class="col-md-6">
-        <add-new-player/>
-      </div>
-    </div>
+
+    <add-new-player/>
+
 
     <!--Testing area -->
-    <div class="row">
+    <div class="row mt-3">
       <div class="col-md-12">
         <div class="tile">
           <div class="tile-body">

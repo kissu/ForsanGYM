@@ -1,108 +1,87 @@
 <template>
-  <div class="tile">
-          <h3 class="tile-title">Add new player</h3>
-          <div class="tile-body">
-            <form class="form-horizontal">
-              <div class="form-group row">
-                <label class="control-label col-md-3">Name</label>
-                <div class="col-md-8">
-                  <input
-                    class="form-control"
-                    type="text"
-                    placeholder="Enter full name"
-                  />
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="control-label col-md-3">Phone number</label>
-                <div class="col-md-8">
-                  <input
-                    class="form-control col-md-8"
-                    type="tel"
-                    placeholder="Enter the mobile number"
-                  />
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="control-label col-md-3">Begin date</label>
-                <div class="col-md-8">
-                  <input class="form-control col-md-8" type="date" />
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="control-label col-md-3">End date</label>
-                <div class="col-md-8">
-                  <input class="form-control col-md-8" type="date" />
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="control-label col-md-3">plan</label>
-                <div class="col-md-9">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="plan"
-                      />Monthly (Groups)
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="plan"
-                      />Monthly
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="plan"
-                      />Quarterly
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="plan"
-                      />Half year
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="plan"
-                      />Year
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="control-label col-md-3">Player's photo</label>
-                <div class="col-md-8">
-                  <input class="form-control" type="file" />
-                </div>
-              </div>
-            </form>
+  <div id="addPlayer">
+    <div class="row">
+      <div class="accordion col-6" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-info text-center col-12" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Add New Player
+              </button>
+            </h2>
           </div>
-          <div class="tile-footer">
-            <div class="row">
-              <div class="col-md-8 col-md-offset-3">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-fw fa-lg fa-check-circle"></i>Register</button
-                >&nbsp;&nbsp;&nbsp;
+          <div id="collapseOne" class="collapse show " aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="tile">
+                    <h3 class="tile-title">Add new player</h3>
+                    <div class="tile-body">
+                      <form class="form-horizontal">
+                        <div class="form-group row">
+                          <label class="control-label col-md-3">Name</label>
+                          <div class="col-md-8">
+                            <input class="form-control" type="text" placeholder="Enter full name">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="control-label col-md-3">Phone Number</label>
+                          <div class="col-md-8">
+                            <input class="form-control col-md-8" type="tel" placeholder="Enter the phone number">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="control-label col-md-3">Begin Date</label>
+                          <div class="col-md-8">
+                            <input class="form-control col-md-8" type="date">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="control-label col-md-3">End Date</label>
+                          <div class="col-md-8">
+                            <input class="form-control col-md-8" type="date">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="control-label col-md-3" for="exampleSelect1">Select Activity</label>
+                          <div class="col-md-8">
+                            <div class="form-group ">
+                              <select class="form-control" id="activitySelect">
+                                <option v-for="item in activityList">{{item.name}}</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <!--            <div class="form-group row">-->
+                        <!--              <label class="control-label col-md-3">Identity Proof</label>-->
+                        <!--              <div class="col-md-8">-->
+                        <!--                <input class="form-control" type="file">-->
+                        <!--              </div>-->
+                        <!--            </div>-->
+                      </form>
+                    </div>
+                    <div class="tile-footer">
+                      <div class="row">
+                        <div class="col-md-8 ">
+                          <button class="btn btn-primary" type="button">
+                            <i class="fa fa-fw fa-lg fa-check-circle"></i>
+                            Register</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
