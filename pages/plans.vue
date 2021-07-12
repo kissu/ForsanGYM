@@ -15,11 +15,11 @@
             </tr>
             </thead>
             <tbody >
-            <tr v-for="(plan, index) in plans" :key="index" >
-              <td>{{ index+1 }}</td>
+            <tr v-for="(plan, index) in $store.state.plans" :key="index" >
+              <td>{{ plan.id }}</td>
               <td>{{ plan.name }}</td>
               <td>{{ plan.description}}</td>
-              <td>{{ plan.price}}</td>
+              <td>{{ plan.price }}</td>
             </tr>
             </tbody>
           </table>
@@ -40,20 +40,15 @@
 <script>
 import PageTitle from "../components/layout/pageTitle";
 export default {
-  components: {PageTitle},
-  data(){
-    return {
-      plans:[
-        {name: "Daily", description: "1 Day of subscription.", price:40},
-        {name: "Monthly (Groups)", description: "1 month of subscription with Groups.", price:300},
-        {name: "Monthly", description: "1 month of subscription .", price:400},
-        {name: "Quarterly", description: "3 months of subscription.", price:700},
-        {name: "Half year", description: "6 months of subscription.", price:1250},
-        {name: "Yearly", description: "12 months of subscription.", price:2200},
-
-      ]
-    }
+  async asyncData ({ $axios,store }) {
+    const req = await $axios.$get('/plans')
+    store.commit("setPlans",req)
   },
+  mounted() {
+
+  },
+  components: {PageTitle},
+  data() {},
 };
 </script>
 

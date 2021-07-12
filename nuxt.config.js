@@ -1,5 +1,9 @@
 import webpack from "webpack";
 
+require('dotenv').config({
+  path:__dirname+'/.env'
+})
+
 export default {
 
   server : {
@@ -60,7 +64,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.API_URL
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
