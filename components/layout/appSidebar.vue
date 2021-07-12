@@ -29,11 +29,11 @@ export default {
   data(){
     return{
       list:[
-          {text: "Dashboard", icon: "fa fa-home", route: '/'},
-          {text: "Players", icon: "fa fa-user", route: '/players'},
-          {text: "Ended Subscription", icon: "fa fa-calendar-times-o", route: '/ended-subscriptions'},
-          {text: "Plans", icon: "fa fa-bar-chart", route: '/plans'},
-          {text: "More Activities", icon: "fa fa-bars", route:"/activities"},
+          {text: "Dashboard", icon: "fa fa-home", route: {name:'home'}},
+          {text: "Players", icon: "fa fa-user", route: {name:'allPlayers'}},
+          {text: "Ended Subscription", icon: "fa fa-calendar-times-o", route: {name:'endedSubs'}},
+          {text: "Plans", icon: "fa fa-bar-chart", route: {name:'allPlans'}},
+          {text: "More Activities", icon: "mdi mdi-karate", route:{name:'allActs'}},
       ]
     }
   },

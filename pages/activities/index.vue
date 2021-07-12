@@ -1,6 +1,6 @@
 <template>
   <div id="activirties-page">
-    <PageTitle title="Activities" icon="fa fa-bars"
+    <PageTitle title="Activities" icon="mdi mdi-karate"
                :addBtn="{to:'/activities/new',text:'Add New Activity'}"
     >
       <!-- slot content here -->

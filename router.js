@@ -8,12 +8,12 @@ const page = (path) => () => import(`~/pages/${path}`).then(m => m.default || m)
 
 const routes = [
   {path: '/', name: 'home', component: page('index.vue')},
-
-  {path: '/players', name: 'players.all', component: page('players/index.vue')},
-  {path: '/players/:id/:name?', name: 'players.single', component: page('players/view.vue')},
-  {path: '/plans', name: 'allPlans', component: page('plans.vue')},
+  {path: '/players', name: 'allPlayers', component: page('players/index.vue')},
+  {path: '/players/:id/:name?', name: 'singlePlayer', component: page('players/view.vue')},
+  {path: '/plans', name: 'allPlans', component: page('plans/index.vue')},
+  {path: '/plans/new', name: 'newPlan', component: page('plans/new.vue')},
   {path: '/ended-subscriptions', name : 'endedSubs', component: page ('ended-subscriptions.vue')},
-  {path: '/activities', name : 'act', component: page ('activities/index.vue')},
+  {path: '/activities', name : 'allActs', component: page ('activities/index.vue')},
   {path: '/activities/new', name: 'newAct', component: page('activities/new.vue')},
   // TODO: Complete all the app routes
 ];

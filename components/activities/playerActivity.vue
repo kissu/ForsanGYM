@@ -15,38 +15,38 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="tile">
-                  <h3 class="tile-title">Add new player</h3>
+                  <h3 class="tile-title card-header mb-4">Add new player</h3>
                   <div class="tile-body">
                     <form class="form-horizontal">
                       <div class="form-group row">
-                        <label class="control-label col-md-3">Name</label>
+                        <label class="control-label col-md-4">Name</label>
                         <div class="col-md-8">
                           <input class="form-control" type="text" placeholder="Enter full name">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="control-label col-md-3">Phone Number</label>
+                        <label class="control-label col-md-4">Phone Number</label>
                         <div class="col-md-8">
                           <input class="form-control col-md-8" type="tel" placeholder="Enter the phone number">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label class="control-label col-md-3">Begin Date</label>
+                        <label class="control-label col-md-4">Begin Date</label>
                         <div class="col-md-8">
                           <input class="form-control col-md-8" type="date">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label class="control-label col-md-3">End Date</label>
+                        <label class="control-label col-md-4">End Date</label>
                         <div class="col-md-8">
                           <input class="form-control col-md-8" type="date">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label class="control-label col-md-3" for="activitySelect">Select Activity</label>
+                        <label class="control-label col-md-4" for="activitySelect">Select Activity</label>
                         <div class="col-md-8">
                           <div class="form-group ">
                             <select class="form-control" id="activitySelect">
@@ -68,7 +68,7 @@
                       <div class="col-md-8 ">
                         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne" >
                           <i class="fa fa-fw fa-lg fa-check-circle"></i>
-                          Register</button>
+                          Add Player</button>
                       </div>
                     </div>
                   </div>

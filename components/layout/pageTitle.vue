@@ -2,7 +2,7 @@
   <div class="app-title">
     <div class="d-flex justify-content-between align-items-center w-100">
       <div class="div1">
-        <h1 @click="incrementClicks">
+        <h1>
           <i :class="icon+' mr-1'"></i>
           {{ title }}
         </h1>
@@ -37,10 +37,7 @@ export default {
     }
   },
   methods: {
-    incrementClicks: function () {
-      this.$emit('incrementClicks',{name:'abdo'})
-    }
-  }
+  },
 }
 </script>
 

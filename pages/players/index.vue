@@ -87,7 +87,7 @@
                         <td>{{ item.endDate }}</td>
                         <td>{{ item.plan }}</td>
                         <td>
-                          <router-link :to="{name: 'players.single', params: { id: index, name: item.name }}" class="btn btn-primary" type="button">View</router-link>
+                          <router-link :to="{name: 'singlePlayer', params: { id: index, name: item.name }}" class="btn btn-primary" type="button">View</router-link>
                           <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
                           <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
                         </td>
@@ -169,12 +169,10 @@ export default {
           name: "ALi", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
         }
       ],
-      dropDowns: [],
-      popUpOpen: false,
     }
   },
   methods: {
-    
+
   }
 };
 </script>

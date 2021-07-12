@@ -5,7 +5,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Edit Activity </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button @click="dest()" type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -19,25 +19,41 @@
                       <input
                         class="form-control"
                         type="text"
-                        placeholder="Enter full name"
+                        placeholder="Enter Activity name"
+                        :value="activity.name"
                       />
                     </div>
+
                     <div class="form-group">
-                      <label class="control-label">Player's plan</label>
+                      <label class="control-label">Coach Name </label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Enter full name"
+                        :value="activity.coachName"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label">Price</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="EGP"
+                        :value="activity.price"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label">Activity Description</label>
                       <textarea
                         class="form-control"
                         rows="4"
-                        placeholder="Enter your address"
+                        placeholder="Describe The Activity..."
+                        :value="activity.description"
                       ></textarea>
                     </div>
-                    <div class="form-group">
-                      <label class="control-label">Player's Diet</label>
-                      <textarea
-                        class="form-control"
-                        rows="4"
-                        placeholder="Enter your address"
-                      ></textarea>
-                    </div>
+
                   </form>
                 </div>
               </div>
@@ -45,8 +61,8 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Understood</button>
+            <button @click="dest()" type="button" class="btn btn-secondary ml-3" data-dismiss="modal">Close</button>
+            <button @click="gooddest()" type="button" class="btn btn-primary" >Submit</button>
           </div>
         </div>
       </div>
@@ -57,6 +73,20 @@
 
 <script>
 export default {
+props:{
+  activity:{
+    required:true
+  }
+},
+  methods:{
+  dest: function (){
+    this.activity.isActive=false
+  },
+  gooddest: function (){
+    this.activity.isActive=false
+     $('#staticBackdrop').modal('hide')
 
+  },
+  }
 };
 </script>

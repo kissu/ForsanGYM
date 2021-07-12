@@ -15,7 +15,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="tile">
-                    <h3 class="tile-title">Add new player</h3>
+                    <h3 class="tile-title card-header mb-4">Add new player</h3>
                     <div class="tile-body">
                       <form class="form-horizontal">
                         <div class="form-group row">

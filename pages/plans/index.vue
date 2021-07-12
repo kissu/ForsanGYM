@@ -1,6 +1,7 @@
 <template>
   <div id="plan">
-    <page-title title="Plans" icon="fa fa-bar-chart" />
+    <page-title title="Plans" icon="fa fa-bar-chart"
+    :addBtn="{to:{name:'newPlan'}, text:'Add New Plan'}"/>
     <div class="row">
       <div class="col-md-12">
         <div class="tile">
@@ -12,6 +13,7 @@
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
+              <th>Options</th>
             </tr>
             </thead>
             <tbody >
@@ -20,25 +22,21 @@
               <td>{{ plan.name }}</td>
               <td>{{ plan.description}}</td>
               <td>{{ plan.price }}</td>
+              <td>
+                <button class="btn btn-danger mr-2" type="button">Delete</button>
+                <button class="btn btn-warning " type="button">Edit</button>
+              </td>
             </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div id="col-md-3">
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="btn btn-success" type="button">Add Plan</button>
-        &nbsp;
-        <button class="btn btn-warning" type="button">Edit Plans</button>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import PageTitle from "../components/layout/pageTitle";
+import PageTitle from "../../components/layout/pageTitle";
 export default {
   async asyncData ({ $axios,store }) {
     const req = await $axios.$get('/plans')

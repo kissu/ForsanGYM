@@ -5,7 +5,7 @@
   <div class="row mt-2 justify-content-center">
     <div class="col-md-8">
       <div class="tile">
-        <h3 class="tile-title text-center">Add New Activity</h3>
+        <h3 class="tile-title  card-header text-center">Add New Activity</h3>
         <div class="tile-body">
           <form class="form-horizontal">
             <div class="form-group row">
