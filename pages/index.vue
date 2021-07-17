@@ -130,9 +130,12 @@
         </div>
 
       <div class="col-md-5">
-        <AddNewService/>
+        <purchaseService/>
         <div class="my-3">
         <DeleteService/>
+        </div>
+        <div class="my-3">
+          <AddNewService/>
         </div>
       </div>
 
@@ -152,8 +155,10 @@ import PageTitle from "../components/layout/pageTitle";
 import AddNewService from "../components/dashboard/services/addNewService";
 import CollapseComponent from "../components/dashboard/Collapse";
 import DeleteService from "../components/dashboard/services/DeleteService";
+import PurchaseService from "../components/dashboard/services/purchaseService";
 export default {
   components: {
+    PurchaseService,
     DeleteService,
     CollapseComponent,
     AddNewService,

@@ -1,7 +1,7 @@
 <template>
 
 <div id="addNewService-Component">
-<CollapseComponent head-btn-text="Add New Service" foot-btn-text="Add" btns-class="btn btn-success" CollapseName="AddService">
+<CollapseComponent head-btn-text="Add A Service" foot-btn-text="Add" btns-class="btn btn-success" CollapseName="AddService">
 
   <form class="form-horizontal">
     <div class="form-group row">
