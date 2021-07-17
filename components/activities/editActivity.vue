@@ -35,6 +35,16 @@
                     </div>
 
                     <div class="form-group">
+                      <label class="control-label">Coach Phone </label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Enter full name"
+                        :value="activity.coachPhone"
+                      />
+                    </div>
+
+                    <div class="form-group">
                       <label class="control-label">Price</label>
                       <input
                         class="form-control"

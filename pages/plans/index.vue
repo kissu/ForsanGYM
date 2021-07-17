@@ -23,9 +23,8 @@
               <td>{{ plan.description}}</td>
               <td>{{ plan.price }}</td>
               <td>
-                <button class="btn btn-danger mr-2" type="button" @click="deletePlan(plan.id)" data-toggle="modal"
-                        data-target="#DeleteCheckModal" :key="index">Delete</button>
-                <DeleteCheck :plan="plan"/>
+                <button class="btn btn-danger mr-2" type="button" @click="deletePlan(plan)" data-toggle="modal"
+                        :data-target="'#DeleteCheckModal'+ClickedPlan.id">Delete</button>
 
                 <!--TODO ask about Edit button in plans -->
 <!--                <button class="btn btn-warning " type="button">Edit</button>-->
@@ -36,13 +35,20 @@
         </div>
       </div>
     </div>
+
+    <DeleteCheck :header-msg="'Are You Sure You Want to Delete This Plan ?'" :item-id="ClickedPlan.id">
+      <p><b>Name : </b>{{ClickedPlan.name}}</p>
+      <p><b>Description : </b>{{ClickedPlan.description}}</p>
+      <p><b>Price : </b>{{ClickedPlan.price}}</p>
+    </DeleteCheck>
+
   </div>
 </template>
 
 <script>
 import PageTitle from "../../components/layout/pageTitle";
 import Default from "../../layouts/default";
-import DeleteCheck from "../../components/plans/deleteCheck";
+import DeleteCheck from "../../components/layout/deleteCheck";
 export default {
   async asyncData ({ $axios,store }) {
     const req = await $axios.$get('/plans')
@@ -51,11 +57,13 @@ export default {
   components: {DeleteCheck, Default, PageTitle},
   data() {
     return {
+      ClickedPlan:{}
     }
   },
   methods:{
-    deletePlan:function (id){
-      console.log(`Deleteing plan ${id} from Database `)
+    deletePlan:function (plan){
+      console.log(`Deleting ${plan.name} plan from Database `)
+      this.ClickedPlan = plan
       // this.deleteArr[id] = true
       // console.log(this.deleteArr)
     }

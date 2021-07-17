@@ -1,11 +1,11 @@
 <template>
-<div id="appActivties">
-  <div class="row " >
-    <div class="col-md-4 text-break" v-for="(item, index) in activities" :key="index">
-      <div class="tile" >
-        <div class="tile-title-w-btn">
-          <h3 class="title">{{item.name}}</h3>
-          <div class="btn-group">
+  <div id="appActivties">
+    <div class="row " >
+      <div class="col-md-4 text-break" v-for="(item, index) in activities" :key="index">
+        <div class="tile" >
+          <div class="tile-title-w-btn">
+            <h3 class="title">{{item.name}}</h3>
+            <div class="btn-group">
               <button type="button"
                       class="btn btn-primary mx-auto w-100"
                       data-toggle="modal"
@@ -13,47 +13,59 @@
                       @click="AssignActivity(item)">
                 <i class="mdi mdi-clipboard-edit"></i>
               </button>
-            <button class="btn btn-danger" @click="deleteActivity(item)"><i class="fa fa-lg fa-trash"></i></button>
+              <button class="btn btn-danger" @click="deleteActivity(item)" data-toggle="modal"
+                      :data-target="'#DeleteCheckModal'+DeleteClickedActivity.id" ><i class="fa fa-lg fa-trash"></i></button>
+            </div>
           </div>
-        </div>
-        <div class="tile-body">
-          <b>Coach : {{item.coachName}} </b><br>
-          <b>Price : </b>{{item.price}}<br><br>
-          <p><b>Description : </b>{{item.description}}</p>
+          <div class="tile-body">
+            <b>Coach : {{item.coachName}} </b><br>
+            <b>Coach Phone : {{item.coachPhone}} </b><br>
+            <b>Price : </b>{{item.price}}<br><br>
+            <p><b>Description : </b>{{item.description}}</p>
+          </div>
         </div>
       </div>
     </div>
+    <editActivity :activity="EditClickedActivity"/>
+    <DeleteCheck header-msg="Are you sure you want to delete this activity ?" :item-id="DeleteClickedActivity.id">
+      <p><b>Name : </b>{{DeleteClickedActivity.name}}</p>
+      <p><b>Coach : </b>{{DeleteClickedActivity.coachName}}</p>
+      <p><b>Coach Phone : </b>{{DeleteClickedActivity.coachPhone}}</p>
+      <p><b>Description : </b>{{DeleteClickedActivity.description}}</p>
+      <p><b>Price : </b>{{DeleteClickedActivity.price}}</p>
+    </DeleteCheck>
+
   </div>
-    <editActivity :activity="AssignedActivity"/>
-</div>
 </template>
 
 <script>
 import editActivity from "./editActivity";
-import DeleteCheck from "../plans/deleteCheck";
+import DeleteCheck from "../layout/deleteCheck";
 export default {
   name: "appActivities",
   components: {DeleteCheck, editActivity},
   data(){
     return {
       activities:[
-        {name:"actv1 is too long so we can see what would happen", description:"THis is gonna be a long Description for activity 1 just to make sure that long textes will not break the card on it slef so yaaaaaah", coachName:"Enta", price:120, isActive:false},
-        {name:"actv2 is amazingggg", description:"Activity 2 description", coachName:"Ana", price:200, isActive:false},
-        {name:"actv3", description:"Activity 3 description", coachName:"Homa", price:170, isActive:false},
-        {name:"actv4", description:"Activity 4 description", coachName:"Lees", price:90, isActive:false},
-        {name:"actv5", description:"Activity 5 description", coachName:"Sool", price:80, isActive:false},
-        {name:"actv6", description:"Activity 6 description", coachName:"So", price:150, isActive:false},
+        {name:"actv1 is too long so we can see what would happen", description:"THis is gonna be a long Description for activity 1 just to make sure that long textes will not break the card on it slef so yaaaaaah", coachName:"Enta", coachPhone:"0111111", price:120, id:1},
+        {name:"actv2 is amazingggg", description:"Activity 2 description", coachName:"Ana", coachPhone:"01001100", price:200, id:2},
+        {name:"actv3", description:"Activity 3 description", coachName:"Homa", coachPhone:"0100000", price:170, id:3},
+        {name:"actv4", description:"Activity 4 description", coachName:"Lees", coachPhone:"0110000", price:90, id:4},
+        {name:"actv5", description:"Activity 5 description", coachName:"Sool", coachPhone:"01200000", price:80, id:5},
+        {name:"actv6", description:"Activity 6 description", coachName:"So", coachPhone:"0150000", price:150, id:6},
 
       ],
-      AssignedActivity : {}
+      EditClickedActivity : {},
+      DeleteClickedActivity : {},
     }
   },
   methods:{
     AssignActivity: function (item){
-      this.AssignedActivity = item
+      this.EditClickedActivity = item
     },
     deleteActivity: function(item){
       console.log(`item ${item.name} has been deleted`)
+      this.DeleteClickedActivity = item
     }
   },
 

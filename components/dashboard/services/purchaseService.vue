@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import CollapseComponent from "../Collapse";
+import CollapseComponent from "../../layout/Collapse";
 export default {
   name: "purchaseService",
   components: {CollapseComponent}

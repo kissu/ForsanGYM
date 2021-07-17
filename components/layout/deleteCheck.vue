@@ -1,23 +1,20 @@
 <template>
-  <div id="deleteCheckPage">
-    <div class="modal fade" id="DeleteCheckModal" tabindex="-1"  data-backdrop="static" data-keyboard="false" aria-labelledby="DeleteCheckModalLabel" aria-hidden="true">
+  <div :id="'deleteCheckPage' + itemId">
+    <div class="modal fade" :id="'DeleteCheckModal'+itemId" tabindex="-1"  data-backdrop="static" data-keyboard="false" :aria-labelledby="'DeleteCheckModalLabel'+itemId" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="DeleteCheckModalLabel">Are You Sure You Want to Delete This plan ? </h4>
+            <h4 class="modal-title" :id="'DeleteCheckModalLabel'+itemId">{{HeaderMsg}}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <p><b>Name : </b>{{plan.name}}</p>
-            <p><b>Description : </b>{{plan.description}}</p>
-            <p><b>Price : </b>{{plan.price}}</p>
-
+            <slot></slot>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" @click="$('#DeleteCheckModal').modal('dispose')">Delete</button>
+            <button type="button" class="btn btn-danger" @click="$(`#DeleteCheckModal${itemId}`).modal('dispose')">Delete</button>
           </div>
         </div>
       </div>
@@ -29,7 +26,8 @@
 export default {
   name: "deleteCheck",
   props:{
-    plan:{}
+    HeaderMsg:{required:true},
+    itemId:{required: true},
   }
 }
 </script>

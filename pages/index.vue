@@ -104,7 +104,7 @@
 import ServicesSummaryTable from "../components/dashboard/servicesSummaryTable";
 import PageTitle from "../components/layout/pageTitle";
 import AddNewService from "../components/dashboard/services/addNewService";
-import CollapseComponent from "../components/dashboard/Collapse";
+import CollapseComponent from "../components/layout/Collapse";
 import DeleteService from "../components/dashboard/services/DeleteService";
 import PurchaseService from "../components/dashboard/services/purchaseService";
 export default {

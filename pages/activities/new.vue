@@ -22,6 +22,13 @@
             </div>
 
             <div class="form-group row">
+              <label class="control-label col-md-3 text-center">Coach Phone Number</label>
+              <div class="col-md-8">
+                <input class="form-control col-md-8" type="text" placeholder="Coach Phone Number">
+              </div>
+            </div>
+
+            <div class="form-group row">
               <label class="control-label col-md-3 text-center">Price </label>
               <div class="col-md-8">
                 <input class="form-control col-md-8" type="text" placeholder="EGP">
