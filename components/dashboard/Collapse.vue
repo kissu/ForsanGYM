@@ -1,16 +1,16 @@
 <template>
 <div id="Collapse-component">
 
-  <div class="accordion col-12" id="accordionCollapse">
+  <div class="accordion col-12" :id=" CollapseName + 'accordionCollapse'">
     <div class="card">
-      <div class="card-header" id="headingOneCollapse">
+      <div class="card-header" :id="CollapseName +'headingOneCollapse'">
         <h2 class="mb-0">
-          <button :class=" BtnsClass+' text-center col-12'" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
+          <button :class=" BtnsClass+' text-center col-12'" type="button" data-toggle="collapse" :data-target="'#' +CollapseName + 'collapse'" aria-expanded="true" aria-controls="collapse">
             {{HeadBtnText}}
           </button>
         </h2>
       </div>
-      <div id="collapse" class="collapse" aria-labelledby="headingOneCollapse" data-parent="#accordionCollapse">
+      <div :id=" CollapseName + 'collapse'" class="collapse" :aria-labelledby="CollapseName +'headingOneCollapse'" :data-parent="'#' + CollapseName + 'accordionCollapse'">
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
@@ -21,7 +21,7 @@
                 <div class="tile-footer">
                   <div class="row">
                     <div class="col-md-8 ">
-                      <button :class="BtnsClass" type="button" data-toggle="collapse" data-target="#collapse" >
+                      <button :class="BtnsClass" type="button" data-toggle="collapse" :data-target="'#' + CollapseName + 'collapse'" >
                         <i class="fa fa-fw fa-lg fa-check-circle"></i>
                         {{FootBtnText}}</button>
                     </div>
@@ -46,7 +46,8 @@ export default {
   props:{
     HeadBtnText:{required:true},
     FootBtnText:{required: true},
-    BtnsClass:{required:true}
+    BtnsClass:{required:true},
+    CollapseName:{required:true},
   }
 }
 </script>
