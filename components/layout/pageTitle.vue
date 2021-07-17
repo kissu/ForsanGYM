@@ -21,10 +21,6 @@
 <script>
 export default {
   name: "pageTitle",
-  data () {
-    return {
-    }
-  },
   props: {
     title: {
       required: true,
@@ -33,7 +29,7 @@ export default {
       required: true,
     },
     addBtn: {
-      type: 'object'
+      type: Object
     }
   },
   methods: {

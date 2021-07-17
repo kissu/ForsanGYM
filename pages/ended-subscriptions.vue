@@ -30,16 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="tile-footer">
-      <div class="row">
-        <div class="col-md-8">
-          &nbsp;‏&nbsp;‏&nbsp;&nbsp;‏‏
-          <button class="btn btn-primary" type="button">
-            <i class="fa fa-fw fa-lg fa-paper-plane"></i>Send message</button
-          >
-        </div>
-      </div>
-    </div>
+
   </div>
 </template>
 

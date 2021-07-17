@@ -1,6 +1,6 @@
 <template>
   <div id="HomePage">
-    <page-title icon="fa fa-dashboard" title='Dashboard' />
+    <page-title icon="fa fa-home" title='Dashboard' />
     <div class="row">
       <div class="col-md-6 col-lg-3">
         <!-- TODO: Make this a reusable component @Ahmedgamal77823 -->
@@ -85,68 +85,19 @@
         </div>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-          <div class="tile">
-            <h3 class="tile-title">Service</h3>
-            <div class="tile-body">
-              <form class="form-horizontal w-100">
-                <div class="form-group row">
-                  <div class="col-md-12">
-                    <div class="form-check">
-                      <label class="form-check-label" style="font-size:20px">
-                        <input class="form-check-input" style = "height:20px" type="radio" name="gender">Water--3
-                      </label>
-                    </div>
-                    <div class="form-check" style="font-size:20px">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" style = "height:20px" name="gender">Checken Meal--45
-                      </label>
-                    </div>
-                    <div class="form-check" style="font-size:20px">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" style = "height:20px" name="gender">Oats Meal--15
-                      </label>
-                    </div>
-                    <div class="form-check" style="font-size:20px">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" style = "height:20px" name="gender">Cotton T-Shert--120
-                      </label>
-                    </div>
-                    <div class="form-check" style="font-size:20px">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" style = "height:20px" name="gender">stretch T-Shert--150
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-md-8 mt-4">
-                    <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Submit</button>&nbsp;&nbsp;&nbsp;
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-      <div class="col-md-5">
-        <purchaseService/>
-        <div class="my-3">
-        <DeleteService/>
-        </div>
-        <div class="my-3">
-          <AddNewService/>
-        </div>
-      </div>
-
-
-
+<div class="row ">
+  <div class="col-md-5 px-0">
+    <purchaseService/>
+    <div class="my-3">
+      <AddNewService/>
+    </div>
+    <div class="my-3">
+      <DeleteService/>
+    </div>
+  </div>
+</div>
 
     </div>
-
-
-
-  </div>
 </template>
 
 <script>

@@ -1,9 +1,8 @@
 <template>
 <div id="player-activity-table">
-  <div class="row mt-2" id="new-player-dialog">
-    <div class="accordion col-6" id="accordionExample">
-      <div class="card">
-        <div class="card-header" id="headingOne">
+    <div class="accordion " id="accordionExample">
+      <div class="card col-6 px-0">
+        <div class="card-header col" id="headingOne">
           <h2 class="mb-0">
             <button class="btn btn-info text-center col-12" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
               Add New Player
@@ -15,7 +14,6 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="tile">
-                  <h3 class="tile-title card-header mb-4">Add new player</h3>
                   <div class="tile-body">
                     <form class="form-horizontal">
                       <div class="form-group row">
@@ -55,12 +53,6 @@
                           </div>
                         </div>
                       </div>
-                      <!--            <div class="form-group row">-->
-                      <!--              <label class="control-label col-md-3">Identity Proof</label>-->
-                      <!--              <div class="col-md-8">-->
-                      <!--                <input class="form-control" type="file">-->
-                      <!--              </div>-->
-                      <!--            </div>-->
                     </form>
                   </div>
                   <div class="tile-footer">
@@ -80,17 +72,23 @@
         </div>
       </div>
     </div>
-    </div>
-
   <div class="tile my-3">
-    <div class="row" id="tile-Head">
-        <div class="col-9">
+    <div class="row " id="tile-Head">
+        <div class="col-4">
           <h3 class="tile-title">Activities Players</h3>
         </div>
-          <label class="col-3">
+        <label class="control-label" for="activitySearch">Search By Activity : </label>
+          <div class="form-group col-md-3">
+            <select class="form-control" id="activitySearch">
+              <option v-for="item in activityList">{{item.name}}</option>
+            </select>
+        </div>
 
-            Search<input class="form-control form-control-sm" type="search" placeholder="Search Here" aria-controls="#playerDataTable">
-          </label>
+      <label class="control-label" for="generalSearch">Search : </label>
+      <div class="col-3">
+        <input class="form-control form-control-sm" type="search" placeholder="Search Here" aria-controls="#playerDataTable" id="generalSearch">
+      </div>
+
     </div>
     <div class="row">
       <div class="col-md-12">

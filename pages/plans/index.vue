@@ -48,9 +48,6 @@ export default {
     const req = await $axios.$get('/plans')
     store.commit("setPlans",req)
   },
-  mounted() {
-
-  },
   components: {DeleteCheck, Default, PageTitle},
   data() {
     return {

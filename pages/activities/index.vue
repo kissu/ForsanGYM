@@ -6,7 +6,11 @@
       <!-- slot content here -->
     </PageTitle>
     <AppActivities/>
-    <playerActivity/>
+    <div class="row mt-2">
+      <div class="col-12">
+        <playerActivity/>
+      </div>
+    </div>
   </div>
 </template>
 

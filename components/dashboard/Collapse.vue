@@ -1,7 +1,7 @@
 <template>
 <div id="Collapse-component">
 
-  <div class="accordion col-12" :id=" CollapseName + 'accordionCollapse'">
+  <div class="accordion col-12 " :id=" CollapseName + 'accordionCollapse'">
     <div class="card">
       <div class="card-header" :id="CollapseName +'headingOneCollapse'">
         <h2 class="mb-0">
