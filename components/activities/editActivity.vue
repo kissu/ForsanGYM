@@ -5,7 +5,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Edit Activity </h5>
-            <button @click="dest()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button  type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -61,8 +61,8 @@
 
           </div>
           <div class="modal-footer">
-            <button @click="dest()" type="button" class="btn btn-secondary ml-3" data-dismiss="modal">Close</button>
-            <button @click="gooddest()" type="button" class="btn btn-primary" >Submit</button>
+            <button type="button" class="btn btn-secondary ml-3" data-dismiss="modal">Close</button>
+            <button  type="button" class="btn btn-primary" >Submit</button>
           </div>
         </div>
       </div>
@@ -72,21 +72,13 @@
 </template>
 
 <script>
+
 export default {
-props:{
+  props:{
   activity:{
     required:true
-  }
+  },
 },
-  methods:{
-  dest: function (){
-    this.activity.isActive=false
-  },
-  gooddest: function (){
-    this.activity.isActive=false
-     $('#staticBackdrop').modal('hide')
 
-  },
-  }
 };
 </script>

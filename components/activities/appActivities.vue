@@ -10,12 +10,9 @@
                       class="btn btn-primary mx-auto w-100"
                       data-toggle="modal"
                       data-target="#staticBackdrop"
-                      @click="EnableEditActivity(item)">
+                      @click="AssignActivity(item)">
                 <i class="mdi mdi-clipboard-edit"></i>
               </button>
-            <div v-if="item.isActive">
-              <editActivity :activity="item"/>
-            </div>
             <button class="btn btn-danger" @click="deleteActivity(item)"><i class="fa fa-lg fa-trash"></i></button>
           </div>
         </div>
@@ -27,14 +24,16 @@
       </div>
     </div>
   </div>
+    <editActivity :activity="AssignedActivity"/>
 </div>
 </template>
 
 <script>
 import editActivity from "./editActivity";
+import DeleteCheck from "../plans/deleteCheck";
 export default {
   name: "appActivities",
-  components: {editActivity},
+  components: {DeleteCheck, editActivity},
   data(){
     return {
       activities:[
@@ -45,12 +44,13 @@ export default {
         {name:"actv5", description:"Activity 5 description", coachName:"Sool", price:80, isActive:false},
         {name:"actv6", description:"Activity 6 description", coachName:"So", price:150, isActive:false},
 
-      ]
+      ],
+      AssignedActivity : {}
     }
   },
   methods:{
-    EnableEditActivity: function (item){
-     item.isActive=true
+    AssignActivity: function (item){
+      this.AssignedActivity = item
     },
     deleteActivity: function(item){
       console.log(`item ${item.name} has been deleted`)

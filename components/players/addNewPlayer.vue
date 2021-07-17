@@ -25,9 +25,22 @@
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="control-label col-md-3">Phone Number</label>
+                          <label class="control-label col-md-3">Phone</label>
                           <div class="col-md-8">
                             <input class="form-control col-md-8" type="tel" placeholder="Enter the phone number">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="control-label col-md-3">Plan</label>
+                          <div class="col-md-8">
+                            <select class="form-control col-md-8" id="plansList">
+                              <option>Plan 1</option>
+                              <option>Plan 2</option>
+                              <option>Plan 3</option>
+                              <option>Plan 4</option>
+                              <option>Plan 5</option>
+                            </select>
                           </div>
                         </div>
 
@@ -45,22 +58,12 @@
                           </div>
                         </div>
 
-                        <div class="form-group row">
-                          <label class="control-label col-md-3" for="exampleSelect1">Select Activity</label>
-                          <div class="col-md-8">
-                            <div class="form-group ">
-                              <select class="form-control" id="activitySelect">
-                                <option v-for="item in activityList">{{item.name}}</option>
-                              </select>
+                          <div class="form-group row">
+                            <label class="control-label col-md-3">Photo</label>
+                            <div class="col-md-8">
+                              <input class="form-control" type="file">
                             </div>
                           </div>
-                        </div>
-                        <!--            <div class="form-group row">-->
-                        <!--              <label class="control-label col-md-3">Identity Proof</label>-->
-                        <!--              <div class="col-md-8">-->
-                        <!--                <input class="form-control" type="file">-->
-                        <!--              </div>-->
-                        <!--            </div>-->
                       </form>
                     </div>
                     <div class="tile-footer">
