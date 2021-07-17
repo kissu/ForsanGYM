@@ -128,7 +128,23 @@
             </div>
           </div>
         </div>
+
+      <div class="col-md-5">
+        <AddNewService/>
+        <div class="my-3">
+          <CollapseComponent btns-class="btn btn-danger" head-btn-text="Delete Service" foot-btn-text="Delete">
+            <h3>Hola :d </h3>
+          </CollapseComponent>
+
+        </div>
+      </div>
+
+
+
+
     </div>
+
+
 
   </div>
 </template>
@@ -136,8 +152,12 @@
 <script>
 import ServicesSummaryTable from "../components/dashboard/servicesSummaryTable";
 import PageTitle from "../components/layout/pageTitle";
+import AddNewService from "../components/dashboard/services/addNewService";
+import CollapseComponent from "../components/dashboard/Collapse";
 export default {
   components: {
+    CollapseComponent,
+    AddNewService,
     PageTitle,
     ServicesSummaryTable},
   methods: {

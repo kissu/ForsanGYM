@@ -33,7 +33,7 @@ export default {
           {text: "Players", icon: "fa fa-user", route: {name:'allPlayers'}},
           {text: "Ended Subscription", icon: "fa fa-calendar-times-o", route: {name:'endedSubs'}},
           {text: "Plans", icon: "fa fa-bar-chart", route: {name:'allPlans'}},
-          {text: "More Activities", icon: "mdi mdi-karate", route:{name:'allActs'}},
+          {text: "More services", icon: "mdi mdi-karate", route:{name:'allActs'}},
       ]
     }
   },
