@@ -79,15 +79,15 @@
                       </thead>
                       <tbody>
                       <!-- Start looping -->
-                      <tr v-for="(item, index) in users" :key="index">
-                        <td>{{ index }}</td>
+                      <tr v-for="(item, index) in $store.state.players" :key="item.id">
+                        <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
                         <td>{{ item.beginDate }}</td>
                         <td>{{ item.endDate }}</td>
                         <td>{{ item.plan }}</td>
                         <td>
-                          <router-link :to="{name: 'singlePlayer', params: { id: index, name: item.name }}" class="btn btn-primary" type="button">View</router-link>
+                          <router-link :to="{name: 'singlePlayer', params: { id: item.id, name: item.name }}" class="btn btn-primary" type="button">View</router-link>
                           <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
                           <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
                         </td>
