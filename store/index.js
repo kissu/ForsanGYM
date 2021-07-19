@@ -4,6 +4,7 @@ export const state = () => ({
   activities: [],
   players: [],
   services: [],
+  activityPlayers: [],
 })
 
 export const mutations = {
@@ -20,6 +21,9 @@ export const mutations = {
     state.plans = state.plans.filter(plan => {
       return plan.id !== plan_id
     })
+  },
+  setActivityPlayers: function(state, activityPlayers){
+    state.activityPlayers = activityPlayers
   }
 }
 

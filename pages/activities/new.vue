@@ -44,22 +44,6 @@
               </div>
             </div>
 
-<!--            <div class="form-group row">-->
-<!--              <label class="control-label col-md-3 text-center" for="exampleSelect1">Select Activity</label>-->
-<!--              <div class="col-md-8">-->
-<!--                <div class="form-group ">-->
-<!--                  <select class="form-control" id="exampleSelect1">-->
-<!--                    <option v-for="item in activityList">{{item.name}}</option>-->
-<!--                  </select>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-            <!--            <div class="form-group row">-->
-            <!--              <label class="control-label col-md-3">Identity Proof</label>-->
-            <!--              <div class="col-md-8">-->
-            <!--                <input class="form-control" type="file">-->
-            <!--              </div>-->
-            <!--            </div>-->
           </form>
         </div>
         <div class="tile-footer">

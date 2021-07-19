@@ -34,7 +34,11 @@ export default {
     // get services
 
     // get players w activities
+    // this.$axios.$get('activity-player').then(res => {
+    //   this.$store.commit('setActivityPlayers', res)      
+    // }).catch(err =>{
 
+    // })
     // get activities
 
 
