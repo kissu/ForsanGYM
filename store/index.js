@@ -1,6 +1,7 @@
 // export data that will be stored
 export const state = () => ({
   plans: [],
+  ActivePlans:[],
   activities: [],
   players: [],
   services: [],
@@ -9,6 +10,9 @@ export const state = () => ({
 export const mutations = {
   setPlans: function (state, plans) {
     state.plans = plans
+  },
+  setActivePlans:function (state, plans){
+    state.ActivePlans = plans
   },
   setPlayers: function (state, players) {
     state.players = players
@@ -20,6 +24,14 @@ export const mutations = {
     state.plans = state.plans.filter(plan => {
       return plan.id !== plan_id
     })
+  },
+  deletePlayer: function (state , player_id) {
+    state.players = state.players.filter(player => {
+      return player.id !== player_id
+    })
+  },
+  addPlayer:function (state, player){
+    this.state.players.push(player)
   }
 }
 

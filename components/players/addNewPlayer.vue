@@ -21,13 +21,27 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Name</label>
                           <div class="col-md-8">
-                            <input class="form-control" type="text" placeholder="Enter full name" >
+                            <input v-model="InputPlayer.name"  class="form-control" type="text" placeholder="Enter full name" >
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="control-label col-md-3">Phone</label>
                           <div class="col-md-8">
-                            <input class="form-control col-md-8" type="tel" placeholder="Enter the phone number">
+                            <input v-model="InputPlayer.phoneNumber"  class="form-control col-md-8" type="tel" placeholder="Enter the phone number">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="control-label col-md-3">height</label>
+                          <div class="col-md-8">
+                            <input v-model="InputPlayer.height"  class="form-control col-md-8" type="text" placeholder="Enter the player height">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="control-label col-md-3">weight</label>
+                          <div class="col-md-8">
+                            <input v-model="InputPlayer.weight"  class="form-control col-md-8" type="text" placeholder="Enter the player weight">
                           </div>
                         </div>
 
@@ -35,11 +49,8 @@
                           <label class="control-label col-md-3">Plan</label>
                           <div class="col-md-8">
                             <select class="form-control col-md-8" id="plansList">
-                              <option>Plan 1</option>
-                              <option>Plan 2</option>
-                              <option>Plan 3</option>
-                              <option>Plan 4</option>
-                              <option>Plan 5</option>
+                              <option>Choose a plan</option>
+                              <option v-for="plan in $store.state.plans" v-on:click="PickPlan(plan.id)" v-if="plan.isActivated">{{plan.name}}</option>
                             </select>
                           </div>
                         </div>
@@ -47,21 +58,21 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Begin Date</label>
                           <div class="col-md-8">
-                            <input class="form-control col-md-8" type="date">
+                            <input v-model="InputPlayer.beginDate" class="form-control col-md-8" type="date">
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <label class="control-label col-md-3">End Date</label>
                           <div class="col-md-8">
-                            <input class="form-control col-md-8" type="date">
+                            <input v-model="InputPlayer.endDate" class="form-control col-md-8" type="date">
                           </div>
                         </div>
 
                           <div class="form-group row">
                             <label class="control-label col-md-3">Photo</label>
                             <div class="col-md-8">
-                              <input class="form-control" type="file">
+                              <input v-on:change="AssignFile" ref='UploadedFile' class="form-control" type="file">
                             </div>
                           </div>
                       </form>
@@ -69,7 +80,7 @@
                     <div class="tile-footer">
                       <div class="row">
                         <div class="col-md-8 ">
-                          <button class="btn btn-primary" type="button">
+                          <button v-on:click="addPlayer" class="btn btn-primary" type="button">
                             <i class="fa fa-fw fa-lg fa-check-circle"></i>
                             Register</button>
                         </div>
@@ -89,7 +100,39 @@
 
 <script>
 export default {
+  data(){
+    return{
+      InputPlayer:{
+        name:null,
+        phoneNumber:null,
+        weight:null,
+        height:null,
+        photo:null,
+        plan:null,
+        beginDate:null,
+        endDate:null
+      }
 
+    }
+  },
+methods:{
+  addPlayer:function (){
+    console.log("hola")
+    console.log(this.InputPlayer)
+    let formPhoto = new FormData()
+    formPhoto.append('file', this.InputPlayer.photo)
+    this.$axios.$post('/players/newPlayer', this.InputPlayer).then(res=>{
+      this.$store.commit('addPlayer', res)
+      this.$router.push(this.$router.currentRoute)
+    })
+  },
+  PickPlan:function (planId){
+    this.InputPlayer.plan = planId
+  },
+  AssignFile:function (){
+    this.InputPlayer.photo = this.$refs.UploadedFile.files[0]
+    }
+}
 }
 </script>
 

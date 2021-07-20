@@ -30,16 +30,17 @@ export default {
   props:{
     HeaderMsg:{required:true},
     itemId:{required: true},
-    delete_url: {required: true}
+    delete_url: {required: true},
+    ActionName:{required:true},
   },
   methods: {
     deleteItem: function () {
       this.$axios.$delete(this.delete_url.replace(':id',this.itemId)).then(res => {
         // delete this item from the store
-        this.$store.commit('deletePlan',this.itemId);
+        this.$store.commit(this.ActionName,this.itemId);
         $(`#DeleteCheckModal${this.itemId}`).modal('hide')
       }).catch( err => {
-        this.$store.commit('deletePlan',this.itemId);
+        this.$store.commit(this.ActionName,this.itemId);
       })
     }
   }
