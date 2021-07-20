@@ -24,6 +24,12 @@ export const mutations = {
   },
   setActivityPlayers: function(state, activityPlayers){
     state.activityPlayers = activityPlayers
+  },
+  SetActivities: function (state, activities){
+    state.activities = activities
+  },
+  addActivity: function(state, activity){
+    state.activities.push(activity)
   }
 }
 

@@ -86,6 +86,7 @@ export default {
         'window.$': 'jquery',
       }),
     ],
+    standalone: true
   },
 
 }
