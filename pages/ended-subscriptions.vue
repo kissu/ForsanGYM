@@ -16,9 +16,9 @@
                 <th>Plane</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="$store.state.players.length">
               <tr v-for="(item, index) in list" :key="index">
-                <td>{{index}}</td>
+                <td>{{item.id}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.phoneNumber}}</td>
                 <td>{{item.beginDate}}</td>

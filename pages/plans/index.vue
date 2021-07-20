@@ -16,8 +16,8 @@
               <th>Options</th>
             </tr>
             </thead>
-            <tbody v-if="$store.state.plans.length">
-            <tr v-for="(plan, index) in $store.state.plans" :key="plan.id" v-if="plan.isActivated">
+            <tbody v-if="$store.state.plans.length && plan.isActivated">
+            <tr v-for="(plan) in $store.state.plans" :key="plan.id">
               <td>{{ plan.id }}</td>
               <td>{{ plan.name }}</td>
               <td>{{ plan.description }}</td>

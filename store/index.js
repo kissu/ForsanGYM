@@ -5,6 +5,7 @@ export const state = () => ({
   activities: [],
   players: [],
   services: [],
+  activityPlayers: [],
 })
 
 export const mutations = {
@@ -32,6 +33,15 @@ export const mutations = {
   },
   addPlayer:function (state, player){
     this.state.players.push(player)
+  },
+  setActivityPlayers: function(state, activityPlayers){
+    state.activityPlayers = activityPlayers
+  },
+  SetActivities: function (state, activities){
+    state.activities = activities
+  },
+  addActivity: function(state, activity){
+    state.activities.push(activity)
   }
 }
 
