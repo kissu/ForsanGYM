@@ -17,12 +17,13 @@
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
-            <tr v-for="(plan) in $store.state.plans" :key="plan.id">
-              <td>{{ plan.id }}</td>
-              <td>{{ plan.name }}</td>
-              <td>{{ plan.description }}</td>
-              <td>{{ plan.price }}</td>
-              <td>
+            <tr v-for="(plan) in $store.state.plans" :key="plan.id" >
+
+              <td v-if="plan.isActivated">{{ plan.id }}</td>
+              <td v-if="plan.isActivated">{{ plan.name }}</td>
+              <td v-if="plan.isActivated">{{ plan.description }}</td>
+              <td v-if="plan.isActivated">{{ plan.price }}</td>
+              <td v-if="plan.isActivated">
                 <button class="btn btn-danger mr-2" type="button"
                         @click="deletePlan(plan)" data-toggle="modal"
                         :data-target="'#DeleteCheckModal'+ClickedPlan.id">Delete
@@ -39,7 +40,7 @@
     </div>
 
     <div v-if="ClickedPlan.id" id="deleteSection">
-      <DeleteCheck :action-name="'deletePlan'" :header-msg="'Are You Sure You Want to Delete This Plan ?'" :item-id="ClickedPlan.id"
+      <DeleteCheck :header-msg="'Are You Sure You Want to Delete This Plan ?'" :item-id="ClickedPlan.id"
                    delete_url="/plans/:id">
         <p><b>Name : </b>{{ ClickedPlan.name }}</p>
         <p><b>Description : </b>{{ ClickedPlan.description }}</p>

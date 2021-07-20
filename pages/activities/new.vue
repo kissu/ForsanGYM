@@ -83,6 +83,7 @@ export default {
     register: function (){
       this.$axios.$post('/activities/new', this.activity).then(res =>{
         this.$store.commit('addActivity', res)
+        this.$router.push('/activities')
       }).catch(err => {
         console.log(err)
         alert("There is an error while adding new activity!")

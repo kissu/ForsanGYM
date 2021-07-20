@@ -31,16 +31,17 @@ export default {
     HeaderMsg:{required:true},
     itemId:{required: true},
     delete_url: {required: true},
-    ActionName:{required:true},
+    commitAction: {required: true},
   },
   methods: {
     deleteItem: function () {
       this.$axios.$delete(this.delete_url.replace(':id',this.itemId)).then(res => {
         // delete this item from the store
-        this.$store.commit(this.ActionName,this.itemId);
+        this.$store.commit(this.commitAction,this.itemId);
+
         $(`#DeleteCheckModal${this.itemId}`).modal('hide')
       }).catch( err => {
-        this.$store.commit(this.ActionName,this.itemId);
+        this.$store.commit(this.commitAction,this.itemId);
       })
     }
   }
