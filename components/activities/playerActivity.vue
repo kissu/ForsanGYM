@@ -48,7 +48,9 @@
                         <div class="col-md-8">
                           <div class="form-group ">
                             <select class="form-control" id="activitySelect">
-                              <option v-for="item in activityList">{{item.name}}</option>
+                              <option v-for="item in $store.state.activities">{{item.name}}
+                                
+                              </option>
                             </select>
                           </div>
                         </div>
@@ -80,7 +82,7 @@
         <label class="control-label" for="activitySearch">Search By Activity : </label>
           <div class="form-group col-md-3">
             <select class="form-control" id="activitySearch">
-              <option v-for="item in activityList">{{item.name}}</option>
+              <option v-for="item in $store.state.activities">{{item.name}}</option>
             </select>
         </div>
 
@@ -105,13 +107,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>123456</td>
-              <td>Activity 1</td>
-              <td>20/10/2020</td>
-              <td>20/11/2020</td>
+            <tr v-for="(playerActivity) in $store.state.activityPlayers" :key="playerActivity.id">
+              <td>{{playerActivity.id}}</td>
+              <td>{{playerActivity.name}}</td>
             </tr>
             </tbody>
           </table>
@@ -125,17 +123,6 @@
 <script>
 export default {
   name: "playerActivity",
-  data(){
-    return {
-      activityList:[
-        {name:"actv1"},
-        {name:"actv2"},
-        {name:"actv3"},
-        {name:"actv4"},
-        {name:"actv5"},
-      ]
-    }
-  },
 }
 </script>
 

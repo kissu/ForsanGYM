@@ -49,10 +49,7 @@ export default {
       activities:[
         {name:"actv1 is too long so we can see what would happen", description:"THis is gonna be a long Description for activity 1 just to make sure that long textes will not break the card on it slef so yaaaaaah", coachName:"Enta", coachPhone:"0111111", price:120, id:1},
         {name:"actv2 is amazingggg", description:"Activity 2 description", coachName:"Ana", coachPhone:"01001100", price:200, id:2},
-        {name:"actv3", description:"Activity 3 description", coachName:"Homa", coachPhone:"0100000", price:170, id:3},
-        {name:"actv4", description:"Activity 4 description", coachName:"Lees", coachPhone:"0110000", price:90, id:4},
-        {name:"actv5", description:"Activity 5 description", coachName:"Sool", coachPhone:"01200000", price:80, id:5},
-        {name:"actv6", description:"Activity 6 description", coachName:"So", coachPhone:"0150000", price:150, id:6},
+        
 
       ],
       EditClickedActivity : {},

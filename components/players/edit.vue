@@ -118,7 +118,7 @@
 export default {
   props:{
     playersData:{
-      type: 'Object'
+      type: Object
     },
   }
 };

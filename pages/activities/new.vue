@@ -11,27 +11,27 @@
             <div class="form-group row">
               <label class="control-label col-md-3 text-center">Activity Name</label>
               <div class="col-md-8">
-                <input class="form-control" type="text" placeholder="Activity">
+                <input v-model="activity.name" class="form-control" type="text" placeholder="Activity">
               </div>
             </div>
             <div class="form-group row">
               <label class="control-label col-md-3 text-center">Coach Name</label>
               <div class="col-md-8">
-                <input class="form-control col-md-8" type="text" placeholder="Coach">
+                <input v-model="activity.coachName" class="form-control col-md-8" type="text" placeholder="Coach">
               </div>
             </div>
 
             <div class="form-group row">
               <label class="control-label col-md-3 text-center">Coach Phone Number</label>
               <div class="col-md-8">
-                <input class="form-control col-md-8" type="text" placeholder="Coach Phone Number">
+                <input v-model="activity.coachPhoneNumber" class="form-control col-md-8" type="text" placeholder="Coach Phone Number">
               </div>
             </div>
 
             <div class="form-group row">
               <label class="control-label col-md-3 text-center">Price </label>
               <div class="col-md-8">
-                <input class="form-control col-md-8" type="text" placeholder="EGP">
+                <input v-model="activity.price" class="form-control col-md-8" type="text" placeholder="EGP">
               </div>
             </div>
 
@@ -39,27 +39,12 @@
               <label class=" control-label col-md-3 text-center" for="descriptionTextarea">Description</label>
               <div class="col-md-8">
                 <textarea
+                  v-model="activity.desc"
                   class="form-control col-md-10" id="descriptionTextarea" rows="2" placeholder="Describe The activity"
                 ></textarea>
               </div>
             </div>
 
-<!--            <div class="form-group row">-->
-<!--              <label class="control-label col-md-3 text-center" for="exampleSelect1">Select Activity</label>-->
-<!--              <div class="col-md-8">-->
-<!--                <div class="form-group ">-->
-<!--                  <select class="form-control" id="exampleSelect1">-->
-<!--                    <option v-for="item in activityList">{{item.name}}</option>-->
-<!--                  </select>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-            <!--            <div class="form-group row">-->
-            <!--              <label class="control-label col-md-3">Identity Proof</label>-->
-            <!--              <div class="col-md-8">-->
-            <!--                <input class="form-control" type="file">-->
-            <!--              </div>-->
-            <!--            </div>-->
           </form>
         </div>
         <div class="tile-footer">
@@ -83,9 +68,25 @@ import PageTitle from "../../components/layout/pageTitle";
 
 export default {
   components: {PageTitle},
+  data(){
+    return{
+      activity: {
+        name: null,
+        coachName: null,
+        coachPhoneNumber: null,
+        price: 0,
+        description: null
+      }
+    }
+  },
   methods:{
     register: function (){
-      this.$router.push("../activities")
+      this.$axios.$post('/activities/new', this.activity).then(res =>{
+        this.$store.commit('addActivity', res)
+      }).catch(err => {
+        console.log(err)
+        alert("There is an error while adding new activity!")
+      })
     }
   }
 };
