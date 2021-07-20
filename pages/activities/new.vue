@@ -39,7 +39,7 @@
               <label class=" control-label col-md-3 text-center" for="descriptionTextarea">Description</label>
               <div class="col-md-8">
                 <textarea
-                  v-model="activity.desc"
+                  v-model="activity.description"
                   class="form-control col-md-10" id="descriptionTextarea" rows="2" placeholder="Describe The activity"
                 ></textarea>
               </div>
@@ -83,6 +83,7 @@ export default {
     register: function (){
       this.$axios.$post('/activities/new', this.activity).then(res =>{
         this.$store.commit('addActivity', res)
+        this.$router.push('/activities')
       }).catch(err => {
         console.log(err)
         alert("There is an error while adding new activity!")
