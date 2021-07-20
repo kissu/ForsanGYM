@@ -25,11 +25,16 @@ export const mutations = {
   setActivityPlayers: function(state, activityPlayers){
     state.activityPlayers = activityPlayers
   },
-  SetActivities: function (state, activities){
-    state.activities = activities
+  SetActivities: function (state, newActivities){
+    state.activities = newActivities
   },
   addActivity: function(state, activity){
     state.activities.push(activity)
+  },
+  deleteActivity: function(state, activity_id){
+    state.activities = state.activities.filter(activity =>{
+      return activity.id !== activity_id
+    })
   }
 }
 
