@@ -34,23 +34,23 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">height</label>
                           <div class="col-md-8">
-                            <input v-model="InputPlayer.height"  class="form-control col-md-8" type="text" placeholder="Enter the player height">
+                            <input v-model="InputPlayer.height"  class="form-control col-md-8" type="number" step="any" placeholder="Enter the player height">
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <label class="control-label col-md-3">weight</label>
                           <div class="col-md-8">
-                            <input v-model="InputPlayer.weight"  class="form-control col-md-8" type="text" placeholder="Enter the player weight">
+                            <input v-model="InputPlayer.weight"  class="form-control col-md-8" type="number" step="any" placeholder="Enter the player weight">
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <label class="control-label col-md-3">Plan</label>
                           <div class="col-md-8">
-                            <select class="form-control col-md-8" id="plansList">
-                              <option value="">Choose a plan</option>
-                              <option v-for="plan in $store.state.plans" v-on:click="PickPlan(plan.id)" v-if="plan.isActivated">{{plan.name}}</option>
+                            <select @change="PickPlan" v-model="InputPlayer.plan" class="form-control col-md-8" id="plansList">
+                              <option :value="null" disabled selected>Choose a plan</option>
+                              <option v-for="plan in $store.state.plans" v-if="plan.isActivated" :value="plan">{{plan.name}}</option>
                             </select>
                           </div>
                         </div>
@@ -72,7 +72,7 @@
                           <div class="form-group row">
                             <label class="control-label col-md-3">Photo</label>
                             <div class="col-md-8">
-                              <input v-on:change="AssignFile" ref='UploadedFile' class="form-control" type="file">
+                              <input ref='UploadedFile' class="form-control" type="file">
                             </div>
                           </div>
                       </form>
@@ -99,6 +99,10 @@
 </template>
 
 <script>
+
+import moment from 'moment';
+
+
 export default {
   data(){
     return{
@@ -107,26 +111,58 @@ export default {
         phoneNumber:null,
         weight:null,
         height:null,
-        photo:null,
         plan:null,
         beginDate:null,
         endDate:null
       }
-
     }
   },
 methods:{
-  addPlayer:function (){
-    let formPhoto = new FormData()
-    formPhoto.append('file', this.InputPlayer.photo)
-    console.log(formPhoto)
-    this.$axios.$post('/players/newPlayer', this.InputPlayer).then(res=>{
-      this.$store.commit('addPlayer', res)
-      this.$router.push(this.$router.currentRoute)
+  addPlayer: async function (){
+    // TODO: validate that nothing is empty
+
+    // TODO  Use Sweetalert
+    let formData = new FormData()
+    formData.append('photo', this.$refs.UploadedFile.files[0])
+    Object.keys(this.InputPlayer).forEach( key => {
+      formData.append(key,this.InputPlayer[key])
     })
+
+    try {
+      const player = await this.$axios.$post('/players/newPlayer', formData);
+      // player added then make subscribe request
+      // subscribe request
+      await this.$axios.$post('/subscriptions/subscribe',{
+          player_id: player.id,
+          plan_id: this.InputPlayer.plan.id,
+          beginDate: this.InputPlayer.beginDate,
+          endDate: this.InputPlayer.endDate
+      })
+
+      const storePlayer = {
+        ...player,
+        beginDate: this.InputPlayer.beginDate,
+        endDate: this.InputPlayer.endDate,
+        plan: this.InputPlayer.plan.name,
+        price: this.InputPlayer.plan.price
+      }
+
+      await  this.$store.commit('addPlayer', storePlayer)
+
+    } catch (e) {
+      this.$swal.fire({
+        icon: 'warning',
+        title: "Player Didn't added",
+        text: e.response.data.message
+      })
+      return false;
+    }
+    // ....
   },
-  PickPlan:function (planId){
-    this.InputPlayer.plan = planId
+  PickPlan:function (){
+    const plan = this.InputPlayer.plan;
+    this.InputPlayer.beginDate = moment().format("yyyy-MM-DD")
+    this.InputPlayer.endDate = moment().add("months",plan.months).format('yyyy-MM-DD')
   },
   AssignFile:function (){
     this.InputPlayer.photo = this.$refs.UploadedFile.files[0]

@@ -37,14 +37,31 @@ export default {
   },
   methods:{
     DeleteService: function (){
-      // Delete service from all database
-      this.$axios.$delete('services/delete/:id'.replace(':id', this.SelectedService)).then(res=>{
-        this.$store.commit('DeleteService', this.SelectedService)
-        this.SelectedService=null
-      }).catch(err=>{
-        alert("An error occurred while deleting the service .")
-        console.log(err)
+      this.$swal.fire({
+        title: 'Do you want to save the changes?',
+        showDenyButton: true,
+        icon: 'warning',
+
+        showCancelButton: false,
+        confirmButtonText: `Save`,
+        denyButtonText: `Don't save`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          // Delete service from all database
+          this.$axios.$delete('services/delete/:id'.replace(':id', this.SelectedService)).then(res=>{
+            this.$store.commit('DeleteService', this.SelectedService)
+            this.SelectedService=null
+          }).catch(err=>{
+            alert("An error occurred while deleting the service .")
+            console.log(err)
+          })
+          this.$swal.fire('Saved!', '', 'success')
+        } else if (result.isDenied) {
+          this.$swal.fire('Changes are not saved', '', 'info')
+        }
       })
+
     }
   }
 }
