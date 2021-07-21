@@ -52,7 +52,9 @@ export default {
       // add the new service to the database (store and backend )
       this.service.price = Number(this.service.price)
       this.$axios.post('/services/new', this.service).then(res=>{
-        this.$store.commit('AddService', res)
+        console.log(res)
+        this.$store.commit('AddService', res.data.service)
+        console.log(this.$store.state.services)
       }).catch(err=>{
         alert("There was an error while adding the service.")
         console.log(err)

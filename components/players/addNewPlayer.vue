@@ -49,7 +49,7 @@
                           <label class="control-label col-md-3">Plan</label>
                           <div class="col-md-8">
                             <select class="form-control col-md-8" id="plansList">
-                              <option>Choose a plan</option>
+                              <option value="">Choose a plan</option>
                               <option v-for="plan in $store.state.plans" v-on:click="PickPlan(plan.id)" v-if="plan.isActivated">{{plan.name}}</option>
                             </select>
                           </div>

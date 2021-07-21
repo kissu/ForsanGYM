@@ -5,7 +5,7 @@
         <div class="form-group row" v-for="service in $store.state.services" >
           <div class="col-md-12">
             <div class="form-check form-check-inline">
-              <input v-model="tst" class="form-check-input" type="radio" name="inlineRadioOptions" :id="'Choose'+service.id" :value="service.id">
+              <input v-model="SelectedServiceId" class="form-check-input" type="radio" name="inlineRadioOptions" :id="'Choose'+service.id" :value="service.id">
               <label class="form-check-label" :for="'Choose'+service.id">{{service.name}} -- {{service.price}}</label>
             </div>
           </div>
@@ -41,7 +41,7 @@ export default {
     PurchaseService: function (){
       // purchase a service performer
 
-      console.log(this.tst)
+      console.log(this.SelectedServiceId)
       console.log("Service Purchased ! !")
     }
   }

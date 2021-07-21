@@ -30,13 +30,6 @@ export default {
     }).catch(err => {
 
     })
-    //Get Active Plans
-    this.$axios.get('plans/AllActive').then(res=>{
-      this.$store.commit('setActivePlans', res)
-    }).catch(err=>{
-
-    })
-    // TODO
     // get services
     this.$axios.$get('services').then(res=>{
       this.$store.commit('SetServices', res)

@@ -1,7 +1,6 @@
 // export data that will be stored
 export const state = () => ({
   plans: [],
-  ActivePlans:[],
   activities: [],
   players: [],
   services: [],
@@ -11,9 +10,6 @@ export const state = () => ({
 export const mutations = {
   setPlans: function (state, plans) {
     state.plans = plans
-  },
-  setActivePlans:function (state, plans){
-    state.ActivePlans = plans
   },
   setPlayers: function (state, players) {
     state.players = players
