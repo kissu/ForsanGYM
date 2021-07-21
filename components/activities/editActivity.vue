@@ -39,8 +39,8 @@
                       <input
                         class="form-control"
                         type="text"
-                        placeholder="Enter full name"
-                        :value="activity.coachPhone"
+                        placeholder="Enter Coach Phone"
+                        :value="activity.coachPhoneNumber"
                       />
                     </div>
 
