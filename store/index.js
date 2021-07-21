@@ -47,6 +47,18 @@ export const mutations = {
     state.activities = state.activities.filter(activity =>{
       return activity.id !== activity_id
     })
-  }
+  },
+  // Services Part :
+  SetServices:function (state, services){
+    state.services = services
+  },
+  AddService:function (state, service){
+    state.services.push(service)
+  },
+  DeleteService:function (state, service_id){
+    state.services = state.services.filter(service=>{
+      return service.id !== service_id
+    })
+  },
 }
 

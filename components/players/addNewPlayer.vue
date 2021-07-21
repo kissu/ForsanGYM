@@ -117,10 +117,9 @@ export default {
   },
 methods:{
   addPlayer:function (){
-    console.log("hola")
-    console.log(this.InputPlayer)
     let formPhoto = new FormData()
     formPhoto.append('file', this.InputPlayer.photo)
+    console.log(formPhoto)
     this.$axios.$post('/players/newPlayer', this.InputPlayer).then(res=>{
       this.$store.commit('addPlayer', res)
       this.$router.push(this.$router.currentRoute)

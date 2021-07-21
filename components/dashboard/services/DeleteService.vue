@@ -13,6 +13,16 @@
       </select>
     </div>
     <p >Warning : Delete Operation is <b style="color: #96000e">IRREVERSIBLE</b>.</p>
+
+    <div class="tile-footer">
+      <div class="row">
+        <div class="col-md-8 ">
+          <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#DeleteServicecollapse" v-on:click="DeleteService">
+            <i class="fa fa-fw fa-lg fa-check-circle"></i>
+            Delete</button>
+        </div>
+      </div>
+    </div>
   </CollapseComponent>
 
 </div>
@@ -22,7 +32,12 @@
 import CollapseComponent from "../../layout/Collapse";
 export default {
   name: "DeleteService",
-  components: {CollapseComponent}
+  components: {CollapseComponent},
+  methods:{
+    DeleteService: function (){
+      // Delete service from all databases
+    }
+  }
 }
 </script>
 

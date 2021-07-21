@@ -33,6 +33,17 @@
         </div>
       </form>
 
+      <div class="tile-footer">
+        <div class="row">
+          <div class="col-md-8 ">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#puchasecollapse" v-on:click="PurchaseService">
+              <i class="fa fa-fw fa-lg fa-check-circle"></i>
+              Purchase</button>
+          </div>
+        </div>
+      </div>
+
+
     </CollapseComponent>
   </div>
 </template>
@@ -41,7 +52,12 @@
 import CollapseComponent from "../../layout/Collapse";
 export default {
   name: "purchaseService",
-  components: {CollapseComponent}
+  components: {CollapseComponent},
+  methods:{
+    PurchaseService: function (){
+      // purchase a service performer
+    }
+  }
 }
 </script>
 
