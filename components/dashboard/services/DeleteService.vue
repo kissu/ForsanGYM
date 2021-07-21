@@ -40,7 +40,7 @@ export default {
       // Delete service from all database
       this.$axios.$delete('services/delete/:id'.replace(':id', this.SelectedService)).then(res=>{
         this.$store.commit('DeleteService', this.SelectedService)
-        console.log(this.$store.state.services)
+        this.SelectedService=null
       }).catch(err=>{
         alert("An error occurred while deleting the service .")
         console.log(err)

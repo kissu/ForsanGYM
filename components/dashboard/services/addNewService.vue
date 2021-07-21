@@ -51,10 +51,14 @@ export default {
     AddService:function (){
       // add the new service to the database (store and backend )
       this.service.price = Number(this.service.price)
+      //Add to database it self
       this.$axios.post('/services/new', this.service).then(res=>{
-        console.log(res)
+        // Add to store datatabse
         this.$store.commit('AddService', res.data.service)
-        console.log(this.$store.state.services)
+
+        //resetting the valuse of the Selected Object
+        this.service.name=""
+        this.service.price=0
       }).catch(err=>{
         alert("There was an error while adding the service.")
         console.log(err)

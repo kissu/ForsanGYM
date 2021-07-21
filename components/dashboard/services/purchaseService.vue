@@ -40,7 +40,7 @@ export default {
   methods:{
     PurchaseService: function (){
       // purchase a service performer
-
+      this.SelectedServiceId = null
       console.log(this.SelectedServiceId)
       console.log("Service Purchased ! !")
     }
