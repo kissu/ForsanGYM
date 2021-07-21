@@ -38,10 +38,15 @@ export default {
     })
     // TODO
     // get services
+    this.$axios.$get('services').then(res=>{
+      this.$store.commit('SetServices', res)
+    }).catch(err=>{
+      console.log(err)
+    })
 
     // get players w activities
     this.$axios.$get('activity-player').then(res => {
-      this.$store.commit('setActivityPlayers', res)      
+      this.$store.commit('setActivityPlayers', res)
     }).catch(err =>{
 
     })
