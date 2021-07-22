@@ -49,7 +49,7 @@ export default {
       activities:[
         {name:"actv1 is too long so we can see what would happen", description:"THis is gonna be a long Description for activity 1 just to make sure that long textes will not break the card on it slef so yaaaaaah", coachName:"Enta", coachPhone:"0111111", price:120, id:1},
         {name:"actv2 is amazingggg", description:"Activity 2 description", coachName:"Ana", coachPhone:"01001100", price:200, id:2},
-        
+
 
       ],
       EditClickedActivity : {},
@@ -61,7 +61,6 @@ export default {
       this.EditClickedActivity = item
     },
     deleteActivity: function(item){
-      console.log(`item ${item.name} has been deleted`)
       this.DeleteClickedActivity = item
     }
   },

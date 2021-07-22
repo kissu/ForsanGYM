@@ -40,7 +40,7 @@
                         class="form-control"
                         type="text"
                         placeholder="Enter coach phone number"
-                        :value="activity.coachPhone"
+                        :value="activity.coachPhoneNumber"
                       />
                     </div>
 

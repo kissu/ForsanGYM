@@ -18,15 +18,6 @@
                 <div class="tile-body">
                   <slot></slot>
                 </div>
-                <div class="tile-footer">
-                  <div class="row">
-                    <div class="col-md-8 ">
-                      <button :class="BtnsClass" type="button" data-toggle="collapse" :data-target="'#' + CollapseName + 'collapse'" >
-                        <i class="fa fa-fw fa-lg fa-check-circle"></i>
-                        {{FootBtnText}}</button>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -45,7 +36,6 @@ export default {
   name: "CollapseComponent",
   props:{
     HeadBtnText:{required:true},
-    FootBtnText:{required: true},
     BtnsClass:{required:true},
     CollapseName:{required:true},
   }

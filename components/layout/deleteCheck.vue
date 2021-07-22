@@ -38,7 +38,7 @@ export default {
       this.$axios.$delete(this.delete_url.replace(':id',this.itemId)).then(res => {
         // delete this item from the store
         this.$store.commit(this.commitAction,this.itemId);
-        
+
         $(`#DeleteCheckModal${this.itemId}`).modal('hide')
       }).catch( err => {
         this.$store.commit(this.commitAction,this.itemId);

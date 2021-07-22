@@ -2,36 +2,26 @@
   <div id="purchaseServiceCom">
     <CollapseComponent collapse-name="puchase" foot-btn-text="Purchase" head-btn-text="Purchase A Service" btns-class="btn btn-primary">
       <form class="form-horizontal w-100">
-        <div class="form-group row">
+        <div class="form-group row" v-for="service in $store.state.services" >
           <div class="col-md-12">
-            <div class="form-check">
-              <label class="form-check-label" style="font-size:20px">
-                <input class="form-check-input" style = "height:20px" type="radio" name="gender">Water--3
-              </label>
-            </div>
-            <div class="form-check" style="font-size:20px">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" style = "height:20px" name="gender">Checken Meal--45
-              </label>
-            </div>
-            <div class="form-check" style="font-size:20px">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" style = "height:20px" name="gender">Oats Meal--15
-              </label>
-            </div>
-            <div class="form-check" style="font-size:20px">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" style = "height:20px" name="gender">Cotton T-Shert--120
-              </label>
-            </div>
-            <div class="form-check" style="font-size:20px">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" style = "height:20px" name="gender">stretch T-Shert--150
-              </label>
+            <div class="form-check form-check-inline">
+              <input v-model="SelectedServiceId" class="form-check-input" type="radio" name="inlineRadioOptions" :id="'Choose'+service.id" :value="service.id">
+              <label class="form-check-label" :for="'Choose'+service.id">{{service.name}} -- {{service.price}}</label>
             </div>
           </div>
         </div>
       </form>
+
+      <div class="tile-footer">
+        <div class="row">
+          <div class="col-md-8 ">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#puchasecollapse" v-on:click="PurchaseService">
+              <i class="fa fa-fw fa-lg fa-check-circle"></i>
+              Purchase</button>
+          </div>
+        </div>
+      </div>
+
 
     </CollapseComponent>
   </div>
@@ -41,7 +31,20 @@
 import CollapseComponent from "../../layout/Collapse";
 export default {
   name: "purchaseService",
-  components: {CollapseComponent}
+  components: {CollapseComponent},
+  data(){
+    return{
+      SelectedServiceId:null
+    }
+  },
+  methods:{
+    PurchaseService: function (){
+      // purchase a service performer
+      this.SelectedServiceId = null
+      console.log(this.SelectedServiceId)
+      console.log("Service Purchased ! !")
+    }
+  }
 }
 </script>
 
