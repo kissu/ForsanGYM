@@ -38,6 +38,15 @@ export const mutations = {
   },
   addNewActivityPlayer: function(state, activityPlayer){
     state.activityPlayers.push(activityPlayer)
+  },
+  editActivity: function(state, act){
+    console.log("Hi");
+    let objIndex = state.activities.findIndex((obj => obj.id == act.id))
+    state.activities[objIndex].name = act.name,
+    state.activities[objIndex].coachName = act.coachName,
+    state.activities[objIndex].coachPhoneNumber = act.coachPhoneNumber,
+    state.activities[objIndex].price = act.price,
+    state.activities[objIndex].description = act.description
   }
 }
 
