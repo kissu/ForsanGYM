@@ -22,6 +22,14 @@ export const mutations = {
       return plan.id !== plan_id
     })
   },
+  deletePlayer: function (state , player_id) {
+    state.players = state.players.filter(player => {
+      return player.id !== player_id
+    })
+  },
+  addPlayer:function (state, player){
+    this.state.players.push(player)
+  },
   setActivityPlayers: function(state, activityPlayers){
     state.activityPlayers = activityPlayers
   },
@@ -47,6 +55,18 @@ export const mutations = {
     state.activities[objIndex].coachPhoneNumber = act.coachPhoneNumber,
     state.activities[objIndex].price = act.price,
     state.activities[objIndex].description = act.description
-  }
+  },
+  // Services Part :
+  SetServices:function (state, services){
+    state.services = services
+  },
+  AddService:function (state, service){
+    state.services.push(service)
+  },
+  DeleteService:function (state, service_id){
+    state.services = state.services.filter(service=>{
+      return service.id !== service_id
+    })
+  },
 }
 

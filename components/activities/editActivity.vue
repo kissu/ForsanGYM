@@ -21,48 +21,47 @@
                         @input="act.name = $event.target.value"
                         class="form-control"
                         type="text"
-                        placeholder="Enter Activity name"
                       />
                     </div>
 
                     <div class="form-group">
                       <label class="control-label">Coach Name </label>
                       <input
-                        v-model="act.coachName"
+                        v-bind:value='act.coachName'
+                        @input="act.coachName = $event.target.value"
                         class="form-control"
                         type="text"
-                        placeholder="Enter full name"
                       />
                     </div>
 
                     <div class="form-group">
                       <label class="control-label">Coach phone number </label>
                       <input
-                        v-model="act.coachPhoneNumber"
+                        v-bind:value='act.coachPhoneNumber'
+                        @input="act.coachPhoneNumber = $event.target.value"
                         class="form-control"
                         type="tel"
-                        placeholder="Enter coach phone number"
                       />
                     </div>
 
                     <div class="form-group">
                       <label class="control-label">Price</label>
                       <input
-                        v-model="act.price"
+                        v-bind:value='act.price'
+                        @input="act.price = $event.target.value"
                         class="form-control"
                         type="number"
                         step="any"
-                        placeholder="EGP"
                       />
                     </div>
 
                     <div class="form-group">
                       <label class="control-label">Activity Description</label>
                       <textarea
-                        v-model="act.description"
+                        v-bind:value='act.description'
+                        @input="act.description = $event.target.value"
                         class="form-control"
                         rows="4"
-                        placeholder="Describe The Activity..."
                       ></textarea>
                     </div>
 

@@ -61,7 +61,6 @@ export default {
       this.EditClickedActivity = item
     },
     deleteActivity: function(item){
-      console.log(`item ${item.name} has been deleted`)
       this.DeleteClickedActivity = item
     }
   },

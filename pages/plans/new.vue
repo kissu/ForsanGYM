@@ -89,7 +89,10 @@ export default {
       addPLan: function () {
         this.dis = true;
         this.$axios.$post('/plans', this.plan ).then(res => {
+          console.log(res)
           this.$store.commit('addPlan',res);
+          console.log(this.$store.state.plans)
+
           this.dis = false
           this.$router.push({
             name:"allPlans"

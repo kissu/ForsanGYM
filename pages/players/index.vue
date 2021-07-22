@@ -88,7 +88,8 @@
                         <td>{{ item.plan }}</td>
                         <td>
                           <router-link :to="{name: 'singlePlayer', params: { id: item.id, name: item.name }}" class="btn btn-primary" type="button">View</router-link>
-                          <button class="btn btn-danger" type="button" style="margin-left:5px">Delete</button>
+                          <button class="btn btn-danger" type="button" @click="DeletePlayer(item)" data-toggle="modal"
+                                  :data-target="'#DeleteCheckModal'+ChosenPlayer.id">Delete</button>
                           <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
                         </td>
                       </tr>
@@ -150,15 +151,24 @@
         </div>
       </div>
     </div>
+    <div v-if="ChosenPlayer.id" id="DeleeSection">
+    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id" :header-msg="'Are you sure you want to delete this player ?'" delete_url="players/delete-player/:id">
+      <p><b>Name : </b>{{ChosenPlayer.name}}</p>
+      <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>
+      <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>
+    </DeleteCheck>
+    </div>
+
   </div>
 </template>
 
 <script>
 import PageTitle from "../../components/layout/pageTitle";
 import AddNewPlayer from '../../components/players/addNewPlayer.vue';
+import DeleteCheck from "../../components/layout/deleteCheck";
 
 export default {
-  components: {PageTitle, AddNewPlayer},
+  components: {DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
       users: [
@@ -169,10 +179,13 @@ export default {
           name: "ALi", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
         }
       ],
+      ChosenPlayer:{},
     }
   },
   methods: {
-
+    DeletePlayer:function (item){
+      this.ChosenPlayer = item
+    }
   }
 };
 </script>
