@@ -35,6 +35,9 @@ export const mutations = {
     state.activities = state.activities.filter(activity =>{
       return activity.id !== activity_id
     })
+  },
+  addNewActivityPlayer: function(state, activityPlayer){
+    state.activityPlayers.push(activityPlayer)
   }
 }
 
