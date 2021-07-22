@@ -35,11 +35,11 @@
                     </div>
 
                     <div class="form-group">
-                      <label class="control-label">Coach Phone </label>
+                      <label class="control-label">Coach phone number </label>
                       <input
                         class="form-control"
                         type="text"
-                        placeholder="Enter Coach Phone"
+                        placeholder="Enter coach phone number"
                         :value="activity.coachPhoneNumber"
                       />
                     </div>

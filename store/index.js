@@ -44,6 +44,9 @@ export const mutations = {
       return activity.id !== activity_id
     })
   },
+  addNewActivityPlayer: function(state, activityPlayer){
+    state.activityPlayers.push(activityPlayer)
+  },
   // Services Part :
   SetServices:function (state, services){
     state.services = services
