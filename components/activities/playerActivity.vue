@@ -19,27 +19,20 @@
                       <div class="form-group row">
                         <label class="control-label col-md-4">Name</label>
                         <div class="col-md-8">
-                          <input class="form-control" type="text" placeholder="Enter full name">
+                          <input v-model="activityPlayer.name" class="form-control" type="text" placeholder="Enter full name">
                         </div>
                       </div>
-                      <div class="form-group row">
-                        <label class="control-label col-md-4">Phone Number</label>
-                        <div class="col-md-8">
-                          <input class="form-control col-md-8" type="tel" placeholder="Enter the phone number">
-                        </div>
-                      </div>
-
                       <div class="form-group row">
                         <label class="control-label col-md-4">Begin Date</label>
                         <div class="col-md-8">
-                          <input class="form-control col-md-8" type="date">
+                          <input v-model="activityPlayer.beginDate" class="form-control col-md-8" type="date">
                         </div>
                       </div>
 
                       <div class="form-group row">
                         <label class="control-label col-md-4">End Date</label>
                         <div class="col-md-8">
-                          <input class="form-control col-md-8" type="date">
+                          <input v-model="activityPlayer.endDate" class="form-control col-md-8" type="date">
                         </div>
                       </div>
 
@@ -47,9 +40,9 @@
                         <label class="control-label col-md-4" for="activitySelect">Select Activity</label>
                         <div class="col-md-8">
                           <div class="form-group ">
-                            <select class="form-control" id="activitySelect">
-                              <option v-for="item in $store.state.activities">{{item.name}}
-
+                            <select v-model="activityPlayer.activity" class="form-control" id="activitySelect">
+                              <option v-for="(item) in $store.state.activities" :key="item.id">
+                                {{item.name}}
                               </option>
                             </select>
                           </div>
@@ -60,7 +53,7 @@
                   <div class="tile-footer">
                     <div class="row">
                       <div class="col-md-8 ">
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne1" >
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne" >
                           <i class="fa fa-fw fa-lg fa-check-circle"></i>
                           Add Player</button>
                       </div>
@@ -81,9 +74,7 @@
         </div>
         <label class="control-label" for="activitySearch">Search By Activity : </label>
           <div class="form-group col-md-3">
-            <select class="form-control" id="activitySearch">
-              <option v-for="item in $store.state.activities">{{item.name}}</option>
-            </select>
+              <option v-for="item in $store.state.activities" :key="item.id">{{item.name}}</option>
         </div>
 
       <label class="control-label" for="generalSearch">Search : </label>
@@ -110,6 +101,9 @@
             <tr v-for="(playerActivity) in $store.state.activityPlayers" :key="playerActivity.id">
               <td>{{playerActivity.id}}</td>
               <td>{{playerActivity.name}}</td>
+              <td>{{playerActivity.beginDate}}</td>
+              <td>{{playerActivity.endDate}}</td>
+              <td>{{playerActivity.activity}}</td>
             </tr>
             </tbody>
           </table>
@@ -123,6 +117,26 @@
 <script>
 export default {
   name: "playerActivity",
+  data() {
+    return {
+      activityPlayer:{
+        name: null,
+        beginDate: null,
+        endDate: null,
+        activity: null,
+      }
+    }
+  },
+  methods:{
+    addActivityPlayer: function(){
+      this.$axios.$post('/activity-player/new-Activity-player', this.activityPlayer).then(res => {
+        this.$store.commit('addNewActivityPlayer', res)
+      }).catch(err => {
+        console.log(err)
+        alert('There is an error while adding new activity player!')
+      })
+    }
+  }
 }
 </script>
 

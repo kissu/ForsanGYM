@@ -9,7 +9,7 @@
               <button type="button"
                       class="btn btn-primary mx-auto w-100"
                       data-toggle="modal"
-                      data-target="#staticBackdrop"
+                      data-target="#staticBackdropEditModal"
                       @click="AssignActivity(item)">
                 <i class="mdi mdi-clipboard-edit"></i>
               </button>
@@ -26,7 +26,12 @@
         </div>
       </div>
     </div>
+
+  <div id="edit-activity" v-if="EditClickedActivity">
     <editActivity :activity="EditClickedActivity"/>
+  </div>
+
+  <div id="delete-Activity" v-if="DeleteClickedActivity">
     <DeleteCheck header-msg="Are you sure you want to delete this activity ?" :item-id="DeleteClickedActivity.id" delete_url="/activities/delete/:id" commitAction="deleteActivity">
       <p><b>Name : </b>{{DeleteClickedActivity.name}}</p>
       <p><b>Coach : </b>{{DeleteClickedActivity.coachName}}</p>
@@ -34,6 +39,7 @@
       <p><b>Description : </b>{{DeleteClickedActivity.description}}</p>
       <p><b>Price : </b>{{DeleteClickedActivity.price}}</p>
     </DeleteCheck>
+  </div>
 
   </div>
 </template>
@@ -46,12 +52,6 @@ export default {
   components: {DeleteCheck, editActivity},
   data(){
     return {
-      activities:[
-        {name:"actv1 is too long so we can see what would happen", description:"THis is gonna be a long Description for activity 1 just to make sure that long textes will not break the card on it slef so yaaaaaah", coachName:"Enta", coachPhone:"0111111", price:120, id:1},
-        {name:"actv2 is amazingggg", description:"Activity 2 description", coachName:"Ana", coachPhone:"01001100", price:200, id:2},
-
-
-      ],
       EditClickedActivity : {},
       DeleteClickedActivity : {},
     }

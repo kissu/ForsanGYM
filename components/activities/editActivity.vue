@@ -1,6 +1,6 @@
 <template>
   <div id="editActivity">
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdropEditModal" data-backdrop="static" data-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -17,50 +17,51 @@
                     <div class="form-group">
                       <label class="control-label">Activity Name </label>
                       <input
+                        v-bind:value='act.name'
+                        @input="act.name = $event.target.value"
                         class="form-control"
                         type="text"
-                        placeholder="Enter Activity name"
-                        :value="activity.name"
                       />
                     </div>
 
                     <div class="form-group">
                       <label class="control-label">Coach Name </label>
                       <input
+                        v-bind:value='act.coachName'
+                        @input="act.coachName = $event.target.value"
                         class="form-control"
                         type="text"
-                        placeholder="Enter full name"
-                        :value="activity.coachName"
                       />
                     </div>
 
                     <div class="form-group">
-                      <label class="control-label">Coach Phone </label>
+                      <label class="control-label">Coach phone number </label>
                       <input
+                        v-bind:value='act.coachPhoneNumber'
+                        @input="act.coachPhoneNumber = $event.target.value"
                         class="form-control"
-                        type="text"
-                        placeholder="Enter Coach Phone"
-                        :value="activity.coachPhoneNumber"
+                        type="tel"
                       />
                     </div>
 
                     <div class="form-group">
                       <label class="control-label">Price</label>
                       <input
+                        v-bind:value='act.price'
+                        @input="act.price = $event.target.value"
                         class="form-control"
-                        type="text"
-                        placeholder="EGP"
-                        :value="activity.price"
+                        type="number"
+                        step="any"
                       />
                     </div>
 
                     <div class="form-group">
                       <label class="control-label">Activity Description</label>
                       <textarea
+                        v-bind:value='act.description'
+                        @input="act.description = $event.target.value"
                         class="form-control"
                         rows="4"
-                        placeholder="Describe The Activity..."
-                        :value="activity.description"
                       ></textarea>
                     </div>
 
@@ -72,7 +73,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary ml-3" data-dismiss="modal">Close</button>
-            <button  type="button" class="btn btn-primary" >Submit</button>
+            <button :disabled='dis' type="button" class="btn btn-primary" @click="editActivity">Submit</button>
           </div>
         </div>
       </div>
@@ -85,10 +86,45 @@
 
 export default {
   props:{
-  activity:{
-    required:true
+    activity:{
+      required:true
+    },
   },
-},
-
+  data() {
+    return{
+      dis: false,
+      act : {
+        name: null,
+        coachName: null,
+        coachPhoneNumber: null,
+        price: 0,
+        description: null
+      }
+    }
+  },
+  methods:{
+    editActivity: function(){
+      this.dis = true
+      this.$axios.$post('activities/edit/'+this.activity.id,this.act).then(res => {
+        this.dis = false
+        this.$store.commit("editActivity",res)
+        $("#staticBackdropEditModal").modal("hide")
+      }).catch(err => {
+        this.dis = false
+        alert("there is an error while editing activity")
+      })
+    }
+  },
+  watch: {
+    activity: function (value) {
+      this.act = {
+        name: value.name,
+        coachName: value.coachName,
+        coachPhoneNumber: value.coachPhoneNumber,
+        price: value.price,
+        description: value.description
+      }
+    }
+  },
 };
 </script>
