@@ -4,8 +4,6 @@
 
     <add-new-player/>
 
-
-    <!--Testing area -->
     <div class="row mt-3">
       <div class="col-md-12">
         <div class="tile">
@@ -80,7 +78,7 @@
                       <tbody>
                       <!-- Start looping -->
                       <tr v-for="(item, index) in $store.state.players" :key="item.id">
-                        <td>{{ item.id }}</td>
+                        <td>{{ index+1 }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
                         <td>{{ item.beginDate }}</td>
@@ -152,7 +150,9 @@
       </div>
     </div>
     <div v-if="ChosenPlayer.id" id="DeleeSection">
-    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id" :header-msg="'Are you sure you want to delete this player ?'" delete_url="players/delete-player/:id">
+    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id"
+                 :header-msg="'Are you sure you want to delete this player ?'"
+                 delete_url="players/delete-player/:id" commit-action="deletePlayer">
       <p><b>Name : </b>{{ChosenPlayer.name}}</p>
       <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>
       <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>

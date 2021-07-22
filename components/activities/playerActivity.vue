@@ -4,12 +4,12 @@
       <div class="card col-6 px-0">
         <div class="card-header col" id="headingOne">
           <h2 class="mb-0">
-            <button class="btn btn-info text-center col-12" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <button class="btn btn-info text-center col-12" type="button" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
               Add New Player
             </button>
           </h2>
         </div>
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <div id="collapseOne1" class="collapse" aria-labelledby="headingOne1" data-parent="#accordionExample">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
@@ -49,7 +49,7 @@
                           <div class="form-group ">
                             <select class="form-control" id="activitySelect">
                               <option v-for="item in $store.state.activities">{{item.name}}
-                                
+
                               </option>
                             </select>
                           </div>
@@ -60,7 +60,7 @@
                   <div class="tile-footer">
                     <div class="row">
                       <div class="col-md-8 ">
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne" >
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne1" >
                           <i class="fa fa-fw fa-lg fa-check-circle"></i>
                           Add Player</button>
                       </div>

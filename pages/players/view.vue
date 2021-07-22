@@ -1,12 +1,12 @@
 <template>
   <div id="View">
-    <page-title title="Ahmed" icon="fa fa-user" />
+    <page-title :title="player.name" icon="fa fa-user" />
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">
           <img
             class="rounded-circle"
-            src="https://picsum.photos/250/250"
+            :src="'localhost:3000/'+player.photo"
             alt=""
           />
         </div>
@@ -51,7 +51,7 @@
               </div>
 
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">01027568941</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.phoneNumber}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -61,7 +61,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">10/2/2020</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.beginDate }}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -71,7 +71,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">10/3/2020</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.endDate}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -81,7 +81,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">55</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.weight}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -91,7 +91,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">170</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.height}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -132,6 +132,35 @@ import PageTitle from "../../components/layout/pageTitle";
 import Edit from '../../components/players/edit.vue';
 export default {
   components: { PageTitle, Edit },
+  data(){
+    return{
+      player:{}
+    }
+  },
+  methods:{
+  },
+  created() {
+    for (let i=0;i<this.$store.state.players.length;i++) {
+      if(this.$store.state.players[i].id === this.$route.params.id){
+        this.player = this.$store.state.players[i]
+      }
+    }
+    console.log(this.player)
+    console.log(this.player.photo)
+  },
+  computed:{
+    loadPicture:function (){
+      const url = this.player.photo
+      function getBase64(url) {
+        return this.$axios
+          .get(url, {
+            responseType: 'arraybuffer'
+          })
+          .then(response => Buffer.from(response.data, 'binary').toString('base64'))
+      }
+    }
+  }
+
 };
 </script>
 

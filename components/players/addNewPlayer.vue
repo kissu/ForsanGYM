@@ -50,7 +50,7 @@
                           <div class="col-md-8">
                             <select @change="PickPlan" v-model="InputPlayer.plan" class="form-control col-md-8" id="plansList">
                               <option :value="null" disabled selected>Choose a plan</option>
-                              <option v-for="plan in $store.state.plans" v-if="plan.isActivated" :value="plan">{{plan.name}}</option>
+                              <option v-for="plan in activatedPlans" :value="plan.id">{{plan.name}}</option>
                             </select>
                           </div>
                         </div>
@@ -80,7 +80,7 @@
                     <div class="tile-footer">
                       <div class="row">
                         <div class="col-md-8 ">
-                          <button v-on:click="addPlayer" class="btn btn-primary" type="button">
+                          <button v-on:click="addPlayer" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne">
                             <i class="fa fa-fw fa-lg fa-check-circle"></i>
                             Register</button>
                         </div>
@@ -118,56 +118,73 @@ export default {
     }
   },
 methods:{
-  addPlayer: async function (){
-    // TODO: validate that nothing is empty
+  addPlayer: async function () {
 
+    let ok2Go = true
+    for (let i = 0, arr=Object.keys(this.InputPlayer); i < arr.length; i++) {
+      if (!this.InputPlayer[arr[i]]) {
+        this.$swal.fire({
+          icon: "error",
+          title: "Input Error",
+          text: `${arr[i]} Should not be Empty`
+        })
+        ok2Go = false
+        break;
+      }
+    }
     // TODO  Use Sweetalert
-    let formData = new FormData()
-    formData.append('photo', this.$refs.UploadedFile.files[0])
-    Object.keys(this.InputPlayer).forEach( key => {
-      formData.append(key,this.InputPlayer[key])
-    })
+    if (ok2Go) {
+      let formData = new FormData()
+      formData.append('photo', this.$refs.UploadedFile.files[0])
+      Object.keys(this.InputPlayer).forEach(key => {
+        formData.append(key, this.InputPlayer[key])
+      })
 
-    try {
-      const player = await this.$axios.$post('/players/newPlayer', formData);
-      // player added then make subscribe request
-      // subscribe request
-      await this.$axios.$post('/subscriptions/subscribe',{
+
+      try {
+        const player = await this.$axios.$post('/players/newPlayer', formData);
+        // player added then make subscribe request
+        // subscribe request
+        await this.$axios.$post('/subscriptions/subscribe', {
           player_id: player.id,
           plan_id: this.InputPlayer.plan.id,
           beginDate: this.InputPlayer.beginDate,
           endDate: this.InputPlayer.endDate
-      })
+        })
 
-      const storePlayer = {
-        ...player,
-        beginDate: this.InputPlayer.beginDate,
-        endDate: this.InputPlayer.endDate,
-        plan: this.InputPlayer.plan.name,
-        price: this.InputPlayer.plan.price
+        const storePlayer = {
+          ...player,
+          beginDate: this.InputPlayer.beginDate,
+          endDate: this.InputPlayer.endDate,
+          plan: this.InputPlayer.plan.name,
+          price: this.InputPlayer.plan.price
+        }
+
+        await this.$store.commit('addPlayer', storePlayer)
+
+      } catch (e) {
+        this.$swal.fire({
+          icon: 'error',
+          title: "Adding Operation FAILED",
+          text: e.response.data.message
+        })
+        return false;
       }
-
-      await  this.$store.commit('addPlayer', storePlayer)
-
-    } catch (e) {
-      this.$swal.fire({
-        icon: 'warning',
-        title: "Player Didn't added",
-        text: e.response.data.message
-      })
-      return false;
+      // ....
     }
-    // ....
   },
   PickPlan:function (){
     const plan = this.InputPlayer.plan;
     this.InputPlayer.beginDate = moment().format("yyyy-MM-DD")
     this.InputPlayer.endDate = moment().add("months",plan.months).format('yyyy-MM-DD')
   },
-  AssignFile:function (){
-    this.InputPlayer.photo = this.$refs.UploadedFile.files[0]
-    }
-}
+
+},
+  computed:{
+    activatedPlans : function () {
+      return this.$store.state.plans.filter(plan => plan.isActivated )
+    },
+  }
 }
 </script>
 
