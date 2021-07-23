@@ -19,18 +19,7 @@
           >
             Edit
           </button>
-          <!-- adding the popup window-->
-          <button
-            type="button"
-            class="btn btn-primary w-50 mx-auto"
-            data-toggle="modal"
-            data-target="#staticBackdrop"
-          >
-            Edit
-          </button>
-          <edit :playersData = '{playerName:"Ahmed", PhoneNumber: "01027568941", BeginDate: "10/2/2020", EndDate: "10/3/2020", Weight: 50, height: 170,
-            TrainingPlan: "This area will contain the player plan", Diet: " This area will contain the players Diet",
-           }' />
+          <edit :playerData='player' />
           <!-- End of popup window -->
         </div>
       </div>
@@ -61,7 +50,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{ player.beginDate }}</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.subscription.beginDate }}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -71,7 +60,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{player.endDate}}</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.subscription.endDate}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -101,8 +90,12 @@
                 </h5>
               </div>
               <div class="col-md-7">
-                <h5 class="mb-0 font-weight-normal">
-                  This area will contain the player's plan
+                <h5 class="mb-0 font-weight-normal" v-if="player.trainingPlan">
+                  {{player.trainingPlan}}
+                  <br />
+                </h5>
+                <h5 class="mb-0 font-weight-normal" v-else>
+                  {{player.name}} has no training plan.
                   <br />
                 </h5>
               </div>
@@ -114,8 +107,12 @@
                 </h5>
               </div>
               <div class="col-md-7">
-                <h5 class="mb-0 font-weight-normal">
-                  This area will contain the player's Diet
+                <h5 class="mb-0 font-weight-normal" v-if="player.dietPlan">
+                  {{player.dietPlan}}
+                  <br />
+                </h5>
+                <h5 class="mb-0 font-weight-normal" v-else>
+                  {{player.name}} has no diet plan.
                   <br />
                 </h5>
               </div>
@@ -130,36 +127,28 @@
 <script>
 import PageTitle from "../../components/layout/pageTitle";
 import Edit from '../../components/players/edit.vue';
+
 export default {
   components: { PageTitle, Edit },
   data(){
     return{
-      player:{}
+      player: {},
+
     }
   },
   methods:{
-  },
+
+    },
   created() {
-    for (let i=0;i<this.$store.state.players.length;i++) {
-      if(this.$store.state.players[i].id === this.$route.params.id){
-        this.player = this.$store.state.players[i]
-      }
-    }
-    console.log(this.player)
-    console.log(this.player.photo)
+    const id = this.$route.params.id
+    this.player =   this.$store.state.players.find(player=>{
+      return player.id === id
+    })
   },
   computed:{
-    loadPicture:function (){
-      const url = this.player.photo
-      function getBase64(url) {
-        return this.$axios
-          .get(url, {
-            responseType: 'arraybuffer'
-          })
-          .then(response => Buffer.from(response.data, 'binary').toString('base64'))
-      }
-    }
-  }
+
+  },
+
 
 };
 </script>

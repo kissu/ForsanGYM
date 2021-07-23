@@ -21,27 +21,31 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Name</label>
                           <div class="col-md-8">
-                            <input v-model="InputPlayer.name"  class="form-control" type="text" placeholder="Enter full name" >
+                            <input v-bind:value="InputPlayer.name"
+                                   @input="InputPlayer.name = $event.target.value"  class="form-control" type="text" placeholder="Enter full name" >
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="control-label col-md-3">Phone</label>
                           <div class="col-md-8">
-                            <input v-model="InputPlayer.phoneNumber"  class="form-control col-md-8" type="tel" placeholder="Enter the phone number">
+                            <input v-bind:value="InputPlayer.phoneNumber"
+                                   @input="InputPlayer.phoneNumber = $event.target.value"  class="form-control col-md-8" type="tel" placeholder="Enter the phone number">
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <label class="control-label col-md-3">height</label>
                           <div class="col-md-8">
-                            <input v-model="InputPlayer.height"  class="form-control col-md-8" type="number" step="any" placeholder="Enter the player height">
+                            <input v-bind:value="InputPlayer.height"
+                                   @input="InputPlayer.height = $event.target.value"  class="form-control col-md-8" type="number" step="any" placeholder="Enter the player height">
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <label class="control-label col-md-3">weight</label>
                           <div class="col-md-8">
-                            <input v-model="InputPlayer.weight"  class="form-control col-md-8" type="number" step="any" placeholder="Enter the player weight">
+                            <input v-bind:value="InputPlayer.weight"
+                                   @input="InputPlayer.weight = $event.target.value"  class="form-control col-md-8" type="number" step="any" placeholder="Enter the player weight">
                           </div>
                         </div>
 
@@ -50,7 +54,7 @@
                           <div class="col-md-8">
                             <select @change="PickPlan" v-model="InputPlayer.plan" class="form-control col-md-8" id="plansList">
                               <option :value="null" disabled selected>Choose a plan</option>
-                              <option v-for="plan in activatedPlans" :value="plan.id">{{plan.name}}</option>
+                              <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{plan.name}}</option>
                             </select>
                           </div>
                         </div>
@@ -58,14 +62,16 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Begin Date</label>
                           <div class="col-md-8">
-                            <input v-model="InputPlayer.beginDate" class="form-control col-md-8" type="date">
+                            <input v-bind:value="InputPlayer.beginDate"
+                                   @input="InputPlayer.beginDate = $event.target.value" class="form-control col-md-8" type="date">
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <label class="control-label col-md-3">End Date</label>
                           <div class="col-md-8">
-                            <input v-model="InputPlayer.endDate" class="form-control col-md-8" type="date">
+                            <input v-bind:value="InputPlayer.endDate"
+                                   @input="InputPlayer.endDate = $event.target.value" class="form-control col-md-8" type="date">
                           </div>
                         </div>
 
@@ -75,6 +81,29 @@
                               <input ref='UploadedFile' class="form-control" type="file">
                             </div>
                           </div>
+
+                        <div class="form-group">
+                          <label class="control-label">Player's Diet</label>
+                          <textarea
+                            class="form-control"
+                            rows="4"
+                            type="text"
+                            v-bind:value="InputPlayer.dietPlan"
+                            @input="InputPlayer.dietPlan = $event.target.value"
+                          ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="control-label">Player's Training Plan</label>
+                          <textarea
+                            class="form-control"
+                            rows="4"
+                            type="text"
+                            v-bind:value="InputPlayer.trainingPlan"
+                            @input="InputPlayer.trainingPlan = $event.target.value"
+                          ></textarea>
+                        </div>
+
                       </form>
                     </div>
                     <div class="tile-footer">
@@ -113,7 +142,9 @@ export default {
         height:null,
         plan:null,
         beginDate:null,
-        endDate:null
+        endDate:null,
+        dietPlan:"",
+        trainingPlan:""
       }
     }
   },
@@ -132,6 +163,7 @@ methods:{
         break;
       }
     }
+
     // TODO  Use Sweetalert
     if (ok2Go) {
       let formData = new FormData()
@@ -142,10 +174,11 @@ methods:{
 
 
       try {
+
         const player = await this.$axios.$post('/players/newPlayer', formData);
         // player added then make subscribe request
         // subscribe request
-        await this.$axios.$post('/subscriptions/subscribe', {
+        const sub = await this.$axios.$post('/subscriptions/subscribe', {
           player_id: player.id,
           plan_id: this.InputPlayer.plan.id,
           beginDate: this.InputPlayer.beginDate,
@@ -154,10 +187,7 @@ methods:{
 
         const storePlayer = {
           ...player,
-          beginDate: this.InputPlayer.beginDate,
-          endDate: this.InputPlayer.endDate,
-          plan: this.InputPlayer.plan.name,
-          price: this.InputPlayer.plan.price
+          subscription:sub
         }
 
         await this.$store.commit('addPlayer', storePlayer)
@@ -174,9 +204,8 @@ methods:{
     }
   },
   PickPlan:function (){
-    const plan = this.InputPlayer.plan;
     this.InputPlayer.beginDate = moment().format("yyyy-MM-DD")
-    this.InputPlayer.endDate = moment().add("months",plan.months).format('yyyy-MM-DD')
+    this.InputPlayer.endDate = moment().add("months",this.InputPlayer.plan.months).format('yyyy-MM-DD')
   },
 
 },

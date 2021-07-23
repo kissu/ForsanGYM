@@ -81,11 +81,11 @@
                         <td>{{ index+1 }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
-                        <td>{{ item.beginDate }}</td>
-                        <td>{{ item.endDate }}</td>
-                        <td>{{ item.plan }}</td>
+                        <td>{{ item.subscription.beginDate }}</td>
+                        <td>{{ item.subscription.endDate }}</td>
+                        <td>{{ item.subscription.plan.name }}</td>
                         <td>
-                          <router-link :to="{name: 'singlePlayer', params: { id: item.id, name: item.name }}" class="btn btn-primary" type="button">View</router-link>
+                          <router-link :to="{name: 'singlePlayer', params: { id: item.id, name: item.name }, body:{player:item}}" class="btn btn-primary" type="button">View</router-link>
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)" data-toggle="modal"
                                   :data-target="'#DeleteCheckModal'+ChosenPlayer.id">Delete</button>
                           <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
@@ -171,14 +171,6 @@ export default {
   components: {DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
-      users: [
-        {
-          name: "Ahmed", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
-        },
-        {
-          name: "ALi", phoneNumber: "123456", beginDate: "1/1/2020", endDate: "1/2/2020", plan: "Monthly"
-        }
-      ],
       ChosenPlayer:{},
     }
   },
@@ -186,7 +178,7 @@ export default {
     DeletePlayer:function (item){
       this.ChosenPlayer = item
     }
-  }
+  },
 };
 </script>
 
