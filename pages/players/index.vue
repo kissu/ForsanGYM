@@ -79,6 +79,7 @@
                       <!-- Start looping -->
                       <tr v-for="(item, index) in $store.state.players" :key="item.id">
                         <td>{{ index+1 }}</td>
+
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
                         <td>{{ item.subscription.beginDate }}</td>

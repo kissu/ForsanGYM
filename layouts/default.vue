@@ -48,6 +48,12 @@ export default {
       this.$store.commit('SetActivities', res)
     }).catch(err => {
 
+    })  
+    // getServicesIncome
+    this.$axios.$get('serviceIncome').then(res => {
+      this.$store.commit('setServicesIncome', res)
+    }).catch({
+      
     })
 
   }
