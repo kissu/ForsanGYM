@@ -1,5 +1,9 @@
-import 'jquery'
-import 'popper.js'
-import 'bootstrap/dist/js/bootstrap.min'
-import '@mdi/font/css/materialdesignicons.css'
+/* Bootstrap CSS */
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+/* jQuery */
+import JQuery from 'jquery'
+window.$ = JQuery
+
+import '@mdi/font/css/materialdesignicons.css'

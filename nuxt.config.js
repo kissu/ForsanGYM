@@ -27,16 +27,7 @@ export default {
       { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'}
     ],
     script: [
-      { src: '/js/jquery-3.3.1.min.js' },
-      { src: '/js/popper.min.js' },
-      // { src: '/js/bootstrap.min.js' },
-      { src: '/js/main.js' },
-      { src: '/js/plugins/bootstrap-datepicker.min.js'},
-      { src: '/js/plugins/bootstrap-notify.min.js' },
-      { src: '/js/plugins/jquery.dataTables.min.js' },
-      { src: '/js/plugins/sweetalert.min.js' },
-      { src: '/js/plugins/select2.min.js' },
-      { src: '/js/plugins/moment.min.js' },
+  
     ]
   },
 
