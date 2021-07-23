@@ -74,7 +74,9 @@
         </div>
         <label class="control-label" for="activitySearch">Search By Activity : </label>
           <div class="form-group col-md-3"> 
+            <select v-model="activityPlayer.activity" class="form-control col-md-6" id="activitySelect">
               <option v-for="item in $store.state.activities" :key="item.id">{{item.name}}</option>
+            </select>
         </div>
 
       <label class="control-label" for="generalSearch">Search : </label>
