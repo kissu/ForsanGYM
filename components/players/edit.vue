@@ -34,15 +34,17 @@
                       <input
                         class="form-control"
                         type="text"
-                        :value="playersData.playerName"
+                        v-bind:value="InputPlayer.name"
+                        @input="InputPlayer.name = $event.target.value"
                       />
                     </div>
                     <div class="form-group">
                       <label class="control-label">Phone Number</label>
                       <input
                         class="form-control"
-                        type="text"
-                        :value="playersData.PhoneNumber"
+                        type="tel"
+                        v-bind:value="InputPlayer.phoneNumber"
+                        @input="InputPlayer.phoneNumber = $event.target.value"
                       />
                     </div>
                     <div class="form-group">
@@ -50,7 +52,8 @@
                       <input
                         class="form-control"
                         type="text"
-                        :value="playersData.Weight"
+                        v-bind:value="InputPlayer.weight"
+                        @input="InputPlayer.weight = $event.target.value"
                       />
                     </div>
                     <div class="form-group">
@@ -58,7 +61,8 @@
                       <input
                         class="form-control"
                         type="text"
-                        :value="playersData.height"
+                        v-bind:value="InputPlayer.height"
+                        @input="InputPlayer.height = $event.target.value"
                       />
                     </div>
                     <div class="form-group">
@@ -66,7 +70,8 @@
                       <input
                         class="form-control"
                         type="date"
-                        :value="playersData.BeginDate"
+                        v-bind:value="InputPlayer.subscription.beginDate"
+                        @input="InputPlayer.subscription.beginDate = $event.target.value"
                       />
                     </div>
                     <div class="form-group">
@@ -74,23 +79,28 @@
                       <input
                         class="form-control"
                         type="date"
-                        :value="playersData.EndDate"
+                        v-bind:value="InputPlayer.subscription.endDate"
+                        @input="InputPlayer.subscription.endDate = $event.target.value"
                       />
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Player's plan</label>
+                      <label class="control-label">Player Training plan</label>
                       <textarea
                         class="form-control"
                         rows="4"
-                        :value="playersData.TrainingPlan"
+                        type="text"
+                        v-bind:value="InputPlayer.trainingPlan"
+                        @input="InputPlayer.trainingPlan = $event.target.value"
                       ></textarea>
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Player's Diet</label>
+                      <label class="control-label">Player Diet Plan</label>
                       <textarea
                         class="form-control"
                         rows="4"
-                        :value="playersData.Diet"
+                        type="text"
+                        v-bind:value="InputPlayer.dietPlan"
+                        @input="InputPlayer.dietPlan = $event.target.value"
                       ></textarea>
                     </div>
                   </form>
@@ -106,7 +116,7 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-primary" @click="save">Save</button>
           </div>
         </div>
       </div>
@@ -116,10 +126,50 @@
 
 <script>
 export default {
+  data(){
+    return{
+      InputPlayer:{}
+    }
+  },
   props:{
-    playersData:{
+    playerData:{
+      required : true,
       type: Object
     },
+  },
+  methods:{
+    save: function (){
+      // we need to edit 2 things :
+      // 1) player data
+      // 2) begin and end date of the current sub
+      this.playerData = this.InputPlayer
+      this.$axios.$post('/players/editPlayer/:id'.replace(':id', this.playerData.id), this.playerData).then(res=>{
+        this.$axios.$post('subscriptions/updateDate/:id'.replace(':id', this.playerData.subscription.id), {
+          player_id:this.playerData.id,
+          plan_id:this.playerData.subscription.plan.id,
+          beginDate:this.playerData.subscription.beginDate,
+          endDate:this.playerData.subscription.endDate
+        })
+        this.$store.commit('editPlayer', this.playerData)
+        $(`#staticBackdrop`).modal('hide')
+      }).catch(err=>{
+        console.log("Error is : ")
+        console.log(err)
+        // use sweet alert TODO @Abdullah3553
+        this.$swal.fire({
+          icon:"error",
+          title:"An Error Ocurried",
+          text: err.response.data.message
+
+        })
+
+      })
+    }
+  },
+  created() {
+    this.InputPlayer = Object.assign({}, this.playerData)
+    console.log(this.InputPlayer)
+
   }
 };
 </script>

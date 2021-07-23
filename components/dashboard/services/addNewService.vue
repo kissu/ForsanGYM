@@ -7,14 +7,16 @@
     <div class="form-group row">
       <label class="control-label col-md-4">Name</label>
       <div class="col-md-8">
-        <input v-model="service.name" class="form-control" type="text" placeholder="Service Name">
+        <input v-bind:value="service.name"
+               @input="service.name = $event.target.value" class="form-control" type="text" placeholder="Service Name">
       </div>
     </div>
 
     <div class="form-group row">
       <label class="control-label col-md-4">Price</label>
       <div class="col-md-8">
-        <input v-model="service.price" class="form-control" type="text" placeholder="Service Price">
+        <input v-bind:value="service.price"
+               @input="service.price = $event.target.value" class="form-control" type="text" placeholder="Service Price">
       </div>
     </div>
   </form>

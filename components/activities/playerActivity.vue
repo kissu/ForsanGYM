@@ -12,6 +12,7 @@
               aria-expanded="true"
               aria-controls="collapseOne"
             >
+
               Add New Player
             </button>
           </h2>
@@ -96,6 +97,7 @@
                           data-target="#collapseOne"
                           @click="addActivityPlayer"
                         >
+
                           <i class="fa fa-fw fa-lg fa-check-circle"></i>
                           Add Player
                         </button>
@@ -127,6 +129,7 @@
               {{ item.name }}
             </option>
           </select>
+
         </div>
 
         <label class="control-label" for="generalSearch">Search : </label>

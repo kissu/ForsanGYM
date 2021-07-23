@@ -9,11 +9,34 @@ export const state = () => ({
 })
 
 export const mutations = {
+  // Player Section --begin
+  setPlayers: function (state, players) {
+    state.players = Object.create(players)
+    console.log(state.players)
+  },
+  addPlayer:function (state, player){
+    state.players.push(player)
+  },
+  editPlayer:function (state, player){
+    // state.players[state.players.findIndex(Player=>{
+    //   return Player.id === player.id
+    // })] = player
+    for(let i=0;i<state.players.length;i++){
+      if(state.players[i].id === player.id){
+        state.players[i] = player
+        break
+      }
+    }
+
+  },
+  // Player Section --end
+  deletePlayer: function (state , player_id) {
+    state.players = state.players.filter(player => {
+      return player.id !== player_id
+    })
+  },
   setPlans: function (state, plans) {
     state.plans = plans
-  },
-  setPlayers: function (state, players) {
-    state.players = players
   },
   addPlan: function (state, plan) {
     state.plans.push(plan)
@@ -22,14 +45,6 @@ export const mutations = {
     state.plans = state.plans.filter(plan => {
       return plan.id !== plan_id
     })
-  },
-  deletePlayer: function (state , player_id) {
-    state.players = state.players.filter(player => {
-      return player.id !== player_id
-    })
-  },
-  addPlayer:function (state, player){
-    this.state.players.push(player)
   },
   setActivityPlayers: function(state, activityPlayers){
     state.activityPlayers = activityPlayers
@@ -69,8 +84,8 @@ export const mutations = {
       return service.id !== service_id
     })
   },
+    //Service end
   setServicesIncome: function(state, servicesIncome){
     state.servicesIncome = servicesIncome
   }
 }
-

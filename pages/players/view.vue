@@ -1,12 +1,12 @@
 <template>
   <div id="View">
-    <page-title title="Ahmed" icon="fa fa-user" />
+    <page-title :title="player.name" icon="fa fa-user" />
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">
           <img
             class="rounded-circle"
-            src="https://picsum.photos/250/250"
+            :src="'localhost:3000/'+player.photo"
             alt=""
           />
         </div>
@@ -19,18 +19,7 @@
           >
             Edit
           </button>
-          <!-- adding the popup window-->
-          <button
-            type="button"
-            class="btn btn-primary w-50 mx-auto"
-            data-toggle="modal"
-            data-target="#staticBackdrop"
-          >
-            Edit
-          </button>
-          <edit :playersData = '{playerName:"Ahmed", PhoneNumber: "01027568941", BeginDate: "10/2/2020", EndDate: "10/3/2020", Weight: 50, height: 170,
-            TrainingPlan: "This area will contain the player plan", Diet: " This area will contain the players Diet",
-           }' />
+          <edit :playerData='player' />
           <!-- End of popup window -->
         </div>
       </div>
@@ -51,7 +40,7 @@
               </div>
 
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">01027568941</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.phoneNumber}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -61,7 +50,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">10/2/2020</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.subscription.beginDate }}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -71,7 +60,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">10/3/2020</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.subscription.endDate}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -81,7 +70,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">55</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.weight}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -91,7 +80,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">170</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.height}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -101,8 +90,12 @@
                 </h5>
               </div>
               <div class="col-md-7">
-                <h5 class="mb-0 font-weight-normal">
-                  This area will contain the player's plan
+                <h5 class="mb-0 font-weight-normal" v-if="player.trainingPlan">
+                  {{player.trainingPlan}}
+                  <br />
+                </h5>
+                <h5 class="mb-0 font-weight-normal" v-else>
+                  {{player.name}} has no training plan.
                   <br />
                 </h5>
               </div>
@@ -114,8 +107,12 @@
                 </h5>
               </div>
               <div class="col-md-7">
-                <h5 class="mb-0 font-weight-normal">
-                  This area will contain the player's Diet
+                <h5 class="mb-0 font-weight-normal" v-if="player.dietPlan">
+                  {{player.dietPlan}}
+                  <br />
+                </h5>
+                <h5 class="mb-0 font-weight-normal" v-else>
+                  {{player.name}} has no diet plan.
                   <br />
                 </h5>
               </div>
@@ -130,8 +127,29 @@
 <script>
 import PageTitle from "../../components/layout/pageTitle";
 import Edit from '../../components/players/edit.vue';
+
 export default {
   components: { PageTitle, Edit },
+  data(){
+    return{
+      player: {},
+
+    }
+  },
+  methods:{
+
+    },
+  created() {
+    const id = this.$route.params.id
+    this.player =   this.$store.state.players.find(player=>{
+      return player.id === id
+    })
+  },
+  computed:{
+
+  },
+
+
 };
 </script>
 
