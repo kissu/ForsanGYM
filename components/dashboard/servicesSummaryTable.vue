@@ -9,35 +9,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1</td>
-      <td>Cotton T-Shert</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>stretch T-Shert</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Chicken meal</td>
-      <td>2</td>
-      <td>90</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Oats meal</td>
-      <td>4</td>
-      <td>60</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Water</td>
-      <td>15</td>
-      <td>45</td>
+    <tr v-for="item in $store.state.serviceIncome" :key="item.id">
+      <td>{{item.id}}</td>
+      <td>{{item.service.name}}</td>
+      <td>{{item.soldItem}}</td>
+      <td>{{item.service.price * item.soldItem}}</td>
     </tr>
     </tbody>
   </table>

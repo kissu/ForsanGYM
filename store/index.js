@@ -5,6 +5,7 @@ export const state = () => ({
   players: [],
   services: [],
   activityPlayers: [],
+  servicesIncome: [],
 })
 
 export const mutations = {
@@ -68,5 +69,8 @@ export const mutations = {
       return service.id !== service_id
     })
   },
+  setServicesIncome: function(state, servicesIncome){
+    state.servicesIncome = servicesIncome
+  }
 }
 

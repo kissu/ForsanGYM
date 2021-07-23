@@ -79,7 +79,7 @@
                       </thead>
                       <tbody>
                       <!-- Start looping -->
-                      <tr v-for="(item, index) in $store.state.players" :key="item.id">
+                      <tr v-for="(item) in $store.state.players" :key="item.id">
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
