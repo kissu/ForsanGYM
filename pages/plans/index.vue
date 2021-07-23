@@ -28,7 +28,7 @@
                         :data-target="'#DeleteCheckModal'+ClickedPlan.id">Delete
                 </button>
 
-                <!--TODO ask about Edit button in plans -->
+                <!--TODO  -->
                 <!--                <button class="btn btn-warning " type="button">Edit</button>-->
               </td>
             </tr>

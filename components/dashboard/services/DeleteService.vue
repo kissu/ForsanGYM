@@ -5,7 +5,7 @@
     <div class="form-group">
       <label for="ServiceSelect">Select The Service</label>
       <select class="form-control" id="ServiceSelect" v-model="SelectedService">
-        <option value="" disabled>Choose A Service</option>
+        <option :value="null" disabled selected>Choose A Service</option>
         <option v-for="service in $store.state.services" :value="service.id" >{{service.name}} -- {{service.price}}</option>
       </select>
     </div>

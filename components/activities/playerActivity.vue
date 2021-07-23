@@ -4,12 +4,12 @@
       <div class="card col-6 px-0">
         <div class="card-header col" id="headingOne">
           <h2 class="mb-0">
-            <button class="btn btn-info text-center col-12" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <button class="btn btn-info text-center col-12" type="button" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
               Add New Player
             </button>
           </h2>
         </div>
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <div id="collapseOne1" class="collapse" aria-labelledby="headingOne1" data-parent="#accordionExample">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
@@ -53,7 +53,7 @@
                   <div class="tile-footer">
                     <div class="row">
                       <div class="col-md-8 ">
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne" @click="addActivityPlayer">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne" >
                           <i class="fa fa-fw fa-lg fa-check-circle"></i>
                           Add Player</button>
                       </div>
@@ -73,7 +73,7 @@
           <h3 class="tile-title">Activities Players</h3>
         </div>
         <label class="control-label" for="activitySearch">Search By Activity : </label>
-          <div class="form-group col-md-3"> 
+          <div class="form-group col-md-3">
               <option v-for="item in $store.state.activities" :key="item.id">{{item.name}}</option>
         </div>
 
@@ -91,6 +91,7 @@
             <tr>
               <th>#</th>
               <th>Name</th>
+              <th>Phone Number</th>
               <th>Activity</th>
               <th>Begin Date</th>
               <th>End Date</th>
