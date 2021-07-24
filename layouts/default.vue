@@ -51,13 +51,16 @@ export default {
     })
     // getServicesIncome
     this.$axios.$get('serviceIncome').then(res => {
+      console.log('res on service income load :')
+      console.log(res)
       this.$store.commit('setServicesIncome', res)
-    }).catch({
-
+    }).catch(err =>{
+      console.log('error on service income load :')
+      console.log(err)
     })
 
     // get plansIncome
-    this.$axios.$get('planIncome').then(res=>{
+    this.$axios.$get('/planIncome/').then(res=>{
       this.$store.commit('setPlansIncome', res)
     }).catch(err => {
       console.log(err)

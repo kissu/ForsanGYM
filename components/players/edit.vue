@@ -1,5 +1,5 @@
 <template>
-  <div id="editButton" >
+  <div id="editButton" v-on:focus="initInputPlayer">
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -132,9 +132,8 @@ export default {
     }
   },
   props:{
-    playerData:{
+    playerId:{
       required : true,
-      type: Object
     },
   },
   methods:{
@@ -142,16 +141,17 @@ export default {
       // we need to edit 2 things :
       // 1) player data
       // 2) begin and end date of the current sub
-      this.playerData = this.InputPlayer
-      this.$axios.$post('/players/editPlayer/:id'.replace(':id', this.playerData.id), this.playerData).then(res=>{
-        this.$axios.$post('subscriptions/updateDate/:id'.replace(':id', this.playerData.subscription.id), {
-          player_id:this.playerData.id,
-          plan_id:this.playerData.subscription.plan.id,
-          beginDate:this.playerData.subscription.beginDate,
-          endDate:this.playerData.subscription.endDate
+      let player = Object.assign({}, this.InputPlayer)
+      this.$axios.$post('/players/editPlayer/:id'.replace(':id', player.id), player).then(res=>{
+        this.$axios.$post('subscriptions/updateDate/:id'.replace(':id', player.subscription.id), {
+          player_id:player.id,
+          plan_id:player.subscription.plan.id,
+          beginDate:player.subscription.beginDate,
+          endDate:player.subscription.endDate
         })
-        console.log(this.playerData)
-        this.$store.commit('editPlayer', this.playerData)
+        console.log(player)
+        this.$store.commit('editPlayer', player)
+        player = Object.assign({},{})
         $(`#staticBackdrop`).modal('hide')
       }).catch(err=>{
         console.log("Error is : ")
@@ -165,12 +165,16 @@ export default {
         })
 
       })
+    },
+    initInputPlayer: function (){
+      const id = this.playerId
+      this.InputPlayer = Object.assign({}, this.$store.state.players.find(player=>{
+        return player.id === id
+      }))
     }
   },
   created() {
-    this.InputPlayer = Object.assign({}, this.playerData)
-    console.log(this.InputPlayer)
-
+    this.initInputPlayer()
   }
 };
 </script>

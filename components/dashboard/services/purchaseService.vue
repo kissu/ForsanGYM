@@ -41,7 +41,8 @@ export default {
     PurchaseService: function (){
       // purchase a service performer
       this.$axios.$get('serviceIncome/add/'+this.SelectedServiceId).then(res =>{
-        //console.log(res);
+        console.log('res from service income : ')
+        console.log(res);
         this.$store.commit('buyService', res)
         this.$store.commit('calculateIncome')
 

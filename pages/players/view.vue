@@ -1,5 +1,5 @@
 <template>
-  <div id="View" >
+  <div id="View" v-on:focusin="initPlayer">
     <page-title :title="player.name" icon="fa fa-user" />
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
@@ -19,7 +19,7 @@
           >
             Edit
           </button>
-          <edit :playerData='player' />
+          <edit :playerId='player.id' />
           <!-- End of popup window -->
         </div>
       </div>
@@ -137,13 +137,15 @@ export default {
     }
   },
   methods:{
-
+    initPlayer: function (){
+      const id = this.$route.params.id
+      this.player =   Object.assign({},this.$store.state.players.find(player=>{
+        return player.id === id
+      }))
+    }
     },
   created() {
-    const id = this.$route.params.id
-    this.player =   this.$store.state.players.find(player=>{
-      return player.id === id
-    })
+    this.initPlayer()
   },
   computed:{
 

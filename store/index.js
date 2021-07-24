@@ -28,7 +28,7 @@ export const mutations = {
         break
       }
     }
-
+    state.players = Object.assign([], state.players)
   },
   // Player Section --end
   deletePlayer: function (state, player_id) {
@@ -103,6 +103,8 @@ export const mutations = {
 
     else {
       state.servicesIncome[objIndex] = service
+      //swap to force a change
+      state.servicesIncome = Object.assign([],state.servicesIncome )
     }
     //console.log(state.servicesIncome)
   },
