@@ -7,6 +7,7 @@
     <div class="row mt-3">
       <div class="col-md-12">
         <div class="tile">
+          <h3 class="text-center card-header">Players Table</h3>
           <div class="tile-body">
             <div class="table-responsive">
               <div
@@ -18,42 +19,35 @@
                   no-footer
                 "
               >
-                <div class="row">
-                  <div id="col-md-6">
-                    <div id="sampleTable_filter" class="dataTables_filter">
-                      <label
-                      >Search:<input
+                <div class="row mt-2 mb-0">
+                  <div class="col-md-8 form-group " >
+                    <div id="sampleTable_filter" class="dataTables_filter text-left" >
+                      <label>Search :
+                        <input
                         type="search"
                         class="form-control form-control-sm"
-                        placeholder=""
+                        placeholder="Find a player by id "
                         aria-controls="sampleTable"
+                        v-model="searchPlayerId"
                       /></label>
                     </div>
                   </div>
 
-                  <div class="col-md-4">
-                    <div id="sampleTable_length" class="dataTables_length">
-                      <label style="margin-left:10px"
-                      >Search By
-                        <select
-                          name="sampleTable_length"
-                          aria-controls="sampleTable"
-                          class="form-control form-control-sm"
-                        >
-                          <option value="Plan">Plan</option>
-                        </select>
-                      </label>
-                    </div>
-                  </div>
-
-                  <div id="col-md-4">
-                    <button class="btn btn-info" type="button" style="margin-left:10px">
-                      &nbsp;&nbsp;&nbsp; Search &nbsp;&nbsp;&nbsp;
-                    </button>
+                  <div class="col-md-4 form-group">
+                      <select
+                        name="sampleTable_length"
+                        aria-controls="sampleTable"
+                        class="form-control form-control-sm"
+                        v-model="pickedSearchOption"
+                      >
+                        <option :value="null" disabled selected>Search By Plan</option>
+                        <option :value="null" >All</option>
+                        <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{plan.name}}</option>
+                      </select>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-md-12">
                     <table
                       class="
                         table table-hover table-bordered
@@ -67,6 +61,7 @@
                       <thead>
                       <tr>
                         <th>#</th>
+                        <th>id</th>
                         <th>Name</th>
                         <th>Phone Number</th>
                         <th>Begin Date</th>
@@ -77,8 +72,9 @@
                       </thead>
                       <tbody>
                       <!-- Start looping -->
-                      <tr v-for="(item, index) in playerData" :key="item.id">
+                      <tr v-for="(item, index) in playersData" :key="item.id">
                         <td>{{ index+1 }}</td>
+                        <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
                         <td>{{ item.subscription.beginDate }}</td>
@@ -172,16 +168,36 @@ export default {
   data() {
     return {
       ChosenPlayer:{},
+      pickedSearchOption:null,
+      searchPlayerId:null
     }
   },
   methods: {
     DeletePlayer:function (item){
       this.ChosenPlayer = item
-    }
+    },
   },
   computed:{
-    playerData: function (){
-      return this.$store.state.players
+    activatedPlans: function (){
+      return this.$store.state.plans.filter(plan => plan.isActivated )
+    },
+    playersData: function (){
+      let returnArr = this.$store.state.players
+      if(this.pickedSearchOption){
+        returnArr = returnArr.filter(player=>{
+          return player.subscription.plan.id === this.pickedSearchOption.id
+        })
+      }
+      if(this.searchPlayerId){
+        this.searchPlayerId = Number(this.searchPlayerId)
+        console.log("Id : ")
+        console.log(this.searchPlayerId)
+        console.log(typeof this.searchPlayerId)
+        returnArr = returnArr.filter(player=>{
+          return player.id === this.searchPlayerId
+        })
+      }
+      return returnArr
     }
   }
 };
