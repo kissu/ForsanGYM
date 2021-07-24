@@ -85,15 +85,15 @@
         </div>
       </div>
     </div>
-<div class="row ">
-  <div class="col-md-5 px-0">
+<div class="row">
+  <div class="col-md-4 px-0">
     <purchaseService/>
-    <div class="my-3">
+  </div>
+  <div class="col-md-4 px-0">
       <AddNewService/>
-    </div>
-    <div class="my-3">
+  </div>
+  <div class="col-md-4 px-0">
       <DeleteService/>
-    </div>
   </div>
 </div>
 

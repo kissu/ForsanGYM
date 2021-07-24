@@ -87,5 +87,10 @@ export const mutations = {
     //Service end
   setServicesIncome: function(state, servicesIncome){
     state.servicesIncome = servicesIncome
+  },
+  buyService: function(state, service){
+    //console.log(state.servicesIncome)
+    state.servicesIncome.push(service)
+    //console.log(state.servicesIncome)
   }
 }

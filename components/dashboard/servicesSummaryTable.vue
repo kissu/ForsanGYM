@@ -9,11 +9,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="item in $store.state.serviceIncome" :key="item.id">
+    <tr v-for="item in $store.state.servicesIncome" :key="item.id">
       <td>{{item.id}}</td>
       <td>{{item.service.name}}</td>
-      <td>{{item.soldItem}}</td>
-      <td>{{item.service.price * item.soldItem}}</td>
+      <td>{{item.soldItems}}</td>
+      <td>{{item.service.price * item.soldItems}}</td>
     </tr>
     </tbody>
   </table>
@@ -21,7 +21,8 @@
 
 <script>
 export default {
-  name: "servicesSummary"
+  name: "servicesSummary",
+  
 }
 </script>
 
