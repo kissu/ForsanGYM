@@ -82,9 +82,10 @@
                         <td>{{ item.subscription.plan.name }}</td>
                         <td>
                           <router-link :to="{name: 'singlePlayer', params: { id: item.id}}"  class="btn btn-primary" type="button">View</router-link>
-                          <button class="btn btn-danger" type="button" @click="DeletePlayer(item)" data-toggle="modal"
-                                  :data-target="'#DeleteCheckModal'+ChosenPlayer.id">Delete</button>
-                          <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
+<!--                          <button class="btn btn-danger" type="button" @click="DeletePlayer(item)" data-toggle="modal"-->
+<!--                                  :data-target="'#DeleteCheckModal'+ChosenPlayer.id">Delete</button>-->
+                          <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
+                          <button class="btn btn-success " type="button">Subscribe</button>
                         </td>
                       </tr>
                       </tbody>
@@ -145,15 +146,15 @@
         </div>
       </div>
     </div>
-    <div v-if="ChosenPlayer.id" id="DeleeSection">
-    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id"
-                 :header-msg="'Are you sure you want to delete this player ?'"
-                 delete_url="players/delete-player/:id" commit-action="deletePlayer">
-      <p><b>Name : </b>{{ChosenPlayer.name}}</p>
-      <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>
-      <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>
-    </DeleteCheck>
-    </div>
+<!--    <div v-if="ChosenPlayer.id" id="DeleeSection">-->
+<!--    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id"-->
+<!--                 :header-msg="'Are you sure you want to delete this player ?'"-->
+<!--                 delete_url="players/delete-player/:id" commit-action="deletePlayer">-->
+<!--      <p><b>Name : </b>{{ChosenPlayer.name}}</p>-->
+<!--      <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>-->
+<!--      <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>-->
+<!--    </DeleteCheck>-->
+<!--    </div>-->
 
   </div>
 </template>
@@ -167,14 +168,39 @@ export default {
   components: {DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
-      ChosenPlayer:{},
       pickedSearchOption:null,
       searchPlayerId:null
     }
   },
   methods: {
     DeletePlayer:function (item){
-      this.ChosenPlayer = item
+      this.$swal.fire({
+        title: `Are you sure you want to delete player ${item.name} ? `,
+        showDenyButton: true,
+        icon: 'question',
+        text:`ID : ${item.id}, Phone : ${item.phoneNumber}, Plan : ${item.subscription.plan.name}`,
+        showCancelButton: false,
+        confirmButtonText: `Yes`,
+        denyButtonText: `cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Delete Player from databases
+          this.$axios.$delete('players/delete-player/:id'.replace(':id', item.id)).then(res=>{
+            this.$store.commit('deletePlayer', item.id)
+          }).catch(err=>{
+            //delete Failed
+            console.log(err)
+            this.$swal.fire({
+              title:`Deleting player ${item.name} FAILED`,
+              icon:"error",
+              text:err.response.data.message
+            })
+            console.log(err)
+            return false
+          })
+          this.$swal.fire('Player Deleted!', '', 'success')
+        }
+      })
     },
   },
   computed:{
