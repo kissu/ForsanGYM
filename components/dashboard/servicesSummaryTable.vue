@@ -9,8 +9,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="item in $store.state.servicesIncome" :key="item.id">
-      <td>{{item.id}}</td>
+    <tr v-for="(item, index) in $store.state.servicesIncome" :key="item.id">
+      <td>{{index+1}}</td>
       <td>{{item.service.name}}</td>
       <td>{{item.soldItems}}</td>
       <td>{{item.service.price * item.soldItems}}</td>

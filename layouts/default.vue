@@ -56,7 +56,7 @@ export default {
       
     })
     // getBuyService
-    
+    this.$store.commit('calculate')
   }
 }
 </script>

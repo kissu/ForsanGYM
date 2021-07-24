@@ -15,9 +15,9 @@
       <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
           <i class="icon fa fa-usd fa-3x"></i>
-          <div class="info">
+          <div class="info" v-bind="$store.commit('calculate')">
             <h4>Income</h4>
-            <p><b>400 EGP</b></p>
+            <p><b>{{$store.state.totalIncome}}</b></p>
           </div>
         </div>
       </div>
@@ -116,7 +116,11 @@ export default {
     PageTitle,
     ServicesSummaryTable},
   methods: {
-
+    },
+    data(){
+      return{
+        income:0
+      }
     },
 };
 </script>

@@ -6,6 +6,7 @@ export const state = () => ({
   services: [],
   activityPlayers: [],
   servicesIncome: [],
+  totalIncome: 0,
 })
 
 export const mutations = {
@@ -77,7 +78,10 @@ export const mutations = {
     state.services = services
   },
   AddService:function (state, service){
-    state.services.push(service)
+    if(!state.services.length)
+      state.services = [service]
+    else  
+      state.services.push(service)
   },
   DeleteService:function (state, service_id){
     state.services = state.services.filter(service=>{
@@ -93,7 +97,20 @@ export const mutations = {
   },
   buyService: function(state, service){
     //console.log(state.servicesIncome)
-    state.servicesIncome.push(service)
+    let objIndex = state.servicesIncome.findIndex((obj => obj.id == service.id))
+    if(objIndex == -1)
+      state.servicesIncome.push(service)
+
+    else{
+      state.servicesIncome[objIndex] = service
+    }  
     //console.log(state.servicesIncome)
+  },
+  calculate: function(state){
+    let totalIncome = 0;
+    for (let i = 0, serviceIncomeArr = state.servicesIncome; i < serviceIncomeArr.length; ++i){
+      totalIncome += (serviceIncomeArr[i].service.price * serviceIncomeArr[i].soldItems);
+    }
+    state.totalIncome = totalIncome
   }
 }
