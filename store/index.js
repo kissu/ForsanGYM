@@ -83,6 +83,9 @@ export const mutations = {
     state.services = state.services.filter(service=>{
       return service.id !== service_id
     })
+    state.servicesIncome = state.servicesIncome.filter(service=>{
+      return service.id !== service_id
+    })
   },
     //Service end
   setServicesIncome: function(state, servicesIncome){

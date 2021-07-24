@@ -190,6 +190,8 @@ methods:{
           subscription:sub
         }
 
+        console.log(storePlayer)
+
         await this.$store.commit('addPlayer', storePlayer)
 
       } catch (e) {
