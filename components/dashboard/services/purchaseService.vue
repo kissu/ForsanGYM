@@ -48,6 +48,11 @@ export default {
 
       }).catch(err => {
         console.log(err);
+        this.$swal.fire({
+          title:"Purchase Service FAILED",
+          icon:"error",
+          text:"Choose a valid Service"
+        })
       })
     }
   },

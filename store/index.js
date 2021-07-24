@@ -87,6 +87,7 @@ export const mutations = {
     state.services = state.services.filter(service => {
       return service.id !== service_id
     })
+    state.services = Object.assign([], state.services)
     state.servicesIncome = state.servicesIncome.filter(service => {
       return service.id !== service_id
     })

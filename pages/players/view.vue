@@ -139,7 +139,7 @@ export default {
   methods:{
     initPlayer: function (){
       const id = this.$route.params.id
-      this.player =   Object.assign({},this.$store.state.players.find(player=>{
+      this.player =  Object.assign({},this.$store.state.players.find(player=>{
         return player.id === id
       }))
     }

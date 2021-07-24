@@ -62,7 +62,11 @@ export default {
         this.service.name=""
         this.service.price=0
       }).catch(err=>{
-        alert("There was an error while adding the service.")
+        this.$swal.fire({
+          title:"Adding Service FAILED",
+          icon:"error",
+          text:err.response.data.message
+        })
         console.log(err)
       })
     }
