@@ -45,6 +45,7 @@ export default {
         console.log(res);
         this.$store.commit('buyService', res)
         this.$store.commit('calculateIncome')
+        this.SelectedServiceId = null
 
       }).catch(err => {
         console.log(err);
