@@ -184,15 +184,19 @@ methods:{
           beginDate: this.InputPlayer.beginDate,
           endDate: this.InputPlayer.endDate
         })
-
+        // subscribe request is done
         const storePlayer = {
+          // creating store object
           ...player,
           subscription:sub
         }
-
-        console.log(storePlayer)
-
         await this.$store.commit('addPlayer', storePlayer)
+
+        // adding the subscription to the income
+        let planIncome = await this.$axios.get('/planIncome/new/:id'.replace(':id', this.InputPlayer.plan.id))
+        planIncome = planIncome.data
+        await this.$store.commit('updatePlanIncome', planIncome)
+        await this.$store.commit('calculateIncome')
 
       } catch (e) {
         this.$swal.fire({

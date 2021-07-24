@@ -21,7 +21,7 @@ export default {
     this.$axios.$get('players/getAll').then(res => {
       this.$store.commit('setPlayers',res)
     }).catch(err => {
-
+      console.log(err)
     })
 
     // get plans
@@ -48,15 +48,20 @@ export default {
       this.$store.commit('SetActivities', res)
     }).catch(err => {
 
-    })  
+    })
     // getServicesIncome
     this.$axios.$get('serviceIncome').then(res => {
       this.$store.commit('setServicesIncome', res)
     }).catch({
-      
+
     })
-    // getBuyService
-    this.$store.commit('calculate')
+
+    // get plansIncome
+    this.$axios.$get('planIncome').then(res=>{
+      this.$store.commit('setPlansIncome', res)
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>

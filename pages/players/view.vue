@@ -1,5 +1,5 @@
 <template>
-  <div id="View">
+  <div id="View" >
     <page-title :title="player.name" icon="fa fa-user" />
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">

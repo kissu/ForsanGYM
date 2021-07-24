@@ -42,16 +42,13 @@ export default {
       // purchase a service performer
       this.$axios.$get('serviceIncome/add/'+this.SelectedServiceId).then(res =>{
         //console.log(res);
-        this.$store.commit('buyService', res) 
+        this.$store.commit('buyService', res)
+        this.$store.commit('calculateIncome')
 
-    }).catch(err => {
+      }).catch(err => {
         console.log(err);
       })
-      this.$store.commit('calculate')
     }
-  },
-  mounted(){
-      this.$store.commit('calculate')
   },
 }
 </script>

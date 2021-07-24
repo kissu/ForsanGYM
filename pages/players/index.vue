@@ -77,16 +77,15 @@
                       </thead>
                       <tbody>
                       <!-- Start looping -->
-                      <tr v-for="(item, index) in $store.state.players" :key="item.id">
+                      <tr v-for="(item, index) in playerData" :key="item.id">
                         <td>{{ index+1 }}</td>
-
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
                         <td>{{ item.subscription.beginDate }}</td>
                         <td>{{ item.subscription.endDate }}</td>
                         <td>{{ item.subscription.plan.name }}</td>
                         <td>
-                          <router-link :to="{name: 'singlePlayer', params: { id: item.id, name: item.name }}"  class="btn btn-primary" type="button">View</router-link>
+                          <router-link :to="{name: 'singlePlayer', params: { id: item.id}}"  class="btn btn-primary" type="button">View</router-link>
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)" data-toggle="modal"
                                   :data-target="'#DeleteCheckModal'+ChosenPlayer.id">Delete</button>
                           <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
@@ -180,6 +179,11 @@ export default {
       this.ChosenPlayer = item
     }
   },
+  computed:{
+    playerData: function (){
+      return this.$store.state.players
+    }
+  }
 };
 </script>
 

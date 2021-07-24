@@ -1,5 +1,5 @@
 <template>
-  <div id="HomePage">
+  <div id="HomePage" v-bind="$forceUpdate">
     <page-title icon="fa fa-home" title='Dashboard' />
     <div class="row">
       <div class="col-md-6 col-lg-3">
@@ -8,14 +8,14 @@
           <i class="icon fa fa-users fa-3x"></i>
           <div class="info">
             <h4>Players</h4>
-            <p><b>100</b></p>
+            <p><b>{{$store.state.players.length}}</b></p>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
           <i class="icon fa fa-usd fa-3x"></i>
-          <div class="info" v-bind="$store.commit('calculate')">
+          <div class="info" v-bind="$store.commit('calculateIncome')">
             <h4>Income</h4>
             <p><b>{{$store.state.totalIncome}}</b></p>
           </div>
@@ -37,41 +37,11 @@
             </tr>
             </thead>
             <tbody>
-              <tr>
-              <td>1</td>
-              <td>Daily</td>
-              <td>2</td>
-              <td>80</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Monthly</td>
-              <td>3</td>
-              <td>1200</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Monthly (Groups)</td>
-              <td>5</td>
-              <td>1500</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Quarterly</td>
-              <td>1</td>
-              <td>700</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>Half year</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>Yearly</td>
-              <td>0</td>
-              <td>0</td>
+              <tr v-for="(planIncome, index) in $store.state.plansIncome">
+              <td>{{index+1}}</td>
+              <td>{{planIncome.plan.name}}</td>
+              <td>{{planIncome.numberOfPlayers}}</td>
+              <td>{{planIncome.plan.price * planIncome.numberOfPlayers}}</td>
             </tr>
             </tbody>
           </table>

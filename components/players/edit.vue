@@ -1,5 +1,5 @@
 <template>
-  <div id="editButton">
+  <div id="editButton" >
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -150,6 +150,7 @@ export default {
           beginDate:this.playerData.subscription.beginDate,
           endDate:this.playerData.subscription.endDate
         })
+        console.log(this.playerData)
         this.$store.commit('editPlayer', this.playerData)
         $(`#staticBackdrop`).modal('hide')
       }).catch(err=>{
