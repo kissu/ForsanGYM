@@ -4,9 +4,9 @@
   <CollapseComponent btns-class="btn btn-danger" head-btn-text="Delete A Service" foot-btn-text="Delete" CollapseName="DeleteService">
     <div class="form-group">
       <label for="ServiceSelect">Select The Service</label>
-      <select class="form-control" id="ServiceSelect" v-model="SelectedService">
+      <select class="form-control" id="ServiceSelect" v-bind:value="SelectedService" @input="SelectedService = $event.target.value">
         <option :value="null" disabled selected>Choose A Service</option>
-        <option v-for="service in $store.state.services" :value="service.id" >{{service.name}} -- {{service.price}}</option>
+        <option v-for="service in $store.state.services" :value="service.id" :key="service.id">{{service.name}} -- {{service.price}}</option>
       </select>
     </div>
     <p >Warning : Delete Operation is <b style="color: #96000e">IRREVERSIBLE</b>.</p>
