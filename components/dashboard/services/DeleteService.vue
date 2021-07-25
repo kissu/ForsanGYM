@@ -6,7 +6,7 @@
       <label for="ServiceSelect">Select The Service</label>
       <select class="form-control" id="ServiceSelect" v-bind:value="SelectedService" @input="SelectedService = $event.target.value">
         <option :value="null" disabled selected>Choose A Service</option>
-        <option v-for="service in $store.state.services" :value="service.id" :key="service.id">{{service.name}} -- {{service.price}}</option>
+        <option v-for="service in $store.state.services" :value="service.id" :key="service.id" >{{service.name}} -- {{service.price}}</option>
       </select>
     </div>
     <p >Warning : Delete Operation is <b style="color: #96000e">IRREVERSIBLE</b>.</p>
@@ -38,27 +38,32 @@ export default {
   methods:{
     DeleteService: function (){
       this.$swal.fire({
-        title: 'Do you want to save the changes?',
+        title: 'Are you sure you want to delete this service ? ',
         showDenyButton: true,
-        icon: 'warning',
+        icon: 'question',
 
         showCancelButton: false,
-        confirmButtonText: `Save`,
-        denyButtonText: `Don't save`,
+        confirmButtonText: `Yes`,
+        denyButtonText: `cancel`,
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           // Delete service from all database
+          this.SelectedService = Number(this.SelectedService)
           this.$axios.$delete('services/delete/:id'.replace(':id', this.SelectedService)).then(res=>{
+            console.log(typeof this.SelectedService)
             this.$store.commit('DeleteService', this.SelectedService)
             this.SelectedService=null
           }).catch(err=>{
-            alert("An error occurred while deleting the service .")
+            this.$swal.fire({
+              title:"Delete Service FAILED",
+              icon:"error",
+              text:err.response.data.message
+            })
             console.log(err)
+          return false
           })
-          this.$swal.fire('Saved!', '', 'success')
-        } else if (result.isDenied) {
-          this.$swal.fire('Changes are not saved', '', 'info')
+          this.$swal.fire('Service Deleted!', '', 'success')
         }
       })
 

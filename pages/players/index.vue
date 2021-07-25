@@ -7,6 +7,7 @@
     <div class="row mt-3">
       <div class="col-md-12">
         <div class="tile">
+          <h3 class="text-center card-header">Players Table</h3>
           <div class="tile-body">
             <div class="table-responsive">
               <div
@@ -18,42 +19,35 @@
                   no-footer
                 "
               >
-                <div class="row">
-                  <div id="col-md-6">
-                    <div id="sampleTable_filter" class="dataTables_filter">
-                      <label
-                      >Search:<input
+                <div class="row mt-2 mb-0">
+                  <div class="col-md-8 form-group " >
+                    <div id="sampleTable_filter" class="dataTables_filter text-left" >
+                      <label>Search :
+                        <input
                         type="search"
                         class="form-control form-control-sm"
-                        placeholder=""
+                        placeholder="Find a player by id "
                         aria-controls="sampleTable"
+                        v-model="searchPlayerId"
                       /></label>
                     </div>
                   </div>
 
-                  <div class="col-md-4">
-                    <div id="sampleTable_length" class="dataTables_length">
-                      <label style="margin-left:10px"
-                      >Search By
-                        <select
-                          name="sampleTable_length"
-                          aria-controls="sampleTable"
-                          class="form-control form-control-sm"
-                        >
-                          <option value="Plan">Plan</option>
-                        </select>
-                      </label>
-                    </div>
-                  </div>
-
-                  <div id="col-md-4">
-                    <button class="btn btn-info" type="button" style="margin-left:10px">
-                      &nbsp;&nbsp;&nbsp; Search &nbsp;&nbsp;&nbsp;
-                    </button>
+                  <div class="col-md-4 form-group">
+                      <select
+                        name="sampleTable_length"
+                        aria-controls="sampleTable"
+                        class="form-control form-control-sm"
+                        v-model="pickedSearchOption"
+                      >
+                        <option :value="null" disabled selected>Search By Plan</option>
+                        <option :value="null" >All</option>
+                        <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{plan.name}}</option>
+                      </select>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-md-12">
                     <table
                       class="
                         table table-hover table-bordered
@@ -67,6 +61,7 @@
                       <thead>
                       <tr>
                         <th>#</th>
+                        <th>id</th>
                         <th>Name</th>
                         <th>Phone Number</th>
                         <th>Begin Date</th>
@@ -77,8 +72,9 @@
                       </thead>
                       <tbody>
                       <!-- Start looping -->
-                      <tr v-for="(item, index) in playerData" :key="item.id">
+                      <tr v-for="(item, index) in playersData" :key="item.id">
                         <td>{{ index+1 }}</td>
+                        <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
                         <td>{{ item.subscription.beginDate }}</td>
@@ -86,9 +82,10 @@
                         <td>{{ item.subscription.plan.name }}</td>
                         <td>
                           <router-link :to="{name: 'singlePlayer', params: { id: item.id}}"  class="btn btn-primary" type="button">View</router-link>
-                          <button class="btn btn-danger" type="button" @click="DeletePlayer(item)" data-toggle="modal"
-                                  :data-target="'#DeleteCheckModal'+ChosenPlayer.id">Delete</button>
-                          <button class="btn btn-primary" type="button" style="margin-left:5px">Subscriptions</button>
+<!--                          <button class="btn btn-danger" type="button" @click="DeletePlayer(item)" data-toggle="modal"-->
+<!--                                  :data-target="'#DeleteCheckModal'+ChosenPlayer.id">Delete</button>-->
+                          <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
+                          <button class="btn btn-success " type="button">Subscribe</button>
                         </td>
                       </tr>
                       </tbody>
@@ -149,15 +146,15 @@
         </div>
       </div>
     </div>
-    <div v-if="ChosenPlayer.id" id="DeleeSection">
-    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id"
-                 :header-msg="'Are you sure you want to delete this player ?'"
-                 delete_url="players/delete-player/:id" commit-action="deletePlayer">
-      <p><b>Name : </b>{{ChosenPlayer.name}}</p>
-      <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>
-      <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>
-    </DeleteCheck>
-    </div>
+<!--    <div v-if="ChosenPlayer.id" id="DeleeSection">-->
+<!--    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id"-->
+<!--                 :header-msg="'Are you sure you want to delete this player ?'"-->
+<!--                 delete_url="players/delete-player/:id" commit-action="deletePlayer">-->
+<!--      <p><b>Name : </b>{{ChosenPlayer.name}}</p>-->
+<!--      <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>-->
+<!--      <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>-->
+<!--    </DeleteCheck>-->
+<!--    </div>-->
 
   </div>
 </template>
@@ -171,17 +168,58 @@ export default {
   components: {DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
-      ChosenPlayer:{},
+      pickedSearchOption:null,
+      searchPlayerId:null
     }
   },
   methods: {
     DeletePlayer:function (item){
-      this.ChosenPlayer = item
-    }
+      this.$swal.fire({
+        title: `Are you sure you want to delete player ${item.name} ? `,
+        showDenyButton: true,
+        icon: 'question',
+        text:`ID : ${item.id}, Phone : ${item.phoneNumber}, Plan : ${item.subscription.plan.name}`,
+        showCancelButton: false,
+        confirmButtonText: `Yes`,
+        denyButtonText: `cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Delete Player from databases
+          this.$axios.$delete('players/delete-player/:id'.replace(':id', item.id)).then(res=>{
+            this.$store.commit('deletePlayer', item.id)
+          }).catch(err=>{
+            //delete Failed
+            this.$swal.fire({
+              title:`Deleting player ${item.name} FAILED`,
+              icon:"error",
+              text:err.response.data.message
+            })
+            console.log(err)
+            return false
+          })
+          this.$swal.fire('Player Deleted!', '', 'success')
+        }
+      })
+    },
   },
   computed:{
-    playerData: function (){
-      return this.$store.state.players
+    activatedPlans: function (){
+      return this.$store.state.plans.filter(plan => plan.isActivated )
+    },
+    playersData: function (){
+      let returnArr = this.$store.state.players
+      if(this.pickedSearchOption){
+        returnArr = returnArr.filter(player=>{
+          return player.subscription.plan.id === this.pickedSearchOption.id
+        })
+      }
+      if(this.searchPlayerId){
+        this.searchPlayerId = Number(this.searchPlayerId)
+        returnArr = returnArr.filter(player=>{
+          return player.id === this.searchPlayerId
+        })
+      }
+      return returnArr
     }
   }
 };

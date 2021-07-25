@@ -40,13 +40,22 @@ export default {
   methods:{
     PurchaseService: function (){
       // purchase a service performer
+      console.log(typeof this.SelectedServiceId)
       this.$axios.$get('serviceIncome/add/'+this.SelectedServiceId).then(res =>{
-        //console.log(res);
+        console.log('res from service income : ')
+        console.log(res);
         this.$store.commit('buyService', res)
         this.$store.commit('calculateIncome')
+        this.SelectedServiceId = null
 
       }).catch(err => {
         console.log(err);
+        console.log(this.SelectedServiceId)
+        this.$swal.fire({
+          title:"Purchase Service FAILED",
+          icon:"error",
+          text:"Choose a valid Service"
+        })
       })
     }
   },

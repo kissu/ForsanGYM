@@ -29,7 +29,7 @@ export const mutations = {
         break
       }
     }
-
+    state.players = Object.assign([], state.players)
   },
   // Player Section --end
   deletePlayer: function (state, player_id) {
@@ -66,7 +66,6 @@ export const mutations = {
     state.activityPlayers.push(activityPlayer)
   },
   editActivity: function (state, act) {
-    console.log("Hi");
     let objIndex = state.activities.findIndex((obj => obj.id == act.id))
     state.activities[objIndex].name = act.name,
       state.activities[objIndex].coachName = act.coachName,
@@ -88,24 +87,31 @@ export const mutations = {
     state.services = state.services.filter(service => {
       return service.id !== service_id
     })
-    state.servicesIncome = state.servicesIncome.filter(service => {
-      return service.id !== service_id
-    })
+    state.services = Object.assign([], state.services)
+
+    //Update the table of income with DELETED Service
+    for(let i=0;i<state.servicesIncome.length;i++){
+      if(service_id === state.servicesIncome[i].service.id){
+        state.servicesIncome[i].service.name = state.servicesIncome[i].service.name+'\n(DELETED)'
+        break
+      }
+    }
+    state.servicesIncome = Object.assign([], state.servicesIncome)
   },
   //Service end
   setServicesIncome: function (state, servicesIncome) {
     state.servicesIncome = servicesIncome
   },
   buyService: function (state, service) {
-    //console.log(state.servicesIncome)
     let objIndex = state.servicesIncome.findIndex((obj => obj.id === service.id))
     if (objIndex === -1)
       state.servicesIncome.push(service)
 
     else {
       state.servicesIncome[objIndex] = service
+      //reAssign to force a change
+      state.servicesIncome = Object.assign([],state.servicesIncome )
     }
-    //console.log(state.servicesIncome)
   },
   setPlansIncome: function (state, plansInceom) {
     state.plansIncome = plansInceom

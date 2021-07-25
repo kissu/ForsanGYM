@@ -1,5 +1,5 @@
 <template>
-  <div id="HomePage" v-bind="$forceUpdate">
+  <div id="HomePage" >
     <page-title icon="fa fa-home" title='Dashboard' />
     <div class="row">
       <div class="col-md-6 col-lg-3">

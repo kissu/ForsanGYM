@@ -1,5 +1,5 @@
 <template>
-  <div id="View" >
+  <div id="View" v-on:focusin="initPlayer">
     <page-title :title="player.name" icon="fa fa-user" />
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
@@ -13,17 +13,23 @@
         <div class="d-flex actions  text-center mt-3 mx-auto w-100" >
           <button
             type="button"
-            class="btn btn-primary mx-auto w-100"
+            class="btn btn-warning mx-auto w-100"
             data-toggle="modal"
             data-target="#staticBackdrop"
           >
             Edit
           </button>
-          <edit :playerData='player' />
+          <edit :playerId='player.id' />
+          <button
+            type="button"
+            class="btn btn-outline-secondary mx-auto w-100"
+          >
+            Freeze
+          </button>
           <!-- End of popup window -->
         </div>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-9 text-break">
         <div class="tile">
           <div class="tile-title-w-btn">
             <h2 data-toggle="dropdown" class="title">
@@ -103,7 +109,7 @@
             <div class="row mb-2">
               <div class="col-md-3">
                 <h5 class="mb-0">
-                  <span class="mb-0 mdi mdi-dumbbell"></span>Diet
+                  <span class="mb-0 mdi mdi-food-apple"></span>Diet
                 </h5>
               </div>
               <div class="col-md-7">
@@ -121,15 +127,22 @@
         </div>
       </div>
     </div>
+    <div class="row ">
+      <div class="col-md-7 text-break">
+        <WeightTable :playerId="player.id"/>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
 import PageTitle from "../../components/layout/pageTitle";
 import Edit from '../../components/players/edit.vue';
+import WeightTable from "../../components/players/weightTable";
 
 export default {
-  components: { PageTitle, Edit },
+  components: {WeightTable, PageTitle, Edit },
   data(){
     return{
       player: {},
@@ -137,13 +150,15 @@ export default {
     }
   },
   methods:{
-
+    initPlayer: function (){
+      const id = this.$route.params.id
+      this.player =  Object.assign({},this.$store.state.players.find(player=>{
+        return player.id === id
+      }))
+    }
     },
   created() {
-    const id = this.$route.params.id
-    this.player =   this.$store.state.players.find(player=>{
-      return player.id === id
-    })
+    this.initPlayer()
   },
   computed:{
 
