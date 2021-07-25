@@ -98,6 +98,7 @@ export default {
             name:"allPlans"
           })
         }).catch(err => {
+          console.log(err)
           alert("There was an error while adding the plan ")
         });
       }

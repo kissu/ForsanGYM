@@ -14,6 +14,7 @@ export const mutations = {
   // Player Section --begin
   setPlayers: function (state, players) {
     state.players = players
+    console.log(state.players);
   },
   addPlayer: function (state, player) {
     state.players.push(player)
