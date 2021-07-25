@@ -29,7 +29,7 @@
           <!-- End of popup window -->
         </div>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-9 text-break">
         <div class="tile">
           <div class="tile-title-w-btn">
             <h2 data-toggle="dropdown" class="title">
@@ -127,15 +127,22 @@
         </div>
       </div>
     </div>
+    <div class="row ">
+      <div class="col-md-7 text-break">
+        <WeightTable :playerId="player.id"/>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
 import PageTitle from "../../components/layout/pageTitle";
 import Edit from '../../components/players/edit.vue';
+import WeightTable from "../../components/players/weightTable";
 
 export default {
-  components: { PageTitle, Edit },
+  components: {WeightTable, PageTitle, Edit },
   data(){
     return{
       player: {},
