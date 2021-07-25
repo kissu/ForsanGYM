@@ -13,13 +13,19 @@
         <div class="d-flex actions  text-center mt-3 mx-auto w-100" >
           <button
             type="button"
-            class="btn btn-primary mx-auto w-100"
+            class="btn btn-warning mx-auto w-100"
             data-toggle="modal"
             data-target="#staticBackdrop"
           >
             Edit
           </button>
           <edit :playerId='player.id' />
+          <button
+            type="button"
+            class="btn btn-outline-secondary mx-auto w-100"
+          >
+            Freeze
+          </button>
           <!-- End of popup window -->
         </div>
       </div>
@@ -103,7 +109,7 @@
             <div class="row mb-2">
               <div class="col-md-3">
                 <h5 class="mb-0">
-                  <span class="mb-0 mdi mdi-dumbbell"></span>Diet
+                  <span class="mb-0 mdi mdi-food-apple"></span>Diet
                 </h5>
               </div>
               <div class="col-md-7">

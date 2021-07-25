@@ -24,13 +24,13 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body text-left">
             <div class="col-md-12">
               <div class="tile">
                 <div class="tile-body">
                   <form>
                     <div class="form-group">
-                      <label class="control-label">Full name</label>
+                      <label class="control-label"><i class="mdi mdi-account-circle"></i> Full name</label>
                       <input
                         class="form-control"
                         type="text"
@@ -39,7 +39,7 @@
                       />
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Phone Number</label>
+                      <label class="control-label"><i class="mdi mdi-phone"></i> Phone Number</label>
                       <input
                         class="form-control"
                         type="tel"
@@ -48,7 +48,7 @@
                       />
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Weight</label>
+                      <label class="control-label"><i class="mdi mdi-weight-kilogram"></i> Weight</label>
                       <input
                         class="form-control"
                         type="text"
@@ -57,7 +57,7 @@
                       />
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Height</label>
+                      <label class="control-label"><i class="mdi mdi-human-male-height-variant"></i> Height</label>
                       <input
                         class="form-control"
                         type="text"
@@ -66,7 +66,7 @@
                       />
                     </div>
                     <div class="form-group">
-                      <label class="control-label">beginDate</label>
+                      <label class="control-label"><i class="mdi mdi-calendar"></i> beginDate</label>
                       <input
                         class="form-control"
                         type="date"
@@ -75,7 +75,7 @@
                       />
                     </div>
                     <div class="form-group">
-                      <label class="control-label">endDate</label>
+                      <label class="control-label"><i class="mdi mdi-calendar-remove"></i> endDate</label>
                       <input
                         class="form-control"
                         type="date"
@@ -84,7 +84,7 @@
                       />
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Player Training plan</label>
+                      <label class="control-label"><i class="mdi mdi-dumbbell"></i> Player Training plan</label>
                       <textarea
                         class="form-control"
                         rows="4"
@@ -94,7 +94,7 @@
                       ></textarea>
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Player Diet Plan</label>
+                      <label class="control-label"><i class="mdi mdi-food-apple"></i> Player Diet Plan</label>
                       <textarea
                         class="form-control"
                         rows="4"
@@ -128,7 +128,7 @@
 export default {
   data(){
     return{
-      InputPlayer:{}
+      InputPlayer:{},
     }
   },
   props:{
@@ -142,6 +142,7 @@ export default {
       // 1) player data
       // 2) begin and end date of the current sub
       let player = Object.assign({}, this.InputPlayer)
+      player.subscription = Object.assign({}, this.InputPlayer.subscription)
       this.$axios.$post('/players/editPlayer/:id'.replace(':id', player.id), player).then(res=>{
         this.$axios.$post('subscriptions/updateDate/:id'.replace(':id', player.subscription.id), {
           player_id:player.id,
@@ -159,7 +160,7 @@ export default {
         // use sweet alert TODO @Abdullah3553
         this.$swal.fire({
           icon:"error",
-          title:"An Error Ocurried",
+          title:"An Error Occurred",
           text: err.response.data.message
 
         })
@@ -171,6 +172,8 @@ export default {
       this.InputPlayer = Object.assign({}, this.$store.state.players.find(player=>{
         return player.id === id
       }))
+
+      this.InputPlayer.subscription = Object.assign({},this.InputPlayer.subscription )
     }
   },
   created() {
