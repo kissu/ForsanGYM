@@ -21,6 +21,7 @@ export default {
     this.$axios.$get('players/getAll').then(res => {
       this.$store.commit('setPlayers',res)
     }).catch(err => {
+      console.log('error on Players load (layout/Default) :')
       console.log(err)
     })
 
@@ -34,6 +35,7 @@ export default {
     this.$axios.$get('services').then(res=>{
       this.$store.commit('SetServices', res)
     }).catch(err=>{
+      console.log('error on service load (layout/Default) :')
       console.log(err)
     })
 
@@ -51,11 +53,9 @@ export default {
     })
     // getServicesIncome
     this.$axios.$get('serviceIncome').then(res => {
-      console.log('res on service income load :')
-      console.log(res)
       this.$store.commit('setServicesIncome', res)
     }).catch(err =>{
-      console.log('error on service income load :')
+      console.log('error on service income load (layout/Default) :')
       console.log(err)
     })
 
@@ -63,6 +63,7 @@ export default {
     this.$axios.$get('/planIncome/').then(res=>{
       this.$store.commit('setPlansIncome', res)
     }).catch(err => {
+      console.log('error on plan income load (layout/Default) :')
       console.log(err)
     })
   }

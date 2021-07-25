@@ -189,7 +189,6 @@ export default {
             this.$store.commit('deletePlayer', item.id)
           }).catch(err=>{
             //delete Failed
-            console.log(err)
             this.$swal.fire({
               title:`Deleting player ${item.name} FAILED`,
               icon:"error",
@@ -216,9 +215,6 @@ export default {
       }
       if(this.searchPlayerId){
         this.searchPlayerId = Number(this.searchPlayerId)
-        console.log("Id : ")
-        console.log(this.searchPlayerId)
-        console.log(typeof this.searchPlayerId)
         returnArr = returnArr.filter(player=>{
           return player.id === this.searchPlayerId
         })
