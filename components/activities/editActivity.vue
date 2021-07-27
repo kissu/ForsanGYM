@@ -19,17 +19,18 @@
                       <input
                         v-bind:value='act.name'
                         @input="act.name = $event.target.value"
-                        class="form-control"
+                        
+                        :class="[{'form-control':true},{'is-invalid':errors.name}]"
                         type="text"
-                      />
+                      />                  
                     </div>
-
+    
                     <div class="form-group">
                       <label class="control-label">Coach Name </label>
                       <input
                         v-bind:value='act.coachName'
                         @input="act.coachName = $event.target.value"
-                        class="form-control"
+                        :class="[{'form-control':true},{'is-invalid':errors.coachName}]"
                         type="text"
                       />
                     </div>
@@ -39,7 +40,7 @@
                       <input
                         v-bind:value='act.coachPhoneNumber'
                         @input="act.coachPhoneNumber = $event.target.value"
-                        class="form-control"
+                        :class="[{'form-control':true},{'is-invalid':errors.coachPhoneNumber}]"
                         type="tel"
                       />
                     </div>
@@ -49,7 +50,7 @@
                       <input
                         v-bind:value='act.price'
                         @input="act.price = $event.target.value"
-                        class="form-control"
+                        :class="[{'form-control':true},{'is-invalid':errors.price}]"
                         type="number"
                         step="any"
                       />
@@ -60,7 +61,7 @@
                       <textarea
                         v-bind:value='act.description'
                         @input="act.description = $event.target.value"
-                        class="form-control"
+                        :class="[{'form-control':true},{'is-invalid':errors.description}]"
                         rows="4"
                       ></textarea>
                     </div>
@@ -93,6 +94,7 @@ export default {
   data() {
     return{
       dis: false,
+      errors: {},
       act : {
         name: null,
         coachName: null,
@@ -104,16 +106,40 @@ export default {
   },
   methods:{
     editActivity: function(){
+      const validate = this.validateForm();
+      if (!validate) return false; 
       this.dis = true
       this.$axios.$post('activities/edit/'+this.activity.id,this.act).then(res => {
         this.dis = false
         this.$store.commit("editActivity",res)
         $("#staticBackdropEditModal").modal("hide")
       }).catch(err => {
+        // let str = ""
+        // if(err.response.data.message.length){
+        //   str = err.response.data.message.join("<br>")
+        // }
+        console.log(str);
         this.dis = false
-        alert("there is an error while editing activity")
+        console.log(err.response.data);
+        // this.$swal.fire({
+        //   icon: "error",
+        //   title: "Oops...",
+        //   html: str
+        // })
       })
-    }
+    },
+    validateForm: function () {
+      this.errors = {};
+      let inputs = Object.keys(this.act)
+      let pass = true;
+      inputs.forEach(i => {
+        if (!this.act[i] || (!this.act[i].length && typeof this.act[i] === "string")) {
+          pass = false
+          this.errors[i] = `${i} is required`
+        }
+      })
+      return pass
+    },
   },
   watch: {
     activity: function (value) {
