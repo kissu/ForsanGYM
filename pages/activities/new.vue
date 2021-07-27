@@ -115,7 +115,7 @@ export default {
   methods: {
     register: function () {
       const validate = this.validateForm();
-      if (!validate) return false; 
+      if (!validate) return false;
       this.$axios
         .$post("/activities/new", this.activity)
         .then((res) => {
@@ -128,7 +128,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-
+          //TODO - Use sweet Alert @AhmedGamal77823
           //alert("There is an error while adding new activity!");
         });
     },

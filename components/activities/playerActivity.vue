@@ -93,7 +93,7 @@
                         <button
                           class="btn btn-primary"
                           type="button"
-                          
+
                           @click="addActivityPlayer"
                         >
                           <i class="fa fa-fw fa-lg fa-check-circle"></i>
@@ -119,10 +119,9 @@
         </label>
         <div class="form-group col-md-3">
           <select
-            aria-placeholder="Please select"
             v-model="searchByActivity"
             class="form-control col-md-6"
-            id="activitySelect"
+            id="activitySearch"
           >
             <option v-for="item in $store.state.activities" :value="item.id" :key="item.id">
               {{ item.name }}
@@ -195,22 +194,21 @@ export default {
     addActivityPlayer: function () {
       const validate = this.validateForm();
       if (!validate) return false;
-      
-      // 1. send request to create the just the player 
-      // 2. once the player created we now have it's id in the db 
-      // 3. then we now have to subscribe him to the activity 
-      // 4. send request to a subscribe method with the player_id we just got and the activity_id he wants to be part of  and the dates 
-      // 5. once the subscribe request is done we are done  
-      
+
+      // 1. send request to create the just the player
+      // 2. once the player created we now have it's id in the db
+      // 3. then we now have to subscribe him to the activity
+      // 4. send request to a subscribe method with the player_id we just got and the activity_id he wants to be part of  and the dates
+      // 5. once the subscribe request is done we are done
+
       // 1
-      this.$axios.$post("/activity-player/new-Activity-player", this.activityPlayer)
+      this.$axios.$post("/activityPlayer/new", this.activityPlayer)
         .then((res) => {
-          return this.$axios.$post("activity-playerSub",{
+          return this.$axios.$post("activityPlayerSubscription/",{
             player_id: res.id,
             activity_id: this.activityPlayer.activity,
             ...this.activityPlayer
           }).then(res => {
-            console.log(res);
             this.$store.commit("addNewActivityPlayer", res);
             this.$swal.fire({
               icon: "success",
@@ -224,7 +222,7 @@ export default {
           if(err.response.data.message.length){
             if (typeof err.response.data.message === 'object')
               str = err.response.data.message.join("<br>")
-            else 
+            else
               console.log(err.response.data.message);
           }
           console.log(err);
