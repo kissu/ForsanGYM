@@ -129,6 +129,10 @@ export default {
   data(){
     return{
       InputPlayer:{},
+      originalDates:{
+        beginDate:null,
+        endDate:null
+      }
     }
   },
   props:{
@@ -141,16 +145,21 @@ export default {
       // we need to edit 2 things :
       // 1) player data
       // 2) begin and end date of the current sub
+      console.log(typeof this.InputPlayer.subscription.beginDate)
+      console.log(typeof this.InputPlayer.subscription.endDate)
+      console.log(typeof this.originalDates.beginDate)
+      console.log(typeof this.originalDates.endDate)
       let player = Object.assign({}, this.InputPlayer)
       player.subscription = Object.assign({}, this.InputPlayer.subscription)
-      this.$axios.$post('/players/editPlayer/:id'.replace(':id', player.id), player).then(res=>{
-        this.$axios.$post('subscriptions/updateDate/:id'.replace(':id', player.subscription.id), {
+      this.$axios.$post('/players/edit/'+ player.id, player).then(res=>{
+        if(this.isDateEdited()){
+        this.$axios.$post('subscriptions/updateDate/'+ player.subscription.id, {
           player_id:player.id,
           plan_id:player.subscription.plan.id,
           beginDate:player.subscription.beginDate,
           endDate:player.subscription.endDate
         })
-        console.log(player)
+        }
         this.$store.commit('editPlayer', player)
         player = Object.assign({},{})
         $(`#staticBackdrop`).modal('hide')
@@ -172,8 +181,15 @@ export default {
       this.InputPlayer = Object.assign({}, this.$store.state.players.find(player=>{
         return player.id === id
       }))
-
       this.InputPlayer.subscription = Object.assign({},this.InputPlayer.subscription )
+
+      this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
+      this.originalDates.endDate = this.InputPlayer.subscription.endDate
+    },
+    isDateEdited:function (){
+      return this.InputPlayer.subscription.beginDate !== this.originalDates.beginDate ||
+        this.InputPlayer.subscription.endDate !== this.originalDates.endDate;
+
     }
   },
   created() {

@@ -185,7 +185,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           // Delete Player from databases
-          this.$axios.$delete('players/delete-player/:id'.replace(':id', item.id)).then(res=>{
+          this.$axios.$delete('players/delete/'+item.id).then(res=>{
             this.$store.commit('deletePlayer', item.id)
           }).catch(err=>{
             //delete Failed

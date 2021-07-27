@@ -150,35 +150,18 @@ export default {
   },
 methods:{
   addPlayer: async function () {
-
-    let ok2Go = true
-    for (let i = 0, arr=Object.keys(this.InputPlayer); i < arr.length; i++) {
-      if (!this.InputPlayer[arr[i]]) {
-        this.$swal.fire({
-          icon: "error",
-          title: "Input Error",
-          text: `${arr[i]} Should not be Empty`
-        })
-        ok2Go = false
-        break;
-      }
-    }
-
     // TODO  Use Sweetalert
-    if (ok2Go) {
+    if (this.isFormOk()) {
       let formData = new FormData()
       formData.append('photo', this.$refs.UploadedFile.files[0])
       Object.keys(this.InputPlayer).forEach(key => {
         formData.append(key, this.InputPlayer[key])
       })
-
-
       try {
-
-        const player = await this.$axios.$post('/players/newPlayer', formData);
+        const player = await this.$axios.$post('/players/new', formData);
         // player added then make subscribe request
         // subscribe request
-        const sub = await this.$axios.$post('/subscriptions/subscribe', {
+        const sub = await this.$axios.$post('/subscriptions/new', {
           player_id: player.id,
           plan_id: this.InputPlayer.plan.id,
           beginDate: this.InputPlayer.beginDate,
@@ -193,7 +176,7 @@ methods:{
         await this.$store.commit('addPlayer', storePlayer)
 
         // adding the subscription to the income
-        let planIncome = await this.$axios.get('/planIncome/new/:id'.replace(':id', this.InputPlayer.plan.id))
+        let planIncome = await this.$axios.get('/planIncome/new/'+ this.InputPlayer.plan.id)
         planIncome = planIncome.data
         await this.$store.commit('updatePlanIncome', planIncome)
         await this.$store.commit('calculateIncome')
@@ -213,6 +196,19 @@ methods:{
     this.InputPlayer.beginDate = moment().format("yyyy-MM-DD")
     this.InputPlayer.endDate = moment().add("months",this.InputPlayer.plan.months).format('yyyy-MM-DD')
   },
+  isFormOk:function (){
+    for (let i = 0, arr=Object.keys(this.InputPlayer); i < arr.length; i++) {
+      if (!this.InputPlayer[arr[i]]) {
+        this.$swal.fire({
+          icon: "error",
+          title: "Input Error",
+          text: `${arr[i]} Should not be Empty`
+        })
+        return false
+      }
+    }
+  return true
+  }
 
 },
   computed:{
