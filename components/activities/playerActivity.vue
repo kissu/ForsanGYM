@@ -204,7 +204,7 @@ export default {
       // 1
       this.$axios.$post("/activityPlayer/new", this.activityPlayer)
         .then((res) => {
-          return this.$axios.$post("activityPlayerSubscription/",{
+          return this.$axios.$post("activityPlayerSubscription/new",{
             player_id: res.id,
             activity_id: this.activityPlayer.activity,
             ...this.activityPlayer
