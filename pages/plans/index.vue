@@ -40,7 +40,7 @@
 
     <div v-if="ClickedPlan.id" id="deleteSection">
       <DeleteCheck :header-msg="'Are You Sure You Want to Delete This Plan ?'" :item-id="ClickedPlan.id"
-                   delete_url="/plans/:id" commit-action="deletePlan">
+                   delete_url="/plans/delete/:id" commit-action="deletePlan">
         <p><b>Name : </b>{{ ClickedPlan.name }}</p>
         <p><b>Description : </b>{{ ClickedPlan.description }}</p>
         <p><b>Price : </b>{{ ClickedPlan.price }}</p>
@@ -63,10 +63,7 @@ export default {
   },
   methods: {
     deletePlan: function (plan) {
-      console.log(`Deleting ${plan.name} plan from Database `)
       this.ClickedPlan = plan
-      // this.deleteArr[id] = true
-      // console.log(this.deleteArr)
     }
   },
   computed: {
