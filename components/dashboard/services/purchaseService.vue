@@ -40,7 +40,7 @@ export default {
   methods:{
     PurchaseService: function (){
       // purchase a service performer
-      this.$axios.$get('serviceIncome/add/'+this.SelectedServiceId).then(res =>{
+      this.$axios.$get('servicesIncome/add/'+this.SelectedServiceId).then(res =>{
         this.$store.commit('buyService', res)
         this.$store.commit('calculateIncome')
         this.SelectedServiceId = null

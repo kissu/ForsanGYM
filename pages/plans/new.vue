@@ -25,7 +25,7 @@
               <div class="form-group row">
                 <label class="control-label col-md-3 text-center">Duration in Months </label>
                 <div class="col-md-8">
-                  <input v-model="plan.months" class="form-control col-md-8" type="text" placeholder="EGP">
+                  <input v-model="plan.months" class="form-control col-md-8" type="text" placeholder="Months">
                 </div>
               </div>
 

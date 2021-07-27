@@ -111,18 +111,19 @@
     </div>
     <div class="tile my-3">
       <div class="row" id="tile-Head">
-        <div class="col-4">
+        <div class="col-3 pr-0">
           <h3 class="tile-title">Activities Players</h3>
         </div>
         <label class="control-label" for="activitySearch"
           >Search By Activity :
         </label>
-        <div class="form-group col-md-3">
+        <div class="form-group col ">
           <select
             v-model="searchByActivity"
-            class="form-control col-md-6"
+            class="form-control col-md-10"
             id="activitySearch"
           >
+            <option :value="null" selected disabled>Select Activity</option>
             <option v-for="item in $store.state.activities" :value="item.id" :key="item.id">
               {{ item.name }}
             </option>
@@ -130,9 +131,9 @@
         </div>
 
         <label class="control-label" for="generalSearch">Search : </label>
-        <div class="col-3">
+        <div class="col pl-0 ">
           <input
-            class="form-control form-control-sm col-md-6"
+            class="form-control form-control-sm"
             type="search"
             placeholder="Find player by id"
             v-model="searchById"
@@ -140,7 +141,6 @@
             id="generalSearch"
           />
         </div>
-        <div class="row"></div>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -159,7 +159,7 @@
                 <tr v-for="playerActivity in searching" :key="playerActivity.id">
                   <td>{{ playerActivity.id }}</td>
                   <td>{{ playerActivity.name }}</td>
-                  <td>{{ playerActivity.activity }}</td>
+                  <td>{{ playerActivity.activity.name }}</td>
                   <td>{{ playerActivity.beginDate }}</td>
                   <td>{{ playerActivity.endDate }}</td>
                 </tr>

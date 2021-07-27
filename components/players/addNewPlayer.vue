@@ -176,7 +176,7 @@ methods:{
         await this.$store.commit('addPlayer', storePlayer)
 
         // adding the subscription to the income
-        let planIncome = await this.$axios.get('/planIncome/new/'+ this.InputPlayer.plan.id)
+        let planIncome = await this.$axios.get('/plansIncome/new/'+ this.InputPlayer.plan.id)
         planIncome = planIncome.data
         await this.$store.commit('updatePlanIncome', planIncome)
         await this.$store.commit('calculateIncome')
