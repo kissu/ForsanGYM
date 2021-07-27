@@ -151,9 +151,9 @@ export default {
       console.log(typeof this.originalDates.endDate)
       let player = Object.assign({}, this.InputPlayer)
       player.subscription = Object.assign({}, this.InputPlayer.subscription)
-      this.$axios.$post('/players/edit/'+ player.id, player).then(res=>{
+      this.$axios.$post('/player/edit/'+ player.id, player).then(res=>{
         if(this.isDateEdited()){
-        this.$axios.$post('subscriptions/updateDate/'+ player.subscription.id, {
+        this.$axios.$post('subscription/updateDate/'+ player.subscription.id, {
           player_id:player.id,
           plan_id:player.subscription.plan.id,
           beginDate:player.subscription.beginDate,

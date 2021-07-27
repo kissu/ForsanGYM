@@ -18,7 +18,7 @@ export default {
   },
   created() {
     // get player w subs
-    this.$axios.$get('players/').then(res => {
+    this.$axios.$get('player/').then(res => {
       this.$store.commit('setPlayers',res)
     }).catch(err => {
       console.log('error on Players load (layout/Default) :')
@@ -26,14 +26,14 @@ export default {
     })
 
     // get plans
-    this.$axios.$get('plans/').then(res => {
+    this.$axios.$get('plan/').then(res => {
       this.$store.commit('setPlans',res)
     }).catch(err => {
       console.log('error on plans load (layout/Default) :')
       console.log(err)
     })
     // get services
-    this.$axios.$get('services/').then(res=>{
+    this.$axios.$get('service/').then(res=>{
       this.$store.commit('SetServices', res)
     }).catch(err=>{
       console.log('error on service load (layout/Default) :')
@@ -48,14 +48,14 @@ export default {
       console.log(err)
     })
     // get activities
-    this.$axios.$get('activities/').then(res => {
+    this.$axios.$get('activity/').then(res => {
       this.$store.commit('SetActivities', res)
     }).catch(err => {
       console.log('error on activities load (layout/Default) :')
       console.log(err)
     })
     // getServicesIncome
-    this.$axios.$get('servicesIncome/').then(res => {
+    this.$axios.$get('serviceIncome/').then(res => {
       this.$store.commit('setServicesIncome', res)
     }).catch(err =>{
       console.log('error on service income load (layout/Default) :')
@@ -63,7 +63,7 @@ export default {
     })
 
     // get plansIncome
-    this.$axios.$get('plansIncome/').then(res=>{
+    this.$axios.$get('planIncome/').then(res=>{
       this.$store.commit('setPlansIncome', res)
     }).catch(err => {
       console.log('error on plan income load (layout/Default) :')

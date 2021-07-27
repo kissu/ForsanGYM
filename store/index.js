@@ -66,7 +66,7 @@ export const mutations = {
     state.activityPlayers.push(activityPlayer)
   },
   editActivity: function (state, act) {
-    let objIndex = state.activities.findIndex((obj => obj.id == act.id))
+    let objIndex = state.activities.findIndex((obj => obj.id === act.id))
     state.activities[objIndex].name = act.name,
       state.activities[objIndex].coachName = act.coachName,
       state.activities[objIndex].coachPhoneNumber = act.coachPhoneNumber,

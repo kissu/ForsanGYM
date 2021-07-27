@@ -50,7 +50,7 @@ export default {
         if (result.isConfirmed) {
           // Delete service from all database
           this.SelectedService = Number(this.SelectedService)
-          this.$axios.$delete('services/delete/'+this.SelectedService).then(()=>{
+          this.$axios.$delete('service/delete/'+this.SelectedService).then(()=>{
             this.$store.commit('DeleteService', this.SelectedService)
             this.SelectedService=null
           }).catch(err=>{

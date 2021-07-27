@@ -19,12 +19,12 @@
                       <input
                         v-bind:value='act.name'
                         @input="act.name = $event.target.value"
-                        
+
                         :class="[{'form-control':true},{'is-invalid':errors.name}]"
                         type="text"
-                      />                  
+                      />
                     </div>
-    
+
                     <div class="form-group">
                       <label class="control-label">Coach Name </label>
                       <input
@@ -107,9 +107,9 @@ export default {
   methods:{
     editActivity: function(){
       const validate = this.validateForm();
-      if (!validate) return false; 
+      if (!validate) return false;
       this.dis = true
-      this.$axios.$post('activities/edit/'+this.activity.id,this.act).then(res => {
+      this.$axios.$post('activity/edit/'+this.activity.id,this.act).then(res => {
         this.dis = false
         this.$store.commit("editActivity",res)
         $("#staticBackdropEditModal").modal("hide")

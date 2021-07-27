@@ -117,7 +117,7 @@ export default {
       const validate = this.validateForm();
       if (!validate) return false;
       this.$axios
-        .$post("/activities/new", this.activity)
+        .$post("/activity/new", this.activity)
         .then((res) => {
           this.$store.commit("addActivity", res);
           this.$router.push("/activities");

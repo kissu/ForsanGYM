@@ -54,7 +54,7 @@ export default {
       // add the new service to the database (store and backend )
       this.service.price = Number(this.service.price)
       //Add to database it self
-      this.$axios.post('/services/new', this.service).then(res=>{
+      this.$axios.post('/service/new', this.service).then(res=>{
         // Add to store datatabse
         this.$store.commit('AddService', res.data.service)
 

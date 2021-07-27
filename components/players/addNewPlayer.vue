@@ -158,10 +158,10 @@ methods:{
         formData.append(key, this.InputPlayer[key])
       })
       try {
-        const player = await this.$axios.$post('/players/new', formData);
+        const player = await this.$axios.$post('/player/new', formData);
         // player added then make subscribe request
         // subscribe request
-        const sub = await this.$axios.$post('/subscriptions/new', {
+        const sub = await this.$axios.$post('/subscription/new', {
           player_id: player.id,
           plan_id: this.InputPlayer.plan.id,
           beginDate: this.InputPlayer.beginDate,
@@ -176,7 +176,7 @@ methods:{
         await this.$store.commit('addPlayer', storePlayer)
 
         // adding the subscription to the income
-        let planIncome = await this.$axios.get('/plansIncome/new/'+ this.InputPlayer.plan.id)
+        let planIncome = await this.$axios.get('/planIncome/new/'+ this.InputPlayer.plan.id)
         planIncome = planIncome.data
         await this.$store.commit('updatePlanIncome', planIncome)
         await this.$store.commit('calculateIncome')

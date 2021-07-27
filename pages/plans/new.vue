@@ -88,7 +88,7 @@ export default {
   methods: {
       addPLan: function () {
         this.dis = true;
-        this.$axios.$post('/plans/new', this.plan ).then(res => {
+        this.$axios.$post('/plan/new', this.plan ).then(res => {
           this.$store.commit('addPlan',res);
           this.dis = false
           this.$router.push({

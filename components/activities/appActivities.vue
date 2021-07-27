@@ -32,7 +32,7 @@
   </div>
 
   <div id="delete-Activity" v-if="DeleteClickedActivity">
-    <DeleteCheck header-msg="Are you sure you want to delete this activity ?" :item-id="DeleteClickedActivity.id" delete_url="/activities/delete/:id" commitAction="deleteActivity">
+    <DeleteCheck header-msg="Are you sure you want to delete this activity ?" :item-id="DeleteClickedActivity.id" delete_url="/activity/delete/:id" commitAction="deleteActivity">
       <p><b>Name : </b>{{DeleteClickedActivity.name}}</p>
       <p><b>Coach : </b>{{DeleteClickedActivity.coachName}}</p>
       <p><b>Coach Phone : </b>{{DeleteClickedActivity.coachPhoneNumber}}</p>
