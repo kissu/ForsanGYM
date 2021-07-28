@@ -20,7 +20,7 @@
                 "
               >
                 <div class="row mt-2 mb-0">
-                  <div class="col-md-8 form-group " >
+                  <div class="col-md-5 form-group " >
                     <div id="sampleTable_filter" class="dataTables_filter text-left" >
                       <label>Search :
                         <input
@@ -44,6 +44,10 @@
                         <option :value="null" >All</option>
                         <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{plan.name}}</option>
                       </select>
+                  </div>
+                  <label for="endedSubscriptionsChoise">Show Ended Subscriptions</label>
+                  <div class="col-auto">
+                    <input type="checkbox" id="endedSubscriptionsChoise" v-model="endedSubsMarked">
                   </div>
                 </div>
                 <div class="row">
@@ -161,13 +165,15 @@
 import PageTitle from "../../components/layout/pageTitle";
 import AddNewPlayer from '../../components/players/addNewPlayer.vue';
 import DeleteCheck from "../../components/layout/deleteCheck";
+import moment from "moment/moment";
 
 export default {
   components: {DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
       pickedSearchOption:null,
-      searchPlayerId:null
+      searchPlayerId:null,
+      endedSubsMarked:false
     }
   },
   methods: {
@@ -207,6 +213,9 @@ export default {
         }
       })
     },
+    compareDates: function (date1, date2){
+      return 0
+    }
   },
   computed:{
     activatedPlans: function (){
@@ -214,6 +223,16 @@ export default {
     },
     playersData: function (){
       let returnArr = this.$store.state.players
+      // console.log(typeof returnArr[0].subscription.beginDate)
+      // console.log(moment())
+      // console.log(moment(returnArr[0].subscription.beginDate))
+      // console.log('Moment : ')
+      console.log(moment('2020-07-28').isBefore(moment('2021-07-28')))
+      if(this.endedSubsMarked){
+        returnArr = returnArr.filter(player=>{
+          return moment(player.subscription.endDate).isBefore( moment())
+        })
+      }
       if(this.pickedSearchOption){
         returnArr = returnArr.filter(player=>{
           return player.subscription.plan.id === this.pickedSearchOption.id

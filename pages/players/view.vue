@@ -153,7 +153,7 @@
       </div>
     </div>
     <div class="row ">
-      <div class="col-md-7 text-break">
+      <div class="col-md-7">
         <WeightTable :player="player"/>
       </div>
 
