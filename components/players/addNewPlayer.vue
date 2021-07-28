@@ -167,11 +167,19 @@ methods:{
           beginDate: this.InputPlayer.beginDate,
           endDate: this.InputPlayer.endDate
         })
+
+        let weights = await this.$axios.$post('playerWeight/new', {
+          date:moment().format('yyyy-MM-DD'),
+          weight:this.InputPlayer.weight,
+          player_id:player.id
+        })
+        weights = [weights]
         // subscribe request is done
         const storePlayer = {
           // creating store object
           ...player,
-          subscription:sub
+          subscription:sub,
+          weights:weights
         }
         await this.$store.commit('addPlayer', storePlayer)
 

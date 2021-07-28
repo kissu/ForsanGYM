@@ -52,8 +52,8 @@
                       <input
                         class="form-control"
                         type="text"
-                        v-bind:value="InputPlayer.weight"
-                        @input="InputPlayer.weight = $event.target.value"
+                        v-bind:value="InputPlayer.weights[InputPlayer.weights.length-1].weight"
+                        @input="InputPlayer.weights[InputPlayer.weights.length-1].weight = $event.target.value"
                       />
                     </div>
                     <div class="form-group">
@@ -125,6 +125,8 @@
 </template>
 
 <script>
+import moment from "moment/moment";
+
 export default {
   data(){
     return{
@@ -132,7 +134,8 @@ export default {
       originalDates:{
         beginDate:null,
         endDate:null
-      }
+      },
+      originalWeight:null
     }
   },
   props:{
@@ -145,13 +148,9 @@ export default {
       // we need to edit 2 things :
       // 1) player data
       // 2) begin and end date of the current sub
-      console.log(typeof this.InputPlayer.subscription.beginDate)
-      console.log(typeof this.InputPlayer.subscription.endDate)
-      console.log(typeof this.originalDates.beginDate)
-      console.log(typeof this.originalDates.endDate)
       let player = Object.assign({}, this.InputPlayer)
       player.subscription = Object.assign({}, this.InputPlayer.subscription)
-      this.$axios.$post('/player/edit/'+ player.id, player).then(res=>{
+      this.$axios.$post('/player/edit/'+ player.id, player).then(()=>{
         if(this.isDateEdited()){
         this.$axios.$post('subscription/updateDate/'+ player.subscription.id, {
           player_id:player.id,
@@ -159,6 +158,15 @@ export default {
           beginDate:player.subscription.beginDate,
           endDate:player.subscription.endDate
         })
+        }
+
+        console.log(player)
+        if(this.isWeightEdited()){
+          this.$axios.$post('playerWeight/edit/'+player.weights[player.weights.length-1].id, {
+            date: moment().format("yyyy-MM-DD"),
+            weight : player.weights[player.weights.length-1].weight,
+            player_id:player.id
+          })
         }
         this.$store.commit('editPlayer', player)
         player = Object.assign({},{})
@@ -182,14 +190,29 @@ export default {
         return player.id === id
       }))
       this.InputPlayer.subscription = Object.assign({},this.InputPlayer.subscription )
+      this.InputPlayer.subscription.plan = Object.assign({},this.InputPlayer.subscription.plan )
+
+      this.InputPlayer.weights = Object.assign([],this.InputPlayer.weights )
+      for(let i=0;i<this.InputPlayer.weights.length;i++){
+        this.InputPlayer.weights[i] = Object.assign({},this.InputPlayer.weights[i] )
+        this.InputPlayer.weights[i].player = Object.assign({},this.InputPlayer.weights[i].player )
+      }
+
 
       this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
       this.originalDates.endDate = this.InputPlayer.subscription.endDate
+
+      this.originalWeight = this.InputPlayer.weights[this.InputPlayer.weights.length-1].weight
+      this.originalWeight = parseInt(this.originalWeight, 10)
     },
     isDateEdited:function (){
       return this.InputPlayer.subscription.beginDate !== this.originalDates.beginDate ||
         this.InputPlayer.subscription.endDate !== this.originalDates.endDate;
 
+    },
+    isWeightEdited: function (){
+
+      return this.originalWeight !== this.InputPlayer.weight
     }
   },
   created() {

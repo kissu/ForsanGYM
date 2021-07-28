@@ -20,16 +20,17 @@ export const mutations = {
     state.players.push(player)
   },
   editPlayer: function (state, player) {
-    // state.players[state.players.findIndex(Player=>{
-    //   return Player.id === player.id
-    // })] = player
     for (let i = 0; i < state.players.length; i++) {
       if (state.players[i].id === player.id) {
         state.players[i] = player
+        console.log((state.players[i] ===player))
+
         break
       }
     }
     state.players = Object.assign([], state.players)
+    state.players.weights = Object.assign([], state.players.weights)
+
   },
   // Player Section --end
   deletePlayer: function (state, player_id) {
@@ -139,5 +140,20 @@ export const mutations = {
         totalIncome += (planIncomeArr[i].plan.price * planIncomeArr[i].numberOfPlayers);
       }
     state.totalIncome = totalIncome
+  },
+
+  // player weight area start
+  deletePlayerWeight: function (state, playerWeight){
+    const player = state.players.find(player => player.id === playerWeight.player.id).weights
+    let playerWeightsArr = player.weights
+    for(let i=0;i<playerWeightsArr.length;i++){
+      if(playerWeightsArr[i].id === playerWeight.id){
+        playerWeightsArr.splice(i, 1)
+        break
+      }
+    }
+    player.weights = playerWeightsArr
   }
+  // player weight area end
+
 }

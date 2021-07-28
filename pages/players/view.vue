@@ -1,6 +1,6 @@
 <template>
-  <div id="View" v-on:focusin="initPlayer">
-    <page-title :title="player.name" icon="fa fa-user" />
+  <div id="View" >
+    <page-title title="Player Info" icon="fa fa-user" />
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">
@@ -16,10 +16,11 @@
             class="btn btn-warning mx-auto w-100"
             data-toggle="modal"
             data-target="#staticBackdrop"
+            v-on:focusin="initPage"
           >
             Edit
           </button>
-          <edit :playerId='player.id' />
+          <edit :playerId='player.id'  />
           <button
             type="button"
             class="btn btn-outline-secondary mx-auto w-100"
@@ -34,10 +35,23 @@
           <div class="tile-title-w-btn">
             <h2 data-toggle="dropdown" class="title">
               <span class="mdi mdi-account-circle"></span>
-              Player Info
+              {{player.name}}
             </h2>
           </div>
           <div class="tile-body">
+
+            <div class="row mb-2">
+              <div class="col-md-3">
+                <h5 class="mb-0">
+                  <span class="mb-0 mdi mdi-id-card"></span> ID
+                </h5>
+              </div>
+
+              <div class="col-md-9">
+                <h5 class="mb-0 font-weight-normal">{{player.id}}</h5>
+              </div>
+            </div>
+
             <div class="row mb-2">
               <div class="col-md-3">
                 <h5 class="mb-0">
@@ -47,6 +61,17 @@
 
               <div class="col-md-9">
                 <h5 class="mb-0 font-weight-normal">{{player.phoneNumber}}</h5>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-3">
+                <h5 class="mb-0">
+                  <span class="mb-0 mdi mdi-road"></span> Plan
+                </h5>
+              </div>
+
+              <div class="col-md-9">
+                <h5 class="mb-0 font-weight-normal">{{player.subscription.plan.name}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -76,7 +101,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{player.weight}}</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.weights[player.weights.length-1].weight}}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -129,7 +154,7 @@
     </div>
     <div class="row ">
       <div class="col-md-7 text-break">
-        <WeightTable :playerId="player.id"/>
+        <WeightTable :player="player"/>
       </div>
 
     </div>
@@ -150,21 +175,19 @@ export default {
     }
   },
   methods:{
-    initPlayer: function (){
+    initPage: function (){
+      console.log("init worked ")
       const id = this.$route.params.id
       this.player =  Object.assign({},this.$store.state.players.find(player=>{
         return player.id === id
       }))
-    }
+
+    },
+
     },
   created() {
-    this.initPlayer()
-  },
-  computed:{
-
-  },
-
-
+    this.initPage()
+  }
 };
 </script>
 

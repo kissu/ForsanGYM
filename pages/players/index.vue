@@ -81,9 +81,7 @@
                         <td>{{ item.subscription.endDate }}</td>
                         <td>{{ item.subscription.plan.name }}</td>
                         <td>
-                          <router-link :to="{name: 'singlePlayer', params: { id: item.id}}"  class="btn btn-primary" type="button">View</router-link>
-<!--                          <button class="btn btn-danger" type="button" @click="DeletePlayer(item)" data-toggle="modal"-->
-<!--                                  :data-target="'#DeleteCheckModal'+ChosenPlayer.id">Delete</button>-->
+                          <button class="btn btn-primary" type="button" @click="viewPlayer(item)">View</button>
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
                           <button class="btn btn-success " type="button">Subscribe</button>
                         </td>
@@ -198,6 +196,14 @@ export default {
             return false
           })
           this.$swal.fire('Player Deleted!', '', 'success')
+        }
+      })
+    },
+    viewPlayer: function (player){
+      this.$router.push({
+        name: 'singlePlayer',
+        params:{
+          id:player.id
         }
       })
     },

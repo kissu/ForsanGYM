@@ -7,38 +7,29 @@
         <span class="mdi mdi-weight-kilogram"></span>
         Weight Table
       </h2>
-      <div class="btn-group ">
-        <button class="btn btn-outline-danger mx-2"><i class="mdi mdi-minus-box"></i> Delete Entry</button>
         <button class="btn btn-outline-primary "><i class="mdi mdi-plus-box"></i> Add Entry</button>
-      </div>
     </div>
     <div class="col tile-body">
-      <!--            <div class="col-md-6">-->
-      <!--              <div class="tile">-->
-      <!--                <h3 class="tile-title">Monthly Sales</h3>-->
-      <!--                <div class="embed-responsive embed-responsive-16by9">-->
-      <!--                  <canvas class="embed-responsive-item" id="lineChartDemo" style="width: 477px; height: 268px;" width="477" height="268"></canvas>-->
-      <!--                </div>-->
-      <!--              </div>-->
-      <!--            </div>-->
       <table class=" table table-striped ">
         <thead>
         <tr>
           <th class="col-md-1">#</th>
-          <th class="col-md-4">Date</th>
-          <th class="col-md-4">Weight</th>
+          <th class="col-md-3">Date</th>
+          <th class="col-md-3">Weight</th>
+          <th class="col-md-5">Options</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
-          <td>20-10-2020</td>
-          <td>78</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>21-10-2020</td>
-          <td>78.5</td>
+        <tr v-for="(weight, index) in player.weights" :key="index">
+          <td>{{index+1}}</td>
+          <td>{{weight.date}}</td>
+          <td>{{weight.weight}}</td>
+          <td>
+            <div class="btn-group ">
+              <button class="btn btn-outline-danger mx-2" v-on:click="deleteWeight(weight)"><i class="mdi mdi-minus-box"></i> Delete</button>
+              <button class="btn btn-outline-warning"><i class="mdi mdi-pencil-box" v-on:click="editWeight(weight)"></i> Edit</button>
+            </div>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -52,9 +43,32 @@
 export default {
   name: "weightTable",
   props:{
-    playerId:{
+    player:{
       required:true
     }
+  },
+  methods:{
+    deleteWeight: function (playerWeight){
+      if(this.player.weights.length === 1){
+        this.$swal.fire({
+          icon:"warning",
+          title:"Player Must Have at least 1 Entry",
+        })
+        return
+      }
+      this.$axios.$delete('playerWeight/delete/'+playerWeight.id).then(()=>{
+        this.$store.commit('deletePlayerWeight', playerWeight)
+      }).catch(err=>{
+        this.$swal.fire({
+          icon:"error",
+          title:"An Error Occurred",
+          text: err.response.data.message
+        })
+      })
+    },
+    editWeight: function (playerWeight){
+
+    },
   }
 }
 </script>

@@ -69,6 +69,7 @@ export default {
       console.log('error on plan income load (layout/Default) :')
       console.log(err)
     })
+
   }
 }
 </script>
