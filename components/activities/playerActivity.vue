@@ -124,6 +124,7 @@
             id="activitySearch"
           >
             <option :value="null" selected disabled>Select Activity</option>
+            <option :value="null" >Get All</option>
             <option v-for="item in $store.state.activities" :value="item.id" :key="item.id">
               {{ item.name }}
             </option>
@@ -159,9 +160,9 @@
                 <tr v-for="playerActivity in searching" :key="playerActivity.id">
                   <td>{{ playerActivity.id }}</td>
                   <td>{{ playerActivity.name }}</td>
-                  <td>{{ playerActivity.activity.name }}</td>
-                  <td>{{ playerActivity.beginDate }}</td>
-                  <td>{{ playerActivity.endDate }}</td>
+                  <td>{{ playerActivity.subscription.activity.name }}</td>
+                  <td>{{ playerActivity.subscription.beginDate }}</td>
+                  <td>{{ playerActivity.subscription.endDate }}</td>
                 </tr>
               </tbody>
             </table>
@@ -213,7 +214,17 @@ export default {
             activity_id: this.activityPlayer.activity,
             ...this.activityPlayer
           }).then(res => {
-            this.$store.commit("addNewActivityPlayer", res);
+            this.$store.commit("addNewActivityPlayer", {
+              id:res.activityPlayer.id, 
+              name:res.activityPlayer.name,
+              subscription:{
+                activity:res.activity,
+                endDate:res.endDate, 
+                beginDate:res.beginDate, 
+                price:res.price, 
+                id:res.id
+              }
+            });
             this.$swal.fire({
               icon: "success",
               title: "player added successfully!!"
@@ -264,7 +275,7 @@ export default {
         dataArray = dataArray.filter(holder => Number(this.searchById) === holder.id)
       }
       if(this.searchByActivity){
-        dataArray = dataArray.filter(holder => this.searchByActivity === holder.activity_id)
+        dataArray = dataArray.filter(holder => this.searchByActivity === holder.subscription.activity.id)
       }
       return dataArray
     }
