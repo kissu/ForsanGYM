@@ -12,7 +12,6 @@ const routes = [
   {path: '/players/:id', name: 'singlePlayer', component: page('players/view.vue')},
   {path: '/plans', name: 'allPlans', component: page('plans/index.vue')},
   {path: '/plans/new', name: 'newPlan', component: page('plans/new.vue')},
-  {path: '/ended-subscriptions', name : 'endedSubs', component: page ('ended-subscriptions.vue')},
   {path: '/activities', name : 'allActs', component: page ('activities/index.vue')},
   {path: '/activities/new', name: 'newAct', component: page('activities/new.vue')},
   // TODO: Complete all the app routes

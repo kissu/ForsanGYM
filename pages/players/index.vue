@@ -213,9 +213,7 @@ export default {
         }
       })
     },
-    compareDates: function (date1, date2){
-      return 0
-    }
+
   },
   computed:{
     activatedPlans: function (){
@@ -223,11 +221,6 @@ export default {
     },
     playersData: function (){
       let returnArr = this.$store.state.players
-      // console.log(typeof returnArr[0].subscription.beginDate)
-      // console.log(moment())
-      // console.log(moment(returnArr[0].subscription.beginDate))
-      // console.log('Moment : ')
-      console.log(moment('2020-07-28').isBefore(moment('2021-07-28')))
       if(this.endedSubsMarked){
         returnArr = returnArr.filter(player=>{
           return moment(player.subscription.endDate).isBefore( moment())

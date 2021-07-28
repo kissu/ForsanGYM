@@ -31,7 +31,6 @@ export default {
       list:[
           {text: "Dashboard", icon: "fa fa-home", route: {name:'home'}},
           {text: "Players", icon: "fa fa-user", route: {name:'allPlayers'}},
-          {text: "Ended Subscription", icon: "fa fa-calendar-times-o", route: {name:'endedSubs'}},
           {text: "Plans", icon: "fa fa-bar-chart", route: {name:'allPlans'}},
           {text: "Activities", icon: "mdi mdi-karate", route:{name:'allActs'}},
       ]
