@@ -7,7 +7,7 @@
         <span class="mdi mdi-weight-kilogram"></span>
         Weight Table
       </h2>
-        <button class="btn btn-outline-primary "><i class="mdi mdi-plus-box"></i> Add Entry</button>
+        <button class="btn btn-outline-primary " v-on:click="createWeight"><i class="mdi mdi-plus-box"></i> Add Entry</button>
     </div>
     <div class="col tile-body">
       <table class=" table table-striped ">
@@ -27,7 +27,7 @@
           <td>
             <div class="btn-group ">
               <button class="btn btn-outline-danger mx-2" v-on:click="deleteWeight(weight)"><i class="mdi mdi-minus-box"></i> Delete</button>
-              <button class="btn btn-outline-warning"><i class="mdi mdi-pencil-box" v-on:click="editWeight(weight)"></i> Edit</button>
+              <button class="btn btn-outline-warning" v-on:click="editWeight(weight)"><i class="mdi mdi-pencil-box" ></i> Edit</button>
             </div>
           </td>
         </tr>
@@ -40,6 +40,9 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+import moment from "moment/moment";
+
 export default {
   name: "weightTable",
   props:{
@@ -52,7 +55,7 @@ export default {
       if(this.player.weights.length === 1){
         this.$swal.fire({
           icon:"warning",
-          title:"Player Must Have at least 1 Entry",
+          title:"Player Must Have at least 1 Weight Entry",
         })
         return
       }
@@ -67,9 +70,73 @@ export default {
       })
     },
     editWeight: function (playerWeight){
-
+      this.$swal.fire({
+        title:"Edit weight",
+        icon:"info",
+        input:"text",
+        inputValue: playerWeight.weight
+      }).then(res=>{
+        if(isNaN(Number(res.value)) || res.value===""){
+          Swal.fire({
+            icon:"error",
+            title:"Weight must be a number"
+          })
+        }else{
+          console.log(res.value)
+          this.$axios.$post('playerWeight/edit/'+playerWeight.id, {
+            player_id: playerWeight.player.id,
+            date:moment().format('YYYY-MM-DD'),
+            weight:res.value
+          }).then(()=>{
+            this.$store.commit('editPlayerWeight', {
+              date:playerWeight.date,
+              id:playerWeight.id,
+              player:playerWeight.player,
+              weight:Number(res.value)
+            })
+            this.initPlayer()
+          })
+        }
+      })
     },
+    createWeight: function (){
+      this.$swal.fire({
+        title:"Enter the new Weight",
+        icon:"info",
+        input:"text",
+        inputPlaceholder:"Weight",
+        showCancelButton:true,
+        confirmButtonText:"Add",
+      }).then(res =>{
+        if(isNaN(Number(res.value)) || res.value===""){
+          Swal.fire({
+            icon:"error",
+            title:"Weight must be a number"
+          })
+        }else{
+          // add the weight >>
+          this.$axios.$post('playerWeight/new', {
+            player_id: this.player.id,
+            date:moment().format('YYYY-MM-DD'),
+            weight:res.value
+          }).then(res2=>{
+            this.$store.commit('addPlayerWeight', {
+              date:res2.date,
+              id:res2.id,
+              player:res2.player,
+              weight:Number(res2.weight)
+            })
+          })
+        }
+      })
+    },
+  },
+  computed:{
+    initPlayer:function (){
+      this.player = Object.assign({},this.$store.state.players.find(player => player.id === this.player.id))
+    }
   }
+
 }
 </script>
 

@@ -144,7 +144,7 @@ export const mutations = {
 
   // player weight area start
   deletePlayerWeight: function (state, playerWeight){
-    const player = state.players.find(player => player.id === playerWeight.player.id).weights
+    const player = state.players.find(player => player.id === playerWeight.player.id)
     let playerWeightsArr = player.weights
     for(let i=0;i<playerWeightsArr.length;i++){
       if(playerWeightsArr[i].id === playerWeight.id){
@@ -153,6 +153,19 @@ export const mutations = {
       }
     }
     player.weights = playerWeightsArr
+  },
+  addPlayerWeight: function (state, playerWeight){
+    const player = state.players.find(player => player.id === playerWeight.player.id)
+    player.weights.push(playerWeight)
+  },
+  editPlayerWeight: function (state, playerWeight){
+    const player = state.players.find(player => player.id === playerWeight.player.id)
+    for(let i=0;i<player.weights.length;i++){
+      if(player.weights[i].id === playerWeight.id){
+        player.weights[i] = Object.assign({}, playerWeight)
+        break
+      }
+    }
   }
   // player weight area end
 
