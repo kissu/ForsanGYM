@@ -52,6 +52,11 @@ export const mutations = {
   setActivityPlayers: function (state, activityPlayers) {
     state.activityPlayers = activityPlayers
   },
+  deleteActivityPlayer: function(state, activityPlayer_id){
+    state.activityPlayers = state.activityPlayers.filter(actPlayer => {
+      return actPlayer.id !== activityPlayer_id
+    })
+  },
   SetActivities: function (state, newActivities) {
     state.activities = newActivities
   },
@@ -68,10 +73,10 @@ export const mutations = {
   },
   editActivity: function (state, act) {
     let objIndex = state.activities.findIndex((obj => obj.id === act.id))
-    state.activities[objIndex].name = act.name,
-      state.activities[objIndex].coachName = act.coachName,
-      state.activities[objIndex].coachPhoneNumber = act.coachPhoneNumber,
-      state.activities[objIndex].price = act.price,
+    state.activities[objIndex].name = act.name
+      state.activities[objIndex].coachName = act.coachName
+      state.activities[objIndex].coachPhoneNumber = act.coachPhoneNumber
+      state.activities[objIndex].price = act.price
       state.activities[objIndex].description = act.description
   },
   // Services Part :

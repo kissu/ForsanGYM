@@ -33,7 +33,10 @@
                         <div class="col-md-8">
                           <input
                             v-model="activityPlayer.name"
-                            :class="[{'form-control':true},{'is-invalid':errors.name}]"
+                            :class="[
+                              { 'form-control': true },
+                              { 'is-invalid': errors.name },
+                            ]"
                             type="text"
                             placeholder="Enter full name"
                           />
@@ -49,14 +52,17 @@
                           <div class="form-group">
                             <select
                               v-model="activityPlayer.activity"
-                              :class="[{'form-control':true},{'is-invalid':errors.activity}]"
+                              :class="[
+                                { 'form-control': true },
+                                { 'is-invalid': errors.activity },
+                              ]"
                               @change="computeDate"
                               id="activitySelect"
                             >
                               <option
                                 v-for="item in $store.state.activities"
                                 :key="item.id"
-                                :value='item.id'
+                                :value="item.id"
                               >
                                 {{ item.name }}
                               </option>
@@ -69,7 +75,10 @@
                         <div class="col-md-8">
                           <input
                             v-model="activityPlayer.beginDate"
-                            :class="[{'form-control col-md-8':true},{'is-invalid':errors.beginDate}]"
+                            :class="[
+                              { 'form-control col-md-8': true },
+                              { 'is-invalid': errors.beginDate },
+                            ]"
                             type="date"
                           />
                         </div>
@@ -80,7 +89,10 @@
                         <div class="col-md-8">
                           <input
                             v-model="activityPlayer.endDate"
-                            :class="[{'form-control col-md-8':true},{'is-invalid':errors.endDate}]"
+                            :class="[
+                              { 'form-control col-md-8': true },
+                              { 'is-invalid': errors.endDate },
+                            ]"
                             type="date"
                           />
                         </div>
@@ -93,7 +105,6 @@
                         <button
                           class="btn btn-primary"
                           type="button"
-
                           @click="addActivityPlayer"
                         >
                           <i class="fa fa-fw fa-lg fa-check-circle"></i>
@@ -114,25 +125,30 @@
         <div class="col-3 pr-0">
           <h3 class="tile-title">Activities Players</h3>
         </div>
+        
         <label class="control-label" for="activitySearch"
           >Search By Activity :
         </label>
-        <div class="form-group col ">
+        <div class="form-group col">
           <select
             v-model="searchByActivity"
             class="form-control col-md-10"
             id="activitySearch"
           >
             <option :value="null" selected disabled>Select Activity</option>
-            <option :value="null" >Get All</option>
-            <option v-for="item in $store.state.activities" :value="item.id" :key="item.id">
+            <option :value="null">Get All</option>
+            <option
+              v-for="item in $store.state.activities"
+              :value="item.id"
+              :key="item.id"
+            >
               {{ item.name }}
             </option>
           </select>
         </div>
 
         <label class="control-label" for="generalSearch">Search : </label>
-        <div class="col pl-0 ">
+        <div class="col pl-0">
           <input
             class="form-control form-control-sm"
             type="search"
@@ -141,6 +157,10 @@
             aria-controls="#playerDataTable"
             id="generalSearch"
           />
+        </div>
+        <label for="endedSubscriptionsChoise">Show Ended Subscriptions</label>
+        <div class="col-auto">
+          <input type="checkbox" id="endedSubscriptionsChoise" v-model="EndedSubscriptions">
         </div>
       </div>
       <div class="row">
@@ -154,6 +174,7 @@
                   <th>Activity</th>
                   <th>Begin Date</th>
                   <th>End Date</th>
+                  <th>Options</th>
                 </tr>
               </thead>
               <tbody>
@@ -163,6 +184,25 @@
                   <td>{{ playerActivity.subscription.activity.name }}</td>
                   <td>{{ playerActivity.subscription.beginDate }}</td>
                   <td>{{ playerActivity.subscription.endDate }}</td>
+                  <td>
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      @click="viewPlayer(item)"
+                    >
+                      View
+                    </button>
+                    <button
+                      class="btn btn-danger"
+                      type="button"
+                      @click="DeleteActivityPlayer(playerActivity)"
+                    >
+                      Delete
+                    </button>
+                    <button class="btn btn-success" type="button">
+                      Resubscribe
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -188,7 +228,8 @@ export default {
       },
       searchById: null,
       searchByActivity: null,
-      errors: {}
+      errors: {},
+      EndedSubscriptions: false,
     };
   },
   methods: {
@@ -203,50 +244,52 @@ export default {
       // 5. once the subscribe request is done we are done
 
       // 1
-      console.log(this.activityPlayer)
-      console.log(typeof this.activityPlayer)
+      console.log(this.activityPlayer);
+      console.log(typeof this.activityPlayer);
 
       // Re Check here with  ahmed about the return and the POST
-      this.$axios.$post("/activityPlayer/new", this.activityPlayer)
+      this.$axios
+        .$post("/activityPlayer/new", this.activityPlayer)
         .then((res) => {
-          return this.$axios.$post("activityPlayerSubscription/new",{
-            player_id: res.id,
-            activity_id: this.activityPlayer.activity,
-            ...this.activityPlayer
-          }).then(res => {
-            this.$store.commit("addNewActivityPlayer", {
-              id:res.activityPlayer.id, 
-              name:res.activityPlayer.name,
-              subscription:{
-                activity:res.activity,
-                endDate:res.endDate, 
-                beginDate:res.beginDate, 
-                price:res.price, 
-                id:res.id
-              }
-            });
-            this.$swal.fire({
-              icon: "success",
-              title: "player added successfully!!"
+          return this.$axios
+            .$post("activityPlayerSubscription/new", {
+              player_id: res.id,
+              activity_id: this.activityPlayer.activity,
+              ...this.activityPlayer,
             })
-            $("#collapseOne").collapse('hide')
-          })
+            .then((res) => {
+              this.$store.commit("addNewActivityPlayer", {
+                id: res.activityPlayer.id,
+                name: res.activityPlayer.name,
+                subscription: {
+                  activity: res.activity,
+                  endDate: res.endDate,
+                  beginDate: res.beginDate,
+                  price: res.price,
+                  id: res.id,
+                },
+              });
+              this.$swal.fire({
+                icon: "success",
+                title: "player added successfully!!",
+              });
+              $("#collapseOne").collapse("hide");
+            });
         })
         .catch((err) => {
-          let str = ""
-          if(err.response.data.message.length){
-            if (typeof err.response.data.message === 'object')
-              str = err.response.data.message.join("<br>")
-            else
-              console.log(err.response.data.message);
+          let str = "";
+          if (err.response.data.message.length) {
+            if (typeof err.response.data.message === "object")
+              str = err.response.data.message.join("<br>");
+            else console.log(err.response.data.message);
           }
           console.log(err);
-         this.$swal.fire({
-          icon: "error",
-          title: "Oops...",
-          html: str
-        })
-         // alert("There is an error while adding new activity player!");
+          this.$swal.fire({
+            icon: "error",
+            title: "Oops...",
+            html: str,
+          });
+          // alert("There is an error while adding new activity player!");
         });
     },
     computeDate: function () {
@@ -257,29 +300,70 @@ export default {
     },
     validateForm: function () {
       this.errors = {};
-      let inputs = Object.keys(this.activityPlayer)
+      let inputs = Object.keys(this.activityPlayer);
       let pass = true;
-      inputs.forEach(i => {
-        if (!this.activityPlayer[i] || (!this.activityPlayer[i].length && typeof this.activityPlayer[i] === "string")) {
-          pass = false
-          this.errors[i] = `${i} is required`
+      inputs.forEach((i) => {
+        if (
+          !this.activityPlayer[i] ||
+          (!this.activityPlayer[i].length &&
+            typeof this.activityPlayer[i] === "string")
+        ) {
+          pass = false;
+          this.errors[i] = `${i} is required`;
+        }
+      });
+      return pass;
+    },
+     DeleteActivityPlayer:function (playerActivity){
+      this.$swal.fire({
+        title: `Are you sure you want to delete this player ${playerActivity.name} ? `,
+        showDenyButton: true,
+        icon: 'question',
+        showCancelButton: false,
+        confirmButtonText: `Yes`,
+        denyButtonText: `cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Delete Player from databases
+          this.$axios.$delete('activityPlayer/delete/'+playerActivity.id).then(res=>{
+            this.$store.commit('deleteActivityPlayer', playerActivity.id)
+          }).catch(err=>{
+            //delete Failed
+            this.$swal.fire({
+              title:`Deleting player ${playerActivity.name} FAILED`,
+              icon:"error",
+              text:err.response.data.message
+            })
+            console.log(err)
+            return false
+          })
+          this.$swal.fire('Player Deleted!', '', 'success')
         }
       })
-      return pass
+    }
+  },
+  computed: {
+    searching: function () {
+      let dataArray = this.$store.state.activityPlayers;
+      
+      if(this.EndedSubscriptions){
+        dataArray = dataArray.filter(
+          holder => moment(holder.subscription.endDate).isBefore(moment()) 
+        )
+      }
+      if (this.searchById) {
+        dataArray = dataArray.filter(
+          (holder) => Number(this.searchById) === holder.id
+        );
+      }
+      if (this.searchByActivity) {
+        dataArray = dataArray.filter(
+          (holder) => this.searchByActivity === holder.subscription.activity.id
+        );
+      }
+      return dataArray;
     },
   },
-  computed:{
-    searching: function(){
-      let dataArray = this.$store.state.activityPlayers
-      if(this.searchById){
-        dataArray = dataArray.filter(holder => Number(this.searchById) === holder.id)
-      }
-      if(this.searchByActivity){
-        dataArray = dataArray.filter(holder => this.searchByActivity === holder.subscription.activity.id)
-      }
-      return dataArray
-    }
-  }
 };
 </script>
 
