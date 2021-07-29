@@ -27,7 +27,6 @@ export const mutations = {
       }
     }
 
-
   },
   // Player Section --end
   deletePlayer: function (state, player_id) {

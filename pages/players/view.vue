@@ -18,12 +18,13 @@
         </div>
 
         <div class="d-flex actions  text-center my-1 mx-auto w-100" >
-          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-on:click="freeze()" v-on:focusin="initPage" v-if="player.freeze!==0">Freeze</button>
-          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-on:click="freeze()" v-on:focusin="initPage" v-else disabled>Freeze</button>
+          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-on:click="freeze()" v-on:focusin="initPage" v-if="player.invited <=0">Freeze</button>
+          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-else disabled>Freeze</button>
         </div>
 
         <div class="d-flex actions  text-center my-1 mx-auto w-100" >
-          <button type="button" class="btn btn-outline-secondary mx-auto w-100">Invite Friend</button>
+          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-on:focusin="initPage" v-if="player.freeze===0" v-on:click="addInvite()">Invite Friend</button>
+          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-else disabled>Invite Friend</button>
         </div>
 
       </div>
@@ -134,6 +135,7 @@
                   <span class="mb-0 mdi mdi-food-apple"></span>Diet
                 </h5>
               </div>
+
               <div class="col-md-7">
                 <h5 class="mb-0 font-weight-normal" v-if="player.dietPlan">
                   {{player.dietPlan}}
@@ -145,6 +147,18 @@
                 </h5>
               </div>
             </div>
+
+            <div class="row mb-2">
+              <div class="col-md-3">
+                <h5 class="mb-0">
+                  <span class="mb-0 mdi mdi-message"></span> left Invitation
+                </h5>
+              </div>
+              <div class="col-md-9">
+                <h5 class="mb-0 font-weight-normal">{{player.subscription.plan.numberOfExceptions - player.invited}}</h5>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -163,6 +177,7 @@ import PageTitle from "../../components/layout/pageTitle";
 import Edit from '../../components/players/edit.vue';
 import WeightTable from "../../components/players/weightTable";
 import moment from "moment/moment";
+import Swal from "sweetalert2";
 
 export default {
   components: {WeightTable, PageTitle, Edit },
@@ -176,11 +191,15 @@ export default {
     initPage: function (){
       console.log("init worked ")
       const id = this.$route.params.id
-      this.player =  Object.assign({},this.$store.state.players.find(player=>{
+
+      this.player = Object.assign({},this.$store.state.players.find(player=>{
         return player.id === id
       }))
 
+
+
     },
+
     freeze: function (){
       this.$axios.$get('player/freeze/'+this.player.id).then(()=>{
         this.$axios.$post('subscription/updateDate/'+this.player.id, {
@@ -197,7 +216,7 @@ export default {
           this.$swal.fire({
             title:"Player has been Frozen",
             icon:"success",
-            iconColor:"#449ee2"
+            iconColor:"#316aff"
           })
         })
       }).catch(err=>{
@@ -207,7 +226,40 @@ export default {
           text:err.response.data.message
         })
       })
-    }
+    },
+
+    addInvite: function (){
+      this.$swal.fire({
+        title:`How many invitations you want to add ? `,
+        icon:"question",
+        input:'text',
+        inputPlaceholder: `Enter a number from 1 to ${this.player.subscription.plan.numberOfExceptions - this.player.invited} `,
+        showCancelButton:true
+      }).then(res=>{
+        if(!res.isDismissed){
+          if (isNaN(Number(res.value)) || res.value === "") {
+            // Validate the value is a number :D
+            Swal.fire({
+              icon: "error",
+              title: "Weight must be a number"
+            })
+          }else{
+            this.$axios.$post('player/inviteFriend/'+this.player.id, {
+              numberOfInvitedPlayers: Number(res.value)
+            }).then(()=>{
+              this.$store.commit('editPlayer', {...this.player,
+              invited:this.player.invited + Number(res.value) })
+            }).catch(err=>{
+              this.$swal.fire({
+                title:`Inviting a friend Faild`,
+                icon:"error",
+                text:err.response.data.message
+              })
+            })
+          }
+        }
+      })
+    },
 
     },
   created() {

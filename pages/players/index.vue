@@ -87,7 +87,7 @@
                         <td>
                           <button class="btn btn-primary" type="button" @click="viewPlayer(item)">View</button>
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
-                          <button class="btn btn-success " type="button">Subscribe</button>
+                          <button class="btn btn-success " type="button" @click="resubscribe">Subscribe</button>
                         </td>
                       </tr>
                       </tbody>
@@ -213,6 +213,39 @@ export default {
         }
       })
     },
+    resubscribe: function (){
+      this.$swal.fire({
+        title:"Renew the subscription",
+        html:"<div style='overflow-x: hidden;'>" +
+          "<div class=\"form-group row\">\n" +
+          "                          <label class=\"control-label col-md-3\">Plan</label>\n" +
+          "                          <div class=\"col-md-8\">\n" +
+          "                            <select @change=\"PickPlan\" v-model=\"InputPlayer.plan\" class=\"form-control col-md-8\" id=\"plansList\">\n" +
+          "                              <option :value=\"null\" disabled selected>Choose a plan</option>\n" +
+          "                              <option v-for='plan in activatedPlans' :value=\"plan\" :key=\"plan.id\">{{plan.name}}</option>\n" +
+          "                            </select>\n" +
+          "                          </div>\n" +
+          "                        </div>\n" +
+          "\n" +
+          "                        <div class=\"form-group row\">\n" +
+          "                          <label class=\"control-label col-md-3\">Begin Date</label>\n" +
+          "                          <div class=\"col-md-8\">\n" +
+          "                            <input v-bind:value=\"InputPlayer.beginDate\"\n" +
+          "                                   @input=\"InputPlayer.beginDate = $event.target.value\" class=\"form-control col-md-8\" type=\"date\">\n" +
+          "                          </div>\n" +
+          "                        </div>\n" +
+          "\n" +
+          "                        <div class=\"form-group row\">\n" +
+          "                          <label class=\"control-label col-md-3\">End Date</label>\n" +
+          "                          <div class=\"col-md-8\">\n" +
+          "                            <input v-bind:value=\"InputPlayer.endDate\"\n" +
+          "                                   @input=\"InputPlayer.endDate = $event.target.value\" class=\"form-control col-md-8\" type=\"date\">\n" +
+          "                          </div>\n" +
+          "                        </div>"+
+          "                        </div>",
+        showCancelButton:true,
+      })
+    }
 
   },
   computed:{
