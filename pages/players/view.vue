@@ -10,25 +10,22 @@
             alt=""
           />
         </div>
-        <div class="d-flex actions  text-center mt-3 mx-auto w-100" >
-          <button
-            type="button"
-            class="btn btn-warning mx-auto w-100"
-            data-toggle="modal"
-            data-target="#staticBackdrop"
-            v-on:focusin="initPage"
-          >
-            Edit
-          </button>
+        <div class="d-flex actions  text-center my1 mx-auto w-100" >
+          <button type="button" class="btn btn-warning mx-auto w-100" data-toggle="modal"
+                  data-target="#staticBackdrop" v-on:focusin="initPage">Edit</button>
           <edit :playerId='player.id'  />
-          <button
-            type="button"
-            class="btn btn-outline-secondary mx-auto w-100"
-          >
-            Freeze
-          </button>
           <!-- End of popup window -->
         </div>
+
+        <div class="d-flex actions  text-center my-1 mx-auto w-100" >
+          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-on:click="freeze()" v-on:focusin="initPage" v-if="player.freeze!==0">Freeze</button>
+          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-on:click="freeze()" v-on:focusin="initPage" v-else disabled>Freeze</button>
+        </div>
+
+        <div class="d-flex actions  text-center my-1 mx-auto w-100" >
+          <button type="button" class="btn btn-outline-secondary mx-auto w-100">Invite Friend</button>
+        </div>
+
       </div>
       <div class="col-md-9 text-break">
         <div class="tile">
@@ -165,6 +162,7 @@
 import PageTitle from "../../components/layout/pageTitle";
 import Edit from '../../components/players/edit.vue';
 import WeightTable from "../../components/players/weightTable";
+import moment from "moment/moment";
 
 export default {
   components: {WeightTable, PageTitle, Edit },
@@ -183,6 +181,33 @@ export default {
       }))
 
     },
+    freeze: function (){
+      this.$axios.$get('player/freeze/'+this.player.id).then(()=>{
+        this.$axios.$post('subscription/updateDate/'+this.player.id, {
+          beginDate:this.player.subscription.beginDate,
+          endDate:moment(this.player.subscription.endDate).add(this.player.subscription.plan.numberOfExceptions ,'day').format("YYYY-MM-DD")
+        }).then(()=>{
+          this.$store.commit('editPlayer', {
+            ...this.player,
+            subscription:{
+              ...this.player.subscription,
+              endDate: moment(this.player.subscription.endDate).add(this.player.subscription.plan.numberOfExceptions ,'day').format("YYYY-MM-DD")
+            }
+          })
+          this.$swal.fire({
+            title:"Player has been Frozen",
+            icon:"success",
+            iconColor:"#449ee2"
+          })
+        })
+      }).catch(err=>{
+        this.$swal.fire({
+          title:`Freezing player Failed`,
+          icon:"error",
+          text:err.response.data.message
+        })
+      })
+    }
 
     },
   created() {

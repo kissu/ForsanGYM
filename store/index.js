@@ -23,13 +23,10 @@ export const mutations = {
     for (let i = 0; i < state.players.length; i++) {
       if (state.players[i].id === player.id) {
         state.players[i] = player
-        console.log((state.players[i] ===player))
-
         break
       }
     }
-    state.players = Object.assign([], state.players)
-    state.players.weights = Object.assign([], state.players.weights)
+
 
   },
   // Player Section --end
@@ -171,6 +168,9 @@ export const mutations = {
         break
       }
     }
+    const tmp = Object.assign({},player.weights[0])
+    player.weights.shift()
+    player.weights.unshift(tmp)
   }
   // player weight area end
 

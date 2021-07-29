@@ -71,7 +71,7 @@
                         <th>Begin Date</th>
                         <th>End Date</th>
                         <th>Plan</th>
-                        <th>Operations</th>
+                        <th>Options</th>
                       </tr>
                       </thead>
                       <tbody>

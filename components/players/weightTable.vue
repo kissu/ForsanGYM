@@ -26,7 +26,7 @@
           <td>{{weight.weight}}</td>
           <td>
             <div class="btn-group ">
-              <button class="btn btn-outline-danger mx-2" v-on:click="deleteWeight(weight)"><i class="mdi mdi-minus-box"></i> Delete</button>
+<!--              <button class="btn btn-outline-danger mx-2" v-on:click="deleteWeight(weight)"><i class="mdi mdi-minus-box"></i> Delete</button>-->
               <button class="btn btn-outline-warning" v-on:click="editWeight(weight)"><i class="mdi mdi-pencil-box" ></i> Edit</button>
             </div>
           </td>
@@ -51,52 +51,55 @@ export default {
     }
   },
   methods:{
-    deleteWeight: function (playerWeight){
-      if(this.player.weights.length === 1){
-        this.$swal.fire({
-          icon:"warning",
-          title:"Player Must Have at least 1 Weight Entry",
-        })
-        return
-      }
-      this.$axios.$delete('playerWeight/delete/'+playerWeight.id).then(()=>{
-        this.$store.commit('deletePlayerWeight', playerWeight)
-      }).catch(err=>{
-        this.$swal.fire({
-          icon:"error",
-          title:"An Error Occurred",
-          text: err.response.data.message
-        })
-      })
-    },
+      // deleteWeight: function (playerWeight){
+      //   if(this.player.weights.length === 1){
+      //     this.$swal.fire({
+      //       icon:"warning",
+      //       title:"Player Must Have at least 1 Weight Entry",
+      //     })
+      //     return
+      //   }
+      //   this.$axios.$delete('playerWeight/delete/'+playerWeight.id).then(()=>{
+      //     this.$store.commit('deletePlayerWeight', playerWeight)
+      //   }).catch(err=>{
+      //     this.$swal.fire({
+      //       icon:"error",
+      //       title:"An Error Occurred",
+      //       text: err.response.data.message
+      //     })
+      //   })
+      // },
     editWeight: function (playerWeight){
       this.$swal.fire({
         title:"Edit weight",
         icon:"info",
         input:"text",
-        inputValue: playerWeight.weight
+        inputValue: playerWeight.weight,
+        showCancelButton : true
       }).then(res=>{
-        if(isNaN(Number(res.value)) || res.value===""){
-          Swal.fire({
-            icon:"error",
-            title:"Weight must be a number"
-          })
-        }else{
-          console.log(res.value)
-          this.$axios.$post('playerWeight/edit/'+playerWeight.id, {
-            player_id: playerWeight.player.id,
-            date:moment().format('YYYY-MM-DD'),
-            weight:res.value
-          }).then(()=>{
-            this.$store.commit('editPlayerWeight', {
-              date:playerWeight.date,
-              id:playerWeight.id,
-              player:playerWeight.player,
-              weight:Number(res.value)
+        if(!res.isDismissed){
+          if (isNaN(Number(res.value)) || res.value === "") {
+            Swal.fire({
+              icon: "error",
+              title: "Weight must be a number"
             })
-            this.initPlayer()
-          })
+          } else {
+            this.$axios.$post('playerWeight/edit/' + playerWeight.id, {
+              player_id: playerWeight.player.id,
+              date: moment().format('YYYY-MM-DD'),
+              weight: res.value
+            }).then(() => {
+              this.$store.commit('editPlayerWeight', {
+                date: playerWeight.date,
+                id: playerWeight.id,
+                player: playerWeight.player,
+                weight: Number(res.value)
+              })
+
+            })
+          }
         }
+
       })
     },
     createWeight: function (){
@@ -108,25 +111,27 @@ export default {
         showCancelButton:true,
         confirmButtonText:"Add",
       }).then(res =>{
-        if(isNaN(Number(res.value)) || res.value===""){
-          Swal.fire({
-            icon:"error",
-            title:"Weight must be a number"
-          })
-        }else{
-          // add the weight >>
-          this.$axios.$post('playerWeight/new', {
-            player_id: this.player.id,
-            date:moment().format('YYYY-MM-DD'),
-            weight:res.value
-          }).then(res2=>{
-            this.$store.commit('addPlayerWeight', {
-              date:res2.date,
-              id:res2.id,
-              player:res2.player,
-              weight:Number(res2.weight)
+        if(!res.isDismissed){
+          if (isNaN(Number(res.value)) || res.value === "") {
+            Swal.fire({
+              icon: "error",
+              title: "Weight must be a number"
             })
-          })
+          } else {
+            // add the weight >>
+            this.$axios.$post('playerWeight/new', {
+              player_id: this.player.id,
+              date: moment().format('YYYY-MM-DD'),
+              weight: res.value
+            }).then(res2 => {
+              this.$store.commit('addPlayerWeight', {
+                date: res2.date,
+                id: res2.id,
+                player: res2.player,
+                weight: Number(res2.weight)
+              })
+            })
+          }
         }
       })
     },
