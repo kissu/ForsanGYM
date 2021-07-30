@@ -8,6 +8,7 @@ export const state = () => ({
   servicesIncome: [],
   plansIncome:[],
   totalIncome: 0,
+  testArr:[]
 })
 
 export const mutations = {
@@ -20,16 +21,12 @@ export const mutations = {
     state.players.push(player)
   },
   editPlayer: function (state, player) {
-    let tmpArr=null
     for (let i = 0; i < state.players.length; i++) {
       if (state.players[i].id === player.id) {
-        state.players[i] = player
-        tmpArr = state.players
-        state.players = Object.assign([], [])
+        state.players.splice(i, 1, player)
         break
       }
     }
-    state.players = tmpArr
 
   },
   // Player Section --end
@@ -194,7 +191,41 @@ export const mutations = {
     }
     state.players = tmpArr
 
-  }
+  },
   // player weight area end
+
+  // test Array area begin
+
+  setTest(state, test){
+    test[0].index = 0
+    state.testArr = test
+  },
+  addTest(state, test){
+    test.index = state.testArr.length
+    state.testArr.push(test)
+  },
+  editTest(state, test){
+    for(let i=0; i<state.testArr.length;i++){
+      if(state.testArr[i].id === test.id){
+        test.index = i
+        state.testArr.splice(i, 1, test)
+        break;
+      }
+    }
+  },
+  deleteTest(state, test){
+    if(state.testArr.length>1){
+      for(let i=0; i<state.testArr.length;i++){
+        if(state.testArr[i].id === test.id){
+          test.index = i
+          state.testArr.splice(i, 1)
+          break;
+        }
+    }
+
+    }
+  },
+
+  // test Array area end
 
 }

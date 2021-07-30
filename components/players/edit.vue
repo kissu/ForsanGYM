@@ -139,6 +139,7 @@ export default {
       // we need to edit 2 things :
       // 1) player data
       // 2) begin and end date of the current sub
+      console.log("Logginf from save edit : ", this.InputPlayer)
       let player = Object.assign({}, this.InputPlayer)
       player.subscription = Object.assign({}, this.InputPlayer.subscription)
       this.$axios.$post('/player/edit/'+ player.id, player).then(()=>{
@@ -150,7 +151,6 @@ export default {
           endDate:player.subscription.endDate
         })
         }
-
         this.$store.commit('editPlayer', player)
         player = Object.assign({},{})
         $(`#staticBackdrop`).modal('hide')
@@ -171,12 +171,7 @@ export default {
     isDateEdited:function (){
       return this.InputPlayer.subscription.beginDate !== this.originalDates.beginDate ||
         this.InputPlayer.subscription.endDate !== this.originalDates.endDate;
-
     },
-    isWeightEdited: function (){
-
-      return this.originalWeight !== this.InputPlayer.weight
-    }
   },
   created() {
     const id = this.playerId
@@ -184,6 +179,7 @@ export default {
       return player.id === id
     }))
     // all this assingment operations to avoid refrences
+    console.log("On created :", this.InputPlayer)
     this.InputPlayer.subscription = Object.assign({},this.InputPlayer.subscription )
     this.InputPlayer.subscription.plan = Object.assign({},this.InputPlayer.subscription.plan )
 

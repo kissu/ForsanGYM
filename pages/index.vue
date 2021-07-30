@@ -37,7 +37,7 @@
             </tr>
             </thead>
             <tbody>
-              <tr v-for="(planIncome, index) in $store.state.plansIncome">
+              <tr v-for="(planIncome, index) in plansIncome">
               <td>{{index+1}}</td>
               <td>{{planIncome.plan.name}}</td>
               <td>{{planIncome.numberOfPlayers}}</td>
@@ -92,5 +92,10 @@ export default {
         income:0
       }
     },
+  computed:{
+    plansIncome: function (){
+      return this.$store.state.plansIncome.filter(plansIncome=> plansIncome.plan.id)
+    }
+  }
 };
 </script>

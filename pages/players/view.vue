@@ -197,7 +197,7 @@ export default {
   components: {WeightTable, PageTitle, Edit },
   data(){
     return{
-
+      player:{}
     }
   },
   methods:{
@@ -301,20 +301,19 @@ export default {
 
     },
   created() {
-    console.log("Player : ", this.player)
-    console.log("Type : ", typeof this.player.subscription.plan)
+    this.player =this.$route.query.player
   },
   computed:{
-    player: function (){
-      const id = this.$route.params.id
-      const player = Object.assign({},this.$store.state.players.find(player=>{
-        return player.id === id
-      }))
-      player.subscription = Object.assign({}, player.subscription)
-      player.subscription.plan = Object.assign({}, player.subscription.plan)
-      player.weights = Object.assign([], player.weights)
-      return player
-    }
+    // player: function (){
+    //   const id = this.$route.params.id
+    //   const player = Object.assign({},this.$store.state.players.find(player=>{
+    //     return player.id === id
+    //   }))
+    //   player.subscription = Object.assign({}, player.subscription)
+    //   player.subscription.plan = Object.assign({}, player.subscription.plan)
+    //   player.weights = Object.assign([], player.weights)
+    //   return player
+    // }
   },
 };
 </script>

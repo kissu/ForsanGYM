@@ -225,6 +225,9 @@ export default {
         name: 'singlePlayer',
         params:{
           id:player.id
+        },
+        query:{
+          player:player
         }
       })
     },

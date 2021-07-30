@@ -79,9 +79,12 @@ export default {
           beginDate:this.InputPlayer.beginDate,
           endDate:this.InputPlayer.endDate
         }).then(res=>{
+          delete res.player
           this.$store.commit('editPlayer', {
             ...this.player,
-            subscription:res
+            subscription:{
+              ...res
+            }
           })
           $(`#resubscribeModal`).modal('hide')
         }).catch(err =>{
