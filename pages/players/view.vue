@@ -12,18 +12,18 @@
         </div>
         <div class="d-flex actions  text-center my1 mx-auto w-100" >
           <button type="button" class="btn btn-warning mx-auto w-100" data-toggle="modal"
-                  data-target="#staticBackdrop" v-on:focusin="initPage">Edit</button>
+                  data-target="#staticBackdrop" v-on:focusin="">Edit</button>
           <edit :playerId='player.id'  />
           <!-- End of popup window -->
         </div>
 
         <div class="d-flex actions  text-center my-1 mx-auto w-100" >
-          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-on:click="freeze()" v-on:focusin="initPage" v-if="player.invited <=0">Freeze</button>
+          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-on:click="freeze()" v-on:focusin="" v-if="player.invited <=0">Freeze</button>
           <button type="button" class="btn btn-outline-primary mx-auto w-100" v-else disabled>Freeze</button>
         </div>
 
         <div class="d-flex actions  text-center my-1 mx-auto w-100" >
-          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-on:focusin="initPage" v-if="player.freeze===0" v-on:click="addInvite()">Invite Friend</button>
+          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-on:focusin="" v-if="player.freeze===0" v-on:click="addInvite()">Invite Friend</button>
           <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-else disabled>Invite Friend</button>
         </div>
 
@@ -148,14 +148,25 @@
               </div>
             </div>
 
-            <div class="row mb-2">
+            <div class="row mb-2" v-if="player.invited === 0">
               <div class="col-md-3">
                 <h5 class="mb-0">
-                  <span class="mb-0 mdi mdi-message"></span> left Invitation
+                  <span class="mb-0 mdi mdi-snowflake"></span> Freezing
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{player.subscription.plan.numberOfExceptions - player.invited}}</h5>
+                <h5 class="mb-0 font-weight-normal">{{player.subscription.plan.freezeDays}} ({{player.subscription.plan.freezeDays - player.freeze}} Left)</h5>
+              </div>
+            </div>
+
+            <div class="row mb-2" v-if="player.freeze === 0">
+              <div class="col-md-3">
+                <h5 class="mb-0">
+                  <span class="mb-0 mdi mdi-account-arrow-right"></span> Invitation
+                </h5>
+              </div>
+              <div class="col-md-9">
+                <h5 class="mb-0 font-weight-normal">{{player.subscription.plan.invites}} ({{player.subscription.plan.invites - player.invited}} Left)</h5>
               </div>
             </div>
 
@@ -183,49 +194,74 @@ export default {
   components: {WeightTable, PageTitle, Edit },
   data(){
     return{
-      player: {},
 
     }
   },
   methods:{
-    initPage: function (){
-      console.log("init worked ")
-      const id = this.$route.params.id
-
-      this.player = Object.assign({},this.$store.state.players.find(player=>{
-        return player.id === id
-      }))
-
-
-
-    },
+    // initPage: function (){
+    //   console.log("init worked ")
+    //   const id = this.$route.params.id
+    //
+    //   this.player = Object.assign({},this.$store.state.players.find(player=>{
+    //     return player.id === id
+    //   }))
+    //
+    //
+    //
+    // },
 
     freeze: function (){
-      this.$axios.$get('player/freeze/'+this.player.id).then(()=>{
-        this.$axios.$post('subscription/updateDate/'+this.player.id, {
-          beginDate:this.player.subscription.beginDate,
-          endDate:moment(this.player.subscription.endDate).add(this.player.subscription.plan.numberOfExceptions ,'day').format("YYYY-MM-DD")
-        }).then(()=>{
-          this.$store.commit('editPlayer', {
-            ...this.player,
-            subscription:{
-              ...this.player.subscription,
-              endDate: moment(this.player.subscription.endDate).add(this.player.subscription.plan.numberOfExceptions ,'day').format("YYYY-MM-DD")
-            }
-          })
-          this.$swal.fire({
-            title:"Player has been Frozen",
-            icon:"success",
-            iconColor:"#316aff"
-          })
-        })
-      }).catch(err=>{
-        this.$swal.fire({
-          title:`Freezing player Failed`,
-          icon:"error",
-          text:err.response.data.message
-        })
+
+      this.$swal.fire({
+        title:"How many Days you want to freeze ? ",
+        input:"text",
+        icon:"question",
+        iconColor:"#316aff",
+        inputPlaceholder:`Enter a number from 1 to ${this.player.subscription.plan.freezeDays - this.player.freeze} `,
+        showCancelButton:true
+      }).then(res=>{
+        if(!res.isDismissed){
+          if (isNaN(Number(res.value)) || res.value === "") {
+            // Validate the value is a number :D
+            Swal.fire({
+              icon: "error",
+              title: "Weight must be a number"
+            })
+          }else{
+            this.$axios.$post('player/freeze/'+this.player.id, {freezeDays:Number(res.value)}).then(()=>{
+              this.$axios.$post('subscription/updateDate/'+this.player.id, {
+                beginDate:this.player.subscription.beginDate,
+                endDate:moment(this.player.subscription.endDate).add(Number(res.value) ,'day').format("YYYY-MM-DD")
+              }).then(()=>{
+                this.$store.commit('editPlayer', {
+                  ...this.player,
+                  subscription:{
+                    ...this.player.subscription,
+                    endDate: moment(this.player.subscription.endDate).add(Number(res.value) ,'day').format("YYYY-MM-DD")
+                  },
+                  freeze:this.player.freeze + Number(res.value)
+                })
+              }).catch(err=>{
+                this.$swal.fire({
+                  title:`Freezing player Failed`,
+                  icon:"error",
+                  text:err.response.data.message
+                })
+              })
+            }).catch(err=>{
+              this.$swal.fire({
+                title:`Freezing player Failed`,
+                icon:"error",
+                text:err.response.data.message
+              })
+            })
+
+          }
+
+        }
+
       })
+
     },
 
     addInvite: function (){
@@ -233,7 +269,7 @@ export default {
         title:`How many invitations you want to add ? `,
         icon:"question",
         input:'text',
-        inputPlaceholder: `Enter a number from 1 to ${this.player.subscription.plan.numberOfExceptions - this.player.invited} `,
+        inputPlaceholder: `Enter a number from 1 to ${this.player.subscription.plan.invites - this.player.invited} `,
         showCancelButton:true
       }).then(res=>{
         if(!res.isDismissed){
@@ -245,7 +281,7 @@ export default {
             })
           }else{
             this.$axios.$post('player/inviteFriend/'+this.player.id, {
-              numberOfInvitedPlayers: Number(res.value)
+              invites: Number(res.value)
             }).then(()=>{
               this.$store.commit('editPlayer', {...this.player,
               invited:this.player.invited + Number(res.value) })
@@ -263,7 +299,17 @@ export default {
 
     },
   created() {
-    this.initPage()
+    // this.initPage()
+
+  },
+  computed:{
+    player: function (){
+      const id = this.$route.params.id
+
+      return Object.assign({},this.$store.state.players.find(player=>{
+        return player.id === id
+      }))
+    }
   }
 };
 </script>

@@ -20,12 +20,16 @@ export const mutations = {
     state.players.push(player)
   },
   editPlayer: function (state, player) {
+    let tmpArr=null
     for (let i = 0; i < state.players.length; i++) {
       if (state.players[i].id === player.id) {
         state.players[i] = player
+        tmpArr = state.players
+        state.players = Object.assign([], [])
         break
       }
     }
+    state.players = tmpArr
 
   },
   // Player Section --end
@@ -156,8 +160,19 @@ export const mutations = {
     player.weights = playerWeightsArr
   },
   addPlayerWeight: function (state, playerWeight){
-    const player = state.players.find(player => player.id === playerWeight.player.id)
-    player.weights.push(playerWeight)
+
+    let playerIndex = null
+    for(let i=0;i<state.players.length;i++){
+      // this loop to search for the player
+      if(state.players[i].id === playerWeight.player.id){
+        playerIndex = i
+        break;
+      }
+    }
+    state.players[playerIndex].weights.push(playerWeight)
+    const tmpArr = Object.assign([],state.players)
+    state.players = Object.assign([], [])
+    state.players = Object.assign([],tmpArr)
   },
   editPlayerWeight: function (state, playerWeight){
     const player = state.players.find(player => player.id === playerWeight.player.id)

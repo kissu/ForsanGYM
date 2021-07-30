@@ -1,5 +1,5 @@
-<template>
-  <div class="modal fade" id="resubscribeModal" tabindex="-1" aria-labelledby="resubscribeModalLabel" aria-hidden="true">
+<template >
+  <div class="modal fade" id="resubscribeModal" tabindex="-1" aria-labelledby="resubscribeModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -12,9 +12,9 @@
           <div class="form-group row">
             <label class="control-label col-md-3">Plan</label>
             <div class="col-md-8">
-              <select @change="PickPlan" v-model="InputPlayer.plan" class="form-control col-md-8" id="plansList">
-                <option :value="null" disabled selected>Choose a plan</option>
-                <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{plan.name}}</option>
+              <select @change="PickPlan" v-model="pickedPlan" class="form-control col-md-8" id="plansList" >
+                <option selected :value="null" disabled>Choose a plan</option>
+                <option v-for="plan in activePlans" :value="plan" :key="plan.id">{{plan.name}}</option>
               </select>
             </div>
           </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary" v-on:click="subscribe">Save changes</button>
         </div>
       </div>
     </div>
@@ -46,8 +46,84 @@
 </template>
 
 <script>
+import moment from "moment/moment";
+
 export default {
-  name: "resubscribe"
+  name: "resubscribe",
+  data(){
+    return{
+      pickedPlan:null,
+      InputPlayer:{}
+    }
+  },
+  props:{
+    player:{},
+    activePlans:[]
+  },
+  methods:{
+    PickPlan:function (){
+      this.InputPlayer.beginDate = moment().format("YYYY-MM-DD")
+      this.InputPlayer.endDate = moment().add(this.pickedPlan.months, 'month').format("YYYY-MM-DD")
+    },
+    intiInputPlayer:function (){
+      console.log("Init Input Player called ")
+      if(this.pickedPlan){
+        this.InputPlayer = Object.assign({},{
+          plan: this.player.subscription.plan,
+          beginDate: this.pickedPlan.beginDate,
+          endDate: this.pickedPlan.endDate
+        })
+      }else{
+        this.InputPlayer = Object.assign({},{
+          plan: this.player.subscription.plan,
+          beginDate: null,
+          endDate: null
+        })
+      }
+
+    },
+    subscribe: function (){
+      if(this.isEndedSubscription()){
+        this.$swal.fire({
+          title:"Error",
+          text:"This player subscription did not end yet",
+          icon:"error"
+        })
+      }else{
+        this.$axios.$post('subscription/new', {
+          player_id: this.player.id,
+          plan_id:this.pickedPlan.id,
+          beginDate:this.InputPlayer.beginDate,
+          endDate:this.InputPlayer.endDate
+        }).then(res=>{
+          this.$store.commit('editPlayer', {
+            ...this.player,
+            subscription:res
+          })
+          $(`#resubscribeModal`).modal('hide')
+        }).catch(err =>{
+          console.log("Error is : ")
+          console.log(err)
+          this.$swal.fire({
+            icon:"error",
+            title:"An Error Occurred",
+            text: err.response.data.message
+
+          })
+        })
+      }
+    },
+    isEndedSubscription: function (){
+      return moment(this.player.subscription.endDate).isAfter(moment())
+    }
+  },
+  computed:{
+
+  },
+  created() {
+    this.intiInputPlayer()
+  }
+
 }
 </script>
 

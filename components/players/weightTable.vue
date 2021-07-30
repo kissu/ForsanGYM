@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(weight, index) in player.weights" :key="index">
+        <tr v-for="(weight, index) in playerComputed.weights" :key="index">
           <td>{{index+1}}</td>
           <td>{{weight.date}}</td>
           <td>{{weight.weight}}</td>
@@ -137,8 +137,9 @@ export default {
     },
   },
   computed:{
-    initPlayer:function (){
-      this.player = Object.assign({},this.$store.state.players.find(player => player.id === this.player.id))
+    playerComputed:function (){
+      console.log(this.player)
+      return Object.assign({},this.$store.state.players.find(player => player.id === this.player.id))
     }
   }
 

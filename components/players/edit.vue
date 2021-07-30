@@ -1,5 +1,5 @@
 <template>
-  <div id="editButton" v-on:focus="initInputPlayer">
+  <div id="editButton" >
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -45,15 +45,6 @@
                         type="tel"
                         v-bind:value="InputPlayer.phoneNumber"
                         @input="InputPlayer.phoneNumber = $event.target.value"
-                      />
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label"><i class="mdi mdi-weight-kilogram"></i> Weight</label>
-                      <input
-                        class="form-control"
-                        type="text"
-                        v-bind:value="InputPlayer.weights[InputPlayer.weights.length-1].weight"
-                        @input="InputPlayer.weights[InputPlayer.weights.length-1].weight = $event.target.value"
                       />
                     </div>
                     <div class="form-group">
@@ -160,14 +151,6 @@ export default {
         })
         }
 
-        console.log(player)
-        if(this.isWeightEdited()){
-          this.$axios.$post('playerWeight/edit/'+player.weights[player.weights.length-1].id, {
-            date: moment().format("yyyy-MM-DD"),
-            weight : player.weights[player.weights.length-1].weight,
-            player_id:player.id
-          })
-        }
         this.$store.commit('editPlayer', player)
         player = Object.assign({},{})
         $(`#staticBackdrop`).modal('hide')
@@ -184,27 +167,7 @@ export default {
 
       })
     },
-    initInputPlayer: function (){
-      const id = this.playerId
-      this.InputPlayer = Object.assign({}, this.$store.state.players.find(player=>{
-        return player.id === id
-      }))
-      this.InputPlayer.subscription = Object.assign({},this.InputPlayer.subscription )
-      this.InputPlayer.subscription.plan = Object.assign({},this.InputPlayer.subscription.plan )
 
-      this.InputPlayer.weights = Object.assign([],this.InputPlayer.weights )
-      for(let i=0;i<this.InputPlayer.weights.length;i++){
-        this.InputPlayer.weights[i] = Object.assign({},this.InputPlayer.weights[i] )
-        this.InputPlayer.weights[i].player = Object.assign({},this.InputPlayer.weights[i].player )
-      }
-
-
-      this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
-      this.originalDates.endDate = this.InputPlayer.subscription.endDate
-
-      this.originalWeight = this.InputPlayer.weights[this.InputPlayer.weights.length-1].weight
-      this.originalWeight = parseInt(this.originalWeight, 10)
-    },
     isDateEdited:function (){
       return this.InputPlayer.subscription.beginDate !== this.originalDates.beginDate ||
         this.InputPlayer.subscription.endDate !== this.originalDates.endDate;
@@ -216,7 +179,26 @@ export default {
     }
   },
   created() {
-    this.initInputPlayer()
+    const id = this.playerId
+    this.InputPlayer = Object.assign({}, this.$store.state.players.find(player=>{
+      return player.id === id
+    }))
+    // all this assingment operations to avoid refrences
+    this.InputPlayer.subscription = Object.assign({},this.InputPlayer.subscription )
+    this.InputPlayer.subscription.plan = Object.assign({},this.InputPlayer.subscription.plan )
+
+    this.InputPlayer.weights = Object.assign([],this.InputPlayer.weights )
+    for(let i=0;i<this.InputPlayer.weights.length;i++){
+      this.InputPlayer.weights[i] = Object.assign({},this.InputPlayer.weights[i] )
+      this.InputPlayer.weights[i].player = Object.assign({},this.InputPlayer.weights[i].player )
+    }
+
+    // for validations ( to avoid making unuseful requests )
+    this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
+    this.originalDates.endDate = this.InputPlayer.subscription.endDate
+
+    this.originalWeight = this.InputPlayer.weights[this.InputPlayer.weights.length-1].weight
+    this.originalWeight = parseInt(this.originalWeight, 10)
   }
 };
 </script>
