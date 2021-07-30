@@ -199,7 +199,7 @@
                     >
                       Delete
                     </button>
-                    <button class="btn btn-success" type="button">
+                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#reSubscribeModal1" @click="activityPlayerInfo = playerActivity">
                       Resubscribe
                     </button>
                   </td>
@@ -210,14 +210,19 @@
         </div>
       </div>
     </div>
+    <div v-if="activityPlayerInfo">
+      <reSubscribe :activity-player="activityPlayerInfo" />
+    </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import reSubscribe from './reSubscribe.vue'
 //import func from 'vue-editor-bridge';
 export default {
   name: "playerActivity",
+  components:{reSubscribe, },
   data() {
     return {
       activityPlayer: {
@@ -230,6 +235,7 @@ export default {
       searchByActivity: null,
       errors: {},
       EndedSubscriptions: false,
+      activityPlayerInfo: null,
     };
   },
   methods: {
