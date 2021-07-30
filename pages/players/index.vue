@@ -83,7 +83,8 @@
                         <td>{{ item.phoneNumber }}</td>
                         <td>{{ item.subscription.beginDate }}</td>
                         <td>{{ item.subscription.endDate }}</td>
-                        <td>{{ item.subscription.plan.name }}</td>
+                        <td v-if="item.subscription.plan!=null">{{ item.subscription.plan.name }}</td>
+                        <td v-else>Plan is deleted</td>
                         <td>
                           <button class="btn btn-primary" type="button" @click="viewPlayer(item)">View</button>
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
@@ -185,18 +186,25 @@ export default {
   },
   methods: {
     DeletePlayer:function (item){
+      let text = ""
+      if(item.subscription.plan === null){
+        // plan is deleted
+        text = `ID : ${item.id}, Phone : ${item.phoneNumber}, Plan : Deleted Plan`
+      }else {
+        text = `ID : ${item.id}, Phone : ${item.phoneNumber}, Plan : ${item.subscription.plan.name}`
+      }
       this.$swal.fire({
         title: `Are you sure you want to delete player ${item.name} ? `,
         showDenyButton: true,
         icon: 'question',
-        text:`ID : ${item.id}, Phone : ${item.phoneNumber}, Plan : ${item.subscription.plan.name}`,
+        text:text,
         showCancelButton: false,
         confirmButtonText: `Yes`,
         denyButtonText: `cancel`,
       }).then((result) => {
         if (result.isConfirmed) {
           // Delete Player from databases
-          this.$axios.$delete('player/delete/'+item.id).then(res=>{
+          this.$axios.$delete('player/delete/'+item.id).then(()=>{
             this.$store.commit('deletePlayer', item.id)
           }).catch(err=>{
             //delete Failed

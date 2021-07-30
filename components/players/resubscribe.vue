@@ -65,23 +65,6 @@ export default {
       this.InputPlayer.beginDate = moment().format("YYYY-MM-DD")
       this.InputPlayer.endDate = moment().add(this.pickedPlan.months, 'month').format("YYYY-MM-DD")
     },
-    intiInputPlayer:function (){
-      console.log("Init Input Player called ")
-      if(this.pickedPlan){
-        this.InputPlayer = Object.assign({},{
-          plan: this.player.subscription.plan,
-          beginDate: this.pickedPlan.beginDate,
-          endDate: this.pickedPlan.endDate
-        })
-      }else{
-        this.InputPlayer = Object.assign({},{
-          plan: this.player.subscription.plan,
-          beginDate: null,
-          endDate: null
-        })
-      }
-
-    },
     subscribe: function (){
       if(this.isEndedSubscription()){
         this.$swal.fire({
@@ -117,12 +100,6 @@ export default {
       return moment(this.player.subscription.endDate).isAfter(moment())
     }
   },
-  computed:{
-
-  },
-  created() {
-    this.intiInputPlayer()
-  }
 
 }
 </script>
