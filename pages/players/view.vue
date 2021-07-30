@@ -305,10 +305,13 @@ export default {
   computed:{
     player: function (){
       const id = this.$route.params.id
-
-      return Object.assign({},this.$store.state.players.find(player=>{
+      const player = Object.assign({},this.$store.state.players.find(player=>{
         return player.id === id
       }))
+      player.subscription = Object.assign({}, player.subscription)
+      player.subscription.plan = Object.assign({}, player.subscription.plan)
+      player.weights = Object.assign([], player.weights)
+      return player
     }
   }
 };

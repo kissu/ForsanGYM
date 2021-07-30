@@ -25,14 +25,28 @@
               <div class="form-group row">
                 <label class="control-label col-md-3 text-center">Duration in Months </label>
                 <div class="col-md-8">
-                  <input v-model="plan.months" class="form-control col-md-8" type="text" placeholder="Months">
+                  <input v-model="plan.months" class="form-control col-md-8" type="number" placeholder="Months">
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="control-label col-md-3 text-center">Price </label>
                 <div class="col-md-8">
-                  <input v-model="plan.price" class="form-control col-md-8" type="text" placeholder="EGP">
+                  <input v-model="plan.price" class="form-control col-md-8" type="number" placeholder="EGP">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="control-label col-md-3 text-center">Freezing Days </label>
+                <div class="col-md-8">
+                  <input v-model="plan.freezeDays" class="form-control col-md-8" type="number" placeholder="Allowed Freezing Days ">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="control-label col-md-3 text-center">Invitations </label>
+                <div class="col-md-8">
+                  <input v-model="plan.invites" class="form-control col-md-8" type="number" placeholder="Allowed Invitations">
                 </div>
               </div>
 
@@ -80,14 +94,19 @@ export default {
         description: null,
         price: 0,
         months: 1,
-        isActivated: 0
+        isActivated: 0,
+        invites:null,
+        freezeDays:null
       },
       dis: false
     }
   },
   methods: {
       addPLan: function () {
-        this.dis = true;
+        // this.dis = true;
+        this.plan.invites = Number(this.plan.invites)
+        this.plan.freezeDays = Number(this.plan.freezeDays)
+
         this.$axios.$post('/plan/new', this.plan ).then(res => {
           this.$store.commit('addPlan',res);
           this.dis = false

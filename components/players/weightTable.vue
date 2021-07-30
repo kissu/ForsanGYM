@@ -85,16 +85,17 @@ export default {
             })
           } else {
             this.$axios.$post('playerWeight/edit/' + playerWeight.id, {
-              player_id: playerWeight.player.id,
-              date: moment().format('YYYY-MM-DD'),
+              player_id: this.player.id,
+              date: playerWeight.date,
               weight: res.value
             }).then(() => {
               this.$store.commit('editPlayerWeight', {
                 date: playerWeight.date,
                 id: playerWeight.id,
-                player: playerWeight.player,
-                weight: Number(res.value)
+                weight: Number(res.value),
+                player_id: this.player.id
               })
+              //TODO Catch errors here @Abdullah3553
 
             })
           }

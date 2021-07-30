@@ -41,7 +41,11 @@ export default {
 
         $(`#DeleteCheckModal${this.itemId}`).modal('hide')
       }).catch( err => {
-        this.$store.commit(this.commitAction,this.itemId);
+        this.$swal.fire({
+          icon: 'error',
+          title: "Deleting Operation FAILED",
+          text: err.response.data.message
+        })
       })
     }
   }

@@ -175,16 +175,19 @@ export const mutations = {
     state.players = Object.assign([],tmpArr)
   },
   editPlayerWeight: function (state, playerWeight){
-    const player = state.players.find(player => player.id === playerWeight.player.id)
+    const player = state.players.find(player => player.id === playerWeight.player_id)
+    let tmpArr = null
     for(let i=0;i<player.weights.length;i++){
       if(player.weights[i].id === playerWeight.id){
-        player.weights[i] = Object.assign({}, playerWeight)
+        playerWeight.player_id = undefined
+        player.weights[i] = playerWeight
+        tmpArr = Object.assign([],state.players)
+        state.players = Object.assign([],[])
         break
       }
     }
-    const tmp = Object.assign({},player.weights[0])
-    player.weights.shift()
-    player.weights.unshift(tmp)
+    state.players = tmpArr
+
   }
   // player weight area end
 
