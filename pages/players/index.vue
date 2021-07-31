@@ -90,6 +90,7 @@
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
                           <button class="btn btn-success " type="button" data-toggle="modal" data-target="#resubscribeModal"
                                   @click="clickedPlayer = item">Subscribe</button>
+                                  <router-link :to="{name:"routername", param:{id:id}}" class="btn btn-primary">zzzzzzzzzzzzzzzzzzzz</router-link>
                         </td>
                       </tr>
                       </tbody>

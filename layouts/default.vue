@@ -70,6 +70,12 @@ export default {
       console.log(err)
     })
 
+    this.$axios.$get('activityPlayerSubscription/').then(res => {
+      this.$store.commit('setAllActivityPlayersubscriptions', res)
+    }).catch(err => {
+      console.log('error on plan income load (layout/Default) :')
+      console.log(err)
+    })
   }
 }
 </script>

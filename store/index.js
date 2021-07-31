@@ -8,6 +8,7 @@ export const state = () => ({
   servicesIncome: [],
   plansIncome:[],
   totalIncome: 0,
+  activityPlayerSubscriptions: [],
 })
 
 export const mutations = {
@@ -68,6 +69,9 @@ export const mutations = {
       return activity.id !== activity_id
     })
   },
+
+  //  ActivityPlayers -- start
+
   addNewActivityPlayer: function (state, activityPlayer) {
     state.activityPlayers.push(activityPlayer)
   },
@@ -85,6 +89,10 @@ export const mutations = {
       state.activities[objIndex].price = act.price
       state.activities[objIndex].description = act.description
   },
+  setAllActivityPlayersubscriptions: function(state, res){
+    state.activityPlayerSubscriptions = res
+  },
+  // Activity Player -- End
   // Services Part :
   SetServices: function (state, services) {
     state.services = services

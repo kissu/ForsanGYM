@@ -188,7 +188,7 @@
                     <button
                       class="btn btn-primary"
                       type="button"
-                      @click="viewPlayer(item)"
+                      @click="viewActivityPlayer(playerActivity.id)"
                     >
                       View
                     </button>
@@ -219,7 +219,6 @@
 <script>
 import moment from "moment";
 import reSubscribe from './reSubscribe.vue'
-//import func from 'vue-editor-bridge';
 export default {
   name: "playerActivity",
   components:{reSubscribe, },
@@ -345,6 +344,12 @@ export default {
           })
           this.$swal.fire('Player Deleted!', '', 'success')
         }
+      })
+    },
+    viewActivityPlayer: function(item){
+      this.$router.push({
+        name: "viewActivityPlayer",
+        params: {id: item}
       })
     }
   },
