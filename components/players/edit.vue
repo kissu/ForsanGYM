@@ -119,7 +119,7 @@
 import moment from "moment/moment";
 
 export default {
-  data(){
+   data(){
     return{
       InputPlayer:{},
       originalDates:{

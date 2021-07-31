@@ -19,33 +19,38 @@
                   no-footer
                 "
               >
-                <div class="row mt-2 mb-0">
-                  <div class="col-md-5 form-group " >
-                    <div id="sampleTable_filter" class="dataTables_filter text-left" >
-                      <label>Search :
+                <div class="row mt-2 mb-0 justify-content-center">
+                  <div class="col-md-auto">
+                    <select name="searchOptions" id="searchOptionsId" class="form-control form-control-sm" v-model="pickedSearchOption">
+                      <option :value="null" disabled selected>Choose search options</option>
+                      <option :value="null">Default</option>
+                      <option v-for="searchOption in searchOptions" :value="searchOption.value" :key="searchOption.id">{{searchOption.name}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-auto form-group " >
+                    <div class=" text-left" >
                         <input
                         type="search"
                         class="form-control form-control-sm"
-                        placeholder="Find a player by id "
+                        placeholder="Search here"
                         aria-controls="sampleTable"
-                        v-model="searchPlayerId"
-                      /></label>
+                        v-model="searchInput"
+                      />
                     </div>
                   </div>
 
-                  <div class="col-md-4 form-group">
+                  <div class="col-md-auto form-group">
                       <select
                         name="sampleTable_length"
-                        aria-controls="sampleTable"
                         class="form-control form-control-sm"
-                        v-model="pickedSearchOption"
+                        v-model="pickedPlan"
                       >
                         <option :value="null" disabled selected>Search By Plan</option>
-                        <option :value="null" >All</option>
+                        <option :value="null" >Default</option>
                         <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{plan.name}}</option>
                       </select>
                   </div>
-                  <label for="endedSubscriptionsChoise">Show Ended Subscriptions</label>
+                  <label for="endedSubscriptionsChoise">Ended Subscriptions</label>
                   <div class="col-auto">
                     <input type="checkbox" id="endedSubscriptionsChoise" v-model="endedSubsMarked">
                   </div>
@@ -88,10 +93,8 @@
                         <td>
                           <button class="btn btn-primary" type="button" @click="viewPlayer(item)">View</button>
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
-                          <button class="btn btn-success " type="button" data-toggle="modal" data-target="#resubscribeModal"
-                                  @click="clickedPlayer = item">Subscribe</button>
-                                  <router-link :to="{name:"routername", param:{id:id}}" class="btn btn-primary">zzzzzzzzzzzzzzzzzzzz</router-link>
-                        </td>
+                          <button class="btn btn-success " type="button" @click="clickedPlayer = item"
+                                  data-toggle="modal" data-target="#resubscribeModal">Resubscribe</button>                        </td>
                       </tr>
                       </tbody>
 
@@ -179,10 +182,17 @@ export default {
   components: {Resubscribe, DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
-      pickedSearchOption:null,
-      searchPlayerId:null,
+      pickedPlan:null,
+      searchOptions:[
+        {name:"By ID", value:'id'},
+        {name:"By begin Date", value:'beginDate'},
+        {name:"By endDate", value:'endDate'},
+        {name:"By Phone Number", value:'phoneNumber'},
+      ],
       endedSubsMarked:false,
       clickedPlayer:null,
+      searchInput:null,
+      pickedSearchOption:null
     }
   },
   methods: {
@@ -226,6 +236,9 @@ export default {
         name: 'singlePlayer',
         params:{
           id:player.id
+        },
+        query:{
+          player:player
         }
       })
     },
@@ -241,19 +254,26 @@ export default {
           return moment(player.subscription.endDate).isBefore( moment())
         })
       }
-      if(this.pickedSearchOption){
+      if(this.pickedPlan){
         returnArr = returnArr.filter(player=>{
-          return player.subscription.plan.id === this.pickedSearchOption.id
+          return player.subscription.plan.id === this.pickedPlan.id
         })
       }
-      if(this.searchPlayerId){
-        this.searchPlayerId = Number(this.searchPlayerId)
-        returnArr = returnArr.filter(player=>{
-          return player.id === this.searchPlayerId
-        })
+      if(this.pickedSearchOption === null){
+        // no picked search
+        return returnArr
+      }else if(this.pickedSearchOption === 'beginDate' && this.searchInput){
+        return returnArr.filter(data => data.subscription.beginDate === this.searchInput)
+      }else if(this.pickedSearchOption === 'endDate' && this.searchInput){
+        return returnArr.filter(data => data.subscription.endDate === this.searchInput)
+      }else if(this.pickedSearchOption === 'id' && this.searchInput){
+        return returnArr.filter(data => data.id === Number(this.searchInput))
+      }else if(this.pickedSearchOption === 'phoneNumber' && this.searchInput){
+        return returnArr.filter(data => data.phoneNumber === this.searchInput)
       }
       return returnArr
     },
+
   },
 };
 </script>

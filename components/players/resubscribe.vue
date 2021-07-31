@@ -82,6 +82,7 @@ export default {
           this.$store.commit('editPlayer', {
             ...this.player,
             subscription:res
+
           })
           $(`#resubscribeModal`).modal('hide')
         }).catch(err =>{
@@ -100,7 +101,6 @@ export default {
       return moment(this.player.subscription.endDate).isAfter(moment())
     }
   },
-
 }
 </script>
 

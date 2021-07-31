@@ -92,5 +92,10 @@ export default {
         income:0
       }
     },
+  computed:{
+    plansIncome: function (){
+      return this.$store.state.plansIncome.filter(plansIncome=> plansIncome.plan.id)
+    }
+  }
 };
 </script>

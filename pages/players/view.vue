@@ -195,7 +195,7 @@ import Swal from "sweetalert2";
 
 export default {
   components: {WeightTable, PageTitle, Edit },
-  data(){
+   data(){
     return{
 
     }
@@ -300,7 +300,7 @@ export default {
     },
 
     },
-  created() {
+   created() {
     console.log("Player : ", this.player)
     console.log("Type : ", typeof this.player.subscription.plan)
   },

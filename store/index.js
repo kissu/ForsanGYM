@@ -15,22 +15,22 @@ export const mutations = {
   // Player Section --begin
   setPlayers: function (state, players) {
     state.players = players
-    console.log(state.players);
   },
   addPlayer: function (state, player) {
     state.players.push(player)
   },
   editPlayer: function (state, player) {
-    let tmpArr=null
+    let playerNew=Object.assign({}, player)
+    playerNew.subscription=Object.assign({}, player.subscription)
+    playerNew.subscription.plan=Object.assign({}, player.subscription.plan)
+    playerNew.weights=Object.assign([], player.weights)
+
     for (let i = 0; i < state.players.length; i++) {
-      if (state.players[i].id === player.id) {
-        state.players[i] = player
-        tmpArr = state.players
-        state.players = Object.assign([], [])
+      if (state.players[i].id === playerNew.id) {
+        state.players.splice(i, 1, playerNew)
         break
       }
     }
-    state.players = tmpArr
 
   },
   // Player Section --end
@@ -202,7 +202,7 @@ export const mutations = {
     }
     state.players = tmpArr
 
-  }
+  },
   // player weight area end
 
 }
