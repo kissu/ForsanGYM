@@ -88,8 +88,8 @@
                         <td>
                           <button class="btn btn-primary" type="button" @click="viewPlayer(item)">View</button>
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
-                          <button class="btn btn-success " type="button" data-toggle="modal" data-target="#resubscribeModal"
-                                  @click="clickedPlayer = item">Subscribe</button>
+                          <button class="btn btn-success " type="button" @click="clickedPlayer = item"
+                                  data-toggle="modal" data-target="#resubscribeModal">Resubscribe</button>
                         </td>
                       </tr>
                       </tbody>

@@ -13,17 +13,17 @@
         <div class="d-flex actions  text-center my1 mx-auto w-100" >
           <button type="button" class="btn btn-warning mx-auto w-100" data-toggle="modal"
                   data-target="#staticBackdrop" v-on:focusin="">Edit</button>
-          <edit :playerId='player.id'  />
+          <edit :player='player'  />
           <!-- End of popup window -->
         </div>
 
         <div class="d-flex actions  text-center my-1 mx-auto w-100" >
-          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-if="!player.subscription.plan.id || player.invited > 0 " disabled>Freeze</button>
+          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-if="!player.subscription.plan || player.invited > 0 " disabled>Freeze</button>
           <button type="button" class="btn btn-outline-primary mx-auto w-100" v-else v-on:click="freeze()" >Freeze</button>
         </div>
 
         <div class="d-flex actions  text-center my-1 mx-auto w-100" >
-          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-if="!player.subscription.plan.id || player.freeze !==0" disabled>Invite Friend</button>
+          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-if="!player.subscription.plan || player.freeze !==0" disabled>Invite Friend</button>
           <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-else v-on:click="addInvite()">Invite Friend</button>
         </div>
 
@@ -69,7 +69,7 @@
               </div>
 
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">{{player.subscription.plan.name}}</h5>
+                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan">{{player.subscription.plan.name}}</h5>
                 <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c">Deleted Plan</h5>
               </div>
             </div>
@@ -156,7 +156,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.id">{{player.subscription.plan.freezeDays}} ({{player.subscription.plan.freezeDays - player.freeze}} Left)</h5>
+                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan">{{player.subscription.plan.freezeDays}} ({{player.subscription.plan.freezeDays - player.freeze}} Left)</h5>
                 <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c"> No freezing days(Deleted Plan)</h5>
               </div>
             </div>
@@ -168,7 +168,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">{{player.subscription.plan.invites}} ({{player.subscription.plan.invites - player.invited}} Left)</h5>
+                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan">{{player.subscription.plan.invites}} ({{player.subscription.plan.invites - player.invited}} Left)</h5>
                 <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c">No invites(Ddeleted Plan)</h5>
               </div>
             </div>
@@ -195,11 +195,6 @@ import Swal from "sweetalert2";
 
 export default {
   components: {WeightTable, PageTitle, Edit },
-  data(){
-    return{
-      player:{}
-    }
-  },
   methods:{
     // initPage: function (){
     //   console.log("init worked ")
@@ -301,19 +296,11 @@ export default {
 
     },
   created() {
-    this.player =this.$route.query.player
   },
   computed:{
-    // player: function (){
-    //   const id = this.$route.params.id
-    //   const player = Object.assign({},this.$store.state.players.find(player=>{
-    //     return player.id === id
-    //   }))
-    //   player.subscription = Object.assign({}, player.subscription)
-    //   player.subscription.plan = Object.assign({}, player.subscription.plan)
-    //   player.weights = Object.assign([], player.weights)
-    //   return player
-    // }
+    player: function (){
+      return this.$store.state.players.find(player=> player.id === this.$route.query.player.id)
+    }
   },
 };
 </script>

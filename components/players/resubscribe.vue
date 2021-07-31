@@ -80,11 +80,14 @@ export default {
           endDate:this.InputPlayer.endDate
         }).then(res=>{
           delete res.player
+
           this.$store.commit('editPlayer', {
             ...this.player,
             subscription:{
               ...res
-            }
+            },
+            freeze:0,
+            invited:0
           })
           $(`#resubscribeModal`).modal('hide')
         }).catch(err =>{
@@ -103,6 +106,9 @@ export default {
       return moment(this.player.subscription.endDate).isAfter(moment())
     }
   },
+  created() {
+
+  }
 
 }
 </script>

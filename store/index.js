@@ -8,22 +8,25 @@ export const state = () => ({
   servicesIncome: [],
   plansIncome:[],
   totalIncome: 0,
-  testArr:[]
 })
 
 export const mutations = {
   // Player Section --begin
   setPlayers: function (state, players) {
     state.players = players
-    console.log(state.players);
   },
   addPlayer: function (state, player) {
     state.players.push(player)
   },
   editPlayer: function (state, player) {
+    let playerNew=Object.assign({}, player)
+    playerNew.subscription=Object.assign({}, player.subscription)
+    playerNew.subscription.plan=Object.assign({}, player.subscription.plan)
+    playerNew.weights=Object.assign([], player.weights)
+
     for (let i = 0; i < state.players.length; i++) {
-      if (state.players[i].id === player.id) {
-        state.players.splice(i, 1, player)
+      if (state.players[i].id === playerNew.id) {
+        state.players.splice(i, 1, playerNew)
         break
       }
     }

@@ -121,16 +121,14 @@ import moment from "moment/moment";
 export default {
   data(){
     return{
-      InputPlayer:{},
       originalDates:{
         beginDate:null,
         endDate:null
       },
-      originalWeight:null
     }
   },
   props:{
-    playerId:{
+    player:{
       required : true,
     },
   },
@@ -139,20 +137,18 @@ export default {
       // we need to edit 2 things :
       // 1) player data
       // 2) begin and end date of the current sub
-      console.log("Logginf from save edit : ", this.InputPlayer)
-      let player = Object.assign({}, this.InputPlayer)
-      player.subscription = Object.assign({}, this.InputPlayer.subscription)
-      this.$axios.$post('/player/edit/'+ player.id, player).then(()=>{
+      this.$axios.$post('/player/edit/'+ this.InputPlayer.id, this.InputPlayer).then(()=>{
         if(this.isDateEdited()){
-        this.$axios.$post('subscription/updateDate/'+ player.subscription.id, {
-          player_id:player.id,
-          plan_id:player.subscription.plan.id,
-          beginDate:player.subscription.beginDate,
-          endDate:player.subscription.endDate
+          this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
+          this.originalDates.endDate = this.InputPlayer.subscription.endDate
+        this.$axios.$post('subscription/updateDate/'+ this.InputPlayer.subscription.id, {
+          player_id:this.InputPlayer.id,
+          plan_id:this.InputPlayer.subscription.plan.id,
+          beginDate:this.InputPlayer.subscription.beginDate,
+          endDate:this.InputPlayer.subscription.endDate
         })
         }
-        this.$store.commit('editPlayer', player)
-        player = Object.assign({},{})
+        this.$store.commit('editPlayer', this.InputPlayer)
         $(`#staticBackdrop`).modal('hide')
       }).catch(err=>{
         console.log("Error is : ")
@@ -174,27 +170,20 @@ export default {
     },
   },
   created() {
-    const id = this.playerId
-    this.InputPlayer = Object.assign({}, this.$store.state.players.find(player=>{
-      return player.id === id
-    }))
-    // all this assingment operations to avoid refrences
-    console.log("On created :", this.InputPlayer)
-    this.InputPlayer.subscription = Object.assign({},this.InputPlayer.subscription )
-    this.InputPlayer.subscription.plan = Object.assign({},this.InputPlayer.subscription.plan )
-
-    this.InputPlayer.weights = Object.assign([],this.InputPlayer.weights )
-    for(let i=0;i<this.InputPlayer.weights.length;i++){
-      this.InputPlayer.weights[i] = Object.assign({},this.InputPlayer.weights[i] )
-      this.InputPlayer.weights[i].player = Object.assign({},this.InputPlayer.weights[i].player )
-    }
 
     // for validations ( to avoid making unuseful requests )
     this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
     this.originalDates.endDate = this.InputPlayer.subscription.endDate
-
-    this.originalWeight = this.InputPlayer.weights[this.InputPlayer.weights.length-1].weight
-    this.originalWeight = parseInt(this.originalWeight, 10)
+  },
+  computed:{
+    InputPlayer:function (){
+      const tmp = Object.assign({}, this.player)
+      // all this assingment operations to avoid refrences
+      tmp.subscription = Object.assign({},this.player.subscription )
+      tmp.subscription.plan = Object.assign({},this.player.subscription.plan )
+      tmp.weights = Object.assign([],this.player.weights )
+      return tmp
+    }
   }
 };
 </script>
