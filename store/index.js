@@ -8,7 +8,10 @@ export const state = () => ({
   servicesIncome: [],
   plansIncome:[],
   totalIncome: 0,
-  activityPlayerSubscriptions: [],
+  activityPlayerSubscriptions: {
+    count: 0,
+    items: []
+  },
 })
 
 export const mutations = {
