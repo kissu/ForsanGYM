@@ -62,9 +62,9 @@ export default {
       console.log(err)
     })
 
-    // get plansIncome
-    this.$axios.$get('planIncome/').then(res=>{
-      this.$store.commit('setPlansIncome', res)
+    // get subscriptionsIncome
+    this.$axios.$get('subscription/today').then(res=>{
+      this.$store.commit('setSubscriptionsIncome', res)
     }).catch(err => {
       console.log('error on plan income load (layout/Default) :')
       console.log(err)

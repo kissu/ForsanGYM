@@ -15,9 +15,9 @@
       <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
           <i class="icon fa fa-usd fa-3x"></i>
-          <div class="info" v-bind="$store.commit('calculateIncome')">
+          <div class="info" >
             <h4>Income</h4>
-            <p><b>{{$store.state.totalIncome}}</b></p>
+            <p><b>{{totalDailyIncome}}</b></p>
           </div>
         </div>
       </div>
@@ -32,16 +32,16 @@
             <tr>
               <th>#</th>
               <th>Type of subscription</th>
-              <th>Number of new players</th>
+              <th>Number of new Subscriptions</th>
               <th>Total income</th>
             </tr>
             </thead>
             <tbody>
-              <tr v-for="(planIncome, index) in $store.state.plansIncome">
+              <tr v-for="(subscriptionIncome, index) in computedSubscriptionsIncome">
               <td>{{index+1}}</td>
-              <td>{{planIncome.plan.name}}</td>
-              <td>{{planIncome.numberOfPlayers}}</td>
-              <td>{{planIncome.plan.price * planIncome.numberOfPlayers}}</td>
+              <td>{{subscriptionIncome.plan.name}}</td>
+              <td>{{subscriptionIncome.numberOfSubscriptions}}</td>
+              <td>{{subscriptionIncome.payedMoney *subscriptionIncome.numberOfSubscriptions}}</td>
             </tr>
             </tbody>
           </table>
@@ -93,9 +93,13 @@ export default {
       }
     },
   computed:{
-    plansIncome: function (){
-      return this.$store.state.plansIncome.filter(plansIncome=> plansIncome.plan.id)
+    computedSubscriptionsIncome: function (){
+      return this.$store.state.subscriptionsIncome
+    },
+    totalDailyIncome: function (){
+
     }
+
   }
 };
 </script>

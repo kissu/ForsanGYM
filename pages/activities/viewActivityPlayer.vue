@@ -87,7 +87,6 @@
     </div>
 
   </div>
-  </div>
 </template>
 
 <script>
@@ -99,17 +98,17 @@ export default {
       perPage: 10,
     };
   },
-  async asyncData({params, $route, $axios, $store}){
-      const playerId = params.id
+  async asyncData(context){
+      const playerId = context.route.params.id
       try{
-        const res = await $axios.$get('activityPlayerSubscription/'+playerId)
-        await $store.commit('setAllActivityPlayerSubscriptions', res)
+        const res = await context.$axios.$get('activityPlayerSubscription/'+playerId)
+        await context.store.commit('setAllActivityPlayersubscriptions', res)
       }catch(err){
       console.log('error on plan income load (layout/Default) :')
       console.log(err)
       }
-      
-    
+
+
   },
   methods: {
     goToPage: function () {
@@ -118,12 +117,13 @@ export default {
   },
   computed: {
     activityPlayer: function () {
-        return this.$store.state.activityPlayerSubscriptions
+        return this.$store.state.activityPlayerSubscriptions.items
     },
     count: function () {
       return this.activityPlayer.length
     }
   },
+
 };
 </script>
 

@@ -6,7 +6,7 @@ export const state = () => ({
   services: [],
   activityPlayers: [],
   servicesIncome: [],
-  plansIncome:[],
+  subscriptionsIncome:[],
   totalIncome: 0,
   activityPlayerSubscriptions: {
     count: 0,
@@ -94,7 +94,7 @@ export const mutations = {
   },
   setAllActivityPlayersubscriptions: function(state, res){
     console.log(res);
-    
+
     state.activityPlayerSubscriptions.items = res
 
     console.log("After assign : ", state.activityPlayerSubscriptions.items);
@@ -140,32 +140,35 @@ export const mutations = {
       state.servicesIncome = Object.assign([],state.servicesIncome )
     }
   },
-  setPlansIncome: function (state, plansInceom) {
-    state.plansIncome = plansInceom
+  setSubscriptionsIncome: function (state, todaysSubscriptions) {
+    for(let i=0;i<state.plans.length;i++){
+      let tmpSubscription = {
+        plan:state.plans[i],
+        numberOfSubscriptions:0,
+        payedMoney:-1}
+      for(let j=0;j<todaysSubscriptions.length;j++){
+        if(todaysSubscriptions[j].plan.id === tmpSubscription.plan.id){
+          tmpSubscription.numberOfSubscriptions++;
+          if(tmpSubscription.payedMoney === -1){
+            tmpSubscription.payedMoney = todaysSubscriptions[j].payedMoney
+          }
+
+        }
+
+      }
+      state.subscriptionsIncome.push(tmpSubscription)
+    }
   },
-  updatePlanIncome: function (state, planIncome) {
-    let planIndex = -1
-    for (let i = 0; i < state.plansIncome.length; i++) {
-      if (state.plansIncome[i].id === planIncome.id) {
-        planIndex = i
+  updateSubscriptionsIncome: function (state, subscriptionIncome) {
+
+    for(let i=0;i<state.subscriptionsIncome.length;i++){
+      if(state.subscriptionsIncome[i].plan.id === subscriptionIncome.plan.id){
+        state.subscriptionsIncome[i].numberOfSubscriptions++
+        state.subscriptionsIncome[i].payedMoney = subscriptionIncome.payedMoney
         break
       }
     }
-    if (planIndex === -1) {
-      state.plansIncome.push(planIncome)
-    } else {
-      state.plansIncome[planIncome] = planIncome
-    }
-  },
-  calculateIncome: function (state) {
-    let totalIncome = 0;
-      for (let i = 0, serviceIncomeArr = state.servicesIncome; i < serviceIncomeArr.length; ++i) {
-        totalIncome += (serviceIncomeArr[i].service.price * serviceIncomeArr[i].soldItems);
-      }
-      for (let i = 0, planIncomeArr = state.plansIncome; i < planIncomeArr.length; ++i) {
-        totalIncome += (planIncomeArr[i].plan.price * planIncomeArr[i].numberOfPlayers);
-      }
-    state.totalIncome = totalIncome
+
   },
 
   // player weight area start
