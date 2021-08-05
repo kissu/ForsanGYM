@@ -149,7 +149,6 @@ export const mutations = {
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
     const visitedArr = []
-    const deletedPlansSubscriptions = []
     for(let i=0, arr=todaysSubscriptions; i<arr.length;i++) {
       if (arr[i].plan) {
         // the plan is not deleted :D
@@ -171,7 +170,6 @@ export const mutations = {
         state.totalIncome += tmpIncome // update totoal income}
       }else {
         // plan is deleted :D
-        deletedPlansSubscriptions.push(arr[i])
         state.subscriptionsIncome.push({
           plan:{
             name:"Deleted Plan"
@@ -182,7 +180,6 @@ export const mutations = {
         state.totalIncome += arr[i].payedMoney
       }
     }
-    console.log(deletedPlansSubscriptions)
 
 
 
@@ -211,6 +208,21 @@ export const mutations = {
     // state.subscriptionsIncome = tmpArr
     //
 
+  },
+  addSubscriptionIncome: function (state, subscriptionIncome) {
+
+    for(let i=0, arr=state.subscriptionsIncome;i<arr.length;i++){
+      if(arr[i].plan.id === subscriptionIncome.plan.id){
+        arr[i].numberOfSubscriptions++
+        state.totalIncome += subscriptionIncome.payedMoney
+        return
+      }
+    }
+    state.subscriptionsIncome.push({
+      plan:subscriptionIncome.plan,
+      numberOfSubscriptions:1,
+      payedMoney:subscriptionIncome.payedMoney
+    })
   },
   updateSubscriptionsIncome: function (state, subscriptionIncome) {
 

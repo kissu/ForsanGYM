@@ -3,7 +3,7 @@
 
   <div class="tile">
     <div class="tile-title-w-btn">
-      <h3 class="mdi mdi-history"> Subscriptions History </h3>
+      <h3 class="mdi mdi-table-clock"> Subscriptions History </h3>
     </div>
 
     <div class="tile-body">

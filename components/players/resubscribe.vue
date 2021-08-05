@@ -81,7 +81,7 @@ export default {
         }).then(res=>{
 
           delete res.player
-
+          this.$store.commit('addSubscriptionIncome', res)
           this.$store.commit('editPlayer', {
             ...this.player,
             subscription:{
