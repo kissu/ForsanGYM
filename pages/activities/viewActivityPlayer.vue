@@ -44,7 +44,8 @@
                         <li class="paginate_button page-item previous"
                             :class="{disabled:(currentPage <= 1)}"
                             id="previous_btn">
-                          <button :disabled="(currentPage <= 1)" @click="goToPage(currentPage-1)" href="#" aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
+                          <button :disabled="(currentPage <= 1)" @click="goToPage(currentPage-1)" href="#"
+                                  aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
                                   class="page-link">
                             Previous
                           </button>
@@ -56,10 +57,10 @@
                         >
                           <button
                             :disabled="(page === currentPage)"
-                                  aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
-                                  @click="goToPage(page)"
-                                  class="page-link">
-                            {{ page}}
+                            aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
+                            @click="goToPage(page)"
+                            class="page-link">
+                            {{ page }}
                           </button>
                         <li
                           class="paginate_button page-item previous disabled"
@@ -98,15 +99,15 @@ export default {
       perPage: 10,
     };
   },
-  async asyncData({route, $axios, store}){
-      const playerId = route.params.id
-      try{
-        const res = await $axios.$get('activityPlayerSubscription/'+playerId)
-        await store.commit('setAllActivityPlayersubscriptions', res)
-      }catch(err){
+  async asyncData({route, $axios, store}) {
+    const playerId = route.params.id
+    try {
+      const res = await $axios.$get('activityPlayerSubscription/' + playerId)
+      await store.commit('setAllActivityPlayersubscriptions', res)
+    } catch (err) {
       console.log('error on plan income load (layout/Default) :')
       console.log(err)
-      }
+    }
 
 
   },
@@ -117,7 +118,7 @@ export default {
   },
   computed: {
     activityPlayer: function () {
-        return this.$store.state.activityPlayerSubscriptions.items
+      return this.$store.state.activityPlayerSubscriptions.items
     },
     count: function () {
       return this.activityPlayer.length

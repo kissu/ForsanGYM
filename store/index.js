@@ -141,28 +141,51 @@ export const mutations = {
     state.totalIncome += service.service.price
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
-
-    for(let i=0;i<state.plans.length;i++){
+    const visitedArr = []
+    for(let i=0, arr=todaysSubscriptions; i<arr.length;i++){
       let tmpIncome = 0
-      let tmpSubscription = {
-        plan:state.plans[i],
-        numberOfSubscriptions:0,
-        payedMoney:-1}
-      for(let j=0;j<todaysSubscriptions.length;j++){
-        if(todaysSubscriptions[j].plan.id === tmpSubscription.plan.id){
-          tmpSubscription.numberOfSubscriptions++;
-          if(tmpSubscription.payedMoney === -1){
-            tmpSubscription.payedMoney = todaysSubscriptions[j].payedMoney
-          }
-
-        }
-
+      if(visitedArr[arr[i].plan.id] !== undefined){
+        // another subscription of this plan is on the array
+        state.subscriptionsIncome[visitedArr[arr[i].plan.id]].numberOfSubscriptions++
+        tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
+      }else{
+        // oush subscription to array
+        state.subscriptionsIncome.push({
+          plan:arr[i].plan,
+          numberOfSubscriptions:1,
+        })
+        visitedArr[arr[i].plan.id] = state.subscriptionsIncome.length-1
+        tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
       }
-      tmpIncome=(tmpSubscription.payedMoney*tmpSubscription.numberOfSubscriptions)
-      state.subscriptionsIncome.push(tmpSubscription)
-      state.totalIncome += tmpIncome  // updating total income
+      state.totalIncome += tmpIncome // update totoal income
     }
 
+
+
+
+    // const tmpArr = []
+    // for(let i=0;i<state.plans.length;i++){
+    //   let tmpIncome = 0
+    //   let tmpSubscription = {
+    //     plan:state.plans[i],
+    //     numberOfSubscriptions:0,
+    //     payedMoney:-1}
+    //   for(let j=0;j<todaysSubscriptions.length;j++){
+    //     if(todaysSubscriptions[j].plan.id === tmpSubscription.plan.id){
+    //       tmpSubscription.numberOfSubscriptions++;
+    //       if(tmpSubscription.payedMoney === -1){
+    //         tmpSubscription.payedMoney = todaysSubscriptions[j].payedMoney
+    //       }
+    //
+    //     }
+    //
+    //   }
+    //   tmpIncome=(tmpSubscription.payedMoney*tmpSubscription.numberOfSubscriptions)
+    //   tmpArr.push(tmpSubscription)
+    //   state.totalIncome += tmpIncome  // updating total income
+    // }
+    // state.subscriptionsIncome = tmpArr
+    //
 
   },
   updateSubscriptionsIncome: function (state, subscriptionIncome) {

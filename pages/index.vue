@@ -1,6 +1,6 @@
 <template>
-  <div id="HomePage" >
-    <page-title icon="fa fa-home" title='Dashboard' />
+  <div id="HomePage">
+    <page-title icon="fa fa-home" title='Dashboard'/>
     <div class="row">
       <div class="col-md-6 col-lg-3">
         <!-- TODO: Make this a reusable component @Ahmedgamal77823 -->
@@ -8,16 +8,16 @@
           <i class="icon fa fa-users fa-3x"></i>
           <div class="info">
             <h4>Players</h4>
-            <p><b>{{$store.state.players.length}}</b></p>
+            <p><b>{{ $store.state.players.length }}</b></p>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
           <i class="icon fa fa-usd fa-3x"></i>
-          <div class="info" >
+          <div class="info">
             <h4>Income</h4>
-            <p><b>{{totalDailyIncome}}</b></p>
+            <p><b>{{ totalDailyIncome }}</b></p>
           </div>
         </div>
       </div>
@@ -37,37 +37,37 @@
             </tr>
             </thead>
             <tbody>
-              <tr v-for="(subscriptionIncome, index) in computedSubscriptionsIncome">
-              <td>{{index+1}}</td>
-              <td>{{subscriptionIncome.plan.name}}</td>
-              <td>{{subscriptionIncome.numberOfSubscriptions}}</td>
-              <td>{{subscriptionIncome.payedMoney *subscriptionIncome.numberOfSubscriptions}}</td>
+            <tr v-for="(subscriptionIncome, index) in computedSubscriptionsIncome">
+              <td>{{ index + 1 }}</td>
+              <td>{{ subscriptionIncome.plan.name }}</td>
+              <td>{{ subscriptionIncome.numberOfSubscriptions }}</td>
+              <td>{{ subscriptionIncome.plan.price * subscriptionIncome.numberOfSubscriptions }}</td>
             </tr>
             </tbody>
           </table>
-         </div>
+        </div>
       </div>
 
-      <div class="col-md-6" >
-        <div class="tile" >
+      <div class="col-md-6">
+        <div class="tile">
           <h3 class="tile-title">Summary of other services</h3>
-          <services-summary-table />
+          <services-summary-table/>
         </div>
       </div>
     </div>
-<div class="row">
-  <div class="col-md-4 px-0">
-    <purchaseService/>
-  </div>
-  <div class="col-md-4 px-0">
-      <AddNewService/>
-  </div>
-  <div class="col-md-4 px-0">
-      <DeleteService/>
-  </div>
-</div>
-
+    <div class="row">
+      <div class="col-md-4 px-0">
+        <purchaseService/>
+      </div>
+      <div class="col-md-4 px-0">
+        <AddNewService/>
+      </div>
+      <div class="col-md-4 px-0">
+        <DeleteService/>
+      </div>
     </div>
+
+  </div>
 </template>
 
 <script>
@@ -77,6 +77,7 @@ import AddNewService from "../components/dashboard/services/addNewService";
 import CollapseComponent from "../components/layout/Collapse";
 import DeleteService from "../components/dashboard/services/DeleteService";
 import PurchaseService from "../components/dashboard/services/purchaseService";
+
 export default {
   components: {
     PurchaseService,
@@ -84,19 +85,48 @@ export default {
     CollapseComponent,
     AddNewService,
     PageTitle,
-    ServicesSummaryTable},
-  methods: {
-    },
-    data(){
-      return{
-        income:0
+    ServicesSummaryTable
+  },
+  methods: {},
+  async asyncData({store, $axios}) {
+
+    if(store.state.plans.length===0){
+      try {
+        const res = await $axios.$get('plan/')
+        await store.commit('setPlans', res)
+      } catch (err) {
+        console.log('error on plans set (dashboard) :')
+        console.log(err)
       }
-    },
-  computed:{
-    computedSubscriptionsIncome: function (){
+    }
+
+    if(store.state.subscriptionsIncome.length===0){
+      try {
+        const res = await $axios.$get('subscription/today')
+        await store.commit('setSubscriptionsIncome', res)
+      } catch (err) {
+        console.log('error on today\'s subscriptions income set (dashboard) :')
+        console.log(err)
+      }
+    }
+
+    if(store.state.servicesIncome.length===0){
+      try {
+        const res = await $axios.$get('serviceIncome/')
+        await store.commit('setServicesIncome', res)
+      } catch (err) {
+        console.log('error on today\'s services income set (dashboard) :')
+        console.log(err)
+      }
+    }
+
+  },
+
+  computed: {
+    computedSubscriptionsIncome: function () {
       return this.$store.state.subscriptionsIncome
     },
-    totalDailyIncome: function (){
+    totalDailyIncome: function () {
       return this.$store.state.totalIncome
     }
 

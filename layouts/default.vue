@@ -54,21 +54,7 @@ export default {
       console.log('error on activities load (layout/Default) :')
       console.log(err)
     })
-    // getServicesIncome
-    this.$axios.$get('serviceIncome/').then(res => {
-      this.$store.commit('setServicesIncome', res)
-    }).catch(err =>{
-      console.log('error on service income load (layout/Default) :')
-      console.log(err)
-    })
 
-    // get subscriptionsIncome
-    this.$axios.$get('subscription/today').then(res=>{
-      this.$store.commit('setSubscriptionsIncome', res)
-    }).catch(err => {
-      console.log('error on plan income load (layout/Default) :')
-      console.log(err)
-    })
   }
 }
 </script>
