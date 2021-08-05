@@ -156,8 +156,8 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.id">{{player.subscription.plan.freezeDays}} ({{player.subscription.plan.freezeDays - player.freeze}} Left)</h5>
-                <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c"> No freezing days(Deleted Plan)</h5>
+                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">{{player.subscription.plan.freezeDays}} ({{player.subscription.plan.freezeDays - player.freeze}} Left)</h5>
+                <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c"> No freezing days (Deleted Plan)</h5>
               </div>
             </div>
 
@@ -169,7 +169,7 @@
               </div>
               <div class="col-md-9">
                 <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">{{player.subscription.plan.invites}} ({{player.subscription.plan.invites - player.invited}} Left)</h5>
-                <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c">No invites(Ddeleted Plan)</h5>
+                <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c">No invites (Deleted Plan)</h5>
               </div>
             </div>
 
@@ -178,7 +178,12 @@
       </div>
     </div>
     <div class="row ">
+
       <div class="col-md-7">
+        <PlayerSubscriptions/>
+      </div>
+
+      <div class="col-md-5">
         <WeightTable :player="player"/>
       </div>
 
@@ -192,13 +197,17 @@ import Edit from '../../components/players/edit.vue';
 import WeightTable from "../../components/players/weightTable";
 import moment from "moment/moment";
 import Swal from "sweetalert2";
+import PlayerSubscriptions from "../../components/players/playerSubscriptions"
 
 export default {
-  components: {WeightTable, PageTitle, Edit },
-   data(){
-    return{
-
-    }
+  components: {PlayerSubscriptions, WeightTable, PageTitle, Edit },
+  async asyncData({route, $axios, store}){
+    $axios.$get('subscription/'+route.params.id).then(res=>{
+      store.commit('setPlayerSubscriptions', res)
+    }).catch(err=>{
+      console.log("error form setting playerd subscriptions pages/players/view : ")
+      console.log(err)
+    })
   },
   methods:{
     // initPage: function (){
@@ -314,7 +323,8 @@ export default {
       player.subscription.plan = Object.assign({}, player.subscription.plan)
       player.weights = Object.assign([], player.weights)
       return player
-    }
+    },
+
   },
 };
 </script>

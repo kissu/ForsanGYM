@@ -41,7 +41,7 @@
               <td>{{ index + 1 }}</td>
               <td>{{ subscriptionIncome.plan.name }}</td>
               <td>{{ subscriptionIncome.numberOfSubscriptions }}</td>
-              <td>{{ subscriptionIncome.plan.price * subscriptionIncome.numberOfSubscriptions }}</td>
+              <td>{{ subscriptionIncome.payedMoney * subscriptionIncome.numberOfSubscriptions }}</td>
             </tr>
             </tbody>
           </table>

@@ -12,6 +12,10 @@ export const state = () => ({
     count: 0,
     items: []
   },
+  playerSubscriptions:{
+    count:0,
+    items:[]
+  }
 })
 
 export const mutations = {
@@ -35,6 +39,9 @@ export const mutations = {
       }
     }
 
+  },
+  setPlayerSubscriptions(state, subscriptions){
+    state.playerSubscriptions.items = subscriptions
   },
   // Player Section --end
   deletePlayer: function (state, player_id) {
@@ -142,23 +149,40 @@ export const mutations = {
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
     const visitedArr = []
-    for(let i=0, arr=todaysSubscriptions; i<arr.length;i++){
-      let tmpIncome = 0
-      if(visitedArr[arr[i].plan.id] !== undefined){
-        // another subscription of this plan is on the array
-        state.subscriptionsIncome[visitedArr[arr[i].plan.id]].numberOfSubscriptions++
-        tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
-      }else{
-        // oush subscription to array
+    const deletedPlansSubscriptions = []
+    for(let i=0, arr=todaysSubscriptions; i<arr.length;i++) {
+      if (arr[i].plan) {
+        // the plan is not deleted :D
+        let tmpIncome = 0
+        if (visitedArr[arr[i].plan.id] !== undefined) {
+          // another subscription of this plan is on the array
+          state.subscriptionsIncome[visitedArr[arr[i].plan.id]].numberOfSubscriptions++
+          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
+        } else {
+          // oush subscription to array
+          state.subscriptionsIncome.push({
+            plan: arr[i].plan,
+            numberOfSubscriptions: 1,
+            payedMoney: arr[i].payedMoney
+          })
+          visitedArr[arr[i].plan.id] = state.subscriptionsIncome.length - 1
+          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
+        }
+        state.totalIncome += tmpIncome // update totoal income}
+      }else {
+        // plan is deleted :D
+        deletedPlansSubscriptions.push(arr[i])
         state.subscriptionsIncome.push({
-          plan:arr[i].plan,
-          numberOfSubscriptions:1,
+          plan:{
+            name:"Deleted Plan"
+          },
+          numberOfSubscriptions: 1,
+          payedMoney: arr[i].payedMoney
         })
-        visitedArr[arr[i].plan.id] = state.subscriptionsIncome.length-1
-        tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
+        state.totalIncome += arr[i].payedMoney
       }
-      state.totalIncome += tmpIncome // update totoal income
     }
+    console.log(deletedPlansSubscriptions)
 
 
 
