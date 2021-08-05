@@ -159,15 +159,6 @@
         </div>
       </div>
     </div>
-    <!--    <div v-if="ChosenPlayer.id" id="DeleeSection">-->
-    <!--    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id"-->
-    <!--                 :header-msg="'Are you sure you want to delete this player ?'"-->
-    <!--                 delete_url="players/delete-player/:id" commit-action="deletePlayer">-->
-    <!--      <p><b>Name : </b>{{ChosenPlayer.name}}</p>-->
-    <!--      <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>-->
-    <!--      <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>-->
-    <!--    </DeleteCheck>-->
-    <!--    </div>-->
 
 
     <div v-if="clickedPlayer">
@@ -201,12 +192,14 @@ export default {
     }
   },
   async asyncData({$axios, store}){
-    $axios.$get('player/').then(res => {
-      store.commit('setPlayers',res)
-    }).catch(err => {
+
+    try{
+      const res = await $axios.$get('player/')
+      await store.commit('setPlayers',res)
+    }catch (err){
       console.log('error on Players load (pages/players/index) :')
       console.log(err)
-    })
+    }
   },
   methods: {
     DeletePlayer: function (item) {

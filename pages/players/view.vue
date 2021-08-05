@@ -253,7 +253,7 @@ export default {
             })
           } else {
             this.$axios.$post('player/freeze/' + this.player.id, {freezeDays: Number(res.value)}).then(() => {
-              this.$axios.$post('subscription/updateDate/' + this.player.id, {
+              this.$axios.$post('subscription/updateDate/' + this.player.subscription.id, {
                 beginDate: this.player.subscription.beginDate,
                 endDate: moment(this.player.subscription.endDate).add(Number(res.value), 'day').format("YYYY-MM-DD")
               }).then(() => {

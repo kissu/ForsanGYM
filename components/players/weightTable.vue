@@ -5,7 +5,7 @@
       <div class="tile-title-w-btn">
         <h2 data-toggle="dropdown" class="title">
           <span class="mdi mdi-weight-kilogram"></span>
-          Weight Table
+          Weights Table
         </h2>
         <button class="btn btn-outline-primary " v-on:click="createWeight"><i class="mdi mdi-plus-box"></i> Add Entry
         </button>
@@ -14,10 +14,10 @@
         <table class=" table table-striped ">
           <thead>
           <tr>
-            <th class="col-md-1">#</th>
-            <th class="col-md-3">Date</th>
-            <th class="col-md-3">Weight</th>
-            <th class="col-md-5">Options</th>
+            <th >#</th>
+            <th >Date</th>
+            <th >Weight</th>
+            <th >Options</th>
           </tr>
           </thead>
           <tbody>
