@@ -97,7 +97,7 @@ export default {
       return this.$store.state.subscriptionsIncome
     },
     totalDailyIncome: function (){
-
+      return this.$store.state.totalIncome
     }
 
   }

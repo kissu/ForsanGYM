@@ -93,11 +93,7 @@ export const mutations = {
       state.activities[objIndex].description = act.description
   },
   setAllActivityPlayersubscriptions: function(state, res){
-    console.log(res);
-
     state.activityPlayerSubscriptions.items = res
-
-    console.log("After assign : ", state.activityPlayerSubscriptions.items);
   },
   // Activity Player -- End
   // Services Part :
@@ -128,6 +124,9 @@ export const mutations = {
   //Service end
   setServicesIncome: function (state, servicesIncome) {
     state.servicesIncome = servicesIncome
+    for(let i=0;i<servicesIncome.length;i++){
+      state.totalIncome += (servicesIncome[i].soldItems*servicesIncome[i].service.price)  // updating total income
+    }
   },
   buyService: function (state, service) {
     let objIndex = state.servicesIncome.findIndex((obj => obj.id === service.id))
@@ -139,9 +138,12 @@ export const mutations = {
       //reAssign to force a change
       state.servicesIncome = Object.assign([],state.servicesIncome )
     }
+    state.totalIncome += service.service.price
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
+
     for(let i=0;i<state.plans.length;i++){
+      let tmpIncome = 0
       let tmpSubscription = {
         plan:state.plans[i],
         numberOfSubscriptions:0,
@@ -156,8 +158,12 @@ export const mutations = {
         }
 
       }
+      tmpIncome=(tmpSubscription.payedMoney*tmpSubscription.numberOfSubscriptions)
       state.subscriptionsIncome.push(tmpSubscription)
+      state.totalIncome += tmpIncome  // updating total income
     }
+
+
   },
   updateSubscriptionsIncome: function (state, subscriptionIncome) {
 
@@ -165,6 +171,7 @@ export const mutations = {
       if(state.subscriptionsIncome[i].plan.id === subscriptionIncome.plan.id){
         state.subscriptionsIncome[i].numberOfSubscriptions++
         state.subscriptionsIncome[i].payedMoney = subscriptionIncome.payedMoney
+        state.totalIncome += subscriptionIncome.payedMoney // updating total income
         break
       }
     }
