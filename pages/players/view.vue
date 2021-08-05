@@ -1,6 +1,6 @@
 <template>
-  <div id="View" >
-    <page-title title="Player Info" icon="fa fa-user" />
+  <div id="View">
+    <page-title title="Player Info" icon="fa fa-user"/>
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">
@@ -10,21 +10,29 @@
             alt=""
           />
         </div>
-        <div class="d-flex actions  text-center my1 mx-auto w-100" >
+        <div class="d-flex actions  text-center my1 mx-auto w-100">
           <button type="button" class="btn btn-warning mx-auto w-100" data-toggle="modal"
-                  data-target="#staticBackdrop" v-on:focusin="">Edit</button>
-          <edit :playerId='player.id'  />
+                  data-target="#staticBackdrop" v-on:focusin="">Edit
+          </button>
+          <edit :playerId='player.id'/>
           <!-- End of popup window -->
         </div>
 
-        <div class="d-flex actions  text-center my-1 mx-auto w-100" >
-          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-if="!player.subscription.plan.id || player.invited > 0 " disabled>Freeze</button>
-          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-else v-on:click="freeze()" >Freeze</button>
+        <div class="d-flex actions  text-center my-1 mx-auto w-100">
+          <button type="button" class="btn btn-outline-primary mx-auto w-100"
+                  v-if="!player.subscription.plan.id || player.invited > 0 " disabled>Freeze
+          </button>
+          <button type="button" class="btn btn-outline-primary mx-auto w-100" v-else v-on:click="freeze()">Freeze
+          </button>
         </div>
 
-        <div class="d-flex actions  text-center my-1 mx-auto w-100" >
-          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-if="!player.subscription.plan.id || player.freeze !==0" disabled>Invite Friend</button>
-          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-else v-on:click="addInvite()">Invite Friend</button>
+        <div class="d-flex actions  text-center my-1 mx-auto w-100">
+          <button type="button" class="btn btn-outline-secondary mx-auto w-100"
+                  v-if="!player.subscription.plan.id || player.freeze !==0" disabled>Invite Friend
+          </button>
+          <button type="button" class="btn btn-outline-secondary mx-auto w-100" v-else v-on:click="addInvite()">Invite
+            Friend
+          </button>
         </div>
 
       </div>
@@ -33,7 +41,7 @@
           <div class="tile-title-w-btn">
             <h2 data-toggle="dropdown" class="title">
               <span class="mdi mdi-account-circle"></span>
-              {{player.name}}
+              {{ player.name }}
             </h2>
           </div>
           <div class="tile-body">
@@ -46,7 +54,7 @@
               </div>
 
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{player.id}}</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.id }}</h5>
               </div>
             </div>
 
@@ -58,7 +66,7 @@
               </div>
 
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{player.phoneNumber}}</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.phoneNumber }}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -69,7 +77,8 @@
               </div>
 
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">{{player.subscription.plan.name}}</h5>
+                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">
+                  {{ player.subscription.plan.name }}</h5>
                 <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c">Deleted Plan</h5>
               </div>
             </div>
@@ -90,7 +99,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{player.subscription.endDate}}</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.subscription.endDate }}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -100,7 +109,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{player.weights[player.weights.length-1].weight}}</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.weights[player.weights.length - 1].weight }}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -110,7 +119,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{player.height}}</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.height }}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -121,12 +130,12 @@
               </div>
               <div class="col-md-7">
                 <h5 class="mb-0 font-weight-normal" v-if="player.trainingPlan">
-                  {{player.trainingPlan}}
-                  <br />
+                  {{ player.trainingPlan }}
+                  <br/>
                 </h5>
                 <h5 class="mb-0 font-weight-normal" v-else>
-                  {{player.name}} has no training plan.
-                  <br />
+                  {{ player.name }} has no training plan.
+                  <br/>
                 </h5>
               </div>
             </div>
@@ -139,12 +148,12 @@
 
               <div class="col-md-7">
                 <h5 class="mb-0 font-weight-normal" v-if="player.dietPlan">
-                  {{player.dietPlan}}
-                  <br />
+                  {{ player.dietPlan }}
+                  <br/>
                 </h5>
                 <h5 class="mb-0 font-weight-normal" v-else>
-                  {{player.name}} has no diet plan.
-                  <br />
+                  {{ player.name }} has no diet plan.
+                  <br/>
                 </h5>
               </div>
             </div>
@@ -156,7 +165,9 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">{{player.subscription.plan.freezeDays}} ({{player.subscription.plan.freezeDays - player.freeze}} Left)</h5>
+                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">
+                  {{ player.subscription.plan.freezeDays }} ({{ player.subscription.plan.freezeDays - player.freeze }}
+                  Left)</h5>
                 <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c"> No freezing days (Deleted Plan)</h5>
               </div>
             </div>
@@ -168,7 +179,9 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">{{player.subscription.plan.invites}} ({{player.subscription.plan.invites - player.invited}} Left)</h5>
+                <h5 class="mb-0 font-weight-normal" v-if="player.subscription.plan.id">
+                  {{ player.subscription.plan.invites }} ({{ player.subscription.plan.invites - player.invited }}
+                  Left)</h5>
                 <h5 class="mb-0 font-weight-normal" v-else style="color: #ea051c">No invites (Deleted Plan)</h5>
               </div>
             </div>
@@ -200,16 +213,16 @@ import Swal from "sweetalert2";
 import PlayerSubscriptions from "../../components/players/playerSubscriptions"
 
 export default {
-  components: {PlayerSubscriptions, WeightTable, PageTitle, Edit },
-  async asyncData({route, $axios, store}){
-    $axios.$get('subscription/'+route.params.id).then(res=>{
+  components: {PlayerSubscriptions, WeightTable, PageTitle, Edit},
+  async asyncData({route, $axios, store}) {
+    $axios.$get('subscription/' + route.params.id).then(res => {
       store.commit('setPlayerSubscriptions', res)
-    }).catch(err=>{
+    }).catch(err => {
       console.log("error form setting playerd subscriptions pages/players/view : ")
       console.log(err)
     })
   },
-  methods:{
+  methods: {
     // initPage: function (){
     //   console.log("init worked ")
     //   const id = this.$route.params.id
@@ -222,48 +235,48 @@ export default {
     //
     // },
 
-    freeze: function (){
+    freeze: function () {
       this.$swal.fire({
-        title:"How many Days you want to freeze ? ",
-        input:"text",
-        icon:"question",
-        iconColor:"#316aff",
-        inputPlaceholder:`Enter a number from 1 to ${this.player.subscription.plan.freezeDays - this.player.freeze} `,
-        showCancelButton:true
-      }).then(res=>{
-        if(!res.isDismissed){
+        title: "How many Days you want to freeze ? ",
+        input: "text",
+        icon: "question",
+        iconColor: "#316aff",
+        inputPlaceholder: `Enter a number from 1 to ${this.player.subscription.plan.freezeDays - this.player.freeze} `,
+        showCancelButton: true
+      }).then(res => {
+        if (!res.isDismissed) {
           if (isNaN(Number(res.value)) || res.value === "") {
             // Validate the value is a number :D
             Swal.fire({
               icon: "error",
               title: "Weight must be a number"
             })
-          }else{
-            this.$axios.$post('player/freeze/'+this.player.id, {freezeDays:Number(res.value)}).then(()=>{
-              this.$axios.$post('subscription/updateDate/'+this.player.id, {
-                beginDate:this.player.subscription.beginDate,
-                endDate:moment(this.player.subscription.endDate).add(Number(res.value) ,'day').format("YYYY-MM-DD")
-              }).then(()=>{
+          } else {
+            this.$axios.$post('player/freeze/' + this.player.id, {freezeDays: Number(res.value)}).then(() => {
+              this.$axios.$post('subscription/updateDate/' + this.player.id, {
+                beginDate: this.player.subscription.beginDate,
+                endDate: moment(this.player.subscription.endDate).add(Number(res.value), 'day').format("YYYY-MM-DD")
+              }).then(() => {
                 this.$store.commit('editPlayer', {
                   ...this.player,
-                  subscription:{
+                  subscription: {
                     ...this.player.subscription,
-                    endDate: moment(this.player.subscription.endDate).add(Number(res.value) ,'day').format("YYYY-MM-DD")
+                    endDate: moment(this.player.subscription.endDate).add(Number(res.value), 'day').format("YYYY-MM-DD")
                   },
-                  freeze:this.player.freeze + Number(res.value)
+                  freeze: this.player.freeze + Number(res.value)
                 })
-              }).catch(err=>{
+              }).catch(err => {
                 this.$swal.fire({
-                  title:`Freezing player Failed`,
-                  icon:"error",
-                  text:err.response.data.message
+                  title: `Freezing player Failed`,
+                  icon: "error",
+                  text: err.response.data.message
                 })
               })
-            }).catch(err=>{
+            }).catch(err => {
               this.$swal.fire({
-                title:`Freezing player Failed`,
-                icon:"error",
-                text:err.response.data.message
+                title: `Freezing player Failed`,
+                icon: "error",
+                text: err.response.data.message
               })
             })
 
@@ -275,32 +288,34 @@ export default {
 
     },
 
-    addInvite: function (){
+    addInvite: function () {
       this.$swal.fire({
-        title:`How many invitations you want to add ? `,
-        icon:"question",
-        input:'text',
+        title: `How many invitations you want to add ? `,
+        icon: "question",
+        input: 'text',
         inputPlaceholder: `Enter a number from 1 to ${this.player.subscription.plan.invites - this.player.invited} `,
-        showCancelButton:true
-      }).then(res=>{
-        if(!res.isDismissed){
+        showCancelButton: true
+      }).then(res => {
+        if (!res.isDismissed) {
           if (isNaN(Number(res.value)) || res.value === "") {
             // Validate the value is a number :D
             Swal.fire({
               icon: "error",
               title: "Weight must be a number"
             })
-          }else{
-            this.$axios.$post('player/inviteFriend/'+this.player.id, {
+          } else {
+            this.$axios.$post('player/inviteFriend/' + this.player.id, {
               invites: Number(res.value)
-            }).then(()=>{
-              this.$store.commit('editPlayer', {...this.player,
-              invited:this.player.invited + Number(res.value) })
-            }).catch(err=>{
+            }).then(() => {
+              this.$store.commit('editPlayer', {
+                ...this.player,
+                invited: this.player.invited + Number(res.value)
+              })
+            }).catch(err => {
               this.$swal.fire({
-                title:`Inviting a friend Faild`,
-                icon:"error",
-                text:err.response.data.message
+                title: `Inviting a friend Faild`,
+                icon: "error",
+                text: err.response.data.message
               })
             })
           }
@@ -308,15 +323,15 @@ export default {
       })
     },
 
-    },
-   created() {
+  },
+  created() {
     console.log("Player : ", this.player)
     console.log("Type : ", typeof this.player.subscription.plan)
   },
-  computed:{
-    player: function (){
+  computed: {
+    player: function () {
       const id = this.$route.params.id
-      const player = Object.assign({},this.$store.state.players.find(player=>{
+      const player = Object.assign({}, this.$store.state.players.find(player => {
         return player.id === id
       }))
       player.subscription = Object.assign({}, player.subscription)

@@ -1,6 +1,6 @@
 <template>
   <div id="newActivityPage">
-    <PageTitle title="New Activity" icon="fa fa-plus" />
+    <PageTitle title="New Activity" icon="fa fa-plus"/>
 
     <div class="row mt-2 justify-content-center">
       <div class="col-md-8">
@@ -10,7 +10,7 @@
             <form class="form-horizontal">
               <div class="form-group row">
                 <label class="control-label col-md-3 text-center"
-                  >Activity Name</label
+                >Activity Name</label
                 >
                 <div class="col-md-8">
                   <input
@@ -23,7 +23,7 @@
               </div>
               <div class="form-group row">
                 <label class="control-label col-md-3 text-center"
-                  >Coach Name</label
+                >Coach Name</label
                 >
                 <div class="col-md-8">
                   <input
@@ -37,7 +37,7 @@
 
               <div class="form-group row">
                 <label class="control-label col-md-3 text-center"
-                  >Coach Phone Number</label
+                >Coach Phone Number</label
                 >
                 <div class="col-md-8">
                   <input
@@ -65,7 +65,7 @@
                 <label
                   class="control-label col-md-3 text-center"
                   for="descriptionTextarea"
-                  >Description</label
+                >Description</label
                 >
                 <div class="col-md-8">
                   <textarea
@@ -99,7 +99,7 @@
 import PageTitle from "../../components/layout/pageTitle";
 
 export default {
-  components: { PageTitle },
+  components: {PageTitle},
   data() {
     return {
       activity: {

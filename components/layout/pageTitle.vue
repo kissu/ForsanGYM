@@ -13,8 +13,8 @@
         </router-link>
       </div>
     </div>
-<!--    <slot />-->
-<!--    <slot />-->
+    <!--    <slot />-->
+    <!--    <slot />-->
   </div>
 </template>
 
@@ -25,15 +25,14 @@ export default {
     title: {
       required: true,
     },
-    icon:  {
+    icon: {
       required: true,
     },
     addBtn: {
       type: Object
     }
   },
-  methods: {
-  },
+  methods: {},
 }
 </script>
 

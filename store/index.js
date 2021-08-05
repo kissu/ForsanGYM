@@ -6,15 +6,15 @@ export const state = () => ({
   services: [],
   activityPlayers: [],
   servicesIncome: [],
-  subscriptionsIncome:[],
+  subscriptionsIncome: [],
   totalIncome: 0,
   activityPlayerSubscriptions: {
     count: 0,
     items: []
   },
-  playerSubscriptions:{
-    count:0,
-    items:[]
+  playerSubscriptions: {
+    count: 0,
+    items: []
   }
 })
 
@@ -27,10 +27,10 @@ export const mutations = {
     state.players.push(player)
   },
   editPlayer: function (state, player) {
-    let playerNew=Object.assign({}, player)
-    playerNew.subscription=Object.assign({}, player.subscription)
-    playerNew.subscription.plan=Object.assign({}, player.subscription.plan)
-    playerNew.weights=Object.assign([], player.weights)
+    let playerNew = Object.assign({}, player)
+    playerNew.subscription = Object.assign({}, player.subscription)
+    playerNew.subscription.plan = Object.assign({}, player.subscription.plan)
+    playerNew.weights = Object.assign([], player.weights)
 
     for (let i = 0; i < state.players.length; i++) {
       if (state.players[i].id === playerNew.id) {
@@ -40,7 +40,7 @@ export const mutations = {
     }
 
   },
-  setPlayerSubscriptions(state, subscriptions){
+  setPlayerSubscriptions(state, subscriptions) {
     state.playerSubscriptions.items = subscriptions
   },
   // Player Section --end
@@ -63,7 +63,7 @@ export const mutations = {
   setActivityPlayers: function (state, activityPlayers) {
     state.activityPlayers = activityPlayers
   },
-  deleteActivityPlayer: function(state, activityPlayer_id){
+  deleteActivityPlayer: function (state, activityPlayer_id) {
     state.activityPlayers = state.activityPlayers.filter(actPlayer => {
       return actPlayer.id !== activityPlayer_id
     })
@@ -85,8 +85,8 @@ export const mutations = {
   addNewActivityPlayer: function (state, activityPlayer) {
     state.activityPlayers.push(activityPlayer)
   },
-  editActivityPlayer: function(state, activityPlayer){
-    let holder = state.activityPlayers.findIndex( (obj => obj.id === activityPlayer.id))
+  editActivityPlayer: function (state, activityPlayer) {
+    let holder = state.activityPlayers.findIndex((obj => obj.id === activityPlayer.id))
     state.activityPlayers[holder].name = activityPlayer.name
     state.activityPlayers[holder].id = activityPlayer.id
     state.activityPlayers[holder].subscription = activityPlayer.subscription
@@ -94,12 +94,12 @@ export const mutations = {
   editActivity: function (state, act) {
     let objIndex = state.activities.findIndex((obj => obj.id === act.id))
     state.activities[objIndex].name = act.name
-      state.activities[objIndex].coachName = act.coachName
-      state.activities[objIndex].coachPhoneNumber = act.coachPhoneNumber
-      state.activities[objIndex].price = act.price
-      state.activities[objIndex].description = act.description
+    state.activities[objIndex].coachName = act.coachName
+    state.activities[objIndex].coachPhoneNumber = act.coachPhoneNumber
+    state.activities[objIndex].price = act.price
+    state.activities[objIndex].description = act.description
   },
-  setAllActivityPlayersubscriptions: function(state, res){
+  setAllActivityPlayersubscriptions: function (state, res) {
     state.activityPlayerSubscriptions.items = res
   },
   // Activity Player -- End
@@ -120,9 +120,9 @@ export const mutations = {
     state.services = Object.assign([], state.services)
 
     //Update the table of income with DELETED Service
-    for(let i=0;i<state.servicesIncome.length;i++){
-      if(service_id === state.servicesIncome[i].service.id){
-        state.servicesIncome[i].service.name = state.servicesIncome[i].service.name+'\n(DELETED)'
+    for (let i = 0; i < state.servicesIncome.length; i++) {
+      if (service_id === state.servicesIncome[i].service.id) {
+        state.servicesIncome[i].service.name = state.servicesIncome[i].service.name + '\n(DELETED)'
         break
       }
     }
@@ -131,8 +131,8 @@ export const mutations = {
   //Service end
   setServicesIncome: function (state, servicesIncome) {
     state.servicesIncome = servicesIncome
-    for(let i=0;i<servicesIncome.length;i++){
-      state.totalIncome += (servicesIncome[i].soldItems*servicesIncome[i].service.price)  // updating total income
+    for (let i = 0; i < servicesIncome.length; i++) {
+      state.totalIncome += (servicesIncome[i].soldItems * servicesIncome[i].service.price)  // updating total income
     }
   },
   buyService: function (state, service) {
@@ -143,13 +143,13 @@ export const mutations = {
     else {
       state.servicesIncome[objIndex] = service
       //reAssign to force a change
-      state.servicesIncome = Object.assign([],state.servicesIncome )
+      state.servicesIncome = Object.assign([], state.servicesIncome)
     }
     state.totalIncome += service.service.price
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
     const visitedArr = []
-    for(let i=0, arr=todaysSubscriptions; i<arr.length;i++) {
+    for (let i = 0, arr = todaysSubscriptions; i < arr.length; i++) {
       if (arr[i].plan) {
         // the plan is not deleted :D
         let tmpIncome = 0
@@ -168,11 +168,11 @@ export const mutations = {
           tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
         }
         state.totalIncome += tmpIncome // update totoal income}
-      }else {
+      } else {
         // plan is deleted :D
         state.subscriptionsIncome.push({
-          plan:{
-            name:"Deleted Plan"
+          plan: {
+            name: "Deleted Plan"
           },
           numberOfSubscriptions: 1,
           payedMoney: arr[i].payedMoney
@@ -180,8 +180,6 @@ export const mutations = {
         state.totalIncome += arr[i].payedMoney
       }
     }
-
-
 
 
     // const tmpArr = []
@@ -211,23 +209,23 @@ export const mutations = {
   },
   addSubscriptionIncome: function (state, subscriptionIncome) {
 
-    for(let i=0, arr=state.subscriptionsIncome;i<arr.length;i++){
-      if(arr[i].plan.id === subscriptionIncome.plan.id){
+    for (let i = 0, arr = state.subscriptionsIncome; i < arr.length; i++) {
+      if (arr[i].plan.id === subscriptionIncome.plan.id) {
         arr[i].numberOfSubscriptions++
         state.totalIncome += subscriptionIncome.payedMoney
         return
       }
     }
     state.subscriptionsIncome.push({
-      plan:subscriptionIncome.plan,
-      numberOfSubscriptions:1,
-      payedMoney:subscriptionIncome.payedMoney
+      plan: subscriptionIncome.plan,
+      numberOfSubscriptions: 1,
+      payedMoney: subscriptionIncome.payedMoney
     })
   },
   updateSubscriptionsIncome: function (state, subscriptionIncome) {
 
-    for(let i=0;i<state.subscriptionsIncome.length;i++){
-      if(state.subscriptionsIncome[i].plan.id === subscriptionIncome.plan.id){
+    for (let i = 0; i < state.subscriptionsIncome.length; i++) {
+      if (state.subscriptionsIncome[i].plan.id === subscriptionIncome.plan.id) {
         state.subscriptionsIncome[i].numberOfSubscriptions++
         state.subscriptionsIncome[i].payedMoney = subscriptionIncome.payedMoney
         state.totalIncome += subscriptionIncome.payedMoney // updating total income
@@ -238,41 +236,41 @@ export const mutations = {
   },
 
   // player weight area start
-  deletePlayerWeight: function (state, playerWeight){
+  deletePlayerWeight: function (state, playerWeight) {
     const player = state.players.find(player => player.id === playerWeight.player.id)
     let playerWeightsArr = player.weights
-    for(let i=0;i<playerWeightsArr.length;i++){
-      if(playerWeightsArr[i].id === playerWeight.id){
+    for (let i = 0; i < playerWeightsArr.length; i++) {
+      if (playerWeightsArr[i].id === playerWeight.id) {
         playerWeightsArr.splice(i, 1)
         break
       }
     }
     player.weights = playerWeightsArr
   },
-  addPlayerWeight: function (state, playerWeight){
+  addPlayerWeight: function (state, playerWeight) {
 
     let playerIndex = null
-    for(let i=0;i<state.players.length;i++){
+    for (let i = 0; i < state.players.length; i++) {
       // this loop to search for the player
-      if(state.players[i].id === playerWeight.player.id){
+      if (state.players[i].id === playerWeight.player.id) {
         playerIndex = i
         break;
       }
     }
     state.players[playerIndex].weights.push(playerWeight)
-    const tmpArr = Object.assign([],state.players)
+    const tmpArr = Object.assign([], state.players)
     state.players = Object.assign([], [])
-    state.players = Object.assign([],tmpArr)
+    state.players = Object.assign([], tmpArr)
   },
-  editPlayerWeight: function (state, playerWeight){
+  editPlayerWeight: function (state, playerWeight) {
     const player = state.players.find(player => player.id === playerWeight.player_id)
     let tmpArr = null
-    for(let i=0;i<player.weights.length;i++){
-      if(player.weights[i].id === playerWeight.id){
+    for (let i = 0; i < player.weights.length; i++) {
+      if (player.weights[i].id === playerWeight.id) {
         playerWeight.player_id = undefined
         player.weights[i] = playerWeight
-        tmpArr = Object.assign([],state.players)
-        state.players = Object.assign([],[])
+        tmpArr = Object.assign([], state.players)
+        state.players = Object.assign([], [])
         break
       }
     }

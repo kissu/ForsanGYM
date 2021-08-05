@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
-            <tr v-for="(plan) in activatedPlans" :key="plan.id" >
+            <tr v-for="(plan) in activatedPlans" :key="plan.id">
               <td>{{ plan.id }}</td>
               <td>{{ plan.name }}</td>
               <td>{{ plan.description }}</td>
@@ -67,8 +67,8 @@ export default {
     }
   },
   computed: {
-    activatedPlans : function () {
-      return this.$store.state.plans.filter(plan => plan.isActivated )
+    activatedPlans: function () {
+      return this.$store.state.plans.filter(plan => plan.isActivated)
     },
   },
 };

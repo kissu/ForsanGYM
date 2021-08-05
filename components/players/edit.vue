@@ -1,5 +1,5 @@
 <template>
-  <div id="editButton" >
+  <div id="editButton">
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -119,48 +119,48 @@
 import moment from "moment/moment";
 
 export default {
-   data(){
-    return{
-      InputPlayer:{},
-      originalDates:{
-        beginDate:null,
-        endDate:null
+  data() {
+    return {
+      InputPlayer: {},
+      originalDates: {
+        beginDate: null,
+        endDate: null
       },
-      originalWeight:null
+      originalWeight: null
     }
   },
-  props:{
-    playerId:{
-      required : true,
+  props: {
+    playerId: {
+      required: true,
     },
   },
-  methods:{
-    save: function (){
+  methods: {
+    save: function () {
       // we need to edit 2 things :
       // 1) player data
       // 2) begin and end date of the current sub
       let player = Object.assign({}, this.InputPlayer)
       player.subscription = Object.assign({}, this.InputPlayer.subscription)
-      this.$axios.$post('/player/edit/'+ player.id, player).then(()=>{
-        if(this.isDateEdited()){
-        this.$axios.$post('subscription/updateDate/'+ player.subscription.id, {
-          player_id:player.id,
-          plan_id:player.subscription.plan.id,
-          beginDate:player.subscription.beginDate,
-          endDate:player.subscription.endDate
-        })
+      this.$axios.$post('/player/edit/' + player.id, player).then(() => {
+        if (this.isDateEdited()) {
+          this.$axios.$post('subscription/updateDate/' + player.subscription.id, {
+            player_id: player.id,
+            plan_id: player.subscription.plan.id,
+            beginDate: player.subscription.beginDate,
+            endDate: player.subscription.endDate
+          })
         }
 
         this.$store.commit('editPlayer', player)
-        player = Object.assign({},{})
+        player = Object.assign({}, {})
         $(`#staticBackdrop`).modal('hide')
-      }).catch(err=>{
+      }).catch(err => {
         console.log("Error is : ")
         console.log(err)
         // use sweet alert TODO @Abdullah3553
         this.$swal.fire({
-          icon:"error",
-          title:"An Error Occurred",
+          icon: "error",
+          title: "An Error Occurred",
           text: err.response.data.message
 
         })
@@ -168,36 +168,36 @@ export default {
       })
     },
 
-    isDateEdited:function (){
+    isDateEdited: function () {
       return this.InputPlayer.subscription.beginDate !== this.originalDates.beginDate ||
         this.InputPlayer.subscription.endDate !== this.originalDates.endDate;
 
     },
-    isWeightEdited: function (){
+    isWeightEdited: function () {
 
       return this.originalWeight !== this.InputPlayer.weight
     }
   },
   created() {
     const id = this.playerId
-    this.InputPlayer = Object.assign({}, this.$store.state.players.find(player=>{
+    this.InputPlayer = Object.assign({}, this.$store.state.players.find(player => {
       return player.id === id
     }))
     // all this assingment operations to avoid refrences
-    this.InputPlayer.subscription = Object.assign({},this.InputPlayer.subscription )
-    this.InputPlayer.subscription.plan = Object.assign({},this.InputPlayer.subscription.plan )
+    this.InputPlayer.subscription = Object.assign({}, this.InputPlayer.subscription)
+    this.InputPlayer.subscription.plan = Object.assign({}, this.InputPlayer.subscription.plan)
 
-    this.InputPlayer.weights = Object.assign([],this.InputPlayer.weights )
-    for(let i=0;i<this.InputPlayer.weights.length;i++){
-      this.InputPlayer.weights[i] = Object.assign({},this.InputPlayer.weights[i] )
-      this.InputPlayer.weights[i].player = Object.assign({},this.InputPlayer.weights[i].player )
+    this.InputPlayer.weights = Object.assign([], this.InputPlayer.weights)
+    for (let i = 0; i < this.InputPlayer.weights.length; i++) {
+      this.InputPlayer.weights[i] = Object.assign({}, this.InputPlayer.weights[i])
+      this.InputPlayer.weights[i].player = Object.assign({}, this.InputPlayer.weights[i].player)
     }
 
     // for validations ( to avoid making unuseful requests )
     this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
     this.originalDates.endDate = this.InputPlayer.subscription.endDate
 
-    this.originalWeight = this.InputPlayer.weights[this.InputPlayer.weights.length-1].weight
+    this.originalWeight = this.InputPlayer.weights[this.InputPlayer.weights.length - 1].weight
     this.originalWeight = parseInt(this.originalWeight, 10)
   }
 };

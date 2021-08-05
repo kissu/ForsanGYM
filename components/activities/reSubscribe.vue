@@ -1,5 +1,6 @@
-<template >
-  <div class="modal fade" id="reSubscribeModal1" tabindex="-1" aria-labelledby="resubscribeModalLabel1" aria-hidden="true" >
+<template>
+  <div class="modal fade" id="reSubscribeModal1" tabindex="-1" aria-labelledby="resubscribeModalLabel1"
+       aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -12,9 +13,11 @@
           <div class="form-group row">
             <label class="control-label col-md-3">Activity</label>
             <div class="col-md-8">
-              <select @change="computeDate" v-model="pickedActivity" class="form-control col-md-8" id="activitiesList" >
+              <select @change="computeDate" v-model="pickedActivity" class="form-control col-md-8" id="activitiesList">
                 <option selected :value="null" disabled>Choose an activity</option>
-                <option v-for="activity in this.$store.state.activities" :value="activity" :key="activity.id">{{activity.name}}</option>
+                <option v-for="activity in this.$store.state.activities" :value="activity" :key="activity.id">
+                  {{ activity.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -23,7 +26,8 @@
             <label class="control-label col-md-3">Begin Date</label>
             <div class="col-md-8">
               <input v-bind:value="InputActivityPlayer.beginDate"
-                     @input="InputActivityPlayer.beginDate = $event.target.value" class="form-control col-md-8" type="date">
+                     @input="InputActivityPlayer.beginDate = $event.target.value" class="form-control col-md-8"
+                     type="date">
             </div>
           </div>
 
@@ -31,7 +35,8 @@
             <label class="control-label col-md-3">End Date</label>
             <div class="col-md-8">
               <input v-bind:value="InputActivityPlayer.endDate"
-                     @input="InputActivityPlayer.endDate = $event.target.value" class="form-control col-md-8" type="date">
+                     @input="InputActivityPlayer.endDate = $event.target.value" class="form-control col-md-8"
+                     type="date">
             </div>
           </div>
         </div>
@@ -50,61 +55,59 @@ import moment from "moment/moment";
 
 export default {
   name: "reSubscribe",
-  data(){
-    return{
-      pickedActivity:null,
-      InputActivityPlayer:{}
+  data() {
+    return {
+      pickedActivity: null,
+      InputActivityPlayer: {}
     }
   },
-  props:{
-    activityPlayer:{},
+  props: {
+    activityPlayer: {},
   },
-  methods:{
-    computeDate:function (){
+  methods: {
+    computeDate: function () {
       this.InputActivityPlayer.beginDate = moment().format("YYYY-MM-DD")
       this.InputActivityPlayer.endDate = moment().add(1, 'month').format("YYYY-MM-DD")
     },
-    subscribe: function (){
-      if(this.isEndedSubscription()){
+    subscribe: function () {
+      if (this.isEndedSubscription()) {
         this.$swal.fire({
-          title:"Error",
-          text:"This player subscription did not end yet",
-          icon:"error"
+          title: "Error",
+          text: "This player subscription did not end yet",
+          icon: "error"
         })
-      }else{
+      } else {
         this.$axios.$post('activityPlayerSubscription/new', {
           player_id: this.activityPlayer.id,
-          activity_id:this.pickedActivity.id,
-          beginDate:this.InputActivityPlayer.beginDate,
-          endDate:this.InputActivityPlayer.endDate
-        }).then(res=>{
+          activity_id: this.pickedActivity.id,
+          beginDate: this.InputActivityPlayer.beginDate,
+          endDate: this.InputActivityPlayer.endDate
+        }).then(res => {
           this.$store.commit('editActivityPlayer', {
             ...this.activityPlayer,
-            subscription:{
-                ...res, 
-                activityPlayer:undefined
+            subscription: {
+              ...res,
+              activityPlayer: undefined
             }
           })
           $(`#reSubscribeModal1`).modal('hide')
-        }).catch(err =>{
+        }).catch(err => {
           console.log("Error is : ")
           console.log(err)
           this.$swal.fire({
-            icon:"error",
-            title:"An Error Occurred",
+            icon: "error",
+            title: "An Error Occurred",
             text: err.response.data.message
 
           })
         })
       }
     },
-    isEndedSubscription: function (){
+    isEndedSubscription: function () {
       return moment(this.activityPlayer.subscription.endDate).isAfter(moment())
     }
   },
-  computed:{
-
-  },
+  computed: {},
 }
 </script>
 

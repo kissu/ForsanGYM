@@ -1,5 +1,6 @@
-<template >
-  <div class="modal fade" id="resubscribeModal" tabindex="-1" aria-labelledby="resubscribeModalLabel" aria-hidden="true" >
+<template>
+  <div class="modal fade" id="resubscribeModal" tabindex="-1" aria-labelledby="resubscribeModalLabel"
+       aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -12,9 +13,9 @@
           <div class="form-group row">
             <label class="control-label col-md-3">Plan</label>
             <div class="col-md-8">
-              <select @change="PickPlan" v-model="pickedPlan" class="form-control col-md-8" id="plansList" >
+              <select @change="PickPlan" v-model="pickedPlan" class="form-control col-md-8" id="plansList">
                 <option selected :value="null" disabled>Choose a plan</option>
-                <option v-for="plan in activePlans" :value="plan" :key="plan.id">{{plan.name}}</option>
+                <option v-for="plan in activePlans" :value="plan" :key="plan.id">{{ plan.name }}</option>
               </select>
             </div>
           </div>
@@ -50,60 +51,60 @@ import moment from "moment/moment";
 
 export default {
   name: "resubscribe",
-  data(){
-    return{
-      pickedPlan:null,
-      InputPlayer:{}
+  data() {
+    return {
+      pickedPlan: null,
+      InputPlayer: {}
     }
   },
-  props:{
-    player:{},
-    activePlans:[]
+  props: {
+    player: {},
+    activePlans: []
   },
-  methods:{
-    PickPlan:function (){
+  methods: {
+    PickPlan: function () {
       this.InputPlayer.beginDate = moment().format("YYYY-MM-DD")
       this.InputPlayer.endDate = moment().add(this.pickedPlan.months, 'month').format("YYYY-MM-DD")
     },
-    subscribe: function (){
-      if(this.isEndedSubscription()){
+    subscribe: function () {
+      if (this.isEndedSubscription()) {
         this.$swal.fire({
-          title:"Error",
-          text:"This player subscription did not end yet",
-          icon:"error"
+          title: "Error",
+          text: "This player subscription did not end yet",
+          icon: "error"
         })
-      }else{
+      } else {
         this.$axios.$post('subscription/new', {
           player_id: this.player.id,
-          plan_id:this.pickedPlan.id,
-          beginDate:this.InputPlayer.beginDate,
-          endDate:this.InputPlayer.endDate
-        }).then(res=>{
+          plan_id: this.pickedPlan.id,
+          beginDate: this.InputPlayer.beginDate,
+          endDate: this.InputPlayer.endDate
+        }).then(res => {
 
           delete res.player
           this.$store.commit('addSubscriptionIncome', res)
           this.$store.commit('editPlayer', {
             ...this.player,
-            subscription:{
+            subscription: {
               ...res
             },
-            freeze:0,
-            invited:0
+            freeze: 0,
+            invited: 0
           })
           $(`#resubscribeModal`).modal('hide')
-        }).catch(err =>{
+        }).catch(err => {
           console.log("Error is : ")
           console.log(err)
           this.$swal.fire({
-            icon:"error",
-            title:"An Error Occurred",
+            icon: "error",
+            title: "An Error Occurred",
             text: err.response.data.message
 
           })
         })
       }
     },
-    isEndedSubscription: function (){
+    isEndedSubscription: function () {
       return moment(this.player.subscription.endDate).isAfter(moment())
     }
   },

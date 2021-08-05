@@ -21,15 +21,18 @@
               >
                 <div class="row mt-2 mb-0 justify-content-center">
                   <div class="col-md-auto">
-                    <select name="searchOptions" id="searchOptionsId" class="form-control form-control-sm" v-model="pickedSearchOption">
+                    <select name="searchOptions" id="searchOptionsId" class="form-control form-control-sm"
+                            v-model="pickedSearchOption">
                       <option :value="null" disabled selected>Choose search options</option>
                       <option :value="null">Default</option>
-                      <option v-for="searchOption in searchOptions" :value="searchOption.value" :key="searchOption.id">{{searchOption.name}}</option>
+                      <option v-for="searchOption in searchOptions" :value="searchOption.value" :key="searchOption.id">
+                        {{ searchOption.name }}
+                      </option>
                     </select>
                   </div>
-                  <div class="col-md-auto form-group " >
-                    <div class=" text-left" >
-                        <input
+                  <div class="col-md-auto form-group ">
+                    <div class=" text-left">
+                      <input
                         type="search"
                         class="form-control form-control-sm"
                         placeholder="Search here"
@@ -40,15 +43,15 @@
                   </div>
 
                   <div class="col-md-auto form-group">
-                      <select
-                        name="sampleTable_length"
-                        class="form-control form-control-sm"
-                        v-model="pickedPlan"
-                      >
-                        <option :value="null" disabled selected>Search By Plan</option>
-                        <option :value="null" >Default</option>
-                        <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{plan.name}}</option>
-                      </select>
+                    <select
+                      name="sampleTable_length"
+                      class="form-control form-control-sm"
+                      v-model="pickedPlan"
+                    >
+                      <option :value="null" disabled selected>Search By Plan</option>
+                      <option :value="null">Default</option>
+                      <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{ plan.name }}</option>
+                    </select>
                   </div>
                   <label for="endedSubscriptionsChoise">Ended Subscriptions</label>
                   <div class="col-auto">
@@ -82,19 +85,21 @@
                       <tbody>
                       <!-- Start looping -->
                       <tr v-for="(item, index) in playersData" :key="item.id">
-                        <td>{{ index+1 }}</td>
+                        <td>{{ index + 1 }}</td>
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
                         <td>{{ item.subscription.beginDate }}</td>
                         <td>{{ item.subscription.endDate }}</td>
                         <td v-if="item.subscription.plan!=null">{{ item.subscription.plan.name }}</td>
-                        <td v-else>Plan is deleted</td>
+                        <td v-else>Deleted Plan</td>
                         <td>
                           <button class="btn btn-primary" type="button" @click="viewPlayer(item)">View</button>
                           <button class="btn btn-danger" type="button" @click="DeletePlayer(item)">Delete</button>
                           <button class="btn btn-success " type="button" @click="clickedPlayer = item"
-                                  data-toggle="modal" data-target="#resubscribeModal">Resubscribe</button>                        </td>
+                                  data-toggle="modal" data-target="#resubscribeModal">Resubscribe
+                          </button>
+                        </td>
                       </tr>
                       </tbody>
 
@@ -154,19 +159,19 @@
         </div>
       </div>
     </div>
-<!--    <div v-if="ChosenPlayer.id" id="DeleeSection">-->
-<!--    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id"-->
-<!--                 :header-msg="'Are you sure you want to delete this player ?'"-->
-<!--                 delete_url="players/delete-player/:id" commit-action="deletePlayer">-->
-<!--      <p><b>Name : </b>{{ChosenPlayer.name}}</p>-->
-<!--      <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>-->
-<!--      <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>-->
-<!--    </DeleteCheck>-->
-<!--    </div>-->
+    <!--    <div v-if="ChosenPlayer.id" id="DeleeSection">-->
+    <!--    <DeleteCheck :action-name="'deletePlayer'" :item-id="ChosenPlayer.id"-->
+    <!--                 :header-msg="'Are you sure you want to delete this player ?'"-->
+    <!--                 delete_url="players/delete-player/:id" commit-action="deletePlayer">-->
+    <!--      <p><b>Name : </b>{{ChosenPlayer.name}}</p>-->
+    <!--      <p><b>Phone : </b>{{ChosenPlayer.phoneNumber}}</p>-->
+    <!--      <p><b>Plan : </b>{{ChosenPlayer.plan}}</p>-->
+    <!--    </DeleteCheck>-->
+    <!--    </div>-->
 
 
     <div v-if="clickedPlayer">
-      <resubscribe :active-plans="activatedPlans" :player="clickedPlayer" />
+      <resubscribe :active-plans="activatedPlans" :player="clickedPlayer"/>
     </div>
   </div>
 </template>
@@ -182,47 +187,55 @@ export default {
   components: {Resubscribe, DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
-      pickedPlan:null,
-      searchOptions:[
-        {name:"By ID", value:'id'},
-        {name:"By begin Date", value:'beginDate'},
-        {name:"By endDate", value:'endDate'},
-        {name:"By Phone Number", value:'phoneNumber'},
+      pickedPlan: null,
+      searchOptions: [
+        {name: "By ID", value: 'id'},
+        {name: "By begin Date", value: 'beginDate'},
+        {name: "By endDate", value: 'endDate'},
+        {name: "By Phone Number", value: 'phoneNumber'},
       ],
-      endedSubsMarked:false,
-      clickedPlayer:null,
-      searchInput:null,
-      pickedSearchOption:null
+      endedSubsMarked: false,
+      clickedPlayer: null,
+      searchInput: null,
+      pickedSearchOption: null
     }
   },
+  async asyncData({$axios, store}){
+    $axios.$get('player/').then(res => {
+      store.commit('setPlayers',res)
+    }).catch(err => {
+      console.log('error on Players load (pages/players/index) :')
+      console.log(err)
+    })
+  },
   methods: {
-    DeletePlayer:function (item){
+    DeletePlayer: function (item) {
       let text = ""
-      if(item.subscription.plan === null){
+      if (item.subscription.plan === null) {
         // plan is deleted
         text = `ID : ${item.id}, Phone : ${item.phoneNumber}, Plan : Deleted Plan`
-      }else {
+      } else {
         text = `ID : ${item.id}, Phone : ${item.phoneNumber}, Plan : ${item.subscription.plan.name}`
       }
       this.$swal.fire({
         title: `Are you sure you want to delete player ${item.name} ? `,
         showDenyButton: true,
         icon: 'question',
-        text:text,
+        text: text,
         showCancelButton: false,
         confirmButtonText: `Yes`,
         denyButtonText: `cancel`,
       }).then((result) => {
         if (result.isConfirmed) {
           // Delete Player from databases
-          this.$axios.$delete('player/delete/'+item.id).then(()=>{
+          this.$axios.$delete('player/delete/' + item.id).then(() => {
             this.$store.commit('deletePlayer', item.id)
-          }).catch(err=>{
+          }).catch(err => {
             //delete Failed
             this.$swal.fire({
-              title:`Deleting player ${item.name} FAILED`,
-              icon:"error",
-              text:err.response.data.message
+              title: `Deleting player ${item.name} FAILED`,
+              icon: "error",
+              text: err.response.data.message
             })
             console.log(err)
             return false
@@ -231,44 +244,44 @@ export default {
         }
       })
     },
-    viewPlayer: function (player){
+    viewPlayer: function (player) {
       this.$router.push({
         name: 'singlePlayer',
-        params:{
-          id:player.id
+        params: {
+          id: player.id
         },
-        query:{
-          player:player
+        query: {
+          player: player
         }
       })
     },
   },
-  computed:{
-    activatedPlans: function (){
-      return this.$store.state.plans.filter(plan => plan.isActivated )
+  computed: {
+    activatedPlans: function () {
+      return this.$store.state.plans.filter(plan => plan.isActivated)
     },
-    playersData: function (){
+    playersData: function () {
       let returnArr = this.$store.state.players
-      if(this.endedSubsMarked){
-        returnArr = returnArr.filter(player=>{
-          return moment(player.subscription.endDate).isBefore( moment())
+      if (this.endedSubsMarked) {
+        returnArr = returnArr.filter(player => {
+          return moment(player.subscription.endDate).isBefore(moment())
         })
       }
-      if(this.pickedPlan){
-        returnArr = returnArr.filter(player=>{
+      if (this.pickedPlan) {
+        returnArr = returnArr.filter(player => {
           return player.subscription.plan.id === this.pickedPlan.id
         })
       }
-      if(this.pickedSearchOption === null){
+      if (this.pickedSearchOption === null) {
         // no picked search
         return returnArr
-      }else if(this.pickedSearchOption === 'beginDate' && this.searchInput){
+      } else if (this.pickedSearchOption === 'beginDate' && this.searchInput) {
         return returnArr.filter(data => data.subscription.beginDate === this.searchInput)
-      }else if(this.pickedSearchOption === 'endDate' && this.searchInput){
+      } else if (this.pickedSearchOption === 'endDate' && this.searchInput) {
         return returnArr.filter(data => data.subscription.endDate === this.searchInput)
-      }else if(this.pickedSearchOption === 'id' && this.searchInput){
+      } else if (this.pickedSearchOption === 'id' && this.searchInput) {
         return returnArr.filter(data => data.id === Number(this.searchInput))
-      }else if(this.pickedSearchOption === 'phoneNumber' && this.searchInput){
+      } else if (this.pickedSearchOption === 'phoneNumber' && this.searchInput) {
         return returnArr.filter(data => data.phoneNumber === this.searchInput)
       }
       return returnArr

@@ -13,7 +13,7 @@
           <router-link class="app-menu__item"
                        :to="item.route">
             <i :class="`app-menu__icon ${item.icon}`"></i>
-            <span class="app-menu__label">{{item.text}}</span>
+            <span class="app-menu__label">{{ item.text }}</span>
           </router-link>
         </li>
       </ul>
@@ -26,13 +26,13 @@
 <script>
 export default {
   name: "appSidebar",
-  data(){
-    return{
-      list:[
-          {text: "Dashboard", icon: "fa fa-home", route: {name:'home'}},
-          {text: "Players", icon: "fa fa-user", route: {name:'allPlayers'}},
-          {text: "Plans", icon: "fa fa-bar-chart", route: {name:'allPlans'}},
-          {text: "Activities", icon: "mdi mdi-karate", route:{name:'allActs'}},
+  data() {
+    return {
+      list: [
+        {text: "Dashboard", icon: "fa fa-home", route: {name: 'home'}},
+        {text: "Players", icon: "fa fa-user", route: {name: 'allPlayers'}},
+        {text: "Plans", icon: "fa fa-bar-chart", route: {name: 'allPlans'}},
+        {text: "Activities", icon: "mdi mdi-karate", route: {name: 'allActs'}},
       ]
     }
   },

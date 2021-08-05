@@ -46,7 +46,7 @@
                         <label
                           class="control-label col-md-4"
                           for="activitySelect"
-                          >Select Activity</label
+                        >Select Activity</label
                         >
                         <div class="col-md-8">
                           <div class="form-group">
@@ -125,9 +125,9 @@
         <div class="col-3 pr-0">
           <h3 class="tile-title">Activities Players</h3>
         </div>
-        
+
         <label class="control-label" for="activitySearch"
-          >Search By Activity :
+        >Search By Activity :
         </label>
         <div class="form-group col">
           <select
@@ -168,42 +168,43 @@
           <div class="tile-body">
             <table class="table table-bordered" id="playerDataTable">
               <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Activity</th>
-                  <th>Begin Date</th>
-                  <th>End Date</th>
-                  <th>Options</th>
-                </tr>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Activity</th>
+                <th>Begin Date</th>
+                <th>End Date</th>
+                <th>Options</th>
+              </tr>
               </thead>
               <tbody>
-                <tr v-for="playerActivity in searching" :key="playerActivity.id">
-                  <td>{{ playerActivity.id }}</td>
-                  <td>{{ playerActivity.name }}</td>
-                  <td>{{ playerActivity.subscription.activity.name }}</td>
-                  <td>{{ playerActivity.subscription.beginDate }}</td>
-                  <td>{{ playerActivity.subscription.endDate }}</td>
-                  <td>
-                    <button
-                      class="btn btn-primary"
-                      type="button"
-                      @click="viewActivityPlayer(playerActivity.id)"
-                    >
-                      View
-                    </button>
-                    <button
-                      class="btn btn-danger"
-                      type="button"
-                      @click="DeleteActivityPlayer(playerActivity)"
-                    >
-                      Delete
-                    </button>
-                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#reSubscribeModal1" @click="activityPlayerInfo = playerActivity">
-                      Resubscribe
-                    </button>
-                  </td>
-                </tr>
+              <tr v-for="playerActivity in searching" :key="playerActivity.id">
+                <td>{{ playerActivity.id }}</td>
+                <td>{{ playerActivity.name }}</td>
+                <td>{{ playerActivity.subscription.activity.name }}</td>
+                <td>{{ playerActivity.subscription.beginDate }}</td>
+                <td>{{ playerActivity.subscription.endDate }}</td>
+                <td>
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    @click="viewActivityPlayer(playerActivity.id)"
+                  >
+                    View
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    @click="DeleteActivityPlayer(playerActivity)"
+                  >
+                    Delete
+                  </button>
+                  <button class="btn btn-success" type="button" data-toggle="modal" data-target="#reSubscribeModal1"
+                          @click="activityPlayerInfo = playerActivity">
+                    Resubscribe
+                  </button>
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -211,7 +212,7 @@
       </div>
     </div>
     <div v-if="activityPlayerInfo">
-      <reSubscribe :activity-player="activityPlayerInfo" />
+      <reSubscribe :activity-player="activityPlayerInfo"/>
     </div>
   </div>
 </template>
@@ -219,9 +220,10 @@
 <script>
 import moment from "moment";
 import reSubscribe from './reSubscribe.vue'
+
 export default {
   name: "playerActivity",
-  components:{reSubscribe, },
+  components: {reSubscribe,},
   data() {
     return {
       activityPlayer: {
@@ -319,7 +321,7 @@ export default {
       });
       return pass;
     },
-     DeleteActivityPlayer:function (playerActivity){
+    DeleteActivityPlayer: function (playerActivity) {
       this.$swal.fire({
         title: `Are you sure you want to delete this player ${playerActivity.name} ? `,
         showDenyButton: true,
@@ -330,14 +332,14 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           // Delete Player from databases
-          this.$axios.$delete('activityPlayer/delete/'+playerActivity.id).then(res=>{
+          this.$axios.$delete('activityPlayer/delete/' + playerActivity.id).then(res => {
             this.$store.commit('deleteActivityPlayer', playerActivity.id)
-          }).catch(err=>{
+          }).catch(err => {
             //delete Failed
             this.$swal.fire({
-              title:`Deleting player ${playerActivity.name} FAILED`,
-              icon:"error",
-              text:err.response.data.message
+              title: `Deleting player ${playerActivity.name} FAILED`,
+              icon: "error",
+              text: err.response.data.message
             })
             console.log(err)
             return false
@@ -346,7 +348,7 @@ export default {
         }
       })
     },
-    viewActivityPlayer: function(item){
+    viewActivityPlayer: function (item) {
       this.$router.push({
         name: "viewActivityPlayer",
         params: {id: item}
@@ -356,10 +358,10 @@ export default {
   computed: {
     searching: function () {
       let dataArray = this.$store.state.activityPlayers;
-      
-      if(this.EndedSubscriptions){
+
+      if (this.EndedSubscriptions) {
         dataArray = dataArray.filter(
-          holder => moment(holder.subscription.endDate).isBefore(moment()) 
+          holder => moment(holder.subscription.endDate).isBefore(moment())
         )
       }
       if (this.searchById) {

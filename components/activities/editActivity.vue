@@ -1,11 +1,12 @@
 <template>
   <div id="editActivity">
-    <div class="modal fade" id="staticBackdropEditModal" data-backdrop="static" data-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdropEditModal" data-backdrop="static" data-keyboard="false"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Edit Activity </h5>
-            <button  type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -86,16 +87,16 @@
 <script>
 
 export default {
-  props:{
-    activity:{
-      required:true
+  props: {
+    activity: {
+      required: true
     },
   },
   data() {
-    return{
+    return {
       dis: false,
       errors: {},
-      act : {
+      act: {
         name: null,
         coachName: null,
         coachPhoneNumber: null,
@@ -104,14 +105,14 @@ export default {
       }
     }
   },
-  methods:{
-    editActivity: function(){
+  methods: {
+    editActivity: function () {
       const validate = this.validateForm();
       if (!validate) return false;
       this.dis = true
-      this.$axios.$post('activity/edit/'+this.activity.id,this.act).then(res => {
+      this.$axios.$post('activity/edit/' + this.activity.id, this.act).then(res => {
         this.dis = false
-        this.$store.commit("editActivity",res)
+        this.$store.commit("editActivity", res)
         $("#staticBackdropEditModal").modal("hide")
       }).catch(err => {
         // let str = ""
