@@ -52,6 +52,7 @@
                         <li v-for="page in Math.ceil(count/perPage)"
                             class="paginate_button page-item"
                             :class="{active: (page === currentPage)}"
+                            :key="page"
                         >
                           <button
                             :disabled="(page === currentPage)"
@@ -98,6 +99,18 @@ export default {
       perPage: 10,
     };
   },
+  async asyncData({params, $route, $axios, $store}){
+      const playerId = params.id
+      try{
+        const res = await $axios.$get('activityPlayerSubscription/'+playerId)
+        await $store.commit('setAllActivityPlayerSubscriptions', res)
+      }catch(err){
+      console.log('error on plan income load (layout/Default) :')
+      console.log(err)
+      }
+      
+    
+  },
   methods: {
     goToPage: function () {
 
@@ -105,16 +118,10 @@ export default {
   },
   computed: {
     activityPlayer: function () {
-      const activityPlayerId = Number(this.$route.params.id);
-      return this.$store.state.activityPlayerSubscriptions.items.filter(
-        (actPlayer) => {
-          console.log(actPlayer.activityPlayer.id, activityPlayerId);
-          return actPlayer.activityPlayer.id === activityPlayerId;
-        }
-      );
+        return this.$store.state.activityPlayerSubscriptions
     },
     count: function () {
-      return this.$store.state.activityPlayerSubscriptions.count
+      return this.activityPlayer.length
     }
   },
 };

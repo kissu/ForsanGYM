@@ -93,7 +93,11 @@ export const mutations = {
       state.activities[objIndex].description = act.description
   },
   setAllActivityPlayersubscriptions: function(state, res){
-    state.activityPlayerSubscriptions = res
+    console.log(res);
+    
+    state.activityPlayerSubscriptions.items = res
+
+    console.log("After assign : ", state.activityPlayerSubscriptions.items);
   },
   // Activity Player -- End
   // Services Part :
