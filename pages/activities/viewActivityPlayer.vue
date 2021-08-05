@@ -98,11 +98,11 @@ export default {
       perPage: 10,
     };
   },
-  async asyncData(context){
-      const playerId = context.route.params.id
+  async asyncData({route, $axios, store}){
+      const playerId = route.params.id
       try{
-        const res = await context.$axios.$get('activityPlayerSubscription/'+playerId)
-        await context.store.commit('setAllActivityPlayersubscriptions', res)
+        const res = await $axios.$get('activityPlayerSubscription/'+playerId)
+        await store.commit('setAllActivityPlayersubscriptions', res)
       }catch(err){
       console.log('error on plan income load (layout/Default) :')
       console.log(err)
