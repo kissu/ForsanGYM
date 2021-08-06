@@ -16,7 +16,7 @@ export const state = () => ({
   playerSubscriptions: {
     count: 0,
     items: []
-  }
+  },
 })
 
 export const mutations = {
@@ -158,7 +158,7 @@ export const mutations = {
         if (visitedArr[arr[i].plan.id] !== undefined) {
           // another subscription of this plan is on the array
           state.subscriptionsIncome[visitedArr[arr[i].plan.id]].numberOfSubscriptions++
-          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
+          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].payedMoney
         } else {
           // oush subscription to array
           state.subscriptionsIncome.push({
@@ -167,7 +167,7 @@ export const mutations = {
             payedMoney: arr[i].payedMoney
           })
           visitedArr[arr[i].plan.id] = state.subscriptionsIncome.length - 1
-          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].plan.price
+          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].payedMoney
         }
         state.totalIncome += tmpIncome // update totoal income}
       } else {
@@ -282,3 +282,32 @@ export const mutations = {
   // player weight area end
 
 }
+
+export const actions = {
+  async nuxtServerInit({ commit, dispatch }) {
+    await dispatch('storeDispatchFunc')
+  },
+
+  async storeDispatchFunc({ commit }) {
+
+    try{
+      // loading plans
+      const plans = await this.$axios.$get('plan/')
+      commit('setPlans',plans)
+    }catch (err){
+      console.log('error on plans load (store/index) :')
+      console.log(err)
+    }
+
+    // try{
+    //
+    // }catch (err){
+    //  console.log('error on plans load (store/index) :')
+    //       console.log(err)
+    // }
+
+  },
+
+}
+
+

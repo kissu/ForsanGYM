@@ -192,7 +192,6 @@ export default {
     }
   },
   async asyncData({$axios, store}){
-
     try{
       const res = await $axios.$get('player/')
       await store.commit('setPlayers',res)
@@ -254,7 +253,9 @@ export default {
       return this.$store.state.plans.filter(plan => plan.isActivated)
     },
     playersData: function () {
+
       let returnArr = this.$store.state.players
+      console.log(returnArr)
       if (this.endedSubsMarked) {
         returnArr = returnArr.filter(player => {
           return moment(player.subscription.endDate).isBefore(moment())
