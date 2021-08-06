@@ -58,11 +58,18 @@ export default {
   data() {
     return {
       pickedActivity: null,
-      InputActivityPlayer: {}
+      InputActivityPlayer: {},
+      done: true
     }
   },
   props: {
-    activityPlayer: {},
+    activityPlayer: {
+      type:Object
+    },
+  },
+  async asyncData(context){
+    console.log(context)
+
   },
   methods: {
     computeDate: function () {
@@ -70,10 +77,17 @@ export default {
       this.InputActivityPlayer.endDate = moment().add(1, 'month').format("YYYY-MM-DD")
     },
     subscribe: function () {
-      if (this.isEndedSubscription()) {
+      // console.log(this.activityPlayer);
+      // console.log(this.pickedActivity);
+      for(let i = 0, arr=this.$store.state.activityPlayerSubscriptions.items ; i < arr.length; i++){
+        if(arr[i].activity.id === this.pickedActivity.id && this.isEndedSubscription(arr[i])){
+            this.done = false
+        }
+      }
+      if (!this.done) {
         this.$swal.fire({
           title: "Error",
-          text: "This player subscription did not end yet",
+          text: "This player already has a subscription in this activity!!",
           icon: "error"
         })
       } else {
@@ -103,8 +117,8 @@ export default {
         })
       }
     },
-    isEndedSubscription: function () {
-      return moment(this.activityPlayer.subscription.endDate).isAfter(moment())
+    isEndedSubscription: function (subscription) {
+      return moment(subscription.endDate).isAfter(moment())
     }
   },
   computed: {},

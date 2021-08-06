@@ -200,7 +200,7 @@
                     Delete
                   </button>
                   <button class="btn btn-success" type="button" data-toggle="modal" data-target="#reSubscribeModal1"
-                          @click="activityPlayerInfo = playerActivity">
+                          @click="reSubscribe(playerActivity)">
                     Resubscribe
                   </button>
                 </td>
@@ -212,7 +212,7 @@
       </div>
     </div>
     <div v-if="activityPlayerInfo">
-      <reSubscribe :activity-player="activityPlayerInfo"/>
+      <reSubscribe :activityPlayer="activityPlayerInfo"/>
     </div>
   </div>
 </template>
@@ -353,6 +353,12 @@ export default {
         name: "viewActivityPlayer",
         params: {id: item}
       })
+    }, 
+    reSubscribe: async function(activityPlayer){
+      this.activityPlayerInfo = activityPlayer
+      const activityPlayerId = activityPlayer.id
+      const res = await this.$axios.$get('activityPlayerSubscription/' + activityPlayerId)
+      await this.$store.commit('setAllActivityPlayersubscriptions', res)
     }
   },
   computed: {
