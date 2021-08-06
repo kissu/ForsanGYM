@@ -21,6 +21,7 @@
                       <th>Activity</th>
                       <th>Begin Date</th>
                       <th>End Date</th>
+                      <th>Price</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,6 +31,7 @@
                       <td>{{ item.activity.name }}</td>
                       <td>{{ item.beginDate }}</td>
                       <td>{{ item.endDate }}</td>
+                      <td>{{ item.price }}</td>
                     </tr>
                     </tbody>
                   </table>

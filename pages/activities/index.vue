@@ -22,6 +22,16 @@ import playerActivity from "../../components/activities/playerActivity"
 export default {
   components: {AppActivities, PageTitle, playerActivity},
 
+  async asyncData({$axios, store}){
+    try{  
+      const res = await $axios.$get('activityPlayer/')
+      await store.commit('setActivityPlayers', res)
+    }
+    catch(err) {
+      console.log('error on Activity Players load (layout/Default) :')
+      console.log(err)
+    }
+  }
 };
 </script>
 

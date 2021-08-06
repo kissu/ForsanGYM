@@ -7,6 +7,7 @@ export const state = () => ({
   activityPlayers: [],
   servicesIncome: [],
   subscriptionsIncome: [],
+  activityPlayerSubscriptionsIncome: [],
   totalIncome: 0,
   activityPlayerSubscriptions: {
     count: 0,
@@ -84,6 +85,7 @@ export const mutations = {
 
   addNewActivityPlayer: function (state, activityPlayer) {
     state.activityPlayers.push(activityPlayer)
+    state.totalIncome += activityPlayer.subscription.price
   },
   editActivityPlayer: function (state, activityPlayer) {
     let holder = state.activityPlayers.findIndex((obj => obj.id === activityPlayer.id))

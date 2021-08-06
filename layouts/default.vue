@@ -31,14 +31,6 @@ export default {
       console.log('error on service load (layout/Default) :')
       console.log(err)
     })
-
-    // get players w activities
-    this.$axios.$get('activityPlayer/').then(res => {
-      this.$store.commit('setActivityPlayers', res)
-    }).catch(err =>{
-      console.log('error on Activity Players load (layout/Default) :')
-      console.log(err)
-    })
     // get activities
     this.$axios.$get('activity/').then(res => {
       this.$store.commit('SetActivities', res)

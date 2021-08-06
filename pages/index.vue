@@ -37,7 +37,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(subscriptionIncome, index) in computedSubscriptionsIncome">
+            <tr v-for="(subscriptionIncome, index) in computedSubscriptionsIncome" :key="subscriptionIncome.id">
               <td>{{ index + 1 }}</td>
               <td>{{ subscriptionIncome.plan.name }}</td>
               <td>{{ subscriptionIncome.numberOfSubscriptions }}</td>

@@ -43,6 +43,20 @@
                         </div>
                       </div>
                       <div class="form-group row">
+                        <label class="control-label col-md-4">Price</label>
+                        <div class="col-md-2">
+                          <input
+                            v-model="activityPlayer.price"
+                            :class="[
+                              { 'form-control': true },
+                              { 'is-invalid': errors.name },
+                            ]"
+                            type="text"
+                            placeholder="Price"
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group row">
                         <label
                           class="control-label col-md-4"
                           for="activitySelect"
@@ -231,6 +245,7 @@ export default {
         beginDate: null,
         endDate: null,
         activity: null,
+        price: 0,
       },
       searchById: null,
       searchByActivity: null,
