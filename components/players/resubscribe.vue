@@ -21,6 +21,15 @@
           </div>
 
           <div class="form-group row">
+            <label class="control-label col-md-3">Price</label>
+            <div class="col-md-8">
+              <input v-bind:value="InputPlayer.payedMoney"
+                     @input="InputPlayer.payedMoney = $event.target.value" class="form-control col-md-8"
+                     type="number" placeholder="EGP">
+            </div>
+          </div>
+
+          <div class="form-group row">
             <label class="control-label col-md-3">Begin Date</label>
             <div class="col-md-8">
               <input v-bind:value="InputPlayer.beginDate"
@@ -65,6 +74,7 @@ export default {
     PickPlan: function () {
       this.InputPlayer.beginDate = moment().format("YYYY-MM-DD")
       this.InputPlayer.endDate = moment().add(this.pickedPlan.months, 'month').format("YYYY-MM-DD")
+      this.InputPlayer.payedMoney = this.pickedPlan.price
     },
     subscribe: function () {
       if (this.isEndedSubscription()) {
@@ -78,7 +88,8 @@ export default {
           player_id: this.player.id,
           plan_id: this.pickedPlan.id,
           beginDate: this.InputPlayer.beginDate,
-          endDate: this.InputPlayer.endDate
+          endDate: this.InputPlayer.endDate,
+          payedMoney:Number(this.InputPlayer.payedMoney)
         }).then(res => {
 
           delete res.player
