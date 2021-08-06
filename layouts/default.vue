@@ -17,15 +17,6 @@ export default {
     document.querySelector('body').classList.add('app','sidebar-mini')
   },
   created() {
-    // get plans
-    this.$axios.$get('plan/').then(res => {
-      this.$store.commit('setPlans',res)
-    }).catch(err => {
-      console.log('error on plans load (layout/Default) :')
-      console.log(err)
-    })
-
-
     // get players w activities
     this.$axios.$get('activityPlayer/').then(res => {
       this.$store.commit('setActivityPlayers', res)

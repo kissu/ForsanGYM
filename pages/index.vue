@@ -90,17 +90,8 @@ export default {
   methods: {},
   async asyncData({store, $axios}) {
 
-    if (store.state.plans.length === 0) {
-      try {
-        const res = await $axios.$get('plan/')
-        await store.commit('setPlans', res)
-      } catch (err) {
-        console.log('error on plans set (dashboard) :')
-        console.log(err)
-      }
-    }
-
     if (store.state.subscriptionsIncome.length === 0) {
+      // the true case of this if means that subscriptionsIncome is not loaded
       try {
         const res = await $axios.$get('subscription/today')
         await store.commit('setSubscriptionsIncome', res)
@@ -110,7 +101,7 @@ export default {
       }
     }
 
-    if(store.state.services.length === 0){
+    if(store.state.services.length === 0){// the true case of this if means that services is not loaded
       try{
         const res = await $axios.$get('service/')
         await store.commit('SetServices', res)
@@ -120,7 +111,7 @@ export default {
       }
     }
 
-    if (store.state.servicesIncome.length === 0) {
+    if (store.state.servicesIncome.length === 0) { // the true case of this if means that serviceIncome is not loaded
       try {
         const res = await $axios.$get('serviceIncome/')
         await store.commit('setServicesIncome', res)
