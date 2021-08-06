@@ -215,12 +215,22 @@ import PlayerSubscriptions from "../../components/players/playerSubscriptions"
 export default {
   components: {PlayerSubscriptions, WeightTable, PageTitle, Edit},
   async asyncData({route, $axios, store}) {
-    $axios.$get('subscription/' + route.params.id).then(res => {
-      store.commit('setPlayerSubscriptions', res)
-    }).catch(err => {
-      console.log("error form setting playerd subscriptions pages/players/view : ")
+
+    try{
+      console.log("Query player : ", route.query.player)
+      console.log("Query player : ", typeof route.query.player)
+
+      if(store.state.players.length===0){
+        // to avoid duplications
+        const player = await $axios.$get('player/'+route.params.id)
+        await store.commit('addPlayer', player)
+    }
+      const res = await $axios.$get('subscription/' + route.params.id)
+      await store.commit('setPlayerSubscriptions', res)
+    }catch(err){
+      console.log("error form setting player subscriptions pages/players/view : ")
       console.log(err)
-    })
+    }
   },
   methods: {
     // initPage: function (){
@@ -330,13 +340,17 @@ export default {
   },
   computed: {
     player: function () {
-      const id = this.$route.params.id
-      const player = Object.assign({}, this.$store.state.players.find(player => {
-        return player.id === id
-      }))
-      player.subscription = Object.assign({}, player.subscription)
-      player.subscription.plan = Object.assign({}, player.subscription.plan)
-      player.weights = Object.assign([], player.weights)
+      const id = Number(this.$route.params.id)
+      let player =  {}
+      console.log("Param Id : ", id)
+      for(let i=0;i<this.$store.state.players.length;i++){
+        console.log("Player id : ", this.$store.state.players[i].id)
+        if(this.$store.state.players[i].id === id){
+          player = this.$store.state.players[i]
+        }
+      }
+      console.log("All players : ",  this.$store.state.players)
+      console.log("Player : ", player)
       return player
     },
 

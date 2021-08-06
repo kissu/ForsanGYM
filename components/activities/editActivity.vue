@@ -148,7 +148,7 @@ export default {
         name: value.name,
         coachName: value.coachName,
         coachPhoneNumber: value.coachPhoneNumber,
-        price: value.price,
+        payedMoney: value.price,
         description: value.description
       }
     }

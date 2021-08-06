@@ -67,6 +67,15 @@
                         </div>
 
                         <div class="form-group row">
+                          <label class="control-label col-md-3">Price</label>
+                          <div class="col-md-8">
+                            <input v-bind:value="InputPlayer.payedMoney"
+                                   @input="InputPlayer.payedMoney = $event.target.value" class="form-control col-md-8"
+                                   type="number">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
                           <label class="control-label col-md-3">Begin Date</label>
                           <div class="col-md-8">
                             <input v-bind:value="InputPlayer.beginDate"
@@ -152,6 +161,7 @@ export default {
         weight: null,
         height: null,
         plan: null,
+        payedMoney:0,
         beginDate: null,
         endDate: null,
         dietPlan: "",
@@ -176,7 +186,8 @@ export default {
             player_id: player.id,
             plan_id: this.InputPlayer.plan.id,
             beginDate: this.InputPlayer.beginDate,
-            endDate: this.InputPlayer.endDate
+            endDate: this.InputPlayer.endDate,
+            payedMoney: Number(this.InputPlayer.payedMoney)
           })
 
           let weights = await this.$axios.$post('playerWeight/new', {
@@ -198,7 +209,6 @@ export default {
           // let subscriptionIncome = await this.$axios.get('/subscriptionsIncome/new/'+ this.InputPlayer.plan.id)
           // subscriptionIncome = subscriptionIncome.data
           await this.$store.commit('updateSubscriptionsIncome', sub)
-          await this.$store.commit('calculateIncome')
 
         } catch (e) {
           this.$swal.fire({
@@ -214,6 +224,7 @@ export default {
     PickPlan: function () {
       this.InputPlayer.beginDate = moment().format("yyyy-MM-DD")
       this.InputPlayer.endDate = moment().add("months", this.InputPlayer.plan.months).format('yyyy-MM-DD')
+      this.InputPlayer.payedMoney = this.InputPlayer.plan.price
     },
     isFormOk: function () {
       for (let i = 0, arr = Object.keys(this.InputPlayer); i < arr.length; i++) {
