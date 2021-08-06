@@ -110,9 +110,9 @@ export const mutations = {
   // Services Part :
   setActivityPlayerSubscriptionsIncome: function(state, todaysSubscriptions){
     for(let i = 0; i < todaysSubscriptions.length; ++i){
-      state.totalIncome += todaysSubscriptions[i].price 
+      state.totalIncome += todaysSubscriptions[i].price
     }
-    isActivityPlayerSubscriptionsIncomeLoaded = true
+    state.isActivityPlayerSubscriptionsIncomeLoaded = true
   },
 
   SetServices: function (state, services) {
