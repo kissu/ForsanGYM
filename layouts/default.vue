@@ -24,13 +24,7 @@ export default {
       console.log('error on plans load (layout/Default) :')
       console.log(err)
     })
-    // get services
-    this.$axios.$get('service/').then(res=>{
-      this.$store.commit('SetServices', res)
-    }).catch(err=>{
-      console.log('error on service load (layout/Default) :')
-      console.log(err)
-    })
+
 
     // get players w activities
     this.$axios.$get('activityPlayer/').then(res => {

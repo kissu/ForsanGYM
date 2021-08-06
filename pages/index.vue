@@ -110,6 +110,16 @@ export default {
       }
     }
 
+    if(store.state.services.length === 0){
+      try{
+        const res = await $axios.$get('service/')
+        await store.commit('SetServices', res)
+      }catch (err){
+        console.log('error on service load (dashbaord/index) :')
+        console.log(err)
+      }
+    }
+
     if (store.state.servicesIncome.length === 0) {
       try {
         const res = await $axios.$get('serviceIncome/')
