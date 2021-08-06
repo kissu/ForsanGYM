@@ -300,7 +300,8 @@ export const actions = {
     // try{
     //
     // }catch (err){
-    //
+    //  console.log('error on plans load (store/index) :')
+    //       console.log(err)
     // }
 
   },
