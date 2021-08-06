@@ -90,6 +90,18 @@ export default {
   methods: {},
   async asyncData({store, $axios}) {
 
+    if (!store.state.isActivityPlayerSubscriptionsIncomeLoaded) {
+      // the true case of this if means that subscriptionsIncome is not loaded
+      try {
+        const res = await $axios.$get('activityPlayerSubscription/today')
+        console.log(res);
+        await store.commit('setActivityPlayerSubscriptionsIncome', res)
+      } catch (err) {
+        console.log('error on today\'s Activity player subscriptions income set (dashboard) :')
+        console.log(err)
+      }
+    } 
+
     if (store.state.subscriptionsIncome.length === 0) {
       // the true case of this if means that subscriptionsIncome is not loaded
       try {

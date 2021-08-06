@@ -21,6 +21,18 @@
               </select>
             </div>
           </div>
+           <div class="form-group row">
+                <label class="control-label col-md-3 text-center">Price </label>
+                <div class="col-md-3">
+                  <input
+                    v-bind:value="InputActivityPlayer.price"
+                     @input="InputActivityPlayer.price = $event.target.value"
+                     class="form-control "
+                    type="number"
+                    placeholder="EGP"
+                  />
+                </div>
+              </div>
 
           <div class="form-group row">
             <label class="control-label col-md-3">Begin Date</label>
@@ -58,7 +70,11 @@ export default {
   data() {
     return {
       pickedActivity: null,
-      InputActivityPlayer: {},
+      InputActivityPlayer: {
+        beginDate:null, 
+        endDate:null, 
+        price:0
+      },
       done: true
     }
   },
@@ -95,7 +111,8 @@ export default {
           player_id: this.activityPlayer.id,
           activity_id: this.pickedActivity.id,
           beginDate: this.InputActivityPlayer.beginDate,
-          endDate: this.InputActivityPlayer.endDate
+          endDate: this.InputActivityPlayer.endDate,
+          price: Number(this.InputActivityPlayer.price),
         }).then(res => {
           this.$store.commit('editActivityPlayer', {
             ...this.activityPlayer,

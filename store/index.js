@@ -7,7 +7,7 @@ export const state = () => ({
   activityPlayers: [],
   servicesIncome: [],
   subscriptionsIncome: [],
-  activityPlayerSubscriptionsIncome: [],
+  isActivityPlayerSubscriptionsIncomeLoaded: false,
   totalIncome: 0,
   activityPlayerSubscriptions: {
     count: 0,
@@ -61,6 +61,7 @@ export const mutations = {
       return plan.id !== plan_id
     })
   },
+
   setActivityPlayers: function (state, activityPlayers) {
     state.activityPlayers = activityPlayers
   },
@@ -92,6 +93,7 @@ export const mutations = {
     state.activityPlayers[holder].name = activityPlayer.name
     state.activityPlayers[holder].id = activityPlayer.id
     state.activityPlayers[holder].subscription = activityPlayer.subscription
+    state.totalIncome += activityPlayer.subscription.price
   },
   editActivity: function (state, act) {
     let objIndex = state.activities.findIndex((obj => obj.id === act.id))
@@ -106,6 +108,13 @@ export const mutations = {
   },
   // Activity Player -- End
   // Services Part :
+  setActivityPlayerSubscriptionsIncome: function(state, todaysSubscriptions){
+    for(let i = 0; i < todaysSubscriptions.length; ++i){
+      state.totalIncome += todaysSubscriptions[i].price 
+    }
+    isActivityPlayerSubscriptionsIncomeLoaded = true
+  },
+
   SetServices: function (state, services) {
     state.services = services
   },

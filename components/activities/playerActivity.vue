@@ -266,10 +266,9 @@ export default {
       // 5. once the subscribe request is done we are done
 
       // 1
-      console.log(this.activityPlayer);
-      console.log(typeof this.activityPlayer);
 
       // Re Check here with  ahmed about the return and the POST
+      this.activityPlayer.price = Number(this.activityPlayer.price)
       this.$axios
         .$post("/activityPlayer/new", this.activityPlayer)
         .then((res) => {
