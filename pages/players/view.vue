@@ -13,7 +13,7 @@
         </div>
         <div class="d-flex actions  text-center my1 mx-auto w-100">
           <button type="button" class="btn btn-warning mx-auto w-100" data-toggle="modal"
-                  data-target="#staticBackdrop" v-on:focusin="">Edit
+                  data-target="#staticBackdrop" >Edit
           </button>
           <edit :playerId='player.id'/>
           <!-- End of popup window -->

@@ -223,7 +223,7 @@ export default {
           // Delete Player from databases
 
           this.$axios.$delete('player/delete/' + item.id).then(() => {
-            axios.delete('http://localhost:4000/photo/delete'+item.photo)
+          //  axios.delete('http://localhost:4000/photo/delete'+item.photo)
             this.$store.commit('deletePlayer', item.id)
           }).catch(err => {
             //delete Failed
