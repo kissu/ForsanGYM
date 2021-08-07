@@ -5,9 +5,10 @@
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">
           <img
-            class="rounded-circle"
-            :src="'localhost:3000/'+player.photo"
+            class="rounded-circle my-2"
+            :src="'http://localhost:4000/photo'+player.photo"
             alt=""
+            style="width: 15rem; height:auto"
           />
         </div>
         <div class="d-flex actions  text-center my1 mx-auto w-100">
@@ -211,14 +212,12 @@ import WeightTable from "../../components/players/weightTable";
 import moment from "moment/moment";
 import Swal from "sweetalert2";
 import PlayerSubscriptions from "../../components/players/playerSubscriptions"
+import axios from "axios";
 
 export default {
   components: {PlayerSubscriptions, WeightTable, PageTitle, Edit},
   async asyncData({route, $axios, store}) {
-
     try{
-      console.log("Query player : ", route.query.player)
-      console.log("Query player : ", typeof route.query.player)
 
       if(store.state.players.length===0){
         // to avoid duplications
@@ -342,15 +341,13 @@ export default {
     player: function () {
       const id = Number(this.$route.params.id)
       let player =  {}
-      console.log("Param Id : ", id)
       for(let i=0;i<this.$store.state.players.length;i++){
-        console.log("Player id : ", this.$store.state.players[i].id)
         if(this.$store.state.players[i].id === id){
           player = this.$store.state.players[i]
+          break
         }
       }
-      console.log("All players : ",  this.$store.state.players)
-      console.log("Player : ", player)
+
       return player
     },
 

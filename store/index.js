@@ -16,7 +16,7 @@ export const state = () => ({
   playerSubscriptions: {
     count: 0,
     items: []
-  },
+  }
 })
 
 export const mutations = {

@@ -173,6 +173,7 @@ import AddNewPlayer from '../../components/players/addNewPlayer.vue';
 import DeleteCheck from "../../components/layout/deleteCheck";
 import moment from "moment/moment";
 import Resubscribe from "../../components/players/resubscribe";
+import axios from "axios";
 
 export default {
   components: {Resubscribe, DeleteCheck, PageTitle, AddNewPlayer},
@@ -220,7 +221,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           // Delete Player from databases
+
           this.$axios.$delete('player/delete/' + item.id).then(() => {
+            axios.delete('http://localhost:4000/photo/delete'+item.photo)
             this.$store.commit('deletePlayer', item.id)
           }).catch(err => {
             //delete Failed
@@ -255,7 +258,6 @@ export default {
     playersData: function () {
 
       let returnArr = this.$store.state.players
-      console.log(returnArr)
       if (this.endedSubsMarked) {
         returnArr = returnArr.filter(player => {
           return moment(player.subscription.endDate).isBefore(moment())

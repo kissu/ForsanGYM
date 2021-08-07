@@ -150,6 +150,7 @@
 <script>
 
 import moment from 'moment';
+import axios from "axios";
 
 
 export default {
@@ -165,21 +166,28 @@ export default {
         beginDate: null,
         endDate: null,
         dietPlan: "",
-        trainingPlan: ""
+        trainingPlan: "",
       }
     }
   },
   methods: {
     addPlayer: async function () {
       // TODO  Use Sweetalert
+      let formData = new FormData()
+      let photo = {}
       if (this.isFormOk()) {
-        let formData = new FormData()
-        formData.append('photo', this.$refs.UploadedFile.files[0])
-        Object.keys(this.InputPlayer).forEach(key => {
-          formData.append(key, this.InputPlayer[key])
-        })
+        formData.append('file', this.$refs.UploadedFile.files[0])
+
+        // if the upload done OK pass the photo url
+        // if failed do nothing
+        // continue creating the player
+
         try {
-          const player = await this.$axios.$post('/player/new', formData);
+
+          photo = await axios.post('http://localhost:4000/photo/upload?phone='+this.InputPlayer.phoneNumber, formData)
+          this.InputPlayer.photo = photo.data.url.replace('storage', '')
+          console.log("photo : ", this.InputPlayer.photo)
+          const player = await this.$axios.$post('/player/new', this.InputPlayer);
           // player added then make subscribe request
           // subscribe request
           const sub = await this.$axios.$post('/subscription/new', {
@@ -211,6 +219,7 @@ export default {
           await this.$store.commit('updateSubscriptionsIncome', sub)
 
         } catch (e) {
+          await axios.delete('http://localhost:4000/photo/delete'+this.InputPlayer.photo)
           this.$swal.fire({
             icon: 'error',
             title: "Adding Operation FAILED",
@@ -236,6 +245,15 @@ export default {
           })
           return false
         }
+      }
+      if(this.$store.state.players.find(player=> player.phoneNumber === this.InputPlayer.phoneNumber)){
+        // duplicated phone number
+        this.$swal.fire({
+          icon: "error",
+          title: "Input Error",
+          text: `Phone number is already in use`
+        })
+        return false
       }
       return true
     }
