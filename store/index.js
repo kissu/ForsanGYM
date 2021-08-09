@@ -3,6 +3,7 @@ export const state = () => ({
   plans: [],
   activities: [],
   players: [],
+  playersNumber:0,
   services: {
     isLoaded:false,
     items: []
@@ -36,6 +37,7 @@ export const mutations = {
   },
   addPlayer: function (state, player) {
     state.players.push(player)
+    state.playersNumber++
   },
   editPlayer: function (state, player) {
     let playerNew = Object.assign({}, player)
@@ -54,11 +56,15 @@ export const mutations = {
   setPlayerSubscriptions(state, subscriptions) {
     state.playerSubscriptions.items = subscriptions
   },
+  setPlayersNumber(state, playerNumber){
+    state.playersNumber = playerNumber
+  },
   // Player Section --end
   deletePlayer: function (state, player_id) {
     state.players = state.players.filter(player => {
       return player.id !== player_id
     })
+    state.playersNumber--
   },
   setPlans: function (state, plans) {
     state.plans = plans

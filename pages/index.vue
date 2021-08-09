@@ -102,6 +102,16 @@ export default {
       }
     }
 
+    if(store.state.playersNumber===0){
+      try{
+        const playersNumber = await $axios.$get('player/number')
+        store.commit('setPlayersNumber', playersNumber)
+      }catch (err){
+        console.log('error on players number set (dashboard) :')
+        console.log(err)
+      }
+    }
+
     if (!store.state.subscriptionsIncome.isLoaded) {
       // the true case of this if means that subscriptionsIncome is not loaded
       try {
@@ -146,7 +156,7 @@ export default {
       return this.$store.state.totalIncome
     },
     numberOfPlayers: function (){
-      return this.$store.state.players.length
+      return this.$store.state.playersNumber
     },
 
   }
