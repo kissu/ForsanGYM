@@ -55,7 +55,7 @@
               </div>
 
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{ player.id }}</h5>
+                <h5 csubscriptionlass="mb-0 font-weight-normal">{{ player.id }}</h5>
               </div>
             </div>
 
@@ -218,12 +218,9 @@ export default {
   components: {PlayerSubscriptions, WeightTable, PageTitle, Edit},
   async asyncData({route, $axios, store}) {
     try{
-
-      if(store.state.players.length===0){
-        // to avoid duplications
-        const player = await $axios.$get('player/'+route.params.id)
-        await store.commit('addPlayer', player)
-    }
+      // to avoid duplications
+      const player = await $axios.$get('player/'+route.params.id)
+      await store.commit('setViewPlayer', player)
       const res = await $axios.$get('subscription/' + route.params.id)
       await store.commit('setPlayerSubscriptions', res)
     }catch(err){
@@ -266,7 +263,7 @@ export default {
                 beginDate: this.player.subscription.beginDate,
                 endDate: moment(this.player.subscription.endDate).add(Number(res.value), 'day').format("YYYY-MM-DD")
               }).then(() => {
-                this.$store.commit('editPlayer', {
+                this.$store.commit('setViewPlayer', {
                   ...this.player,
                   subscription: {
                     ...this.player.subscription,
@@ -316,7 +313,7 @@ export default {
             this.$axios.$post('player/inviteFriend/' + this.player.id, {
               invites: Number(res.value)
             }).then(() => {
-              this.$store.commit('editPlayer', {
+              this.$store.commit('setViewPlayer', {
                 ...this.player,
                 invited: this.player.invited + Number(res.value)
               })
@@ -339,16 +336,7 @@ export default {
   },
   computed: {
     player: function () {
-      const id = Number(this.$route.params.id)
-      let player =  {}
-      for(let i=0;i<this.$store.state.players.length;i++){
-        if(this.$store.state.players[i].id === id){
-          player = this.$store.state.players[i]
-          break
-        }
-      }
-
-      return player
+      return this.$store.state.players.viewPlayer
     },
 
   },

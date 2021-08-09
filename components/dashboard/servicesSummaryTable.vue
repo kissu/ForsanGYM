@@ -12,7 +12,7 @@
       <tbody>
       <tr v-for="(item, index) in servicesIncome" :key="item.id">
         <td>{{ index + 1 }}</td>
-        <td>{{ item.service.name }}</td>
+        <td>{{ item.serviceName }}</td>
         <td>{{ item.soldItems }}</td>
         <td>{{ item.payedMoeny * item.soldItems }}</td>
       </tr>

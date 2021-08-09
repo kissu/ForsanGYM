@@ -180,9 +180,7 @@ export default {
   },
   created() {
     const id = this.playerId
-    this.InputPlayer = Object.assign({}, this.$store.state.players.find(player => {
-      return player.id === id
-    }))
+    this.InputPlayer = Object.assign({}, this.$store.state.players.viewPlayer)
     // all this assingment operations to avoid refrences
     this.InputPlayer.subscription = Object.assign({}, this.InputPlayer.subscription)
     this.InputPlayer.subscription.plan = Object.assign({}, this.InputPlayer.subscription.plan)

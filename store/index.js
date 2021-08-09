@@ -2,8 +2,12 @@
 export const state = () => ({
   plans: [],
   activities: [],
-  players: [],
-  playersNumber:0,
+  players: {
+    isLoaded:false,
+    viewPlayer:{},
+    number:0,
+    items: []
+  },
   services: {
     isLoaded:false,
     items: []
@@ -33,23 +37,23 @@ export const state = () => ({
 export const mutations = {
   // Player Section --begin
   setPlayers: function (state, players) {
-    state.players = players
+    state.players.items = players
+    state.players.isLoaded=true
   },
   addPlayer: function (state, player) {
-    state.players.push(player)
-    state.playersNumber++
+    state.players.items.push(player)
+    state.players.number++
   },
   editPlayer: function (state, player) {
-    let playerNew = Object.assign({}, player)
-    playerNew.subscription = Object.assign({}, player.subscription)
-    playerNew.subscription.plan = Object.assign({}, player.subscription.plan)
-    playerNew.weights = Object.assign([], player.weights)
-
-    for (let i = 0; i < state.players.length; i++) {
-      if (state.players[i].id === playerNew.id) {
-        state.players.splice(i, 1, playerNew)
-        break
+    if(state.players.isLoaded){
+      for (let i = 0; i < state.players.items.length; i++) {
+        if (state.players.items[i].id === player.id) {
+          state.players.items.splice(i, 1, player)
+          break
+        }
       }
+    }else{
+      state.players.items.push(player)
     }
 
   },
@@ -57,15 +61,19 @@ export const mutations = {
     state.playerSubscriptions.items = subscriptions
   },
   setPlayersNumber(state, playerNumber){
-    state.playersNumber = playerNumber
+    state.players.number = playerNumber
   },
-  // Player Section --end
+
   deletePlayer: function (state, player_id) {
-    state.players = state.players.filter(player => {
+    state.players.items = state.players.items.filter(player => {
       return player.id !== player_id
     })
-    state.playersNumber--
+    state.players.number--
   },
+  setViewPlayer(state, player){
+    state.players.viewPlayer = player
+  },
+  // Player Section --end
   setPlans: function (state, plans) {
     state.plans = plans
   },
@@ -147,7 +155,7 @@ export const mutations = {
     //Update the table of income with DELETED Service
     for (let i = 0; i < state.servicesIncome.items.length; i++) {
       if (service_id === state.servicesIncome.items[i].service.id) {
-        state.servicesIncome.items[i].service.name = state.servicesIncome.items[i].service.name + '\n(DELETED)'
+        state.servicesIncome.items[i].serviceName = state.servicesIncome.items[i].serviceName + '(Deleted)'
         break
       }
     }
@@ -159,7 +167,7 @@ export const mutations = {
       for (let i = 0; i < servicesIncome.length; i++) {
         if(!state.servicesIncome.items[i].service ){
           // deleted service
-          state.servicesIncome.items[i].service = {name:"Deleted Service"}
+          state.servicesIncome.items[i].serviceName = state.servicesIncome.items[i].serviceName + '(Deleted)'
         }else{ // updating total income
           state.totalIncome += (servicesIncome[i].soldItems * servicesIncome[i].service.price)
 
@@ -171,9 +179,10 @@ export const mutations = {
   buyService: function (state, serviceIncome) {
     let objIndex = state.servicesIncome.items.findIndex((obj => obj.id === serviceIncome.id))
     if(objIndex!==-1){
-      state.servicesIncome.items.splice(objIndex, 1)
+      state.servicesIncome.items.splice(objIndex, 1, serviceIncome)
+    }else{
+      state.servicesIncome.items.push(serviceIncome)
     }
-    state.servicesIncome.items.push(serviceIncome)
     state.totalIncome += serviceIncome.service.price
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
@@ -233,7 +242,7 @@ export const mutations = {
 
   // player weight area start
   deletePlayerWeight: function (state, playerWeight) {
-    const player = state.players.find(player => player.id === playerWeight.player.id)
+    const player = state.players.items.find(player => player.id === playerWeight.player.id)
     let playerWeightsArr = player.weights
     for (let i = 0; i < playerWeightsArr.length; i++) {
       if (playerWeightsArr[i].id === playerWeight.id) {
@@ -246,31 +255,31 @@ export const mutations = {
   addPlayerWeight: function (state, playerWeight) {
 
     let playerIndex = null
-    for (let i = 0; i < state.players.length; i++) {
+    for (let i = 0; i < state.players.items.length; i++) {
       // this loop to search for the player
-      if (state.players[i].id === playerWeight.player.id) {
+      if (state.players.items[i].id === playerWeight.player.id) {
         playerIndex = i
         break;
       }
     }
-    state.players[playerIndex].weights.push(playerWeight)
-    const tmpArr = Object.assign([], state.players)
-    state.players = Object.assign([], [])
-    state.players = Object.assign([], tmpArr)
+    state.players.items[playerIndex].weights.push(playerWeight)
+    const tmpArr = Object.assign([], state.players.items)
+    state.players.items = Object.assign([], [])
+    state.players.items = Object.assign([], tmpArr)
   },
   editPlayerWeight: function (state, playerWeight) {
-    const player = state.players.find(player => player.id === playerWeight.player_id)
+    const player = state.players.items.find(player => player.id === playerWeight.player_id)
     let tmpArr = null
     for (let i = 0; i < player.weights.length; i++) {
       if (player.weights[i].id === playerWeight.id) {
         playerWeight.player_id = undefined
         player.weights[i] = playerWeight
-        tmpArr = Object.assign([], state.players)
-        state.players = Object.assign([], [])
+        tmpArr = Object.assign([], state.players.items)
+        state.players.items = Object.assign([], [])
         break
       }
     }
-    state.players = tmpArr
+    state.players.items = tmpArr
 
   },
   // player weight area end
