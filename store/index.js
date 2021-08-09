@@ -167,16 +167,17 @@ export const mutations = {
         if (visitedArr[arr[i].plan.id] !== undefined) {
           // another subscription of this plan is on the array
           state.subscriptionsIncome[visitedArr[arr[i].plan.id]].numberOfSubscriptions++
-          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].payedMoney
+          state.subscriptionsIncome[visitedArr[arr[i].plan.id]].payedMoney += arr[i].payedMoney
+          tmpIncome += arr[i].payedMoney
         } else {
-          // oush subscription to array
+          // push subscription to array
           state.subscriptionsIncome.push({
             plan: arr[i].plan,
             numberOfSubscriptions: 1,
             payedMoney: arr[i].payedMoney
           })
           visitedArr[arr[i].plan.id] = state.subscriptionsIncome.length - 1
-          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].payedMoney
+          tmpIncome += arr[i].payedMoney
         }
         state.totalIncome += tmpIncome // update totoal income}
       } else {
@@ -191,38 +192,13 @@ export const mutations = {
         state.totalIncome += arr[i].payedMoney
       }
     }
-
-
-    // const tmpArr = []
-    // for(let i=0;i<state.plans.length;i++){
-    //   let tmpIncome = 0
-    //   let tmpSubscription = {
-    //     plan:state.plans[i],
-    //     numberOfSubscriptions:0,
-    //     payedMoney:-1}
-    //   for(let j=0;j<todaysSubscriptions.length;j++){
-    //     if(todaysSubscriptions[j].plan.id === tmpSubscription.plan.id){
-    //       tmpSubscription.numberOfSubscriptions++;
-    //       if(tmpSubscription.payedMoney === -1){
-    //         tmpSubscription.payedMoney = todaysSubscriptions[j].payedMoney
-    //       }
-    //
-    //     }
-    //
-    //   }
-    //   tmpIncome=(tmpSubscription.payedMoney*tmpSubscription.numberOfSubscriptions)
-    //   tmpArr.push(tmpSubscription)
-    //   state.totalIncome += tmpIncome  // updating total income
-    // }
-    // state.subscriptionsIncome = tmpArr
-    //
-
   },
   addSubscriptionIncome: function (state, subscriptionIncome) {
 
     for (let i = 0, arr = state.subscriptionsIncome; i < arr.length; i++) {
       if (arr[i].plan.id === subscriptionIncome.plan.id) {
         arr[i].numberOfSubscriptions++
+        arr[i].payedMoney += subscriptionIncome.payedMoney
         state.totalIncome += subscriptionIncome.payedMoney
         return
       }
@@ -232,18 +208,6 @@ export const mutations = {
       numberOfSubscriptions: 1,
       payedMoney: subscriptionIncome.payedMoney
     })
-  },
-  updateSubscriptionsIncome: function (state, subscriptionIncome) {
-
-    for (let i = 0; i < state.subscriptionsIncome.length; i++) {
-      if (state.subscriptionsIncome[i].plan.id === subscriptionIncome.plan.id) {
-        state.subscriptionsIncome[i].numberOfSubscriptions++
-        state.subscriptionsIncome[i].payedMoney = subscriptionIncome.payedMoney
-        state.totalIncome += subscriptionIncome.payedMoney // updating total income
-        break
-      }
-    }
-
   },
 
   // player weight area start

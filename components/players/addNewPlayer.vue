@@ -213,8 +213,8 @@ export default {
           }
           await this.$store.commit('addPlayer', storePlayer)
 
-          await this.$store.commit('updateSubscriptionsIncome', sub)
-
+          await this.$store.commit('addSubscriptionIncome', sub)
+          this.InputPlayer = {}
         } catch (e) {
           // await axios.delete('http://localhost:4000/photo/delete'+this.InputPlayer.photo)
           this.$swal.fire({
@@ -222,6 +222,7 @@ export default {
             title: "Adding Operation FAILED",
             text: e.response.data.message
           })
+          this.InputPlayer = {}
           return false;
         }
         // ....
