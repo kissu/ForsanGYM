@@ -129,11 +129,6 @@ export default {
       originalWeight: null
     }
   },
-  props: {
-    playerId: {
-      required: true,
-    },
-  },
   methods: {
     save: function () {
       // we need to edit 2 things :
@@ -173,13 +168,8 @@ export default {
         this.InputPlayer.subscription.endDate !== this.originalDates.endDate;
 
     },
-    isWeightEdited: function () {
-
-      return this.originalWeight !== this.InputPlayer.weight
-    }
   },
   created() {
-    const id = this.playerId
     this.InputPlayer = Object.assign({}, this.$store.state.players.viewPlayer)
     // all this assingment operations to avoid refrences
     this.InputPlayer.subscription = Object.assign({}, this.InputPlayer.subscription)
@@ -195,8 +185,7 @@ export default {
     this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
     this.originalDates.endDate = this.InputPlayer.subscription.endDate
 
-    this.originalWeight = this.InputPlayer.weights[this.InputPlayer.weights.length - 1].weight
-    this.originalWeight = parseInt(this.originalWeight, 10)
+    this.originalWeight = parseInt(this.InputPlayer.weights[this.InputPlayer.weights.length - 1].weight)
   }
 };
 </script>

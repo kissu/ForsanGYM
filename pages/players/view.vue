@@ -15,7 +15,7 @@
           <button type="button" class="btn btn-warning mx-auto w-100" data-toggle="modal"
                   data-target="#staticBackdrop" >Edit
           </button>
-          <edit :playerId='player.id'/>
+          <edit />
           <!-- End of popup window -->
         </div>
 
@@ -55,7 +55,7 @@
               </div>
 
               <div class="col-md-9">
-                <h5 csubscriptionlass="mb-0 font-weight-normal">{{ player.id }}</h5>
+                <h5 class="mb-0 font-weight-normal">{{ player.id }}</h5>
               </div>
             </div>
 
@@ -198,7 +198,7 @@
       </div>
 
       <div class="col-md-5">
-        <WeightTable :player="player"/>
+        <WeightTable />
       </div>
 
     </div>
@@ -224,23 +224,11 @@ export default {
       const res = await $axios.$get('subscription/' + route.params.id)
       await store.commit('setPlayerSubscriptions', res)
     }catch(err){
-      console.log("error form setting player subscriptions pages/players/view : ")
+      console.log("error form setting player or subscriptions pages/players/view : ")
       console.log(err)
     }
   },
   methods: {
-    // initPage: function (){
-    //   console.log("init worked ")
-    //   const id = this.$route.params.id
-    //
-    //   this.player = Object.assign({},this.$store.state.players.find(player=>{
-    //     return player.id === id
-    //   }))
-    //
-    //
-    //
-    // },
-
     freeze: function () {
       this.$swal.fire({
         title: "How many Days you want to freeze ? ",
@@ -255,7 +243,7 @@ export default {
             // Validate the value is a number :D
             Swal.fire({
               icon: "error",
-              title: "Weight must be a number"
+              title: "days must be a number"
             })
           } else {
             this.$axios.$post('player/freeze/' + this.player.id, {freezeDays: Number(res.value)}).then(() => {
@@ -307,7 +295,7 @@ export default {
             // Validate the value is a number :D
             Swal.fire({
               icon: "error",
-              title: "Weight must be a number"
+              title: "invitations must be a number"
             })
           } else {
             this.$axios.$post('player/inviteFriend/' + this.player.id, {
@@ -329,10 +317,6 @@ export default {
       })
     },
 
-  },
-  created() {
-    console.log("Player : ", this.player)
-    console.log("Type : ", typeof this.player.subscription.plan)
   },
   computed: {
     player: function () {

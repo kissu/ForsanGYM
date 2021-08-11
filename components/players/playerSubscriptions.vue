@@ -41,7 +41,6 @@ export default {
   name: "playerSubscriptions.vue",
   computed: {
     playerSubscriptions: function () {
-      console.log(this.$store.state.playerSubscriptions.items)
       return this.$store.state.playerSubscriptions.items
     },
   }
