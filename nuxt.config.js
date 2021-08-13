@@ -1,10 +1,12 @@
-import webpack from "webpack";
+// import webpack from "webpack";
+const webpack = require("webpack");
 
 require('dotenv').config({
   path:__dirname+'/.env'
 })
 
-export default {
+// export default {
+module.exports = {
 
   server : {
     host:"127.0.0.1",
@@ -27,7 +29,7 @@ export default {
       { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'}
     ],
     script: [
-  
+
     ]
   },
 
@@ -52,7 +54,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxtjs/router',
-    "vue-sweetalert2/nuxt"
+    "vue-sweetalert2/nuxt",
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -80,5 +83,38 @@ export default {
     ],
     standalone: true
   },
+
+  router: {
+    middleware: ['auth']
+  },
+
+  auth: {
+    redirect: {
+      login: "/auth/login",
+      logout: "/auth/login",
+      callback: "/auth/login",
+      user: "/"
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'accessToken',
+          maxAge: 1800,
+          required: true,
+          global: true,
+          type: 'Bearer'
+        },
+        user: {
+          autoFetch: true,
+          property: false
+        },
+        endpoints: {
+          login: { url: '/auth/login', method: 'post', propertyName: 'accessToken' },
+          user: { url: '/auth/me', method: 'get',propertyName: false },
+        }
+        // autoLogout: false
+      }
+    }
+  }
 
 }

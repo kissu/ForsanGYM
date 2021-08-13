@@ -11,7 +11,7 @@
         <router-link class="app-nav__item" to="/" data-toggle="dropdown" aria-label="Open Profile Menu"><i
           class="fa fa-user fa-lg"></i></router-link>
         <ul class="dropdown-menu settings-menu dropdown-menu-right">
-          <li><a class="dropdown-item" href="page-login.html"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+          <li><a @click.prevent="logout" class="dropdown-item" href="page-login.html"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
         </ul>
       </li>
     </ul>
@@ -21,7 +21,12 @@
 
 <script>
 export default {
-  name: "appHeader"
+  name: "appHeader",
+  methods: {
+    logout: function () {
+      this.$auth.logout();
+    }
+  }
 }
 </script>
 
