@@ -167,6 +167,7 @@ export default {
         endDate: null,
         dietPlan: "",
         trainingPlan: "",
+        photo: "",
       }
     }
   },
@@ -181,12 +182,13 @@ export default {
         // if the upload done OK pass the photo url
         // if failed do nothing
         // continue creating the player
-
         try {
-
-           photo = await axios.post('http://localhost:4000/photo/upload?phone='+this.InputPlayer.phoneNumber, formData)
-           this.InputPlayer.photo = photo.data.url.replace('storage', '')
-          //console.log("photo : ", this.InputPlayer.photo)
+          photo = await axios.post('http://localhost:4000/photo/upload?phone='+this.InputPlayer.phoneNumber, formData)
+          this.InputPlayer.photo = photo.data.url.replace('storage', '')
+        } catch (e) {
+          console.log('Photo not uploaded');
+        }
+        try { 
           const player = await this.$axios.$post('/player/new', this.InputPlayer);
           // player added then make subscribe request
           // subscribe request
