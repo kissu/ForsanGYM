@@ -184,8 +184,8 @@ export default {
 
         try {
 
-          // photo = await axios.post('http://localhost:4000/photo/upload?phone='+this.InputPlayer.phoneNumber, formData)
-          // this.InputPlayer.photo = photo.data.url.replace('storage', '')
+           photo = await axios.post('http://localhost:4000/photo/upload?phone='+this.InputPlayer.phoneNumber, formData)
+           this.InputPlayer.photo = photo.data.url.replace('storage', '')
           //console.log("photo : ", this.InputPlayer.photo)
           const player = await this.$axios.$post('/player/new', this.InputPlayer);
           // player added then make subscribe request
@@ -216,7 +216,7 @@ export default {
           await this.$store.commit('updateSubscriptionsIncome', sub)
 
         } catch (e) {
-          // await axios.delete('http://localhost:4000/photo/delete'+this.InputPlayer.photo)
+           await axios.delete('http://localhost:4000/photo/delete'+this.InputPlayer.photo)
           this.$swal.fire({
             icon: 'error',
             title: "Adding Operation FAILED",
