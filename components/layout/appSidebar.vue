@@ -2,10 +2,10 @@
   <div id="sidebar">
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-      <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/logo.jpeg" alt="User Image" width="90">
+      <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/logo.jpeg" alt="User Image" width="60">
         <div>
-          <p class="app-sidebar__user-name">Ahmed Gamal</p>
-          <p class="app-sidebar__user-designation">Admin</p>
+          <p class="app-sidebar__user-name">{{ $auth.user.name }}</p>
+          <p class="app-sidebar__user-designation">{{ $auth.user.role}}</p>
         </div>
       </div>
       <ul class="app-menu">
