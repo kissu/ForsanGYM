@@ -129,7 +129,7 @@
                         <div class="col-md-8 ">
                           <button v-on:click="addPlayer" class="btn btn-primary" type="button" data-toggle="collapse"
                                   data-target="#collapseOne">
-                            <i class="fa fa-fw fa-lg fa-check-circle"></i>
+                            <i class="mdi mdi-check-circle"></i>
                             Register
                           </button>
                         </div>

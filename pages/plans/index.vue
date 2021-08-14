@@ -1,6 +1,6 @@
 <template>
   <div id="plan">
-    <page-title title="Plans" icon="fa fa-bar-chart"
+    <page-title title="Plans" icon="mdi mdi-chart-bar"
                 :addBtn="{to:{name:'newPlan'}, text:'Add New Plan'}"/>
     <div class="row">
       <div class="col-md-12">

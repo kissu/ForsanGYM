@@ -1,6 +1,6 @@
 <template>
   <div id="View">
-    <page-title title="Player Info" icon="fa fa-user"/>
+    <page-title title="Player Info" icon="mdi mdi-account"/>
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">

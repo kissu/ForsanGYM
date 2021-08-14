@@ -121,7 +121,7 @@
                           type="button"
                           @click="addActivityPlayer"
                         >
-                          <i class="fa fa-fw fa-lg fa-check-circle"></i>
+                          <i class="mdi mdi-check-circle"></i>
                           Add Player
                         </button>
                       </div>
@@ -367,7 +367,7 @@ export default {
         name: "viewActivityPlayer",
         params: {id: item}
       })
-    }, 
+    },
     reSubscribe: async function(activityPlayer){
       this.activityPlayerInfo = activityPlayer
       const activityPlayerId = activityPlayer.id

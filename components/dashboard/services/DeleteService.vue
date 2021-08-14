@@ -20,7 +20,7 @@
           <div class="col-md-8 ">
             <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#DeleteServicecollapse"
                     v-on:click="DeleteService">
-              <i class="fa fa-fw fa-lg fa-check-circle"></i>
+              <i class="mdi mdi-check-circle"></i>
               Delete
             </button>
           </div>

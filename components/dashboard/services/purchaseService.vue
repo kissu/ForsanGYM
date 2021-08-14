@@ -20,7 +20,7 @@
           <div class="col-md-8 ">
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#puchasecollapse"
                     v-on:click="PurchaseService">
-              <i class="fa fa-fw fa-lg fa-check-circle"></i>
+              <i class="mdi mdi-check-circle"></i>
               Purchase
             </button>
           </div>

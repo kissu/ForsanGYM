@@ -1,6 +1,6 @@
 <template>
   <div id="newActivityPage">
-    <PageTitle title="New Activity" icon="fa fa-plus"/>
+    <PageTitle title="New Activity" icon="mdi mdi-plus"/>
 
     <div class="row mt-2 justify-content-center">
       <div class="col-md-8">
@@ -83,7 +83,7 @@
             <div class="row justify-content-center">
               <div class="col-md-0">
                 <button @click="register" class="btn btn-primary" type="button">
-                  <i class="fa fa-fw fa-lg fa-check-circle"></i>
+                  <i class="mdi mdi-check-circle"></i>
                   Register
                 </button>
               </div>

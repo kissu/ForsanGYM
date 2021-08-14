@@ -1,6 +1,6 @@
 <template>
   <div id="PlayersPage">
-    <page-title title="Players" icon="fa fa-user"/>
+    <page-title title="Players" icon="mdi mdi-account" />
 
     <add-new-player/>
 

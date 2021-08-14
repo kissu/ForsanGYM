@@ -1,6 +1,6 @@
 <template>
   <div id="newPlanPage">
-    <pageTitle title="New Plan" icon="fa fa-plus"/>
+    <pageTitle title="New Plan" icon="mdi mdi-plus"/>
     <div class="row mt-2 justify-content-center">
       <div class="col-md-8">
         <div class="tile">
@@ -74,7 +74,7 @@
             <div class="row justify-content-around">
               <div class="col-md-3 ">
                 <button :disabled="dis" @click="addPLan" class="btn btn-primary " type="button">
-                  <i class="fa fa-fw fa-lg fa-check-circle"></i>
+                  <i class="mdi mdi-check-circle"></i>
                   Add Plan
                 </button>
               </div>

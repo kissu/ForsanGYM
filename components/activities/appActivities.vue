@@ -14,7 +14,7 @@
                 <i class="mdi mdi-clipboard-edit"></i>
               </button>
               <button class="btn btn-danger" @click="deleteActivity(item)" data-toggle="modal"
-                      :data-target="'#DeleteCheckModal'+DeleteClickedActivity.id"><i class="fa fa-lg fa-trash"></i>
+                      :data-target="'#DeleteCheckModal'+DeleteClickedActivity.id"><i class="mdi mdi-trash-can"></i>
               </button>
             </div>
           </div>

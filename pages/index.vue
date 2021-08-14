@@ -1,11 +1,11 @@
 <template>
   <div id="HomePage">
-    <page-title icon="fa fa-home" title='Dashboard'/>
+    <page-title icon="mdi mdi-home" title='Dashboard'/>
     <div class="row">
       <div class="col-md-6 col-lg-3">
         <!-- TODO: Make this a reusable component @Ahmedgamal77823 -->
         <div class="widget-small primary coloured-icon">
-          <i class="icon fa fa-users fa-3x"></i>
+          <i class="icon mdi mdi-account"></i>
           <div class="info">
             <h4>Players</h4>
             <p><b>{{ numberOfPlayers }}</b></p>
@@ -14,7 +14,7 @@
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
-          <i class="icon fa fa-usd fa-3x"></i>
+          <i class="icon mdi mdi-account"></i>
           <div class="info">
             <h4>Income</h4>
             <p><b>{{ totalDailyIncome }}</b></p>
