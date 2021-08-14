@@ -28,7 +28,7 @@
           <div class="col-md-8 ">
             <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#AddServicecollapse"
                     v-on:click="AddService">
-              <i class="fa fa-fw fa-lg fa-check-circle"></i>
+              <i class="mdi mdi-check-circle"></i>
               Add
             </button>
           </div>

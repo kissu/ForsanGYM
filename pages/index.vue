@@ -1,20 +1,20 @@
 <template>
   <div id="HomePage">
-    <page-title icon="fa fa-home" title='Dashboard'/>
+    <page-title icon="mdi mdi-home" title='Dashboard'/>
     <div class="row">
       <div class="col-md-6 col-lg-3">
         <!-- TODO: Make this a reusable component @Ahmedgamal77823 -->
         <div class="widget-small primary coloured-icon">
-          <i class="icon fa fa-users fa-3x"></i>
+          <i class="icon mdi mdi-account"></i>
           <div class="info">
             <h4>Players</h4>
-            <p><b>{{ $store.state.players.length }}</b></p>
+            <p><b>{{ numberOfPlayers }}</b></p>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
-          <i class="icon fa fa-usd fa-3x"></i>
+          <i class="icon mdi mdi-account"></i>
           <div class="info">
             <h4>Income</h4>
             <p><b>{{ totalDailyIncome }}</b></p>
@@ -41,7 +41,7 @@
               <td>{{ index + 1 }}</td>
               <td>{{ subscriptionIncome.plan.name }}</td>
               <td>{{ subscriptionIncome.numberOfSubscriptions }}</td>
-              <td>{{ subscriptionIncome.payedMoney * subscriptionIncome.numberOfSubscriptions }}</td>
+              <td>{{ subscriptionIncome.payedMoney }}</td>
             </tr>
             </tbody>
           </table>
@@ -93,6 +93,7 @@ export default {
     if (!store.state.isActivityPlayerSubscriptionsIncomeLoaded) {
       // the true case of this if means that subscriptionsIncome is not loaded
       try {
+        console.log('Load ActivityPlayerSubscriptionsIncome')
         const res = await $axios.$get('activityPlayerSubscription/today')
         await store.commit('setActivityPlayerSubscriptionsIncome', res)
       } catch (err) {
@@ -101,9 +102,20 @@ export default {
       }
     }
 
-    if (store.state.subscriptionsIncome.length === 0) {
+    if(store.state.players.number===0){
+      try{
+        const playersNumber = await $axios.$get('player/number')
+        store.commit('setPlayersNumber', playersNumber)
+      }catch (err){
+        console.log('error on players number set (dashboard) :')
+        console.log(err)
+      }
+    }
+
+    if (!store.state.subscriptionsIncome.isLoaded) {
       // the true case of this if means that subscriptionsIncome is not loaded
       try {
+        console.log('Load subscriptionsIncome')
         const res = await $axios.$get('subscription/today')
         await store.commit('setSubscriptionsIncome', res)
       } catch (err) {
@@ -112,8 +124,9 @@ export default {
       }
     }
 
-    if(store.state.services.length === 0){// the true case of this if means that services is not loaded
+    if(!store.state.services.isLoaded){// the true case of this if means that services is not loaded
       try{
+        console.log('Load services')
         const res = await $axios.$get('service/')
         await store.commit('SetServices', res)
       }catch (err){
@@ -122,8 +135,9 @@ export default {
       }
     }
 
-    if (store.state.servicesIncome.length === 0) { // the true case of this if means that serviceIncome is not loaded
+    if (!store.state.servicesIncome.isLoaded) { // the true case of this if means that serviceIncome is not loaded
       try {
+        console.log('Load servicesIncome')
         const res = await $axios.$get('serviceIncome/')
         await store.commit('setServicesIncome', res)
       } catch (err) {
@@ -136,11 +150,14 @@ export default {
 
   computed: {
     computedSubscriptionsIncome: function () {
-      return this.$store.state.subscriptionsIncome
+      return this.$store.state.subscriptionsIncome.items
     },
     totalDailyIncome: function () {
       return this.$store.state.totalIncome
-    }
+    },
+    numberOfPlayers: function (){
+      return this.$store.state.players.number
+    },
 
   }
 };

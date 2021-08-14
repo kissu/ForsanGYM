@@ -3,7 +3,7 @@
     <CollapseComponent collapse-name="puchase" foot-btn-text="Purchase" head-btn-text="Purchase A Service"
                        btns-class="btn btn-primary">
       <form class="form-horizontal w-100">
-        <div class="form-group row" v-for="service in $store.state.services" :key="service.id">
+        <div class="form-group row" v-for="service in services" :key="service.id">
           <div class="col-md-12">
             <div class="form-check form-check-inline">
               <input v-model="SelectedServiceId" class="form-check-input" type="radio" name="inlineRadioOptions"
@@ -20,7 +20,7 @@
           <div class="col-md-8 ">
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#puchasecollapse"
                     v-on:click="PurchaseService">
-              <i class="fa fa-fw fa-lg fa-check-circle"></i>
+              <i class="mdi mdi-check-circle"></i>
               Purchase
             </button>
           </div>
@@ -48,7 +48,6 @@ export default {
       // purchase a service performer
       this.$axios.$get('serviceIncome/add/' + this.SelectedServiceId).then(res => {
         this.$store.commit('buyService', res)
-        this.$store.commit('calculateIncome')
         this.SelectedServiceId = null
 
       }).catch(err => {
@@ -62,6 +61,11 @@ export default {
       })
     }
   },
+  computed:{
+    services: function (){
+      return this.$store.state.services.items
+    }
+  }
 }
 </script>
 

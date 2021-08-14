@@ -29,9 +29,9 @@ export default {
   data() {
     return {
       list: [
-        {text: "Dashboard", icon: "fa fa-home", route: {name: 'home'}},
-        {text: "Players", icon: "fa fa-user", route: {name: 'allPlayers'}},
-        {text: "Plans", icon: "fa fa-bar-chart", route: {name: 'allPlans'}},
+        {text: "Dashboard", icon: "mdi mdi-home", route: {name: 'home'}},
+        {text: "Players", icon: "mdi mdi-account", route: {name: 'allPlayers'}},
+        {text: "Plans", icon: "mdi mdi-chart-bar", route: {name: 'allPlans'}},
         {text: "Activities", icon: "mdi mdi-karate", route: {name: 'allActs'}},
       ]
     }

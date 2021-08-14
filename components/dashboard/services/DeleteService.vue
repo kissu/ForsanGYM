@@ -8,7 +8,7 @@
         <select class="form-control" id="ServiceSelect" v-bind:value="SelectedService"
                 @input="SelectedService = $event.target.value">
           <option :value="null" disabled selected>Choose A Service</option>
-          <option v-for="service in $store.state.services" :value="service.id" :key="service.id">{{ service.name }} --
+          <option v-for="service in services" :value="service.id" :key="service.id">{{ service.name }} --
             {{ service.price }}
           </option>
         </select>
@@ -20,7 +20,7 @@
           <div class="col-md-8 ">
             <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#DeleteServicecollapse"
                     v-on:click="DeleteService">
-              <i class="fa fa-fw fa-lg fa-check-circle"></i>
+              <i class="mdi mdi-check-circle"></i>
               Delete
             </button>
           </div>
@@ -74,6 +74,11 @@ export default {
       })
 
 
+    }
+  },
+  computed:{
+    services: function (){
+      return this.$store.state.services.items
     }
   }
 }

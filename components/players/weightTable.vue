@@ -48,11 +48,6 @@ import moment from "moment/moment";
 
 export default {
   name: "weightTable",
-  props: {
-    player: {
-      required: true
-    }
-  },
   methods: {
     // deleteWeight: function (playerWeight){
     //   if(this.player.weights.length === 1){
@@ -142,8 +137,7 @@ export default {
   },
   computed: {
     playerComputed: function () {
-      console.log(this.player)
-      return Object.assign({}, this.$store.state.players.find(player => player.id === this.player.id))
+      return this.$store.state.players.viewPlayer
     }
   }
 

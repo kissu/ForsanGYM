@@ -2,11 +2,25 @@
 export const state = () => ({
   plans: [],
   activities: [],
-  players: [],
-  services: [],
+  players: {
+    isLoaded:false,
+    viewPlayer:{},
+    number:0,
+    items: []
+  },
+  services: {
+    isLoaded:false,
+    items: []
+  },
   activityPlayers: [],
-  servicesIncome: [],
-  subscriptionsIncome: [],
+  servicesIncome: {
+    isLoaded:false,
+    items: []
+  },
+  subscriptionsIncome: {
+    isLoaded:false,
+    items: []
+  },
   isActivityPlayerSubscriptionsIncomeLoaded: false,
   totalIncome: 0,
   activityPlayerSubscriptions: {
@@ -15,6 +29,7 @@ export const state = () => ({
   },
   playerSubscriptions: {
     count: 0,
+    isLoaded:false,
     items: []
   }
 })
@@ -22,34 +37,43 @@ export const state = () => ({
 export const mutations = {
   // Player Section --begin
   setPlayers: function (state, players) {
-    state.players = players
+    state.players.items = players
+    state.players.isLoaded=true
   },
   addPlayer: function (state, player) {
-    state.players.push(player)
+    state.players.items.push(player)
+    state.players.number++
   },
   editPlayer: function (state, player) {
-    let playerNew = Object.assign({}, player)
-    playerNew.subscription = Object.assign({}, player.subscription)
-    playerNew.subscription.plan = Object.assign({}, player.subscription.plan)
-    playerNew.weights = Object.assign([], player.weights)
-
-    for (let i = 0; i < state.players.length; i++) {
-      if (state.players[i].id === playerNew.id) {
-        state.players.splice(i, 1, playerNew)
-        break
+    if(state.players.isLoaded){
+      for (let i = 0; i < state.players.items.length; i++) {
+        if (state.players.items[i].id === player.id) {
+          state.players.items.splice(i, 1, player)
+          break
+        }
       }
+    }else{
+      state.players.items.push(player)
     }
 
   },
   setPlayerSubscriptions(state, subscriptions) {
     state.playerSubscriptions.items = subscriptions
   },
-  // Player Section --end
+  setPlayersNumber(state, playerNumber){
+    state.players.number = playerNumber
+  },
+
   deletePlayer: function (state, player_id) {
-    state.players = state.players.filter(player => {
+    state.players.items = state.players.items.filter(player => {
       return player.id !== player_id
     })
+    state.players.number--
   },
+  setViewPlayer(state, player){
+    state.players.viewPlayer = player
+  },
+  // Player Section --end
   setPlans: function (state, plans) {
     state.plans = plans
   },
@@ -106,149 +130,119 @@ export const mutations = {
   setAllActivityPlayersubscriptions: function (state, res) {
     state.activityPlayerSubscriptions.items = res
   },
-  // Activity Player -- End
-  // Services Part :
   setActivityPlayerSubscriptionsIncome: function(state, todaysSubscriptions){
     for(let i = 0; i < todaysSubscriptions.length; ++i){
       state.totalIncome += todaysSubscriptions[i].price
     }
     state.isActivityPlayerSubscriptionsIncomeLoaded = true
   },
+  // Activity Player -- End
+
+  // Services Part :
 
   SetServices: function (state, services) {
-    state.services = services
+    state.services.items = services
+    state.services.isLoaded = true
   },
   AddService: function (state, service) {
-    if (!state.services.length)
-      state.services = [service]
-    else
-      state.services.push(service)
+      state.services.items.push(service)
   },
   DeleteService: function (state, service_id) {
-    state.services = state.services.filter(service => {
+    state.services.items = state.services.items.filter(service => {
       return service.id !== service_id
     })
-    state.services = Object.assign([], state.services)
 
     //Update the table of income with DELETED Service
-    for (let i = 0; i < state.servicesIncome.length; i++) {
-      if (service_id === state.servicesIncome[i].service.id) {
-        state.servicesIncome[i].service.name = state.servicesIncome[i].service.name + '\n(DELETED)'
+    for (let i = 0; i < state.servicesIncome.items.length; i++) {
+      if (service_id === state.servicesIncome.items[i].service.id) {
+        state.servicesIncome.items[i].serviceName = state.servicesIncome.items[i].serviceName + '(Deleted)'
         break
       }
     }
-    state.servicesIncome = Object.assign([], state.servicesIncome)
   },
   //Service end
   setServicesIncome: function (state, servicesIncome) {
-    state.servicesIncome = servicesIncome
-    for (let i = 0; i < servicesIncome.length; i++) {
-      state.totalIncome += (servicesIncome[i].soldItems * servicesIncome[i].service.price)  // updating total income
-    }
-  },
-  buyService: function (state, service) {
-    let objIndex = state.servicesIncome.findIndex((obj => obj.id === service.id))
-    if (objIndex === -1)
-      state.servicesIncome.push(service)
+    if(servicesIncome.length>0){
+      state.servicesIncome.items = servicesIncome
+      for (let i = 0; i < servicesIncome.length; i++) {
+        if(!state.servicesIncome.items[i].service ){
+          // deleted service
+          state.servicesIncome.items[i].serviceName = state.servicesIncome.items[i].serviceName + '(Deleted)'
+        }else{ // updating total income
+          state.totalIncome += (servicesIncome[i].soldItems * servicesIncome[i].service.price)
 
-    else {
-      state.servicesIncome[objIndex] = service
-      //reAssign to force a change
-      state.servicesIncome = Object.assign([], state.servicesIncome)
+        }
+      }
     }
-    state.totalIncome += service.service.price
+    state.servicesIncome.isLoaded = true
+  },
+  buyService: function (state, serviceIncome) {
+    let objIndex = state.servicesIncome.items.findIndex((obj => obj.id === serviceIncome.id))
+    if(objIndex!==-1){
+      state.servicesIncome.items.splice(objIndex, 1, serviceIncome)
+    }else{
+      state.servicesIncome.items.push(serviceIncome)
+    }
+    state.totalIncome += serviceIncome.service.price
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
-    const visitedArr = []
-    for (let i = 0, arr = todaysSubscriptions; i < arr.length; i++) {
-      if (arr[i].plan) {
-        // the plan is not deleted :D
-        let tmpIncome = 0
-        if (visitedArr[arr[i].plan.id] !== undefined) {
-          // another subscription of this plan is on the array
-          state.subscriptionsIncome[visitedArr[arr[i].plan.id]].numberOfSubscriptions++
-          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].payedMoney
+    if(todaysSubscriptions.length>0){ // there is subscriptions for today
+      const visitedArr = []
+      for (let i = 0, arr = todaysSubscriptions; i < arr.length; i++) {
+        if (arr[i].plan) {
+          // the plan is not deleted :D
+          let tmpIncome = 0
+          if (visitedArr[arr[i].plan.id] !== undefined) {
+            // another subscription of this plan is on the array
+            state.subscriptionsIncome.items[visitedArr[arr[i].plan.id]].numberOfSubscriptions++
+            state.subscriptionsIncome.items[visitedArr[arr[i].plan.id]].payedMoney += arr[i].payedMoney
+            tmpIncome += arr[i].payedMoney
+          } else {
+            // push subscription to array
+            state.subscriptionsIncome.items.push({
+              plan: arr[i].plan,
+              numberOfSubscriptions: 1,
+              payedMoney: arr[i].payedMoney
+            })
+            visitedArr[arr[i].plan.id] = state.subscriptionsIncome.items.length - 1
+            tmpIncome += arr[i].payedMoney
+          }
+          state.totalIncome += tmpIncome // update totoal income}
         } else {
-          // oush subscription to array
-          state.subscriptionsIncome.push({
-            plan: arr[i].plan,
+          // plan is deleted :D
+          state.subscriptionsIncome.items.push({
+            plan: {
+              name: "Deleted Plan"
+            },
             numberOfSubscriptions: 1,
             payedMoney: arr[i].payedMoney
           })
-          visitedArr[arr[i].plan.id] = state.subscriptionsIncome.length - 1
-          tmpIncome += state.subscriptionsIncome[visitedArr[arr[i].plan.id]].payedMoney
+          state.totalIncome += arr[i].payedMoney
         }
-        state.totalIncome += tmpIncome // update totoal income}
-      } else {
-        // plan is deleted :D
-        state.subscriptionsIncome.push({
-          plan: {
-            name: "Deleted Plan"
-          },
-          numberOfSubscriptions: 1,
-          payedMoney: arr[i].payedMoney
-        })
-        state.totalIncome += arr[i].payedMoney
       }
     }
-
-
-    // const tmpArr = []
-    // for(let i=0;i<state.plans.length;i++){
-    //   let tmpIncome = 0
-    //   let tmpSubscription = {
-    //     plan:state.plans[i],
-    //     numberOfSubscriptions:0,
-    //     payedMoney:-1}
-    //   for(let j=0;j<todaysSubscriptions.length;j++){
-    //     if(todaysSubscriptions[j].plan.id === tmpSubscription.plan.id){
-    //       tmpSubscription.numberOfSubscriptions++;
-    //       if(tmpSubscription.payedMoney === -1){
-    //         tmpSubscription.payedMoney = todaysSubscriptions[j].payedMoney
-    //       }
-    //
-    //     }
-    //
-    //   }
-    //   tmpIncome=(tmpSubscription.payedMoney*tmpSubscription.numberOfSubscriptions)
-    //   tmpArr.push(tmpSubscription)
-    //   state.totalIncome += tmpIncome  // updating total income
-    // }
-    // state.subscriptionsIncome = tmpArr
-    //
-
+    state.subscriptionsIncome.isLoaded = true
   },
   addSubscriptionIncome: function (state, subscriptionIncome) {
 
-    for (let i = 0, arr = state.subscriptionsIncome; i < arr.length; i++) {
+    for (let i = 0, arr = state.subscriptionsIncome.items; i < arr.length; i++) {
       if (arr[i].plan.id === subscriptionIncome.plan.id) {
         arr[i].numberOfSubscriptions++
+        arr[i].payedMoney += subscriptionIncome.payedMoney
         state.totalIncome += subscriptionIncome.payedMoney
         return
       }
     }
-    state.subscriptionsIncome.push({
+    state.subscriptionsIncome.items.push({
       plan: subscriptionIncome.plan,
       numberOfSubscriptions: 1,
       payedMoney: subscriptionIncome.payedMoney
     })
   },
-  updateSubscriptionsIncome: function (state, subscriptionIncome) {
-
-    for (let i = 0; i < state.subscriptionsIncome.length; i++) {
-      if (state.subscriptionsIncome[i].plan.id === subscriptionIncome.plan.id) {
-        state.subscriptionsIncome[i].numberOfSubscriptions++
-        state.subscriptionsIncome[i].payedMoney = subscriptionIncome.payedMoney
-        state.totalIncome += subscriptionIncome.payedMoney // updating total income
-        break
-      }
-    }
-
-  },
 
   // player weight area start
   deletePlayerWeight: function (state, playerWeight) {
-    const player = state.players.find(player => player.id === playerWeight.player.id)
+    const player = state.players.items.find(player => player.id === playerWeight.player.id)
     let playerWeightsArr = player.weights
     for (let i = 0; i < playerWeightsArr.length; i++) {
       if (playerWeightsArr[i].id === playerWeight.id) {
@@ -261,31 +255,31 @@ export const mutations = {
   addPlayerWeight: function (state, playerWeight) {
 
     let playerIndex = null
-    for (let i = 0; i < state.players.length; i++) {
+    for (let i = 0; i < state.players.items.length; i++) {
       // this loop to search for the player
-      if (state.players[i].id === playerWeight.player.id) {
+      if (state.players.items[i].id === playerWeight.player.id) {
         playerIndex = i
         break;
       }
     }
-    state.players[playerIndex].weights.push(playerWeight)
-    const tmpArr = Object.assign([], state.players)
-    state.players = Object.assign([], [])
-    state.players = Object.assign([], tmpArr)
+    state.players.items[playerIndex].weights.push(playerWeight)
+    const tmpArr = Object.assign([], state.players.items)
+    state.players.items = Object.assign([], [])
+    state.players.items = Object.assign([], tmpArr)
   },
   editPlayerWeight: function (state, playerWeight) {
-    const player = state.players.find(player => player.id === playerWeight.player_id)
+    const player = state.players.items.find(player => player.id === playerWeight.player_id)
     let tmpArr = null
     for (let i = 0; i < player.weights.length; i++) {
       if (player.weights[i].id === playerWeight.id) {
         playerWeight.player_id = undefined
         player.weights[i] = playerWeight
-        tmpArr = Object.assign([], state.players)
-        state.players = Object.assign([], [])
+        tmpArr = Object.assign([], state.players.items)
+        state.players.items = Object.assign([], [])
         break
       }
     }
-    state.players = tmpArr
+    state.players.items = tmpArr
 
   },
   // player weight area end

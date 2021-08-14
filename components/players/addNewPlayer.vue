@@ -129,7 +129,7 @@
                         <div class="col-md-8 ">
                           <button v-on:click="addPlayer" class="btn btn-primary" type="button" data-toggle="collapse"
                                   data-target="#collapseOne">
-                            <i class="fa fa-fw fa-lg fa-check-circle"></i>
+                            <i class="mdi mdi-check-circle"></i>
                             Register
                           </button>
                         </div>
@@ -213,8 +213,19 @@ export default {
           }
           await this.$store.commit('addPlayer', storePlayer)
 
-          await this.$store.commit('updateSubscriptionsIncome', sub)
-
+          await this.$store.commit('addSubscriptionIncome', sub)
+          this.InputPlayer = {
+            name: null,
+            phoneNumber: null,
+            weight: null,
+            height: null,
+            plan: null,
+            payedMoney:0,
+            beginDate: null,
+            endDate: null,
+            dietPlan: "",
+            trainingPlan: "",
+          }
         } catch (e) {
            await axios.delete('http://localhost:4000/photo/delete'+this.InputPlayer.photo)
           this.$swal.fire({
@@ -222,6 +233,18 @@ export default {
             title: "Adding Operation FAILED",
             text: e.response.data.message
           })
+          this.InputPlayer = {
+            name: null,
+            phoneNumber: null,
+            weight: null,
+            height: null,
+            plan: null,
+            payedMoney:0,
+            beginDate: null,
+            endDate: null,
+            dietPlan: "",
+            trainingPlan: "",
+          }
           return false;
         }
         // ....
@@ -243,7 +266,7 @@ export default {
           return false
         }
       }
-      if(this.$store.state.players.find(player=> player.phoneNumber === this.InputPlayer.phoneNumber)){
+      if(this.$store.state.players.items.find(player=> player.phoneNumber === this.InputPlayer.phoneNumber)){
         // duplicated phone number
         this.$swal.fire({
           icon: "error",

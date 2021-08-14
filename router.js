@@ -8,6 +8,7 @@ const page = (path) => () => import(`~/pages/${path}`).then(m => m.default || m)
 
 const routes = [
   {path: '/', name: 'home', component: page('index.vue')},
+  {path: '/login', name: 'login', component: page('login.vue')},
   {path: '/players', name: 'allPlayers', component: page('players/index.vue')},
   {path: '/players/:id', name: 'singlePlayer', component: page('players/view.vue')},
   {path: '/plans', name: 'allPlans', component: page('plans/index.vue')},
@@ -15,8 +16,10 @@ const routes = [
   {path: '/activities', name : 'allActs', component: page ('activities/index.vue')},
   {path: '/activities/new', name: 'newAct', component: page('activities/new.vue')},
   {path: '/activityPlayer/:id', name: 'viewActivityPlayer', component: page('activities/viewActivityPlayer')},
-  
+
   // TODO: Complete all the app routes
+  {path: '/auth/login', name: 'auth.login', component: page('auth/login')},
+
 ];
 
 

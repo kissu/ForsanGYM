@@ -1,6 +1,6 @@
 <template>
   <div id="View">
-    <page-title title="Player Info" icon="fa fa-user"/>
+    <page-title title="Player Info" icon="mdi mdi-account"/>
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">
@@ -15,7 +15,7 @@
           <button type="button" class="btn btn-warning mx-auto w-100" data-toggle="modal"
                   data-target="#staticBackdrop" >Edit
           </button>
-          <edit :playerId='player.id'/>
+          <edit />
           <!-- End of popup window -->
         </div>
 
@@ -198,7 +198,7 @@
       </div>
 
       <div class="col-md-5">
-        <WeightTable :player="player"/>
+        <WeightTable />
       </div>
 
     </div>
@@ -218,32 +218,17 @@ export default {
   components: {PlayerSubscriptions, WeightTable, PageTitle, Edit},
   async asyncData({route, $axios, store}) {
     try{
-
-      if(store.state.players.length===0){
-        // to avoid duplications
-        const player = await $axios.$get('player/'+route.params.id)
-        await store.commit('addPlayer', player)
-    }
+      // to avoid duplications
+      const player = await $axios.$get('player/'+route.params.id)
+      await store.commit('setViewPlayer', player)
       const res = await $axios.$get('subscription/' + route.params.id)
       await store.commit('setPlayerSubscriptions', res)
     }catch(err){
-      console.log("error form setting player subscriptions pages/players/view : ")
+      console.log("error form setting player or subscriptions pages/players/view : ")
       console.log(err)
     }
   },
   methods: {
-    // initPage: function (){
-    //   console.log("init worked ")
-    //   const id = this.$route.params.id
-    //
-    //   this.player = Object.assign({},this.$store.state.players.find(player=>{
-    //     return player.id === id
-    //   }))
-    //
-    //
-    //
-    // },
-
     freeze: function () {
       this.$swal.fire({
         title: "How many Days you want to freeze ? ",
@@ -258,7 +243,7 @@ export default {
             // Validate the value is a number :D
             Swal.fire({
               icon: "error",
-              title: "Weight must be a number"
+              title: "days must be a number"
             })
           } else {
             this.$axios.$post('player/freeze/' + this.player.id, {freezeDays: Number(res.value)}).then(() => {
@@ -266,7 +251,7 @@ export default {
                 beginDate: this.player.subscription.beginDate,
                 endDate: moment(this.player.subscription.endDate).add(Number(res.value), 'day').format("YYYY-MM-DD")
               }).then(() => {
-                this.$store.commit('editPlayer', {
+                this.$store.commit('setViewPlayer', {
                   ...this.player,
                   subscription: {
                     ...this.player.subscription,
@@ -310,13 +295,13 @@ export default {
             // Validate the value is a number :D
             Swal.fire({
               icon: "error",
-              title: "Weight must be a number"
+              title: "invitations must be a number"
             })
           } else {
             this.$axios.$post('player/inviteFriend/' + this.player.id, {
               invites: Number(res.value)
             }).then(() => {
-              this.$store.commit('editPlayer', {
+              this.$store.commit('setViewPlayer', {
                 ...this.player,
                 invited: this.player.invited + Number(res.value)
               })
@@ -333,22 +318,9 @@ export default {
     },
 
   },
-  created() {
-    console.log("Player : ", this.player)
-    console.log("Type : ", typeof this.player.subscription.plan)
-  },
   computed: {
     player: function () {
-      const id = Number(this.$route.params.id)
-      let player =  {}
-      for(let i=0;i<this.$store.state.players.length;i++){
-        if(this.$store.state.players[i].id === id){
-          player = this.$store.state.players[i]
-          break
-        }
-      }
-
-      return player
+      return this.$store.state.players.viewPlayer
     },
 
   },

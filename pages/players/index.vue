@@ -1,6 +1,6 @@
 <template>
   <div id="PlayersPage">
-    <page-title title="Players" icon="fa fa-user"/>
+    <page-title title="Players" icon="mdi mdi-account" />
 
     <add-new-player/>
 
@@ -193,12 +193,14 @@ export default {
     }
   },
   async asyncData({$axios, store}){
-    try{
-      const res = await $axios.$get('player/')
-      await store.commit('setPlayers',res)
-    }catch (err){
-      console.log('error on Players load (pages/players/index) :')
-      console.log(err)
+    if(!store.state.players.isLoaded){
+      try {
+        const res = await $axios.$get('player/')
+        await store.commit('setPlayers', res)
+      } catch (err) {
+        console.log('error on Players load (pages/players/index) :')
+        console.log(err)
+      }
     }
   },
   methods: {
@@ -245,9 +247,6 @@ export default {
         params: {
           id: player.id
         },
-        query: {
-          player: player
-        }
       })
     },
   },
@@ -257,7 +256,7 @@ export default {
     },
     playersData: function () {
 
-      let returnArr = this.$store.state.players
+      let returnArr = this.$store.state.players.items
       if (this.endedSubsMarked) {
         returnArr = returnArr.filter(player => {
           return moment(player.subscription.endDate).isBefore(moment())
