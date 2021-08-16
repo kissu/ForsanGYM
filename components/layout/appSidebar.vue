@@ -10,11 +10,22 @@
       </div>
       <ul class="app-menu">
         <li v-for="(item,index) in list" :key='index'>
-          <router-link class="app-menu__item"
-                       :to="item.route">
-            <i :class="`app-menu__icon ${item.icon}`"></i>
-            <span class="app-menu__label">{{ item.text }}</span>
-          </router-link>
+          <div v-if="item.text==='Super Admin Panal'">
+            <div v-if="$auth.user.role === 'SuperAdmin' ">
+              <router-link class="app-menu__item"
+                           :to="item.route">
+                <i :class="`app-menu__icon ${item.icon}`"></i>
+                <span class="app-menu__label">{{ item.text }}</span>
+              </router-link>
+            </div>
+          </div>
+          <div v-else>
+            <router-link class="app-menu__item"
+                         :to="item.route">
+              <i :class="`app-menu__icon ${item.icon}`"></i>
+              <span class="app-menu__label">{{ item.text }}</span>
+            </router-link>
+          </div>
         </li>
       </ul>
     </aside>
@@ -33,6 +44,7 @@ export default {
         {text: "Players", icon: "mdi mdi-account", route: {name: 'allPlayers'}},
         {text: "Plans", icon: "mdi mdi-chart-bar", route: {name: 'allPlans'}},
         {text: "Activities", icon: "mdi mdi-karate", route: {name: 'allActs'}},
+        {text: "Super Admin Panal", icon: "mdi mdi-crown", route: {name: 'superAdmin'}},
       ]
     }
   },

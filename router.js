@@ -16,9 +16,9 @@ const routes = [
   {path: '/activities', name : 'allActs', component: page ('activities/index.vue')},
   {path: '/activities/new', name: 'newAct', component: page('activities/new.vue')},
   {path: '/activityPlayer/:id', name: 'viewActivityPlayer', component: page('activities/viewActivityPlayer')},
-
-  // TODO: Complete all the app routes
   {path: '/auth/login', name: 'auth.login', component: page('auth/login')},
+  {path: '/superAdmin/', name: 'superAdmin', component: page('superAdmin/index.vue')},
+
 
 ];
 
