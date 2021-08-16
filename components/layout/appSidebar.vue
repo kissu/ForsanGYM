@@ -14,8 +14,8 @@
             <div v-if="$auth.user.role === 'SuperAdmin' ">
               <router-link class="app-menu__item"
                            :to="item.route">
-                <i :class="`app-menu__icon ${item.icon}`"></i>
-                <span class="app-menu__label">{{ item.text }}</span>
+                <i :class="`app-menu__icon ${item.icon}`" style="color:#eabc17"></i>
+                <span class="app-menu__label" style="color:#13ea62">{{ item.text }}</span>
               </router-link>
             </div>
           </div>
