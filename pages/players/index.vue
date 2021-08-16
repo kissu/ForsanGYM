@@ -65,21 +65,23 @@
                         table table-hover table-bordered
                         dataTable
                         no-footer
+                        text-break
                       "
                       id="sampleTable"
                       role="grid"
                       aria-describedby="sampleTable_info"
+                      width="100%"
                     >
                       <thead>
                       <tr>
                         <th>#</th>
                         <th>id</th>
-                        <th>Name</th>
+                        <th width="20%">Name</th>
                         <th>Phone Number</th>
                         <th>Begin Date</th>
                         <th>End Date</th>
                         <th>Plan</th>
-                        <th>Options</th>
+                        <th width="28%">Options</th>
                       </tr>
                       </thead>
                       <tbody>

@@ -32,6 +32,9 @@ module.exports = {
 
     ]
   },
+  env:{
+    MEDIA_API:process.env.VUE_APP_MEDIA_API
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [

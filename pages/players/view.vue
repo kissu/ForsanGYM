@@ -6,7 +6,7 @@
         <div class="img mx-auto text-center">
           <img
             class="rounded-circle my-2"
-            :src="'http://localhost:4000/photo'+player.photo"
+            :src="MEDIA_API+'/photo'+player.photo"
             alt=""
             style="width: 15rem; height:auto"
           />
@@ -217,15 +217,22 @@ import axios from "axios";
 export default {
   components: {PlayerSubscriptions, WeightTable, PageTitle, Edit},
   async asyncData({route, $axios, store}) {
+
     try{
       // to avoid duplications
       const player = await $axios.$get('player/'+route.params.id)
+      await store.commit('editPlayer', player)
       await store.commit('setViewPlayer', player)
       const res = await $axios.$get('subscription/' + route.params.id)
       await store.commit('setPlayerSubscriptions', res)
     }catch(err){
       console.log("error form setting player or subscriptions pages/players/view : ")
       console.log(err)
+    }
+  },
+  data(){
+    return{
+      MEDIA_API: process.env.MEDIA_API
     }
   },
   methods: {
@@ -320,7 +327,7 @@ export default {
   },
   computed: {
     player: function () {
-      return this.$store.state.players.viewPlayer
+      return this.$store.state.players.items[this.$store.state.players.viewPlayer]
     },
 
   },

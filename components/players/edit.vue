@@ -147,12 +147,12 @@ export default {
         }
 
         this.$store.commit('editPlayer', player)
+        this.$store.commit('setViewPlayer', player)
         player = Object.assign({}, {})
         $(`#staticBackdrop`).modal('hide')
       }).catch(err => {
         console.log("Error is : ")
         console.log(err)
-        // use sweet alert TODO @Abdullah3553
         this.$swal.fire({
           icon: "error",
           title: "An Error Occurred",
@@ -170,7 +170,7 @@ export default {
     },
   },
   created() {
-    this.InputPlayer = Object.assign({}, this.$store.state.players.viewPlayer)
+    this.InputPlayer = Object.assign({},this.$store.state.players.items[this.$store.state.players.viewPlayer])
     // all this assingment operations to avoid refrences
     this.InputPlayer.subscription = Object.assign({}, this.InputPlayer.subscription)
     this.InputPlayer.subscription.plan = Object.assign({}, this.InputPlayer.subscription.plan)

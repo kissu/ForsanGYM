@@ -71,7 +71,7 @@ export const mutations = {
     state.players.number--
   },
   setViewPlayer(state, player){
-    state.players.viewPlayer = player
+    state.players.viewPlayer = state.players.items.findIndex(obj => obj.id ===player.id)
   },
   // Player Section --end
   setPlans: function (state, plans) {
@@ -262,25 +262,19 @@ export const mutations = {
         break;
       }
     }
+    delete playerWeight.player
     state.players.items[playerIndex].weights.push(playerWeight)
     const tmpArr = Object.assign([], state.players.items)
     state.players.items = Object.assign([], [])
     state.players.items = Object.assign([], tmpArr)
   },
-  editPlayerWeight: function (state, playerWeight) {
-    const player = state.players.items.find(player => player.id === playerWeight.player_id)
-    let tmpArr = null
-    for (let i = 0; i < player.weights.length; i++) {
-      if (player.weights[i].id === playerWeight.id) {
-        playerWeight.player_id = undefined
-        player.weights[i] = playerWeight
-        tmpArr = Object.assign([], state.players.items)
-        state.players.items = Object.assign([], [])
-        break
+  editViewPlayerWeight: function (state, playerWeight) {
+    for(let i=0, arr =state.players.items[state.players.viewPlayer].weights;i<arr.length;i++){
+      if(arr[i].id === playerWeight.id){
+        arr.splice(i, 1, playerWeight)
+        break;
       }
     }
-    state.players.items = tmpArr
-
   },
   // player weight area end
 

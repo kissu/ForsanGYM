@@ -83,15 +83,15 @@ export default {
             })
           } else {
             this.$axios.$post('playerWeight/edit/' + playerWeight.id, {
-              player_id: this.player.id,
+              player_id: this.playerComputed.id,
               date: playerWeight.date,
               weight: res.value
             }).then(() => {
-              this.$store.commit('editPlayerWeight', {
+              this.$store.commit('editViewPlayerWeight', {
                 date: playerWeight.date,
                 id: playerWeight.id,
                 weight: Number(res.value),
-                player_id: this.player.id
+                player_id: this.playerComputed.id
               })
               //TODO Catch errors here @Abdullah3553
 
@@ -119,7 +119,7 @@ export default {
           } else {
             // add the weight >>
             this.$axios.$post('playerWeight/new', {
-              player_id: this.player.id,
+              player_id: this.playerComputed.id,
               date: moment().format('YYYY-MM-DD'),
               weight: res.value
             }).then(res2 => {
@@ -137,7 +137,8 @@ export default {
   },
   computed: {
     playerComputed: function () {
-      return this.$store.state.players.viewPlayer
+      return this.$store.state.players.items[this.$store.state.players.viewPlayer]
+
     }
   }
 

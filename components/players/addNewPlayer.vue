@@ -167,7 +167,8 @@ export default {
         endDate: null,
         dietPlan: "",
         trainingPlan: "",
-      }
+      },
+      MEDIA_API:process.env.MEDIA_API
     }
   },
   methods: {
@@ -181,15 +182,15 @@ export default {
         // if the upload done OK pass the photo url
         // if failed do nothing
         // continue creating the player
-        
+
         try {
-          photo = await axios.post('http://localhost:4000/photo/upload?phone='+this.InputPlayer.phoneNumber, formData)
+          photo = await axios.post(`${this.MEDIA_API}/photo/upload?phone=${this.InputPlayer.phoneNumber}`, formData)
           this.InputPlayer.photo = photo.data.url.replace('storage', '')
         } catch (e) {
           this.InputPlayer.photo = "";
           console.log('Photo not uploaded');
         }
-        try { 
+        try {
           const player = await this.$axios.$post('/player/new', this.InputPlayer);
           // player added then make subscribe request
           // subscribe request
@@ -230,7 +231,7 @@ export default {
             trainingPlan: "",
           }
         } catch (e) {
-           await axios.delete('http://localhost:4000/photo/delete'+this.InputPlayer.photo)
+           await axios.delete(`${this.MEDIA_API}/photo/delete/${this.InputPlayer.photo}`)
           this.$swal.fire({
             icon: 'error',
             title: "Adding Operation FAILED",
