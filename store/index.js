@@ -60,6 +60,12 @@ export const mutations = {
   setPlayerSubscriptions(state, subscriptions) {
     state.playerSubscriptions.items = subscriptions
   },
+  editLastPlayerSubscription(state, subscription){
+    const sub = state.playerSubscriptions.items[state.playerSubscriptions.items.length-1]
+    sub.beginDate = subscription.beginDate
+    sub.endDate = subscription.endDate
+    state.playerSubscriptions.items.splice(state.playerSubscriptions.items.length-1, 1, sub)
+  },
   setPlayersNumber(state, playerNumber){
     state.players.number = playerNumber
   },

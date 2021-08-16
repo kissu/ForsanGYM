@@ -144,10 +144,13 @@ export default {
             beginDate: player.subscription.beginDate,
             endDate: player.subscription.endDate
           })
+          this.$store.commit('editLastPlayerSubscription', {
+            beginDate: player.subscription.beginDate,
+            endDate: player.subscription.endDate
+          })
         }
 
         this.$store.commit('editPlayer', player)
-        this.$store.commit('setViewPlayer', player)
         player = Object.assign({}, {})
         $(`#staticBackdrop`).modal('hide')
       }).catch(err => {
@@ -163,7 +166,7 @@ export default {
       })
     },
 
-    isDateEdited: function () {
+    isDateEdited: function () {// if date is edited it will return true , else will return false :D
       return this.InputPlayer.subscription.beginDate !== this.originalDates.beginDate ||
         this.InputPlayer.subscription.endDate !== this.originalDates.endDate;
 
