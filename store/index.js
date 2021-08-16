@@ -37,8 +37,17 @@ export const state = () => ({
 export const mutations = {
   // Player Section --begin
   setPlayers: function (state, players) {
-    state.players.items = players
+    if(state.players.items.length !== 0){
+      // there some players loaded before in view player
+      for(let i=0;i<players.length;i++)
+        if(players[i].id!==state.players.items[state.players.viewPlayer].id)
+          state.players.items.push(players[i])
+    }else{
+      state.players.items = players
+    }
+
     state.players.isLoaded=true
+
   },
   addPlayer: function (state, player) {
     state.players.items.push(player)
@@ -78,6 +87,9 @@ export const mutations = {
   },
   setViewPlayer(state, player){
     state.players.viewPlayer = state.players.items.findIndex(obj => obj.id ===player.id)
+  },
+  editViewPlayer(state, player){
+    state.players.items.splice(state.players.viewPlayer, 1, player)
   },
   // Player Section --end
   setPlans: function (state, plans) {

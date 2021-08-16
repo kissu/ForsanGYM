@@ -6,12 +6,18 @@
         <div class="img mx-auto text-center">
           <img
             class="rounded-circle my-2"
-            :src="MEDIA_API+'/photo'+player.photo"
+            :src="playerPhoto"
             alt=""
             style="width: 15rem; height:auto"
           />
         </div>
-        <div class="d-flex actions  text-center my1 mx-auto w-100">
+
+        <div class="d-flex actions  text-center my-1 mx-auto w-100">
+          <button type="button" class="btn btn-dark mx-auto w-100" data-toggle="modal" data-target="#updatePhotoModal">Update Photo</button>
+          <update-photo :player="player" :MEDIA_API="MEDIA_API"/>
+        </div>
+
+        <div class="d-flex actions  text-center my-1 mx-auto w-100">
           <button type="button" class="btn btn-warning mx-auto w-100" data-toggle="modal"
                   data-target="#staticBackdrop" >Edit
           </button>
@@ -213,9 +219,10 @@ import moment from "moment/moment";
 import Swal from "sweetalert2";
 import PlayerSubscriptions from "../../components/players/playerSubscriptions"
 import axios from "axios";
+import UpdatePhoto from "../../components/players/updatePhoto";
 
 export default {
-  components: {PlayerSubscriptions, WeightTable, PageTitle, Edit},
+  components: {UpdatePhoto, PlayerSubscriptions, WeightTable, PageTitle, Edit},
   async asyncData({route, $axios, store}) {
 
     try{
@@ -258,7 +265,7 @@ export default {
                 beginDate: this.player.subscription.beginDate,
                 endDate: moment(this.player.subscription.endDate).add(Number(res.value), 'day').format("YYYY-MM-DD")
               }).then(() => {
-                this.$store.commit('setViewPlayer', {
+                this.$store.commit('editViewPlayer', {
                   ...this.player,
                   subscription: {
                     ...this.player.subscription,
@@ -329,6 +336,9 @@ export default {
     player: function () {
       return this.$store.state.players.items[this.$store.state.players.viewPlayer]
     },
+    playerPhoto: function (){
+      return `${this.MEDIA_API}/photo${this.player.photo}`
+    }
 
   },
 };
