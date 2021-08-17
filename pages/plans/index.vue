@@ -39,6 +39,43 @@
       </div>
     </div>
 
+    <div class="row" v-if="$auth.user.role== 'SuperAdmin'">
+      <div class="col-md-12">
+        <div class="tile">
+          <h3 class="tile-title">Deactivated Plans</h3>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Options</th>
+            </tr>
+            </thead>
+            <tbody v-if="$store.state.plans.length">
+            <tr v-for="(plan) in activatedPlans" :key="plan.id">
+              <td>{{ plan.id }}</td>
+              <td>{{ plan.name }}</td>
+              <td>{{ plan.description }}</td>
+              <td>{{ plan.price }}</td>
+              <td>
+                <button class="btn btn-danger mr-2" type="button"
+                        @click="deletePlan(plan)" data-toggle="modal"
+                        :data-target="'#DeleteCheckModal'+ClickedPlan.id"
+                        v-if="$auth.user.role == 'SuperAdmin'">Delete
+                </button>
+
+                <!--TODO  -->
+                <!--                <button class="btn btn-warning " type="button">Edit</button>-->
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div v-if="ClickedPlan.id" id="deleteSection">
       <DeleteCheck :header-msg="'Are You Sure You Want to Delete This Plan ?'" :item-id="ClickedPlan.id"
                    delete_url="/plan/delete/:id" commit-action="deletePlan">
