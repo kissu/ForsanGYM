@@ -7,7 +7,7 @@
           <h2 class="mb-0">
             <button :class=" BtnsClass+' text-center col-12'" type="button" data-toggle="collapse"
                     :data-target="'#' +CollapseName + 'collapse'" aria-expanded="true" aria-controls="collapse">
-              <i :class="Icon"></i>
+              <i :class="icon"></i>
               {{ HeadBtnText }}
             </button>
           </h2>
@@ -41,7 +41,7 @@ export default {
     HeadBtnText: {required: true},
     BtnsClass: {required: true},
     CollapseName: {required: true},
-    Icon:{},
+    icon:{},
   }
 }
 </script>
