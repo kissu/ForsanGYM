@@ -1,8 +1,8 @@
 <template>
 
   <div id="addNewService-Component">
-    <CollapseComponent head-btn-text="Add A Service" foot-btn-text="Add" btns-class="btn btn-success"
-                       CollapseName="AddService">
+    <CollapseComponent head-btn-text="Add A Service" btns-class="btn btn-success"
+                       CollapseName="AddService" icon="mdi mdi-plus-box">
 
       <form class="form-horizontal">
         <div class="form-group row">
@@ -49,10 +49,7 @@ export default {
   components: {CollapseComponent},
   data() {
     return {
-      service: {
-        name: "",
-        price: 0
-      }
+      service: {}
     }
   },
   methods: {

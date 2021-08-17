@@ -1,8 +1,8 @@
 <template>
   <div id="deleteserviceCom">
 
-    <CollapseComponent btns-class="btn btn-danger" head-btn-text="Delete A Service" foot-btn-text="Delete"
-                       CollapseName="DeleteService">
+    <CollapseComponent btns-class="btn btn-danger" head-btn-text="Delete A Service"
+                       CollapseName="DeleteService" icon="mdi mdi-trash-can" >
       <div class="form-group">
         <label for="ServiceSelect">Select The Service</label>
         <select class="form-control" id="ServiceSelect" v-bind:value="SelectedService"

@@ -1,7 +1,7 @@
 <template>
   <div id="purchaseServiceCom">
-    <CollapseComponent collapse-name="puchase" foot-btn-text="Purchase" head-btn-text="Purchase A Service"
-                       btns-class="btn btn-primary">
+    <CollapseComponent collapse-name="puchase" head-btn-text="Purchase A Service"
+                       btns-class="btn btn-primary" icon="mdi mdi-food-apple">
       <form class="form-horizontal w-100">
         <div class="form-group row" v-for="service in services" :key="service.id">
           <div class="col-md-12">

@@ -22,32 +22,6 @@
         </div>
       </div>
 
-      <div class="col-md-6 col-lg-6">
-        <div class="widget-small primary coloured-icon">
-          <i class="icon mdi mdi-cash"></i>
-          <div class="info">
-            <div class="row ">
-              <div class="col-3 my-auto text-center">
-                <h4>Add Outcome</h4>
-              </div>
-              <div class="col-5 ">
-                <div class="row my-1">
-                  <input class="form-control" type="number" placeholder="Enter the price">
-                </div>
-                <div class="row my-1">
-                  <input class="form-control" type="text" placeholder="Outcome Description">
-                </div>
-              </div>
-              <div class="col-4">
-                <button class="btn btn-outline-danger w-100 h-100" >Add</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-
     </div>
 
     <div class="row">
@@ -73,27 +47,48 @@
             </tbody>
           </table>
         </div>
-      </div>
-
-      <div class="col-md-6">
         <div class="tile">
           <h3 class="tile-title">Summary of other services</h3>
           <services-summary-table/>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4 px-0">
-        <purchaseService/>
-      </div>
-      <div class="col-md-4 px-0">
-        <AddNewService/>
-      </div>
-      <div class="col-md-4 px-0" v-if="$auth.user.role == 'SuperAdmin'">
-        <DeleteService/>
-      </div>
-    </div>
+        <div class="tile">
+          <h3 class="tile-title">Outcome Table</h3>
+          <table style="font-size:17px" class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Outcome Description</th>
+              <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr >
+              <td>1</td>
+              <td>كنا بنجيب سمك</td>
+              <td>60</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
 
+      </div>
+
+      <div class="col-md-6">
+
+        <div class="py-1">
+          <add-outcome/>
+        </div>
+        <div class="py-1">
+          <purchaseService/>
+        </div>
+        <div class="py-1">
+          <AddNewService/>
+        </div>
+        <div class='py-1' v-if="$auth.user.role == 'SuperAdmin'">
+          <DeleteService/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -104,9 +99,11 @@ import AddNewService from "../components/dashboard/services/addNewService";
 import CollapseComponent from "../components/layout/Collapse";
 import DeleteService from "../components/dashboard/services/DeleteService";
 import PurchaseService from "../components/dashboard/services/purchaseService";
+import AddOutcome from "../components/dashboard/addOutcome";
 
 export default {
   components: {
+    AddOutcome,
     PurchaseService,
     DeleteService,
     CollapseComponent,
