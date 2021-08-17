@@ -11,16 +11,18 @@
             <table class="table table-striped">
               <thead>
               <tr>
-                <th>time</th>
-                <th>name</th>
-                <th>action</th>
+                <th>Admin</th>
+                <th>Action</th>
+                <th>Date</th>
+                <th>Time</th>
               </tr>
               </thead>
               <tbody>
                 <tr v-for="(log, index) in logs" :key="index">
-                  <td>{{log.time}}</td>
-                  <td>{{log.name}}</td>
-                  <td> {{log.action}}</td>
+                  <td>{{log.adminName}}</td>
+                  <td>{{log.log}}</td>
+                  <td> {{log.dayDate}}</td>
+                  <td>{{log.dayTime}}</td>
                 </tr>
               </tbody>
             </table>
@@ -39,27 +41,26 @@ import moment from "moment/moment";
 export default {
   name: "index",
   components: {PageTitle},
-  async asyncData(){
-
+  async asyncData({$axios,$auth,redirect}){
+    if ($auth.user.role != "SuperAdmin") {
+      redirect('/')
+    }
+    const logs = await $axios.$get("/log/today")
+    return {logs: logs}
   },
   data(){
     return {
-      logs: [
-        {name:"Abdullag ",action:"Did nothing", time:this.whatDay(moment()) },
-        {name:"Ahmed ",action:"Did nothing 2", time:this.whatDay(moment('2021-08-15')) },
-        {name:"Joo ",action:"Did nothing 3", time:this.whatDay(moment('2021-08-10')) },
-      ]
+      
     }
   },
   methods:{
-    whatDay: function (date){
-      if(moment().isSame(date)){
-        return "Today"
-      }else if(parseInt(moment().format('DD')) -parseInt(date.format('DD')) === 1){
-        return "Yasterday"
-      }else{
-        return date.format("YYYY-MM-DD hh:mm:ss A")
+    talk: function (log) {
+      const msgs = {
+        "new":":admin added a new :item",
+        "edit":":admin editied :item with ID :id",
+        "delete":":admin delete a/an :item"
       }
+
     }
   },
   computed:{
