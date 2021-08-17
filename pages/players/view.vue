@@ -4,12 +4,23 @@
     <div class="row align-items-center flex-md-row-reverse">
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">
-          <img
-            class="rounded-circle my-2"
-            :src="playerPhoto"
-            alt=""
-            style="width: 15rem; height:auto"
-          />
+          <div v-if="player.photo">
+            <img
+              class="rounded-circle my-2"
+              :src="playerPhoto"
+              alt=""
+              style="width: 15rem; height:auto"
+            />
+          </div>
+          <div v-else>
+            <img
+              class="rounded-circle my-2"
+              src='/defaultPlayer.jpg'
+              alt=""
+              style="width: 15rem; height:auto"
+            />
+
+          </div>
         </div>
 
         <div class="d-flex actions  text-center my-1 mx-auto w-100">

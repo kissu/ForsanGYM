@@ -191,7 +191,8 @@ export default {
       endedSubsMarked: false,
       clickedPlayer: null,
       searchInput: null,
-      pickedSearchOption: null
+      pickedSearchOption: null,
+      MEDIA_API:process.env.MEDIA_API
     }
   },
   async asyncData({$axios, store}){
@@ -227,7 +228,16 @@ export default {
           // Delete Player from databases
 
           this.$axios.$delete('player/delete/' + item.id).then(() => {
-            axios.delete('http://localhost:4000/photo/delete'+item.photo)
+            if(item.photo)
+              axios.delete(`${this.MEDIA_API}/photo/delete${item.photo}`).catch(err=>{
+                this.$swal.fire({
+                  title: `Deleting player ${item.name} FAILED`,
+                  icon: "error",
+                  text: err.response.data.message
+                })
+                console.log(err)
+                return false
+              })
             this.$store.commit('deletePlayer', item.id)
           }).catch(err => {
             //delete Failed
