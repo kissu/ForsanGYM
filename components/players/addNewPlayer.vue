@@ -96,7 +96,7 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Photo</label>
                           <div class="col-md-8">
-                            <input ref='UploadedFile' class="form-control" type="file">
+                            <input ref='UploadedFile' class="form-control" type="file" >
                           </div>
                         </div>
 
@@ -172,23 +172,25 @@ export default {
     }
   },
   methods: {
+    // test: function (msg){
+    //   console.log(this.$refs.UploadedFile.files[0])
+    // },
+    getExtention: function (fileName){
+      let extention = ''
+      for(let i=0; i>=0;i--){
+        // this loop to get the last 3 or 4 charater which is the extention of the file
+        if(fileName[i]==='.')break;
+        extention += fileName[i]
+      }
+      return  extention
+
+    },
     addPlayer: async function () {
-      // TODO  Use Sweetalert
       let formData = new FormData()
-      let photo = {}
       if (this.isFormOk()) {
         formData.append('file', this.$refs.UploadedFile.files[0])
-
-        // if the upload done OK pass the photo url
-        // if failed do nothing
-        // continue creating the player
-
-        try {
-          photo = await axios.post(`${this.MEDIA_API}/photo/upload?phone=${this.InputPlayer.phoneNumber}`, formData)
-          this.InputPlayer.photo = photo.data.url.replace('storage', '')
-        } catch (e) {
-          this.InputPlayer.photo = "";
-          console.log('Photo not uploaded');
+        if(this.$refs.UploadedFile.files[0]){ // because photo is optional
+          this.InputPlayer.photo = `/${this.InputPlayer.phoneNumber}.${this.$refs.UploadedFile.files[0].type.split('/')[1]}`
         }
         try {
           const player = await this.$axios.$post('/player/new', this.InputPlayer);
@@ -215,6 +217,9 @@ export default {
             subscription: sub,
             weights: weights
           }
+          if(this.$refs.UploadedFile.files[0]){ // because photo is optional
+              await axios.post(`${this.MEDIA_API}/photo/upload?phone=${this.InputPlayer.phoneNumber}`, formData)
+          }
           await this.$store.commit('addPlayer', storePlayer)
 
           await this.$store.commit('addSubscriptionIncome', sub)
@@ -230,8 +235,10 @@ export default {
             dietPlan: "",
             trainingPlan: "",
           }
+
         } catch (e) {
            await axios.delete(`${this.MEDIA_API}/photo/delete/${this.InputPlayer.photo}`)
+          this.InputPlayer.photo = "";
           this.$swal.fire({
             icon: 'error',
             title: "Adding Operation FAILED",
@@ -252,6 +259,10 @@ export default {
           return false;
         }
         // ....
+        this.$swal.fire({
+          title:"Player Added Successfully",
+          icon:'success'
+        })
       }
     },
     PickPlan: function () {

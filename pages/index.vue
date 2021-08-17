@@ -21,6 +21,33 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="widget-small primary coloured-icon">
+          <i class="icon mdi mdi-cash"></i>
+          <div class="info">
+            <div class="row ">
+              <div class="col-3 my-auto text-center">
+                <h4>Add Outcome</h4>
+              </div>
+              <div class="col-5 ">
+                <div class="row my-1">
+                  <input class="form-control" type="number" placeholder="Enter the price">
+                </div>
+                <div class="row my-1">
+                  <input class="form-control" type="text" placeholder="Outcome Description">
+                </div>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-outline-danger w-100 h-100" >Add</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
     </div>
 
     <div class="row">
