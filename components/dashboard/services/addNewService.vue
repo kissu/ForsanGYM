@@ -59,7 +59,7 @@ export default {
       //Add to database it self
       this.$axios.post('/service/new', this.service).then(res => {
         // Add to store datatabse
-        this.$store.commit('AddService', res.data.service)
+        this.$store.commit('AddService', res.data)
 
         //resetting the valuse of the Selected Object
         this.service.name = ""
