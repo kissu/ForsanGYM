@@ -62,7 +62,7 @@
       <div class="col-md-4 px-0">
         <AddNewService/>
       </div>
-      <div class="col-md-4 px-0">
+      <div class="col-md-4 px-0" v-if="$auth.user.role == 'SuperAdmin'">
         <DeleteService/>
       </div>
     </div>

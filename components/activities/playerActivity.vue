@@ -207,6 +207,7 @@
                     View
                   </button>
                   <button
+                    v-if="$auth.user.role == 'SuperAdmin'"
                     class="btn btn-danger"
                     type="button"
                     @click="DeleteActivityPlayer(playerActivity)"

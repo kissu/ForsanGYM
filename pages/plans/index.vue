@@ -13,7 +13,7 @@
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th>Options</th>
+              <th v-if="$auth.user.role == 'SuperAdmin'" >Options</th>
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
@@ -25,7 +25,8 @@
               <td>
                 <button class="btn btn-danger mr-2" type="button"
                         @click="deletePlan(plan)" data-toggle="modal"
-                        :data-target="'#DeleteCheckModal'+ClickedPlan.id">Delete
+                        :data-target="'#DeleteCheckModal'+ClickedPlan.id"
+                        v-if="$auth.user.role == 'SuperAdmin'">Delete
                 </button>
 
                 <!--TODO  -->
