@@ -8,10 +8,10 @@
 
       <!-- User Menu-->
       <li class="dropdown">
-        <router-link class="app-nav__item" to="/" data-toggle="dropdown" aria-label="Open Profile Menu"><i
+        <router-link class="app-nav__item" to="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i
           class="mdi mdi-account"></i></router-link>
         <ul class="dropdown-menu settings-menu dropdown-menu-right">
-          <li><a @click.prevent="logout" class="dropdown-item" href="page-login.html"><i class="mdi mdi-logout"></i> Logout</a></li>
+          <li><a @click.prevent="logout" class="dropdown-item" ><i class="mdi mdi-logout"></i> Logout</a></li>
         </ul>
       </li>
     </ul>
