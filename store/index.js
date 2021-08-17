@@ -103,6 +103,12 @@ export const mutations = {
       return plan.id !== plan_id
     })
   },
+  activatePlan(state, plan){
+    plan.isActivated = true
+  },
+  deActivatePlan(state, plan){
+    plan.isActivated = false
+  },
 
   setActivityPlayers: function (state, activityPlayers) {
     state.activityPlayers = activityPlayers

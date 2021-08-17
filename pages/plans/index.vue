@@ -13,7 +13,7 @@
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th v-if="$auth.user.role == 'SuperAdmin'" >Options</th>
+              <th v-if="$auth.user.role == 'SuperAdmin'" width="21%">Options</th>
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
@@ -22,11 +22,16 @@
               <td>{{ plan.name }}</td>
               <td>{{ plan.description }}</td>
               <td>{{ plan.price }}</td>
-              <td>
+              <td v-if="$auth.user.role == 'SuperAdmin'">
                 <button class="btn btn-danger mr-2" type="button"
                         @click="deletePlan(plan)" data-toggle="modal"
                         :data-target="'#DeleteCheckModal'+ClickedPlan.id"
-                        v-if="$auth.user.role == 'SuperAdmin'">Delete
+                        >Delete
+                </button>
+
+                <button class="btn btn-info" type="button"
+                        @click="deActivatePlan(plan)"
+                       >De-activate
                 </button>
 
                 <!--TODO  -->
@@ -50,11 +55,11 @@
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th>Options</th>
+              <th width="20%">Options</th>
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
-            <tr v-for="(plan) in activatedPlans" :key="plan.id">
+            <tr v-for="(plan) in deactivatedPlans" :key="plan.id">
               <td>{{ plan.id }}</td>
               <td>{{ plan.name }}</td>
               <td>{{ plan.description }}</td>
@@ -65,9 +70,10 @@
                         :data-target="'#DeleteCheckModal'+ClickedPlan.id"
                         v-if="$auth.user.role == 'SuperAdmin'">Delete
                 </button>
-
-                <!--TODO  -->
-                <!--                <button class="btn btn-warning " type="button">Edit</button>-->
+                <button class="btn btn-info mr-2" type="button"
+                        @click="activatePlan(plan)"
+                        v-if="$auth.user.role == 'SuperAdmin'">activate
+                </button>
               </td>
             </tr>
             </tbody>
@@ -102,12 +108,45 @@ export default {
   methods: {
     deletePlan: function (plan) {
       this.ClickedPlan = plan
-    }
+    },
+    activatePlan: async function (plan){
+      if(this.$auth.user.role =='SuperAdmin'){
+        try {
+          await this.$axios.$get(`plan/activate/${plan.id}`)
+          await this.$store.commit('activatePlan', plan)
+        } catch (err) {
+          this.$swal.fire({
+            icon: 'error',
+            title: "activating Operation FAILED",
+            text: "check the log for more info"
+          })
+          console.log(err)
+        }
+      }
+    },
+    deActivatePlan: async function (plan){
+      if(this.$auth.user.role =='SuperAdmin'){
+        try {
+          await this.$axios.$get(`plan/de-activate/${plan.id}`)
+          await this.$store.commit('deActivatePlan', plan)
+        } catch (err) {
+          this.$swal.fire({
+            icon: 'error',
+            title: "activating Operation FAILED",
+            text: "check the log for more info"
+          })
+          console.log(err)
+        }
+      }
+    },
   },
   computed: {
     activatedPlans: function () {
       return this.$store.state.plans.filter(plan => plan.isActivated)
     },
+    deactivatedPlans: function (){
+      return this.$store.state.plans.filter(plan => !plan.isActivated)
+    }
   },
 };
 </script>
