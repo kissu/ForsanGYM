@@ -2,9 +2,21 @@
   <div id="superAdminPage">
     <page-title icon="mdi mdi-crown" title="Super Admin Panal"/>
     <div class="row my-2">
-      <div class="col-3">
-        <button class="btn btn-primary w-100 h-100"  type="button" data-toggle="modal" data-target="#AddAdminModal"><i class="mdi mdi-plus-box" ></i>Add new Admin</button>
-        <add-new-admin/>
+      <div class="col-12 ">
+        <div class="tile">
+          <div class="tile-body">
+            <div class="btn-group col " >
+                <button class="btn btn-primary w-100 h-100"  type="button"
+                        data-toggle="modal" data-target="#AddAdminModal"><i class="mdi mdi-plus-box" ></i> Add Admin</button>
+              <button class="btn btn-secondary w-100 h-100"  type="button"
+                      data-toggle="modal" data-target="#"><i class="mdi mdi-search-web" ></i> View Admins</button>
+              <button class="btn btn-danger w-100 h-100"  type="button"
+                      data-toggle="modal" data-target="#"><i class="mdi mdi-trash-can-outline" ></i> Delete Admin</button>
+
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
     <div class="row">
@@ -37,6 +49,8 @@
         </div>
       </div>
     </div>
+
+    <add-new-admin/>
 
   </div>
 </template>

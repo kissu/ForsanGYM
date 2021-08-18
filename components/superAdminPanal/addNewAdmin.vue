@@ -25,7 +25,7 @@
             <div class="col-md-8">
               <input v-bind:value="adminData.username"
                      @input="adminData.username = $event.target.value" class="form-control col-md-8"
-                     type="text" placeholder="Username to login with it">
+                     type="text" placeholder="Enter Username">
             </div>
           </div>
 
@@ -34,7 +34,7 @@
             <div class="col-md-8">
               <input v-bind:value="adminData.password"
                      @input="adminData.password = $event.target.value" class="form-control col-md-8" type="password"
-                    placeholder="Enter the admin password">
+                    placeholder="Enter password">
             </div>
           </div>
 
@@ -42,15 +42,15 @@
             <label class="control-label col-md-3">Admin Role</label>
             <div class="col-md-8">
               <select v-model="adminData.role" class="form-control col-md-8">
-                <option value="Admin" selected>Admin</option>
-                <option value="SuperAdmin" selected>Super Admin</option>
+                <option value="Admin" selected >Admin</option>
+                <option value="SuperAdmin" >Super Admin</option>
               </select>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" v-on:click="addAdmin">Add Admin</button>
+          <button type="button" class="btn btn-success" v-on:click="addAdmin">Add Admin</button>
         </div>
       </div>
     </div>
