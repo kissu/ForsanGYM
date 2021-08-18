@@ -1,24 +1,41 @@
 <template>
   <div id="superAdminPage">
-    <page-title icon="mdi mdi-crown" title="Super Admin Panal"/>
+    <page-title icon="mdi mdi-crown" title="Super Admin Panal" />
     <div class="row my-2">
-      <div class="col-12 ">
+      <div class="col-12">
         <div class="tile">
           <div class="tile-body">
-            <div class="btn-group col " >
-                <button class="btn btn-primary w-100 h-100"  type="button"
-                        data-toggle="modal" data-target="#AddAdminModal"><i class="mdi mdi-plus-box" ></i> Add Admin</button>
-              <button class="btn btn-secondary w-100 h-100"  type="button"
-                      data-toggle="modal" data-target="#"><i class="mdi mdi-search-web" ></i> View Admins</button>
-              <button class="btn btn-danger w-100 h-100"  type="button"
-                      data-toggle="modal" data-target="#"><i class="mdi mdi-trash-can-outline" ></i> Delete Admin</button>
-
+            <div class="btn-group col">
+              <button
+                class="btn btn-primary w-100 h-100"
+                type="button"
+                data-toggle="modal"
+                data-target="#AddAdminModal"
+              >
+                <i class="mdi mdi-plus-box"></i> Add Admin
+              </button>
+              <button
+                class="btn btn-secondary w-100 h-100"
+                type="button"
+                data-toggle="modal"
+                data-target="#"
+              >
+                <i class="mdi mdi-search-web"></i> View Admins
+              </button>
+              <button
+                class="btn btn-danger w-100 h-100"
+                type="button"
+                data-toggle="modal"
+                data-target="#"
+              >
+                <i class="mdi mdi-trash-can-outline"></i> Delete Admin
+              </button>
             </div>
           </div>
-
         </div>
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-12">
         <div class="tile">
@@ -26,32 +43,43 @@
             <h3>Logs</h3>
           </div>
           <div class="tile-body">
+            <div class="row flex-row-reverse mb-4">
+              <div class="col-md-3">
+              <div class="text-left">
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Select Date"
+                  aria-controls="sampleTable"
+                  v-model="logDate"
+                />
+              </div>
+            </div>
+            </div>
             <table class="table table-striped">
               <thead>
-              <tr>
-                <th>Admin</th>
-                <th>Action</th>
-                <th>Date</th>
-                <th>Time</th>
-              </tr>
+                <tr>
+                  <th>Admin</th>
+                  <th>Action</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                </tr>
               </thead>
               <tbody>
                 <tr v-for="(log, index) in logs" :key="index">
-                  <td>{{log.adminName}}</td>
-                  <td>{{log.log}}</td>
-                  <td> {{log.dayDate}}</td>
-                  <td>{{log.dayTime}}</td>
+                  <td>{{ log.adminName }}</td>
+                  <td>{{ log.log }}</td>
+                  <td>{{ log.dayDate }}</td>
+                  <td>{{ log.dayTime }}</td>
                 </tr>
               </tbody>
             </table>
-
           </div>
         </div>
       </div>
     </div>
 
-    <add-new-admin/>
-
+    <add-new-admin />
   </div>
 </template>
 
@@ -61,35 +89,40 @@ import moment from "moment/moment";
 import AddNewAdmin from "../../components/superAdminPanal/addNewAdmin";
 export default {
   name: "index",
-  components: {AddNewAdmin, PageTitle},
-  async asyncData({$axios,$auth,redirect}){
+  components: { AddNewAdmin, PageTitle },
+  async asyncData({ $axios, $auth, redirect }) {
     if ($auth.user.role != "SuperAdmin") {
-      redirect('/')
+      redirect("/");
     }
-    const logs = await $axios.$get("/log/today")
-    return {logs: logs}
+    const logs = await $axios.$get("/log/today");
+    return { logs: logs };
   },
-  data(){
+  data() {
     return {
-
-    }
+      logDate: null
+    };
   },
-  methods:{
+  methods: {
     talk: function (log) {
       const msgs = {
-        "new":":admin added a new :item",
-        "edit":":admin editied :item with ID :id",
-        "delete":":admin delete a/an :item"
-      }
-
-    }
+        new: ":admin added a new :item",
+        edit: ":admin editied :item with ID :id",
+        delete: ":admin delete a/an :item",
+      };
+    },
   },
-  computed:{
-
+  computed: {},
+  watch: {
+    logDate: async function (d) {
+      console.log(d);
+      const res = await this.$axios.$post("/log/at",{
+        date: d
+      })
+      this.logs = res
+    }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>
