@@ -62,15 +62,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr >
-              <td>1</td>
-              <td>كنا بنجيب سمك</td>
-              <td>60</td>
-            </tr>
-            <tr >
-              <td>2</td>
-              <td>سعدية بتحشي طعمية</td>
-              <td>1000</td>
+            <tr v-for="(outcome, index) in outcomes" :key="outcome.id">
+              <td>{{index + 1 }}</td>
+              <td>{{ outcome.description }}</td>
+              <td>{{outcome.price}}</td>
             </tr>
             </tbody>
           </table>
@@ -182,6 +177,16 @@ export default {
         console.log(err)
       }
     }
+    if(!store.state.outcome.isLoaded){
+      try{
+        console.log("load outcomes")
+        const res = await $axios.$get('outCome/')
+        await store.commit('setOutcome', res)
+      }catch (err){
+        console.log('error on today\'s services income set (dashboard) :')
+        console.log(err)
+      }
+    }
 
   },
 
@@ -195,6 +200,9 @@ export default {
     numberOfPlayers: function (){
       return this.$store.state.players.number
     },
+    outcomes: function (){
+      return this.$store.state.outcome.items
+    }
 
   }
 };

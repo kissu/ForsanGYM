@@ -31,6 +31,10 @@ export const state = () => ({
     count: 0,
     isLoaded:false,
     items: []
+  },
+  outcome:{
+    isLoaded:false,
+    items:[]
   }
 })
 
@@ -302,6 +306,30 @@ export const mutations = {
   },
   // player weight area end
 
+  // outcome area begin --
+
+  setOutcome: function (state, outcomes){
+    for(let i=0, arr=outcomes; i<arr.length;i++){
+      arr[i] = {
+        ...arr[i],
+        index:i
+      }
+    }
+    state.outcome.items = outcomes
+    state.outcome.isLoaded = true
+  },
+  addOutcome: function (state, outcome){
+    outcome = {
+      ...outcome,
+      index:state.outcome.items.length
+    }
+    state.outcome.items.push(outcome)
+  },
+  deleteOutcome: function (state, outcome){
+    state.outcome.items.splice(outcome.index, 1)
+  },
+
+  // outcome area end --
 }
 
 export const actions = {

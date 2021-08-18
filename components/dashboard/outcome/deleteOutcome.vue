@@ -5,10 +5,9 @@
                        CollapseName="DeleteOutcome" icon="mdi mdi-minus-box" >
       <div class="form-group">
         <label for="outcomeSelect">Select The Outcome</label>
-        <select class="form-control" id="outcomeSelect" v-bind:value="SelectedOutcome"
-                @input="SelectedOutcome = $event.target.value">
+        <select class="form-control" id="outcomeSelect" v-model="SelectedOutcome">
           <option :value="null" disabled selected>Choose the Outcome</option>
-          <option v-for="outcome in outcomes" :value="outcome" :key="outcome.id">{{ outcome.name }} --
+          <option v-for="outcome in outcomes" :value="outcome" :key="outcome.id">{{ outcome.description }} --
             {{ outcome.price }}
           </option>
         </select>
@@ -58,7 +57,7 @@ export default {
         if (result.isConfirmed) {
           // Delete service from all database
           this.$axios.$delete('outcome/delete/' + this.SelectedOutcome.id).then(() => {
-            this.$store.commit('DeleteOutcome', this.SelectedOutcome)
+            this.$store.commit('deleteOutcome', this.SelectedOutcome)
             this.SelectedOutcome = null
           }).catch(err => {
             this.$swal.fire({
@@ -78,7 +77,7 @@ export default {
   },
   computed:{
     outcomes: function (){
-      return this.$store.state.outcomes
+      return this.$store.state.outcome.items
     }
   }
 }
