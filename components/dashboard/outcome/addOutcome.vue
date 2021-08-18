@@ -30,7 +30,7 @@
       <div class="tile-footer">
         <div class="row">
           <div class="col-md-8 ">
-            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#AddServicecollapse"
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#AddOutcomecollapse"
                     v-on:click="addOutcome">
               <i class="mdi mdi-check-circle"></i>
               Add
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import CollapseComponent from "../layout/Collapse";
+import CollapseComponent from "../../layout/Collapse";
 export default {
   name: "addOutcome",
   components: {CollapseComponent},

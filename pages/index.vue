@@ -83,6 +83,12 @@
         <div class="py-1">
           <add-outcome/>
         </div>
+
+        <div class="py-1">
+          <delete-outcome/>
+        </div>
+
+        <br>
         <div class="py-1">
           <purchaseService/>
         </div>
@@ -104,10 +110,12 @@ import AddNewService from "../components/dashboard/services/addNewService";
 import CollapseComponent from "../components/layout/Collapse";
 import DeleteService from "../components/dashboard/services/DeleteService";
 import PurchaseService from "../components/dashboard/services/purchaseService";
-import AddOutcome from "../components/dashboard/addOutcome";
+import AddOutcome from "../components/dashboard/outcome/addOutcome";
+import DeleteOutcome from "../components/dashboard/outcome/deleteOutcome";
 
 export default {
   components: {
+    DeleteOutcome,
     AddOutcome,
     PurchaseService,
     DeleteService,
