@@ -2,7 +2,7 @@
   <div id="deleteOutcomeCom">
 
     <CollapseComponent btns-class="btn btn-danger" head-btn-text="Delete Outcome"
-                       CollapseName="DeleteOutcome" icon="mdi mdi-trash-can" >
+                       CollapseName="DeleteOutcome" icon="mdi mdi-minus-box" >
       <div class="form-group">
         <label for="outcomeSelect">Select The Outcome</label>
         <select class="form-control" id="outcomeSelect" v-bind:value="SelectedOutcome"

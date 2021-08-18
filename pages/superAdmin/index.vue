@@ -1,6 +1,12 @@
 <template>
   <div id="superAdminPage">
     <page-title icon="mdi mdi-crown" title="Super Admin Panal"/>
+    <div class="row my-2">
+      <div class="col-3">
+        <button class="btn btn-primary w-100 h-100"  type="button" data-toggle="modal" data-target="#AddAdminModal"><i class="mdi mdi-plus-box" ></i>Add new Admin</button>
+        <add-new-admin/>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-12">
         <div class="tile">
@@ -38,9 +44,10 @@
 <script>
 import PageTitle from "../../components/layout/pageTitle";
 import moment from "moment/moment";
+import AddNewAdmin from "../../components/superAdminPanal/addNewAdmin";
 export default {
   name: "index",
-  components: {PageTitle},
+  components: {AddNewAdmin, PageTitle},
   async asyncData({$axios,$auth,redirect}){
     if ($auth.user.role != "SuperAdmin") {
       redirect('/')
@@ -50,7 +57,7 @@ export default {
   },
   data(){
     return {
-      
+
     }
   },
   methods:{
