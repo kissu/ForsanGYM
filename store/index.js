@@ -342,6 +342,11 @@ export const mutations = {
     state.admins.isLoaded = true
   },
   addAdmin: function (state, admin){
+    delete admin.password
+    admin = {
+      ...admin,
+      index : state.admins.items.length
+    }
     state.admins.items.push(admin)
   },
   editAdmin: function (state, admin){

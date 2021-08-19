@@ -25,7 +25,7 @@
                 class="btn btn-danger w-100 h-100"
                 type="button"
                 data-toggle="modal"
-                data-target="#"
+                data-target="#deleteAdminModal"
               >
                 <i class="mdi mdi-trash-can-outline"></i> Delete Admin
               </button>
@@ -77,8 +77,8 @@
         </div>
       </div>
     </div>
-
     <add-new-admin />
+    <delete-admin />
   </div>
 </template>
 
@@ -86,14 +86,26 @@
 import PageTitle from "../../components/layout/pageTitle";
 import moment from "moment/moment";
 import AddNewAdmin from "../../components/superAdminPanal/addNewAdmin";
+import DeleteAdmin from "../../components/superAdminPanal/deleteAdmin";
 export default {
   name: "index",
-  components: { AddNewAdmin, PageTitle },
-  async asyncData({ $axios, $auth, redirect }) {
+  components: {DeleteAdmin, AddNewAdmin, PageTitle },
+  async asyncData({ $axios, $auth, redirect, store }) {
     if ($auth.user.role != "SuperAdmin") {
       redirect("/");
     }
     const logs = await $axios.$get("/log/today");
+
+    if(!store.state.admins.isLoaded){
+      try{
+        const res = await $axios.$get('auth/allAdmins')
+        store.commit('setAdmins', res)
+      }catch (err){
+        console.log("Error on load admins : ")
+        console.log(err)
+      }
+    }
+
     return { logs: logs };
   },
   data() {

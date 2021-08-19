@@ -43,7 +43,11 @@ import PageTitle from "../../components/layout/pageTitle";
 import EditAdmin from "../../components/superAdminPanal/editAdmin";
 export default {
   components: {EditAdmin, PageTitle},
-  async asyncData({store, $axios}){
+  async asyncData({ $axios, $auth, redirect, store}) {
+    if ($auth.user.role != "SuperAdmin") {
+      redirect("/");
+    }
+
     if(!store.state.admins.isLoaded){
       try{
         const res = await $axios.$get('auth/allAdmins')
@@ -54,6 +58,7 @@ export default {
       }
     }
   },
+
   data(){
     return{
       clickedAdmin:{}
