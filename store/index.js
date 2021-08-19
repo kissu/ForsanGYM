@@ -35,6 +35,10 @@ export const state = () => ({
   outcome:{
     isLoaded:false,
     items:[]
+  },
+  admins:{
+    isLoaded:false,
+    items:[]
   }
 })
 
@@ -330,6 +334,25 @@ export const mutations = {
   },
 
   // outcome area end --
+  //----------------------------------------------------------------------
+  //Admins area begin --
+
+  setAdmins: function (state, admins){
+    state.admins.items = admins
+    state.admins.isLoaded = true
+  },
+  addAdmin: function (state, admin){
+    state.admins.items.push(admin)
+  },
+  editAdmin: function (state, admin){
+    state.admins.items.splice(admin.index, 1, admin)
+  },
+  deleteAdmin: function (state, admin){
+    state.admins.items.splice(admin.index, 1)
+  }
+
+  //Admins area begin --
+
 }
 
 export const actions = {

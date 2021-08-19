@@ -18,6 +18,7 @@ const routes = [
   {path: '/activityPlayer/:id', name: 'viewActivityPlayer', component: page('activities/viewActivityPlayer')},
   {path: '/auth/login', name: 'auth.login', component: page('auth/login')},
   {path: '/superAdmin/', name: 'superAdmin', component: page('superAdmin/index.vue')},
+  {path: '/superAdmin/viewAll', name: 'viewAdmins', component: page('superAdmin/viewAdmins.vue')},
 
 
 ];

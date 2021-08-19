@@ -1,11 +1,12 @@
 <template>
-<div id="addNewAdminCom">
-  <div class="modal fade" id="AddAdminModal" tabindex="-1" aria-labelledby="AddAdminModalLabel"
+<div id="editAdminPage" >
+
+  <div class="modal fade" :id="`editAdmin${adminData.id}Modal`" tabindex="-1" :aria-labelledby="`editAdmin${adminData.id}ModalLabel`"
        aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="AddAdminModalLabel">Add New Admin</h5>
+          <h5 class="modal-title" :id="`editAdmin${adminData.id}ModalLabel`">Edit {{adminData.name}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -16,7 +17,7 @@
             <div class="col-md-8">
               <input v-bind:value="adminData.name"
                      @input="adminData.name = $event.target.value" class="form-control col-md-8"
-                     type="text" placeholder="Enter Admin Name">
+                     type="text" placeholder="Enter Admin Name" :value="adminData.name">
             </div>
           </div>
 
@@ -25,61 +26,64 @@
             <div class="col-md-8">
               <input v-bind:value="adminData.username"
                      @input="adminData.username = $event.target.value" class="form-control col-md-8"
-                     type="text" placeholder="Enter Username">
+                     type="text" placeholder="Enter Username" :value="adminData.username">
             </div>
           </div>
 
-          <div class="form-group row">
-            <label class="control-label col-md-3">password</label>
-            <div class="col-md-8">
-              <input v-bind:value="adminData.password"
-                     @input="adminData.password = $event.target.value" class="form-control col-md-8" type="password"
-                    placeholder="Enter password">
-            </div>
-          </div>
+<!--          <div class="form-group row">-->
+<!--            <label class="control-label col-md-3">password</label>-->
+<!--            <div class="col-md-8">-->
+<!--              <input v-bind:value="adminData.password"-->
+<!--                     @input="adminData.password = $event.target.value" class="form-control col-md-8" type="password"-->
+<!--                     placeholder="Enter password">-->
+<!--            </div>-->
+<!--          </div>-->
 
           <div class="form-group row">
             <label class="control-label col-md-3">Admin Role</label>
             <div class="col-md-8">
               <select v-model="adminData.role" class="form-control col-md-8">
-                <option value="Admin" >Admin</option>
-                <option value="SuperAdmin" >Super Admin</option>
+                <option :value="adminData.role" selected>{{adminData.role}}</option>
+                <option value="Admin" v-if="adminData.role=='SuperAdmin'">Admin</option>
+                <option value="SuperAdmin" v-else >Super Admin</option>
               </select>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success" v-on:click="addAdmin">Add Admin</button>
+          <button type="button" class="btn btn-warning" v-on:click="editAdmin">Submit</button>
         </div>
       </div>
     </div>
   </div>
+
+
 </div>
 </template>
 
 <script>
 export default {
-  name: "addNewAdmin",
-  data(){
-    return{
-      adminData:{}
+  name: "editAdmin",
+  props:{
+    adminData:{
+      type:Object,
+      required:true
     }
   },
   methods:{
-    addAdmin: function (){
-      this.$axios.$post('auth/register', this.adminData).then(()=>{
-        this.$store.commit('addAdmin', this.adminData)
+    editAdmin: function (){
+      this.$axios.$post('auth/editAdmin', this.adminData).then(()=>{
+        this.$store.commit('editAdmin', this.adminData)
       }).catch(err=>{
         this.$swal.fire({
-          title:"Error While Adding the Admin",
+          title:"Error in editing the Admin",
           icon:"error"
         })
-        console.log("Error in add new Admin")
+        console.log("Error in edit admin")
         console.log(err)
       })
-      this.adminData = {}
-      $(`#AddAdminModal`).modal('hide')
+      $(`#editAdmin${this.adminData.id}Modal`).modal('hide')
     }
   }
 }

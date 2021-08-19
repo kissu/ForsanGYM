@@ -17,8 +17,7 @@
               <button
                 class="btn btn-secondary w-100 h-100"
                 type="button"
-                data-toggle="modal"
-                data-target="#"
+                v-on:click="$router.push({name:'viewAdmins' })"
               >
                 <i class="mdi mdi-search-web"></i> View Admins
               </button>
