@@ -21,7 +21,8 @@
               </select>
             </div>
           </div>
-           <div class="form-group row">
+          
+          <div class="form-group row">
                 <label class="control-label col-md-3 text-center">Price </label>
                 <div class="col-md-3">
                   <input
@@ -32,7 +33,7 @@
                     placeholder="EGP"
                   />
                 </div>
-              </div>
+          </div>
 
           <div class="form-group row">
             <label class="control-label col-md-3">Begin Date</label>
@@ -51,6 +52,7 @@
                      type="date">
             </div>
           </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

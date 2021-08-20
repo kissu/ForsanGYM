@@ -18,6 +18,7 @@
                     <tr>
                       <th>#</th>
                       <th>Name</th>
+                      <th>Phone Number</th>
                       <th>Activity</th>
                       <th>Begin Date</th>
                       <th>End Date</th>
@@ -28,6 +29,7 @@
                     <tr v-for="item in activityPlayer" :key="item.id">
                       <td>{{ item.id }}</td>
                       <td>{{ item.activityPlayer.name }}</td>
+                      <td>{{ item.activityPlayer.phoneNumber }}</td>
                       <td>{{ item.activity.name }}</td>
                       <td>{{ item.beginDate }}</td>
                       <td>{{ item.endDate }}</td>

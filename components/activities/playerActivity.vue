@@ -43,6 +43,20 @@
                         </div>
                       </div>
                       <div class="form-group row">
+                        <label class="control-label col-md-4">phoneNumber</label>
+                        <div class="col-md-8">
+                          <input
+                            v-model="activityPlayer.phoneNumber"
+                            :class="[
+                              { 'form-control': true },
+                              { 'is-invalid': errors.name },
+                            ]"
+                            type="number"
+                            placeholder="Enter phoneNumber"
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group row">
                         <label class="control-label col-md-4">Price</label>
                         <div class="col-md-2">
                           <input
@@ -185,6 +199,7 @@
               <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Phone Number</th>
                 <th>Activity</th>
                 <th>Begin Date</th>
                 <th>End Date</th>
@@ -195,6 +210,7 @@
               <tr v-for="playerActivity in searching" :key="playerActivity.id">
                 <td>{{ playerActivity.id }}</td>
                 <td>{{ playerActivity.name }}</td>
+                <td>{{ playerActivity.phoneNumber }}</td>
                 <td>{{ playerActivity.subscription.activity.name }}</td>
                 <td>{{ playerActivity.subscription.beginDate }}</td>
                 <td>{{ playerActivity.subscription.endDate }}</td>
@@ -243,6 +259,7 @@ export default {
     return {
       activityPlayer: {
         name: null,
+        phoneNumber: null,
         beginDate: null,
         endDate: null,
         activity: null,
@@ -283,6 +300,7 @@ export default {
               this.$store.commit("addNewActivityPlayer", {
                 id: res.activityPlayer.id,
                 name: res.activityPlayer.name,
+                phoneNumber: res.phoneNumber,
                 subscription: {
                   activity: res.activity,
                   endDate: res.endDate,
