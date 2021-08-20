@@ -1,6 +1,6 @@
 <template>
   <div id="superAdminPage">
-    <page-title icon="mdi mdi-crown" title="Super Admin Panal" />
+    <page-title icon="mdi mdi-crown" title="Super Admin Panal"/>
     <div class="row my-2">
       <div class="col-12">
         <div class="tile">
@@ -44,41 +44,42 @@
           <div class="tile-body">
             <div class="row flex-row-reverse mb-4">
               <div class="col-md-3">
-              <div class="text-left">
-                <input
-                  type="date"
-                  class="form-control"
-                  placeholder="Select Date"
-                  aria-controls="sampleTable"
-                  v-model="logDate"
-                />
+                <div class="text-left">
+                  <input
+                    type="date"
+                    class="form-control"
+                    placeholder="Select Date"
+                    aria-controls="sampleTable"
+                    v-model="logDate"
+                  />
+                </div>
               </div>
-            </div>
             </div>
             <table class="table table-striped">
               <thead>
-                <tr>
-                  <th>Admin</th>
-                  <th>Action</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                </tr>
+              <tr>
+                <th>Admin</th>
+                <th>Action</th>
+                <th>Date</th>
+                <th>Time</th>
+              </tr>
               </thead>
               <tbody>
-                <tr v-for="(log, index) in logs" :key="index">
-                  <td>{{ log.adminName }}</td>
-                  <td>{{ log.log }}</td>
-                  <td>{{ log.dayDate }}</td>
-                  <td>{{ log.dayTime }}</td>
-                </tr>
+              <tr v-for="(log, index) in logs" :key="index">
+                <td>{{ log.adminName }}</td>
+                <td>{{ log.log }}</td>
+                <td>{{ log.dayDate }}</td>
+                <td>{{ log.dayTime }}</td>
+              </tr>
               </tbody>
             </table>
           </div>
+          <paging v-on:getDataAtPage="loadDataOfPage" :count="count" per-page="20"/>
         </div>
       </div>
     </div>
-    <add-new-admin />
-    <delete-admin />
+    <add-new-admin/>
+    <delete-admin/>
   </div>
 </template>
 
@@ -87,26 +88,28 @@ import PageTitle from "../../components/layout/pageTitle";
 import moment from "moment/moment";
 import AddNewAdmin from "../../components/superAdminPanal/addNewAdmin";
 import DeleteAdmin from "../../components/superAdminPanal/deleteAdmin";
+import Paging from "../../components/paging";
+
 export default {
   name: "index",
-  components: {DeleteAdmin, AddNewAdmin, PageTitle },
-  async asyncData({ $axios, $auth, redirect, store }) {
+  components: {Paging, DeleteAdmin, AddNewAdmin, PageTitle},
+  async asyncData({$axios, $auth, redirect, store}) {
     if ($auth.user.role != "SuperAdmin") {
       redirect("/");
     }
-    const logs = await $axios.$get("/log/today");
+    const logs = await $axios.$get("/log/today?limit=20");
 
-    if(!store.state.admins.isLoaded){
-      try{
+    if (!store.state.admins.isLoaded) {
+      try {
         const res = await $axios.$get('auth/allAdmins')
         store.commit('setAdmins', res)
-      }catch (err){
+      } catch (err) {
         console.log("Error on load admins : ")
         console.log(err)
       }
     }
 
-    return { logs: logs };
+    return {logs: logs.items, count: logs.count,logDate: moment().format('yyyy-MM-DD')};
   },
   data() {
     return {
@@ -121,15 +124,25 @@ export default {
         delete: ":admin delete a/an :item",
       };
     },
+    loadDataOfPage: function (page) {
+      this.$axios.$post("/log/at?page=" + page + "&limit=20",{
+        date: this.logDate
+      })
+        .then(res => {
+          this.logs = res.items
+          this.count = res.count
+        })
+    }
   },
   computed: {},
   watch: {
     logDate: async function (d) {
       console.log(d);
-      const res = await this.$axios.$post("/log/at",{
+      const res = await this.$axios.$post("/log/at", {
         date: d
       })
-      this.logs = res
+      this.logs = res.items
+      this.count = res.count
     }
   }
 };

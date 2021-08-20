@@ -21,7 +21,7 @@
               </select>
             </div>
           </div>
-          
+
           <div class="form-group row">
                 <label class="control-label col-md-3 text-center">Price </label>
                 <div class="col-md-3">
@@ -73,8 +73,8 @@ export default {
     return {
       pickedActivity: null,
       InputActivityPlayer: {
-        beginDate:null, 
-        endDate:null, 
+        beginDate:null,
+        endDate:null,
         price:0
       },
       done: true
@@ -97,11 +97,6 @@ export default {
     subscribe: function () {
       // console.log(this.activityPlayer);
       // console.log(this.pickedActivity);
-      for(let i = 0, arr=this.$store.state.activityPlayerSubscriptions.items ; i < arr.length; i++){
-        if(arr[i].activity.id === this.pickedActivity.id && this.isEndedSubscription(arr[i])){
-            this.done = false
-        }
-      }
       if (!this.done) {
         this.$swal.fire({
           title: "Error",
@@ -116,13 +111,7 @@ export default {
           endDate: this.InputActivityPlayer.endDate,
           price: Number(this.InputActivityPlayer.price),
         }).then(res => {
-          this.$store.commit('editActivityPlayer', {
-            ...this.activityPlayer,
-            subscription: {
-              ...res,
-              activityPlayer: undefined
-            }
-          })
+          this.$store.commit('setActivityPlayers', res)
           $(`#reSubscribeModal1`).modal('hide')
         }).catch(err => {
           console.log("Error is : ")

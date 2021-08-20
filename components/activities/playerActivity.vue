@@ -1,7 +1,7 @@
 <template>
   <div id="player-activity-table">
     <div class="accordion" id="accordionExample">
-      <div class="card col-6 px-0">
+      <div class="card col-lg-6 col-md-12 col-12 px-0">
         <div class="card-header col" id="headingOne">
           <h2 class="mb-0">
             <button
@@ -315,18 +315,7 @@ export default {
               ...this.activityPlayer,
             })
             .then((res) => {
-              this.$store.commit("addNewActivityPlayer", {
-                id: res.activityPlayer.id,
-                name: res.activityPlayer.name,
-                phoneNumber: res.phoneNumber,
-                subscription: {
-                  activity: res.activity,
-                  endDate: res.endDate,
-                  beginDate: res.beginDate,
-                  price: res.price,
-                  id: res.id,
-                },
-              });
+              this.$store.commit('setActivityPlayers', res)
               this.$swal.fire({
                 icon: "success",
                 title: "player added successfully!!",

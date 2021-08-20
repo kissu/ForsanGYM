@@ -35,7 +35,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-8">
         <div class="tile">
           <h3 class="tile-title">Summary of today's subscriptions</h3>
           <table style="font-size:17px" class="table table-striped">
@@ -83,7 +83,7 @@
 
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-4">
 
         <div class="py-1">
           <add-outcome/>

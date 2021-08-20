@@ -166,12 +166,15 @@ export default {
       this.$axios
         .$post(
           "activityPlayer/edit/" + this.activity_Player.id,
-          this.activityPlayer
+          {
+            ...this.activityPlayer,
+            sub_id:this.activity_Player.subscription.id
+          }
         )
         .then((res) => {
           this.dis = false;
-          this.$store.commit("editActivityPlayer", res);
-          $("#staticBackdropEditModal").modal("hide");
+          this.$store.commit('setActivityPlayers', res)
+          $("#staticBackdropEditActivityPlayerModal").modal("hide");
         })
         .catch((err) => {
           // let str = ""

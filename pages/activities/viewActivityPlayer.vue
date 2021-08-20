@@ -38,7 +38,7 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="row flex-row-reverse">
+                <div v-if="activityPlayer" class="row flex-row-reverse">
                   <div class="col-auto">
                     <div
                       class="dataTables_paginate paging_simple_numbers"
@@ -107,7 +107,7 @@ export default {
     const playerId = route.params.id
     try {
       const res = await $axios.$get('activityPlayerSubscription/' + playerId)
-      await store.commit('setAllActivityPlayersubscriptions', res)
+      return {activityPlayer: res.items,count:res.count}
     } catch (err) {
       console.log('error on plan income load (layout/Default) :')
       console.log(err)
@@ -121,12 +121,7 @@ export default {
     }
   },
   computed: {
-    activityPlayer: function () {
-      return this.$store.state.activityPlayerSubscriptions.items
-    },
-    count: function () {
-      return this.activityPlayer.length
-    }
+
   },
 
 };
