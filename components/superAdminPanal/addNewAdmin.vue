@@ -1,5 +1,5 @@
 <template>
-<div id="addNewAdminCom">
+<div id="addNewAdminCom" >
   <div class="modal fade" id="AddAdminModal" tabindex="-1" aria-labelledby="AddAdminModalLabel"
        aria-hidden="true">
     <div class="modal-dialog">
@@ -41,9 +41,10 @@
           <div class="form-group row">
             <label class="control-label col-md-3">Admin Role</label>
             <div class="col-md-8">
-              <select v-model="adminData.role" class="form-control col-md-8">
-                <option value="Admin" selected >Admin</option>
-                <option value="SuperAdmin" >Super Admin</option>
+              <select class="form-control col-md-8" @change="adminData.role = $event.target.value" id="adminRole">
+                <option disabled selected>Choose Admin Role</option>
+                <option value='Admin'>Admin</option>
+                <option value='SuperAdmin'>Super Admin</option>
               </select>
             </div>
           </div>
@@ -68,7 +69,21 @@ export default {
   },
   methods:{
     addAdmin: function (){
-      console.log(this.adminData)
+      const admin = Object.assign({}, this.adminData)
+        this.$axios.$post('auth/register', admin).then(res=>{
+        this.$store.commit('addAdmin', res)
+      }).catch(err=>{
+        this.$swal.fire({
+          title:"Error While Adding the Admin",
+          icon:"error"
+        })
+        console.log("Error in add new Admin")
+        console.log(err)
+      })
+      this.adminData = Object.assign({},{})
+      $(`#AddAdminModal`).modal('hide')
+      document.getElementById('adminRole').selectedIndex = 0
+
     }
   }
 }

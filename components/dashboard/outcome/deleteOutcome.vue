@@ -1,14 +1,13 @@
 <template>
-  <div id="deleteOutcomeCom">
+  <div id="deleteOutcomeCom" >
 
     <CollapseComponent btns-class="btn btn-danger" head-btn-text="Delete Outcome"
                        CollapseName="DeleteOutcome" icon="mdi mdi-minus-box" >
       <div class="form-group">
         <label for="outcomeSelect">Select The Outcome</label>
-        <select class="form-control" id="outcomeSelect" v-bind:value="SelectedOutcome"
-                @input="SelectedOutcome = $event.target.value">
+        <select class="form-control" id="outcomeSelect" @change="SelectedOutcome = outcomes[$event.target.value]">
           <option :value="null" disabled selected>Choose the Outcome</option>
-          <option v-for="outcome in outcomes" :value="outcome" :key="outcome.id">{{ outcome.name }} --
+          <option v-for="outcome in outcomes" :value="outcome.index" :key="outcome.id">{{ outcome.description }} --
             {{ outcome.price }}
           </option>
         </select>
@@ -43,8 +42,11 @@ export default {
       SelectedOutcome: null,
     }
   },
+
   methods: {
     DeleteOutcome: function () {
+      // console.log(this.SelectedOutcome)
+      // return
       this.$swal.fire({
         title: 'Are you sure you want to delete this outcome ? ',
         showDenyButton: true,
@@ -58,8 +60,7 @@ export default {
         if (result.isConfirmed) {
           // Delete service from all database
           this.$axios.$delete('outcome/delete/' + this.SelectedOutcome.id).then(() => {
-            this.$store.commit('DeleteOutcome', this.SelectedOutcome)
-            this.SelectedOutcome = null
+            this.$store.commit('deleteOutcome', this.SelectedOutcome)
           }).catch(err => {
             this.$swal.fire({
               title: "Delete Outcome FAILED",
@@ -67,9 +68,11 @@ export default {
               text: err.response.data.message
             })
             console.log(err)
+
             return false
           })
           this.$swal.fire('Outcome Deleted!', '', 'success')
+          document.getElementById('outcomeSelect').selectedIndex = 0
         }
       })
 
@@ -78,7 +81,7 @@ export default {
   },
   computed:{
     outcomes: function (){
-      return this.$store.state.outcomes
+      return this.$store.state.outcome.items
     }
   }
 }
