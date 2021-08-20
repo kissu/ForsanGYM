@@ -234,6 +234,16 @@
                           @click="reSubscribe(playerActivity)">
                     Resubscribe
                   </button>
+
+                  <button
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#staticBackdropEditActivityPlayerModal"
+                    type="button"
+                    @click="AssignActivityPlayer(playerActivity)"
+                  >
+                    Edit
+                  </button>
                 </td>
               </tr>
               </tbody>
@@ -245,16 +255,20 @@
     <div v-if="activityPlayerInfo">
       <reSubscribe :activityPlayer="activityPlayerInfo"/>
     </div>
+    <div id = "editActivityPlayer" v-if="editClickedPlayer">
+      <editActivityPlayer :activity_Player="editClickedPlayer"/>
+    </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import reSubscribe from './reSubscribe.vue'
+import editActivityPlayer from './editActivityPlayer.vue'
 
 export default {
   name: "playerActivity",
-  components: {reSubscribe,},
+  components: {reSubscribe, editActivityPlayer},
   data() {
     return {
       activityPlayer: {
@@ -265,6 +279,7 @@ export default {
         activity: null,
         price: 0,
       },
+      editClickedPlayer: {},
       searchById: null,
       searchByActivity: null,
       errors: {},
@@ -273,6 +288,9 @@ export default {
     };
   },
   methods: {
+    AssignActivityPlayer: function(player){
+      this.editClickedPlayer = player
+    },
     addActivityPlayer: function () {
       const validate = this.validateForm();
       if (!validate) return false;

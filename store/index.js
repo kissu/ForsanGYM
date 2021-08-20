@@ -150,6 +150,7 @@ export const mutations = {
   editActivityPlayer: function (state, activityPlayer) {
     let holder = state.activityPlayers.findIndex((obj => obj.id === activityPlayer.id))
     state.activityPlayers[holder].name = activityPlayer.name
+    state.activituPlayers[holder].phoneNumber = activityPlayer.phoneNumber
     state.activityPlayers[holder].id = activityPlayer.id
     state.activityPlayers[holder].subscription = activityPlayer.subscription
     state.totalIncome += activityPlayer.subscription.price
