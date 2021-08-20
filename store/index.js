@@ -1,4 +1,6 @@
 // export data that will be stored
+import login from "../pages/auth/login";
+
 export const state = () => ({
   plans: [],
   activities: [],
@@ -34,6 +36,7 @@ export const state = () => ({
   },
   outcome:{
     isLoaded:false,
+    total:0,
     items:[]
   },
   admins:{
@@ -173,20 +176,24 @@ export const mutations = {
   // Services Part :
 
   SetServices: function (state, services) {
+    for(let i=0;i<services.length;i++){
+      services[i].index = i
+    }
     state.services.items = services
     state.services.isLoaded = true
   },
   AddService: function (state, service) {
-      state.services.items.push(service)
+    service.index = state.services.items.length
+    state.services.items.push(service)
   },
-  DeleteService: function (state, service_id) {
-    state.services.items = state.services.items.filter(service => {
-      return service.id !== service_id
-    })
-
+  DeleteService: function (state, service) {
+    for(let i=service.index+1, arr=state.services.items;i<arr.length;i++){
+      arr[i].index--
+    }
+    state.services.items.splice(service.index, 1)
     //Update the table of income with DELETED Service
     for (let i = 0; i < state.servicesIncome.items.length; i++) {
-      if (service_id === state.servicesIncome.items[i].service.id) {
+      if (state.servicesIncome.items[i].service && service.id === state.servicesIncome.items[i].service.id ) {
         state.servicesIncome.items[i].serviceName = state.servicesIncome.items[i].serviceName + '(Deleted)'
         break
       }
@@ -200,10 +207,8 @@ export const mutations = {
         if(!state.servicesIncome.items[i].service ){
           // deleted service
           state.servicesIncome.items[i].serviceName = state.servicesIncome.items[i].serviceName + '(Deleted)'
-        }else{ // updating total income
-          state.totalIncome += (servicesIncome[i].soldItems * servicesIncome[i].service.price)
-
-        }
+        } // updating total income
+          state.totalIncome += (servicesIncome[i].soldItems * servicesIncome[i].payedMoney)
       }
     }
     state.servicesIncome.isLoaded = true
@@ -215,7 +220,7 @@ export const mutations = {
     }else{
       state.servicesIncome.items.push(serviceIncome)
     }
-    state.totalIncome += serviceIncome.service.price
+    state.totalIncome += serviceIncome.payedMoney
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
     if(todaysSubscriptions.length>0){ // there is subscriptions for today
@@ -314,22 +319,22 @@ export const mutations = {
 
   setOutcome: function (state, outcomes){
     for(let i=0, arr=outcomes; i<arr.length;i++){
-      arr[i] = {
-        ...arr[i],
-        index:i
-      }
+      arr[i].index = i
+      state.outcome.total += arr[i].price
     }
     state.outcome.items = outcomes
     state.outcome.isLoaded = true
   },
   addOutcome: function (state, outcome){
-    outcome = {
-      ...outcome,
-      index:state.outcome.items.length
-    }
+    outcome.index = state.outcome.items.length
+    state.outcome.total += outcome.price
     state.outcome.items.push(outcome)
   },
   deleteOutcome: function (state, outcome){
+    for(let i=outcome.index+1, arr=state.outcome.items;i<arr.length;i++){
+      arr[i].index--
+    }
+    state.outcome.total -= outcome.price
     state.outcome.items.splice(outcome.index, 1)
   },
 
@@ -353,6 +358,9 @@ export const mutations = {
     state.admins.items.splice(admin.index, 1, admin)
   },
   deleteAdmin: function (state, admin){
+    for(let i=admin.index+1, arr=state.admins.items;i<arr.length;i++){
+      arr[i].index--
+    }
     state.admins.items.splice(admin.index, 1)
   }
 

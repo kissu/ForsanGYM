@@ -5,11 +5,10 @@
                        CollapseName="DeleteService" icon="mdi mdi-trash-can" >
       <div class="form-group">
         <label for="ServiceSelect">Select The Service</label>
-        <select class="form-control" id="ServiceSelect" v-bind:value="SelectedService"
-                @input="SelectedService = $event.target.value">
+        <select class="form-control" id="ServiceSelect" @change="SelectedService = services[$event.target.value]">
           <option :value="null" disabled selected>Choose A Service</option>
-          <option v-for="service in services" :value="service.id" :key="service.id">{{ service.name }} --
-            {{ service.price }}
+          <option v-for="(service, index) in services" :value="index" :key="service.id">
+            {{ service.name }} -- {{ service.price }}
           </option>
         </select>
       </div>
@@ -45,6 +44,8 @@ export default {
   },
   methods: {
     DeleteService: function () {
+      // console.log(this.SelectedService)
+      // return
       this.$swal.fire({
         title: 'Are you sure you want to delete this service ? ',
         showDenyButton: true,
@@ -57,15 +58,15 @@ export default {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           // Delete service from all database
-          this.SelectedService = Number(this.SelectedService)
-          this.$axios.$delete('service/delete/' + this.SelectedService).then(() => {
+          this.SelectedService.id = Number(this.SelectedService.id)
+          this.$axios.$delete('service/delete/' + this.SelectedService.id).then(() => {
             this.$store.commit('DeleteService', this.SelectedService)
             this.SelectedService = null
           }).catch(err => {
             this.$swal.fire({
               title: "Delete Service FAILED",
               icon: "error",
-              text: err.response.data.message
+              text: err
             })
             console.log(err)
             return false

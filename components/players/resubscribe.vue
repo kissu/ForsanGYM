@@ -89,7 +89,8 @@ export default {
           plan_id: this.pickedPlan.id,
           beginDate: this.InputPlayer.beginDate,
           endDate: this.InputPlayer.endDate,
-          payedMoney:Number(this.InputPlayer.payedMoney)
+          payedMoney:Number(this.InputPlayer.payedMoney),
+          creationDate: moment().format("yyyy-MM-DD")
         }).then(res => {
 
           delete res.player

@@ -14,7 +14,7 @@
         <td>{{ index + 1 }}</td>
         <td>{{ item.serviceName }}</td>
         <td>{{ item.soldItems }}</td>
-        <td>{{ item.payedMoeny * item.soldItems }}</td>
+        <td>{{ item.payedMoney * item.soldItems }}</td>
       </tr>
       </tbody>
     </table>

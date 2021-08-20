@@ -156,18 +156,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      InputPlayer: {
-        name: null,
-        phoneNumber: null,
-        weight: null,
-        height: null,
-        plan: null,
-        payedMoney:0,
-        beginDate: null,
-        endDate: null,
-        dietPlan: "",
-        trainingPlan: "",
-      },
+      InputPlayer: {},
       MEDIA_API:process.env.MEDIA_API
     }
   },
@@ -175,16 +164,6 @@ export default {
     // test: function (msg){
     //   console.log(this.$refs.UploadedFile.files[0])
     // },
-    getExtention: function (fileName){
-      let extention = ''
-      for(let i=0; i>=0;i--){
-        // this loop to get the last 3 or 4 charater which is the extention of the file
-        if(fileName[i]==='.')break;
-        extention += fileName[i]
-      }
-      return  extention
-
-    },
     addPlayer: async function () {
       let formData = new FormData()
       if (this.isFormOk()) {
@@ -201,7 +180,8 @@ export default {
             plan_id: this.InputPlayer.plan.id,
             beginDate: this.InputPlayer.beginDate,
             endDate: this.InputPlayer.endDate,
-            payedMoney: Number(this.InputPlayer.payedMoney)
+            payedMoney: Number(this.InputPlayer.payedMoney),
+            creationDate: moment().format("yyyy-MM-DD")
           })
 
           let weights = await this.$axios.$post('playerWeight/new', {
@@ -267,7 +247,7 @@ export default {
     },
     PickPlan: function () {
       this.InputPlayer.beginDate = moment().format("yyyy-MM-DD")
-      this.InputPlayer.endDate = moment().add("months", this.InputPlayer.plan.months).format('yyyy-MM-DD')
+      this.InputPlayer.endDate = moment().add( this.InputPlayer.plan.months,"months").format('yyyy-MM-DD')
       this.InputPlayer.payedMoney = this.InputPlayer.plan.price
     },
     isFormOk: function () {

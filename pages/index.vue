@@ -14,10 +14,20 @@
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="widget-small primary coloured-icon">
-          <i class="icon mdi mdi-account"></i>
+          <i class="icon mdi mdi-cash-plus"></i>
           <div class="info">
             <h4>Income</h4>
             <p><b>{{ totalDailyIncome }}</b></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="widget-small warning coloured-icon">
+          <i class="icon mdi mdi-cash-minus"></i>
+          <div class="info">
+            <h4>Outcome</h4>
+            <p><b>{{ totalDailyOutcome }}</b></p>
           </div>
         </div>
       </div>
@@ -48,11 +58,11 @@
           </table>
         </div>
         <div class="tile">
-          <h3 class="tile-title">Summary of other services</h3>
+          <h3 class="tile-title">Services Summary</h3>
           <services-summary-table/>
         </div>
         <div class="tile">
-          <h3 class="tile-title">Outcome Table</h3>
+          <h3 class="tile-title">Today's Outcome </h3>
           <table style="font-size:17px" class="table table-striped">
             <thead>
             <tr>
@@ -107,6 +117,7 @@ import DeleteService from "../components/dashboard/services/DeleteService";
 import PurchaseService from "../components/dashboard/services/purchaseService";
 import AddOutcome from "../components/dashboard/outcome/addOutcome";
 import DeleteOutcome from "../components/dashboard/outcome/deleteOutcome";
+import moment from "moment/moment";
 
 export default {
   components: {
@@ -148,7 +159,7 @@ export default {
       // the true case of this if means that subscriptionsIncome is not loaded
       try {
         console.log('Load subscriptionsIncome')
-        const res = await $axios.$get('subscription/today')
+        const res = await $axios.$post('subscription/today', {todayDate:moment().format("yyyy-MM-DD")})
         await store.commit('setSubscriptionsIncome', res)
       } catch (err) {
         console.log('error on today\'s subscriptions income set (dashboard) :')
@@ -170,7 +181,7 @@ export default {
     if (!store.state.servicesIncome.isLoaded) { // the true case of this if means that serviceIncome is not loaded
       try {
         console.log('Load servicesIncome')
-        const res = await $axios.$get('serviceIncome/')
+        const res = await $axios.$post('serviceIncome/today', {todayDate:moment().format("yyyy-MM-DD")})
         await store.commit('setServicesIncome', res)
       } catch (err) {
         console.log('error on today\'s services income set (dashboard) :')
@@ -202,6 +213,9 @@ export default {
     },
     outcomes: function (){
       return this.$store.state.outcome.items
+    },
+    totalDailyOutcome: function (){
+      return this.$store.state.outcome.total
     }
 
   }

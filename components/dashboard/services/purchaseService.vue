@@ -6,7 +6,8 @@
         <div class="form-group row" v-for="service in services" :key="service.id">
           <div class="col-md-12">
             <div class="form-check form-check-inline">
-              <input v-model="SelectedServiceId" class="form-check-input" type="radio" name="inlineRadioOptions"
+              <input @click="SelectedServiceId = $event.target.value"
+                     class="form-check-input" type="radio" name="inlineRadioOptions"
                      :id="'Choose'+service.id" :value="service.id">
               <label class="form-check-label" :for="'Choose'+service.id">{{ service.name }} --
                 {{ service.price }}</label>
@@ -34,6 +35,7 @@
 
 <script>
 import CollapseComponent from "../../layout/Collapse";
+import moment from "moment/moment";
 
 export default {
   name: "purchaseService",
@@ -46,10 +48,12 @@ export default {
   methods: {
     PurchaseService: function () {
       // purchase a service performer
-      this.$axios.$get('serviceIncome/add/' + this.SelectedServiceId).then(res => {
+      this.$axios.$post('serviceIncome/add', {
+        id: this.SelectedServiceId,
+        todayDate:moment().format("yyyy-MM-DD")
+      }).then(res => {
         this.$store.commit('buyService', res)
         this.SelectedServiceId = null
-
       }).catch(err => {
         console.log(err);
         console.log(this.SelectedServiceId)
@@ -59,6 +63,7 @@ export default {
           text: "Choose a valid Service"
         })
       })
+      this.SelectedServiceId = null
     }
   },
   computed:{
