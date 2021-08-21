@@ -43,7 +43,7 @@
                     </tbody>
                   </table>
                 </div>
-                <paging per-page="10" :count="$store.state.activityPlayerSubscriptions.count"/>
+                <paging per-page="10" :count="$store.state.activityPlayerSubscriptions.count" v-on:getDataAtPage="loadDataOfPage"/>
               </div>
             </div>
 
@@ -74,7 +74,7 @@ export default {
   async asyncData({route, $axios, store}) {
     const playerId = route.params.id
     try {
-      const res = await $axios.$get('activityPlayerSubscription/' + playerId)
+      const res = await $axios.$get('activityPlayerSubscription/' + playerId + '?limit=10')
       await store.commit('setAllActivityPlayersubscriptions',res)
       return {activityPlayer:res.items[0].activityPlayer}
     } catch (err) {
@@ -85,8 +85,11 @@ export default {
 
   },
   methods: {
-    goToPage: function () {
-
+    loadDataOfPage: function (page) {
+      this.$axios.$get('activityPlayerSubscription/' + this.$route.params.id+'?limit=10&page='+page)
+        .then(res => {
+          this.$store.commit('setAllActivityPlayersubscriptions',res)
+        })
     }
   },
   computed: {
