@@ -37,6 +37,7 @@
                           { 'form-control': true },
                           { 'is-invalid': errors.name },
                         ]"
+                        :placeholder="activity_Player.name"
                         type="text"
                       />
                     </div>
@@ -53,61 +54,62 @@
                           { 'is-invalid': errors.phoneNumber },
                         ]"
                         type="tel"
+                        :placeholder="activity_Player.phoneNumber"
                       />
                     </div>
 
-                    <div class="form-group">
-                      <label class="control-label">Begin Date</label>
-                      <input
-                        v-bind:value="activityPlayer.beginDate"
-                        @input="activityPlayer.beginDate = $event.target.value"
-                        :class="[
-                          { 'form-control': true },
-                          { 'is-invalid': errors.beginDate },
-                        ]"
-                        type="date"
-                      />
-                    </div>
+<!--                    <div class="form-group">-->
+<!--                      <label class="control-label">Begin Date</label>-->
+<!--                      <input-->
+<!--                        v-bind:value="activityPlayer.beginDate"-->
+<!--                        @input="activityPlayer.beginDate = $event.target.value"-->
+<!--                        :class="[-->
+<!--                          { 'form-control': true },-->
+<!--                          { 'is-invalid': errors.beginDate },-->
+<!--                        ]"-->
+<!--                        type="date"-->
+<!--                      />-->
+<!--                    </div>-->
 
-                    <div class="form-group">
-                      <label class="control-label">End Date</label>
-                      <input
-                        v-bind:value="activityPlayer.endDate"
-                        @input="activityPlayer.endDate = $event.target.value"
-                        :class="[
-                          { 'form-control': true },
-                          { 'is-invalid': errors.endDate },
-                        ]"
-                        type="date"
-                      />
-                    </div>
+<!--                    <div class="form-group">-->
+<!--                      <label class="control-label">End Date</label>-->
+<!--                      <input-->
+<!--                        v-bind:value="activityPlayer.endDate"-->
+<!--                        @input="activityPlayer.endDate = $event.target.value"-->
+<!--                        :class="[-->
+<!--                          { 'form-control': true },-->
+<!--                          { 'is-invalid': errors.endDate },-->
+<!--                        ]"-->
+<!--                        type="date"-->
+<!--                      />-->
+<!--                    </div>-->
 
-                    <div class="form-group row">
-                      <label class="control-label col-md-4" for="activitySelect"
-                        >Select Activity</label
-                      >
-                      <div class="col-md-8">
-                        <div class="form-group">
-                          <select
-                            v-model="activityPlayer.activity"
-                            :class="[
-                              { 'form-control': true },
-                              { 'is-invalid': errors.activity },
-                            ]"
-                            @change="computeDate"
-                            id="activitySelect"
-                          >
-                            <option
-                              v-for="item in $store.state.activities"
-                              :key="item.id"
-                              :value="item.id"
-                            >
-                              {{ item.name }}
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
+<!--                    <div class="form-group row">-->
+<!--                      <label class="control-label col-md-4" for="activitySelect"-->
+<!--                        >Select Activity</label-->
+<!--                      >-->
+<!--                      <div class="col-md-8">-->
+<!--                        <div class="form-group">-->
+<!--                          <select-->
+<!--                            v-model="activityPlayer.activity"-->
+<!--                            :class="[-->
+<!--                              { 'form-control': true },-->
+<!--                              { 'is-invalid': errors.activity },-->
+<!--                            ]"-->
+<!--                            @change="computeDate"-->
+<!--                            id="activitySelect"-->
+<!--                          >-->
+<!--                            <option-->
+<!--                              v-for="item in $store.state.activities"-->
+<!--                              :key="item.id"-->
+<!--                              :value="item.id"-->
+<!--                            >-->
+<!--                              {{ item.name }}-->
+<!--                            </option>-->
+<!--                          </select>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
                   </form>
                 </div>
               </div>
@@ -152,9 +154,6 @@ export default {
       activityPlayer: {
         name: null,
         phoneNumber: null,
-        beginDate: null,
-        endDate: null,
-        activity: null,
       },
     };
   },
@@ -175,6 +174,10 @@ export default {
           this.dis = false;
           this.$store.commit('setActivityPlayers', res)
           $("#staticBackdropEditActivityPlayerModal").modal("hide");
+          this.activityPlayer = {
+            name:null,
+            phoneNumber:null
+          }
         })
         .catch((err) => {
           // let str = ""
