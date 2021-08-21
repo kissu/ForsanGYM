@@ -127,7 +127,7 @@
                 </h5>
               </div>
               <div class="col-md-9">
-                <h5 class="mb-0 font-weight-normal">{{ player.weights[player.weights.length - 1].weight }}</h5>
+                <h5 class="mb-0 font-weight-normal">{{ playerWeights[playerWeights.length - 1].weight }}</h5>
               </div>
             </div>
             <div class="row mb-2">
@@ -239,10 +239,12 @@ export default {
     try{
       // to avoid duplications
       const player = await $axios.$get('player/'+route.params.id)
+      const playerWeights = await $axios.$get('playerWeight/allWeights/'+route.params.id+'?limit=10&page=1')
+      const subscriptions = await $axios.$get('subscription/' + route.params.id + '?limit=10&page=1')
       await store.commit('editPlayer', player)
       await store.commit('setViewPlayer', player)
-      const res = await $axios.$get('subscription/' + route.params.id + '?limit=10&page=1')
-      await store.commit('setPlayerSubscriptions', res)
+      await store.commit('setPlayerWeights', playerWeights)
+      await store.commit('setPlayerSubscriptions', subscriptions)
     }catch(err){
       console.log("error form setting player or subscriptions pages/players/view : ")
       console.log(err)
@@ -349,6 +351,9 @@ export default {
     },
     playerPhoto: function (){
       return `${this.MEDIA_API}/photo${this.player.photo}`
+    },
+    playerWeights:function (){
+      return this.$store.state.playerWeights.items
     }
 
   },
