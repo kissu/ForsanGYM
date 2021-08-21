@@ -13,10 +13,6 @@ module.exports = {
     port: 8001
   },
 
-  env : {
-    APIURL: process.env.API_URL
-  },
-
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Forsan GYM',
@@ -37,7 +33,9 @@ module.exports = {
     ]
   },
   env:{
-    MEDIA_API:process.env.VUE_APP_MEDIA_API
+    MEDIA_API:process.env.VUE_APP_MEDIA_API,
+    API_URL: process.env.API_URL
+
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
