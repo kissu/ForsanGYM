@@ -30,8 +30,8 @@
                       <td>{{ index+1}}</td>
                       <td>{{ item.id }}</td>
                       <td>{{ item.activity.name }}</td>
-                      <td>{{ item.beginDate }}</td>
-                      <td>{{ item.endDate }}</td>
+                      <td>{{ moment(item.beginDate).format('yyyy-MM-DD') }}</td>
+                      <td>{{ moment(item.endDate).format('yyyy-MM-DD') }}</td>
                       <td>{{ item.price }}</td>
                       <td>
                         <button class="btn btn-warning" type="button" data-toggle="modal"
@@ -61,6 +61,7 @@
 import PageTitle from "../../components/layout/pageTitle";
 import EditActivityPlayerSubscription from "../../components/activities/editActivityPlayerSubscription";
 import Paging from "../../components/paging";
+import moment from 'moment'
 export default {
   components: {Paging, EditActivityPlayerSubscription, PageTitle},
   data() {
@@ -90,7 +91,8 @@ export default {
         .then(res => {
           this.$store.commit('setAllActivityPlayersubscriptions',res)
         })
-    }
+    },
+    moment: (args) => moment(args)
   },
   computed: {
     activityPlayerSubscriptions: function (){
