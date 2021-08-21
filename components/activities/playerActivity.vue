@@ -249,10 +249,10 @@
                 </td>
               </tr>
               </tbody>
-              <paging v-on:getDataAtPage="loadDataOfPage" :count="$store.state.activityPlayers.count" per-page="10"/>
             </table>
           </div>
         </div>
+        <paging v-on:getDataAtPage="loadDataOfPage" :count="$store.state.activityPlayers.count" per-page="10"/>
       </div>
     </div>
     <div v-if="activityPlayerInfo">
