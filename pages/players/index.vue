@@ -108,53 +108,7 @@
                     </table>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-12 col-md-5"></div>
-                  <div class="col-sm-12 col-md-7">
-                    <div
-                      class="dataTables_paginate paging_simple_numbers"
-                      id="sampleTable_paginate"
-                    >
-                      <ul class="pagination">
-                        <li
-                          class="paginate_button page-item previous"
-                          id="previous_btn"
-                        >
-                          <a
-                            href="#"
-                            aria-controls="sampleTable"
-                            data-dt-idx="0"
-                            tabindex="0"
-                            class="page-link"
-                          >Previous</a
-                          >
-                        </li>
-                        <li class="paginate_button page-item active">
-                          <a
-                            href="#"
-                            aria-controls="sampleTable"
-                            data-dt-idx="1"
-                            tabindex="0"
-                            class="page-link"
-                          >1</a
-                          >
-                        <li
-                          class="paginate_button page-item previous disabled"
-                          id="Next_btn"
-                        >
-                          <a
-                            href="#"
-                            aria-controls="sampleTable"
-                            data-dt-idx="0"
-                            tabindex="0"
-                            class="page-link"
-                          >Next</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                <paging :count="$store.state.players.count" per-page="10" />
               </div>
             </div>
           </div>
@@ -176,9 +130,10 @@ import DeleteCheck from "../../components/layout/deleteCheck";
 import moment from "moment/moment";
 import Resubscribe from "../../components/players/resubscribe";
 import axios from "axios";
+import Paging from "../../components/paging";
 
 export default {
-  components: {Resubscribe, DeleteCheck, PageTitle, AddNewPlayer},
+  components: {Paging, Resubscribe, DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
       pickedPlan: null,
@@ -198,7 +153,7 @@ export default {
   async asyncData({$axios, store}){
     if(!store.state.players.isLoaded){
       try {
-        const res = await $axios.$get('player/')
+        const res = await $axios.$get('/player?limit=10&page=1')
         await store.commit('setPlayers', res)
       } catch (err) {
         console.log('error on Players load (pages/players/index) :')

@@ -7,7 +7,7 @@ export const state = () => ({
   players: {
     isLoaded:false,
     viewPlayer:{},
-    number:0,
+    count:0,
     items: []
   },
   services: {
@@ -53,19 +53,19 @@ export const mutations = {
   setPlayers: function (state, players) {
     if(state.players.items.length !== 0){
       // there some players loaded before in view player
-      for(let i=0;i<players.length;i++)
-        if(players[i].id!==state.players.items[state.players.viewPlayer].id)
-          state.players.items.push(players[i])
+      for(let i=0;i<players.items.length;i++)
+        if(players.items[i].id!==state.players.items[state.players.viewPlayer].id)
+          state.players.items.push(players.items[i])
     }else{
-      state.players.items = players
+      state.players.items = players.items
     }
-
+    state.players.count = players.count
     state.players.isLoaded=true
 
   },
   addPlayer: function (state, player) {
     state.players.items.push(player)
-    state.players.number++
+    state.players.count++
   },
   editPlayer: function (state, player) {
     if(state.players.isLoaded){
@@ -90,14 +90,14 @@ export const mutations = {
     state.playerSubscriptions.items.splice(state.playerSubscriptions.items.length-1, 1, sub)
   },
   setPlayersNumber(state, playerNumber){
-    state.players.number = playerNumber
+    state.players.count = playerNumber
   },
 
   deletePlayer: function (state, player_id) {
     state.players.items = state.players.items.filter(player => {
       return player.id !== player_id
     })
-    state.players.number--
+    state.players.count--
   },
   setViewPlayer(state, player){
     state.players.viewPlayer = state.players.items.findIndex(obj => obj.id ===player.id)
