@@ -21,7 +21,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(weight, index) in playerComputed.weights" :key="index">
+          <tr v-for="(weight, index) in playerComputed.weight.items" :key="index">
             <td>{{ index + 1 }}</td>
             <td>{{ weight.date }}</td>
             <td>{{ weight.weight }}</td>
@@ -37,6 +37,7 @@
           </tbody>
         </table>
       </div>
+      <paging
     </div>
 
   </div>
@@ -45,9 +46,11 @@
 <script>
 import Swal from "sweetalert2";
 import moment from "moment/moment";
+import Paging from "../paging";
 
 export default {
   name: "weightTable",
+  components: {Paging},
   methods: {
     // deleteWeight: function (playerWeight){
     //   if(this.player.weights.length === 1){
@@ -93,8 +96,14 @@ export default {
                 weight: Number(res.value),
                 player_id: this.playerComputed.id
               })
-              //TODO Catch errors here @Abdullah3553
 
+            }).catch(err=>{
+              this.$swal.fire({
+                title:"Error Happend",
+                icon:"error"
+              })
+              console.log("error in weights table : ")
+              console.log(err)
             })
           }
         }

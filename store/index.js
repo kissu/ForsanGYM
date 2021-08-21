@@ -306,13 +306,13 @@ export const mutations = {
       }
     }
     delete playerWeight.player
-    state.players.items[playerIndex].weights.push(playerWeight)
+    state.players.items[playerIndex].weights.items.push(playerWeight)
     const tmpArr = Object.assign([], state.players.items)
     state.players.items = Object.assign([], [])
     state.players.items = Object.assign([], tmpArr)
   },
   editViewPlayerWeight: function (state, playerWeight) {
-    for(let i=0, arr =state.players.items[state.players.viewPlayer].weights;i<arr.length;i++){
+    for(let i=0, arr =state.players.items[state.players.viewPlayer].weights.items;i<arr.length;i++){
       if(arr[i].id === playerWeight.id){
         arr.splice(i, 1, playerWeight)
         break;
