@@ -108,7 +108,7 @@
                     </table>
                   </div>
                 </div>
-                <paging :count="$store.state.players.count" per-page="10" />
+                <paging :count="$store.state.players.count" per-page="10"  v-on:getDataAtPage="loadDataOfPage"/>
               </div>
             </div>
           </div>
@@ -214,6 +214,11 @@ export default {
         params: {
           id: player.id
         },
+      })
+    },
+    loadDataOfPage: function (page){
+      this.$axios.$get('/player?limit=10&page='+page).then(res=>{
+        this.$store.commit('setPlayers', res)
       })
     },
   },

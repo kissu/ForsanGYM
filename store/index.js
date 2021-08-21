@@ -51,21 +51,17 @@ export const state = () => ({
 export const mutations = {
   // Player Section --begin
   setPlayers: function (state, players) {
-    if(state.players.items.length !== 0){
-      // there some players loaded before in view player
-      for(let i=0;i<players.items.length;i++)
-        if(players.items[i].id!==state.players.items[state.players.viewPlayer].id)
-          state.players.items.push(players.items[i])
-    }else{
-      state.players.items = players.items
-    }
+    state.players.items = players.items
     state.players.count = players.count
     state.players.isLoaded=true
 
   },
   addPlayer: function (state, player) {
-    state.players.items.push(player)
+    if(state.players.items.length<10){
+      state.players.items.push(player)
+    }
     state.players.count++
+
   },
   editPlayer: function (state, player) {
     if(state.players.isLoaded){
