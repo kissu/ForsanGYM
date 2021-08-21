@@ -37,6 +37,10 @@ export const state = () => ({
     isLoaded:false,
     items: []
   },
+  playerWeights:{
+    count:0,
+    items:[]
+  },
   outcome:{
     isLoaded:false,
     total:0,
@@ -284,6 +288,12 @@ export const mutations = {
   },
 
   // player weight area start
+
+  setPlayerWeights: function (state, playerWeights){
+    state.playerWeights.items = playerWeights.items
+    state.playerWeights.count = playerWeights.count
+  },
+
   deletePlayerWeight: function (state, playerWeight) {
     const player = state.players.items.find(player => player.id === playerWeight.player.id)
     let playerWeightsArr = player.weights
@@ -301,12 +311,13 @@ export const mutations = {
     for (let i = 0; i < state.players.items.length; i++) {
       // this loop to search for the player
       if (state.players.items[i].id === playerWeight.player.id) {
+        if(state.players.items[i].weight.items.length===10)return
         playerIndex = i
         break;
       }
     }
     delete playerWeight.player
-    state.players.items[playerIndex].weights.items.push(playerWeight)
+    state.players.items[playerIndex].weight.items.push(playerWeight)
     const tmpArr = Object.assign([], state.players.items)
     state.players.items = Object.assign([], [])
     state.players.items = Object.assign([], tmpArr)
