@@ -149,10 +149,14 @@ export default {
       required: true
     }
   },
+  mounted() {
+    this.subscription = this.subscriptionSent
+  },
   data(){
     return{
       errors: {},
       dis: false,
+      subscription: {}
     }
   },
   methods:{
@@ -213,9 +217,7 @@ export default {
     },
   },
   computed:{
-    subscription: function (){
-      return this.subscriptionSent
-    }
+    
   }
 }
 </script>

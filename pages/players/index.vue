@@ -57,6 +57,11 @@
                   <div class="col-auto">
                     <input type="checkbox" id="endedSubscriptionsChoise" v-model="endedSubsMarked">
                   </div>
+                  <div class="col-auto">
+                    <a :href="API_URL+'/csv'" target="_blank" class="btn btn-primary">
+                      Download Excel Sheet
+                    </a>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
@@ -136,6 +141,7 @@ export default {
   components: {Paging, Resubscribe, DeleteCheck, PageTitle, AddNewPlayer},
   data() {
     return {
+      API_URL: process.env.API_URL,
       pickedPlan: null,
       searchOptions: [
         {name: "By ID", value: 'id'},

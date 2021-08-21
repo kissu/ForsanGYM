@@ -214,8 +214,8 @@
                 <td>{{ playerActivity.name }}</td>
                 <td>{{ playerActivity.phoneNumber }}</td>
                 <td>{{ playerActivity.subscription.activity.name }}</td>
-                <td>{{ playerActivity.subscription.beginDate }}</td>
-                <td>{{ playerActivity.subscription.endDate }}</td>
+                <td>{{ moment(playerActivity.subscription.beginDate).format('yyyy-MM-DD') }}</td>
+                <td>{{ moment(playerActivity.subscription.endDate).format('yyyy-MM-DD') }}</td>
                 <td>
                   <button
                     class="btn btn-primary"
@@ -291,6 +291,7 @@ export default {
     };
   },
   methods: {
+    moment: (args) => moment(args),
     AssignActivityPlayer: function(player){
       this.editClickedPlayer = player
     },

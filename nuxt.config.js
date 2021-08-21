@@ -13,6 +13,10 @@ module.exports = {
     port: 8001
   },
 
+  env : {
+    APIURL: process.env.API_URL
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Forsan GYM',

@@ -130,8 +130,7 @@ export default {
   computed: {},
   watch: {
     logDate: async function (d) {
-      console.log(d);
-      const res = await this.$axios.$post("/log/at", {
+      const res = await this.$axios.$post("/log/at?limit=20", {
         date: d
       })
       this.logs = res.items
