@@ -21,7 +21,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(weight, index) in playerComputed.weight.items" :key="index">
+          <tr v-for="(weight, index) in playerWeights" :key="index">
             <td>{{ index + 1 }}</td>
             <td>{{ weight.date }}</td>
             <td>{{ weight.weight }}</td>
@@ -37,7 +37,7 @@
           </tbody>
         </table>
       </div>
-      <paging
+      <paging :count="$store.state.playerWeights.count" per-page="10"  v-on:getDataAtPage="loadDataOfPage"/>
     </div>
 
   </div>
@@ -143,12 +143,23 @@ export default {
         }
       })
     },
+    loadDataOfPage: function (page){
+      this.$axios.$get('playerWeight/allWeights/'+this.$route.params.id+'?limit=10&page='+page).then(res=>{
+        this.$store.commit("setPlayerWeights", res)
+      }).catch(err=>{
+        console.log("error in set player wigths")
+        console.log(err)
+      })
+    }
   },
   computed: {
     playerComputed: function () {
       return this.$store.state.players.items[this.$store.state.players.viewPlayer]
 
-    }
+    },
+    playerWeights: function () {
+      return this.$store.state.playerWeights.items
+    },
   }
 
 }

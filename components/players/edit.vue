@@ -178,17 +178,10 @@ export default {
     this.InputPlayer.subscription = Object.assign({}, this.InputPlayer.subscription)
     this.InputPlayer.subscription.plan = Object.assign({}, this.InputPlayer.subscription.plan)
 
-    this.InputPlayer.weights = Object.assign([], this.InputPlayer.weights)
-    for (let i = 0; i < this.InputPlayer.weights.length; i++) {
-      this.InputPlayer.weights[i] = Object.assign({}, this.InputPlayer.weights[i])
-      this.InputPlayer.weights[i].player = Object.assign({}, this.InputPlayer.weights[i].player)
-    }
-
     // for validations ( to avoid making unuseful requests )
     this.originalDates.beginDate = this.InputPlayer.subscription.beginDate
     this.originalDates.endDate = this.InputPlayer.subscription.endDate
 
-    this.originalWeight = parseInt(this.InputPlayer.weights[this.InputPlayer.weights.length - 1].weight)
   }
 };
 </script>
