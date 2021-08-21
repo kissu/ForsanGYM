@@ -14,7 +14,10 @@ export const state = () => ({
     isLoaded:false,
     items: []
   },
-  activityPlayers: [],
+  activityPlayers: {
+    count:0, 
+    items:[]
+  },
   servicesIncome: {
     isLoaded:false,
     items: []
@@ -122,10 +125,11 @@ export const mutations = {
   },
 
   setActivityPlayers: function (state, activityPlayers) {
-    state.activityPlayers = activityPlayers
+    state.activityPlayers.items = activityPlayers.items
+    state.activityPlayers.count = activityPlayers.count
   },
   deleteActivityPlayer: function (state, activityPlayer_id) {
-    state.activityPlayers = state.activityPlayers.filter(actPlayer => {
+    state.activityPlayers.items = state.activityPlayers.items.filter(actPlayer => {
       return actPlayer.id !== activityPlayer_id
     })
   },
@@ -144,16 +148,19 @@ export const mutations = {
   //  ActivityPlayers -- start
 
   addNewActivityPlayer: function (state, activityPlayer) {
-    state.activityPlayers.push(activityPlayer)
+    state.activityPlayers.items.push(activityPlayer)
     state.totalIncome += activityPlayer.subscription.price
   },
   editActivityPlayer: function (state, activityPlayer) {
-    let holder = state.activityPlayers.findIndex((obj => obj.id === activityPlayer.id))
-    state.activityPlayers[holder].name = activityPlayer.name
-    state.activituPlayers[holder].phoneNumber = activityPlayer.phoneNumber
-    state.activityPlayers[holder].id = activityPlayer.id
-    state.activityPlayers[holder].subscription = activityPlayer.subscription
+    let holder = state.activityPlayers.items.findIndex((obj => obj.id === activityPlayer.id))
+    state.activityPlayers.items[holder].name = activityPlayer.name
+    state.activityPlayers.items[holder].phoneNumber = activityPlayer.phoneNumber
+    state.activityPlayers.items[holder].id = activityPlayer.id
+    state.activityPlayers.items[holder].subscription = activityPlayer.subscription
     state.totalIncome += activityPlayer.subscription.price
+  },
+  editActivityPlayerSubscriptions(state, subscription){
+    let holder = state.s.items.findIndex((obj => obj.id === activityPlayer.id))
   },
   editActivity: function (state, act) {
     let objIndex = state.activities.findIndex((obj => obj.id === act.id))

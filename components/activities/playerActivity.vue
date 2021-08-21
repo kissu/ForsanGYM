@@ -247,6 +247,7 @@
                 </td>
               </tr>
               </tbody>
+              <paging v-on:getDataAtPage="loadDataOfPage" :count="$store.state.activityPlayers.count" per-page="1"/>
             </table>
           </div>
         </div>
@@ -399,11 +400,17 @@ export default {
       const activityPlayerId = activityPlayer.id
       const res = await this.$axios.$get('activityPlayerSubscription/' + activityPlayerId)
       await this.$store.commit('setAllActivityPlayersubscriptions', res)
+    },
+     loadDataOfPage: function (page) {
+      this.$axios.$get("/activityPlayer?page=" + page + "&limit=1")
+        .then(res => {
+          this.$store.commit('setActivityPlayers', res)
+        })
     }
   },
   computed: {
     searching: function () {
-      let dataArray = this.$store.state.activityPlayers;
+      let dataArray = this.$store.state.activityPlayers.items;
 
       if (this.EndedSubscriptions) {
         dataArray = dataArray.filter(

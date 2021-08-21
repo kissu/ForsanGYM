@@ -117,13 +117,6 @@ export default {
     };
   },
   methods: {
-    talk: function (log) {
-      const msgs = {
-        new: ":admin added a new :item",
-        edit: ":admin editied :item with ID :id",
-        delete: ":admin delete a/an :item",
-      };
-    },
     loadDataOfPage: function (page) {
       this.$axios.$post("/log/at?page=" + page + "&limit=20",{
         date: this.logDate
