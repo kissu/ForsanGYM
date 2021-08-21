@@ -1,6 +1,6 @@
 <template>
   <div>
-
+  <page-title :title="`${activityPlayer.name} - ${activityPlayer.phoneNumber}`" icon="mdi mdi-account-circle" />
     <div class="tile my-3">
       <div class="row" id="tile-Head">
         <div class="col-3 pr-0">
@@ -17,72 +17,33 @@
                     <thead>
                     <tr>
                       <th>#</th>
-                      <th>Name</th>
-                      <th>Phone Number</th>
+                      <th>id</th>
                       <th>Activity</th>
                       <th>Begin Date</th>
                       <th>End Date</th>
                       <th>Price</th>
+                      <th>Options</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in activityPlayer" :key="item.id">
+                    <tr v-for="(item, index) in activityPlayerSubscriptions" :key="item.id">
+                      <td>{{ index+1}}</td>
                       <td>{{ item.id }}</td>
-                      <td>{{ item.activityPlayer.name }}</td>
-                      <td>{{ item.activityPlayer.phoneNumber }}</td>
                       <td>{{ item.activity.name }}</td>
                       <td>{{ item.beginDate }}</td>
                       <td>{{ item.endDate }}</td>
                       <td>{{ item.price }}</td>
+                      <td>
+                        <button class="btn btn-warning" type="button" data-toggle="modal"
+                                :data-target="'#editActivityPlayerSubscription'+item.id"
+                                @click="clickedSubscription = item"
+                        >Edit</button>
+                      </td>
                     </tr>
                     </tbody>
                   </table>
                 </div>
-                <div v-if="activityPlayer" class="row flex-row-reverse">
-                  <div class="col-auto">
-                    <div
-                      class="dataTables_paginate paging_simple_numbers"
-                      id="sampleTable_paginate"
-                    >
-                      <ul class="pagination">
-                        <li class="paginate_button page-item previous"
-                            :class="{disabled:(currentPage <= 1)}"
-                            id="previous_btn">
-                          <button :disabled="(currentPage <= 1)" @click="goToPage(currentPage-1)" href="#"
-                                  aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
-                                  class="page-link">
-                            Previous
-                          </button>
-                        </li>
-                        <li v-for="page in Math.ceil(count/perPage)"
-                            class="paginate_button page-item"
-                            :class="{active: (page === currentPage)}"
-                            :key="page"
-                        >
-                          <button
-                            :disabled="(page === currentPage)"
-                            aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
-                            @click="goToPage(page)"
-                            class="page-link">
-                            {{ page }}
-                          </button>
-                        <li
-                          class="paginate_button page-item previous disabled"
-                          id="Next_btn"
-                        >
-                          <a
-                            href="#"
-                            aria-controls="sampleTable"
-                            data-dt-idx="0"
-                            tabindex="0"
-                            class="page-link"
-                          >Next</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                <paging per-page="10" :count="$store.state.activityPlayerSubscriptions.count"/>
               </div>
             </div>
 
@@ -90,24 +51,32 @@
         </div>
       </div>
     </div>
-
+  <div v-if="clickedSubscription">
+    <edit-activity-player-subscription  :subscription-sent="Object.assign({},clickedSubscription)" />
+  </div>
   </div>
 </template>
 
 <script>
+import PageTitle from "../../components/layout/pageTitle";
+import EditActivityPlayerSubscription from "../../components/activities/editActivityPlayerSubscription";
+import Paging from "../../components/paging";
 export default {
+  components: {Paging, EditActivityPlayerSubscription, PageTitle},
   data() {
     return {
       searchByActivity: null,
       currentPage: 1,
       perPage: 10,
+      clickedSubscription:null,
     };
   },
   async asyncData({route, $axios, store}) {
     const playerId = route.params.id
     try {
       const res = await $axios.$get('activityPlayerSubscription/' + playerId)
-      return {activityPlayer: res.items,count:res.count}
+      await store.commit('setAllActivityPlayersubscriptions',res)
+      return {activityPlayer:res.items[0].activityPlayer}
     } catch (err) {
       console.log('error on plan income load (layout/Default) :')
       console.log(err)
@@ -121,7 +90,9 @@ export default {
     }
   },
   computed: {
-
+    activityPlayerSubscriptions: function (){
+      return this.$store.state.activityPlayerSubscriptions.items
+    }
   },
 
 };

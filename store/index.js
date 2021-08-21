@@ -171,7 +171,8 @@ export const mutations = {
     state.activities[objIndex].description = act.description
   },
   setAllActivityPlayersubscriptions: function (state, res) {
-    state.activityPlayerSubscriptions.items = res
+    state.activityPlayerSubscriptions.items = res.items
+    state.activityPlayerSubscriptions.count = res.count
   },
   setActivityPlayerSubscriptionsIncome: function(state, todaysSubscriptions){
     for(let i = 0; i < todaysSubscriptions.length; ++i){
