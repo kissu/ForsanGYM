@@ -197,7 +197,8 @@
             <table class="table table-bordered" id="playerDataTable">
               <thead>
               <tr>
-                <th>#</th>
+                <th >#</th>
+                <th>id</th>
                 <th>Name</th>
                 <th>Phone Number</th>
                 <th>Activity</th>
@@ -207,7 +208,8 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="playerActivity in searching" :key="playerActivity.id">
+              <tr v-for="(playerActivity, index) in searching" :key="playerActivity.id">
+                <td>{{ index+1 }}</td>
                 <td>{{ playerActivity.id }}</td>
                 <td>{{ playerActivity.name }}</td>
                 <td>{{ playerActivity.phoneNumber }}</td>
@@ -247,7 +249,7 @@
                 </td>
               </tr>
               </tbody>
-              <paging v-on:getDataAtPage="loadDataOfPage" :count="$store.state.activityPlayers.count" per-page="1"/>
+              <paging v-on:getDataAtPage="loadDataOfPage" :count="$store.state.activityPlayers.count" per-page="10"/>
             </table>
           </div>
         </div>
@@ -309,14 +311,16 @@ export default {
       this.$axios
         .$post("/activityPlayer/new", this.activityPlayer)
         .then((res) => {
-          return this.$axios
+          this.$axios
             .$post("activityPlayerSubscription/new", {
               player_id: res.id,
               activity_id: this.activityPlayer.activity,
-              ...this.activityPlayer,
+              price:this.activityPlayer.price,
+              beginDate:this.activityPlayer.beginDate,
+              endDate:this.activityPlayer.endDate,
             })
-            .then((res) => {
-              this.$store.commit('setActivityPlayers', res)
+            .then((res2) => {
+              this.$store.commit('setActivityPlayers', res2)
               this.$swal.fire({
                 icon: "success",
                 title: "player added successfully!!",
@@ -402,7 +406,7 @@ export default {
       await this.$store.commit('setAllActivityPlayersubscriptions', res)
     },
      loadDataOfPage: function (page) {
-      this.$axios.$get("/activityPlayer?page=" + page + "&limit=1")
+      this.$axios.$get("/activityPlayer?page=" + page + "&limit=10")
         .then(res => {
           this.$store.commit('setActivityPlayers', res)
         })

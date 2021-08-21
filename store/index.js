@@ -15,7 +15,7 @@ export const state = () => ({
     items: []
   },
   activityPlayers: {
-    count:0, 
+    count:0,
     items:[]
   },
   servicesIncome: {
@@ -392,12 +392,14 @@ export const actions = {
       console.log(err)
     }
 
-    // try{
-    //
-    // }catch (err){
-    //  console.log('error on plans load (store/index) :')
-    //       console.log(err)
-    // }
+    try {
+      const activities = await this.$axios.$get('activity/')
+      commit('SetActivities', activities)
+
+    }catch (err){
+     console.log('error on activities load (store/index) :')
+          console.log(err)
+    }
 
   },
 
