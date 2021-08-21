@@ -30,15 +30,29 @@
           </tbody>
         </table>
       </div>
-
+      <paging per-page="10" :count="$store.state.playerSubscriptions.count"  v-on:getDataAtPage="loadDataOfPage" />
     </div>
 
   </div>
 </template>
 
 <script>
+import Paging from "../paging";
 export default {
   name: "playerSubscriptions.vue",
+  components: {Paging},
+  props:{
+    playerId:{
+      required : true
+    }
+  },
+  methods:{
+    loadDataOfPage:function (page){
+      this.$axios.$get('subscription/' + this.playerId + '?limit=10&page='+page).then(res=>{
+        this.$store.commit('setPlayerSubscriptions', res)
+      })
+    },
+  },
   computed: {
     playerSubscriptions: function () {
       return this.$store.state.playerSubscriptions.items

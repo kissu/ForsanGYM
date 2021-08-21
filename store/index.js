@@ -77,7 +77,8 @@ export const mutations = {
 
   },
   setPlayerSubscriptions(state, subscriptions) {
-    state.playerSubscriptions.items = subscriptions
+    state.playerSubscriptions.items = subscriptions.items
+    state.playerSubscriptions.count = subscriptions.count
   },
   editLastPlayerSubscription(state, subscription){
     const sub = state.playerSubscriptions.items[state.playerSubscriptions.items.length-1]

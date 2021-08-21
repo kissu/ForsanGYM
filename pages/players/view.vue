@@ -211,7 +211,7 @@
     <div class="row ">
 
       <div class="col-md-7">
-        <PlayerSubscriptions/>
+        <PlayerSubscriptions :player-id="$route.params.id"/>
       </div>
 
       <div class="col-md-5">
@@ -241,7 +241,7 @@ export default {
       const player = await $axios.$get('player/'+route.params.id)
       await store.commit('editPlayer', player)
       await store.commit('setViewPlayer', player)
-      const res = await $axios.$get('subscription/' + route.params.id)
+      const res = await $axios.$get('subscription/' + route.params.id + '?limit=10&page=1')
       await store.commit('setPlayerSubscriptions', res)
     }catch(err){
       console.log("error form setting player or subscriptions pages/players/view : ")
