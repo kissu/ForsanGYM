@@ -1,5 +1,5 @@
 <template>
-  <div id="deleteserviceCom">
+  <div id="deleteServiceCom">
 
     <CollapseComponent btns-class="btn btn-danger" head-btn-text="Delete A Service"
                        CollapseName="DeleteService" icon="mdi mdi-trash-can" >
@@ -43,6 +43,10 @@ export default {
     }
   },
   methods: {
+    resetForm: function (){
+      this.SelectedService = {}
+      document.getElementById('ServiceSelect').selectedIndex = 0
+    },
     DeleteService: function () {
       // console.log(this.SelectedService)
       // return
@@ -60,8 +64,8 @@ export default {
           // Delete service from all database
           this.SelectedService.id = Number(this.SelectedService.id)
           this.$axios.$delete('service/delete/' + this.SelectedService.id).then(() => {
-            this.$store.commit('DeleteService', this.SelectedService)
-            this.SelectedService = null
+            this.$store.commit('DeleteService', {...this.SelectedService})
+            this.resetForm()
           }).catch(err => {
             this.$swal.fire({
               title: "Delete Service FAILED",
