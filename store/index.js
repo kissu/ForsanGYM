@@ -230,7 +230,7 @@ export const mutations = {
     }else{
       state.servicesIncome.items.push(serviceIncome)
     }
-    state.totalIncome += serviceIncome.payedMoney
+    state.totalIncome += (serviceIncome.payedMoney * serviceIncome.addQuantity)
   },
   setSubscriptionsIncome: function (state, todaysSubscriptions) {
     if(todaysSubscriptions.length>0){ // there is subscriptions for today
