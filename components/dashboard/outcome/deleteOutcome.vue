@@ -7,7 +7,7 @@
         <label for="outcomeSelect">Select The Outcome</label>
         <select class="form-control" id="outcomeSelect" @change="SelectedOutcome = outcomes[$event.target.value]">
           <option :value="null" disabled selected>Choose the Outcome</option>
-          <option v-for="outcome in outcomes" :value="outcome.index" :key="outcome.id">{{ outcome.description }} --
+          <option v-for="(outcome, index) in outcomes" :value="index" :key="outcome.id">{{ outcome.description }} --
             {{ outcome.price }}
           </option>
         </select>
@@ -33,17 +33,22 @@
 
 <script>
 import CollapseComponent from "../../layout/Collapse";
+import login from "../../../pages/auth/login";
 
 export default {
   name: "DeleteOutcome",
   components: {CollapseComponent},
   data() {
     return {
-      SelectedOutcome: null,
+      SelectedOutcome: {},
     }
   },
 
   methods: {
+    resetForm: function (){
+      document.getElementById('outcomeSelect').selectedIndex = 0
+      this.SelectedOutcome = {}
+    },
     DeleteOutcome: function () {
       // console.log(this.SelectedOutcome)
       // return
@@ -59,23 +64,21 @@ export default {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           // Delete service from all database
-          this.$axios.$delete('outcome/delete/' + this.SelectedOutcome.id).then(() => {
-            this.$store.commit('deleteOutcome', this.SelectedOutcome)
-            document.getElementById('outcomeSelect').selectedIndex = 0
-
+          this.SelectedOutcome.price = Number(this.SelectedOutcome.price)
+          const SelectedOutcome = {...this.SelectedOutcome}
+          this.$axios.$delete('outcome/delete/' + SelectedOutcome.id).then(() => {
+            this.$store.commit('deleteOutcome', SelectedOutcome)
+            this.resetForm()
+            this.$swal.fire('Outcome Deleted!', '', 'success')
           }).catch(err => {
             this.$swal.fire({
               title: "Delete Outcome FAILED",
               icon: "error",
-              text: err.response.data.message
             })
             console.log(err)
-            document.getElementById('outcomeSelect').selectedIndex = 0
-
-
+            this.resetForm()
             return false
           })
-          this.$swal.fire('Outcome Deleted!', '', 'success')
         }
       })
 

@@ -351,7 +351,7 @@ export const mutations = {
     for(let i=outcome.index+1, arr=state.outcome.items;i<arr.length;i++){
       arr[i].index--
     }
-    state.outcome.total -= Number(outcome.price)
+    state.outcome.total -= outcome.price
     state.outcome.items.splice(outcome.index, 1)
   },
 

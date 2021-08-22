@@ -5,7 +5,7 @@
                        CollapseName="AddOutcome" icon="mdi mdi-plus-box" >
       <form class="form-horizontal">
         <div class="form-group row">
-          <label class="control-label col-md-4">Price</label>
+          <label class="control-label col">Price</label>
           <div class="col-md-12">
             <input v-bind:value="outcome.price"
                    @input="outcome.price = $event.target.value" class="form-control" type="number"
@@ -14,7 +14,7 @@
         </div>
 
         <div class="form-group row">
-          <label class="control-label col-md-5">Description</label>
+          <label class="control-label col">Description</label>
           <div class="col-md-12">
             <input
               class="form-control"
@@ -61,8 +61,9 @@ export default {
     addOutcome:function (){// add outcome to db
       this.outcome.price = Number(this.outcome.price)
       const outcome = {...this.outcome}
-      this.$axios.$post('outCome/new', outcome).then(()=>{
-        this.$store.commit("addOutcome", outcome)
+      this.$axios.$post('outCome/new', outcome).then(res=>{
+        this.$store.commit("addOutcome", res)
+
         this.resetForm()
       }).catch(err =>{
         this.$swal.fire({
