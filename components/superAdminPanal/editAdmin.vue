@@ -44,7 +44,7 @@
             <div class="col-md-8">
               <select v-model="adminData.role" class="form-control col-md-8">
                 <option :value="adminData.role" selected>{{adminData.role}}</option>
-                <option value="Admin" v-if="adminData.role=='SuperAdmin'">Admin</option>
+                <option value="Admin" v-if="adminData.role==='SuperAdmin'">Admin</option>
                 <option value="SuperAdmin" v-else >Super Admin</option>
               </select>
             </div>
@@ -52,7 +52,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-warning" v-on:click="editAdmin">Submit</button>
+          <button type="button" class="btn btn-warning"  data-dismiss="modal" v-on:click="editAdmin">Submit</button>
         </div>
       </div>
     </div>
@@ -73,8 +73,9 @@ export default {
   },
   methods:{
     editAdmin: function (){
-      this.$axios.$post('auth/editAdmin', this.adminData).then(()=>{
-        this.$store.commit('editAdmin', this.adminData)
+      const adminData = {...this.adminData}
+      this.$axios.$post('auth/editAdmin', adminData).then(()=>{
+        this.$store.commit('editAdmin', adminData)
       }).catch(err=>{
         this.$swal.fire({
           title:"Error in editing the Admin",
@@ -82,8 +83,8 @@ export default {
         })
         console.log("Error in edit admin")
         console.log(err)
+        return false
       })
-      $(`#editAdmin${this.adminData.id}Modal`).modal('hide')
     }
   }
 }
