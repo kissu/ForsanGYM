@@ -57,16 +57,22 @@ export default {
   },
   methods:{
     addOutcome:function (){// add outcome to db
-      this.$store.commit("addOutcome", this.outcome)
-      this.$axios.$post('outCome/new', this.outcome).catch(err =>{
-        this.$swal.file({
+      this.$axios.$post('outCome/new', this.outcome).then(res=>{
+        this.$store.commit("addOutcome", this.outcome)
+        this.outcome = {}
+
+
+      }).catch(err =>{
+        this.$swal.fire({
           title:"Adding operation Failed.",
           icon: "error",
         })
         console.log("Error in adding outcome: ")
         console.log(err)
+        this.outcome = {}
+
+
       })
-      this.outcome = {}
     },
   },
 }

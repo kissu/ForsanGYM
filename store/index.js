@@ -344,14 +344,14 @@ export const mutations = {
   },
   addOutcome: function (state, outcome){
     outcome.index = state.outcome.items.length
-    state.outcome.total += outcome.price
+    state.outcome.total += Number(outcome.price)
     state.outcome.items.push(outcome)
   },
   deleteOutcome: function (state, outcome){
     for(let i=outcome.index+1, arr=state.outcome.items;i<arr.length;i++){
       arr[i].index--
     }
-    state.outcome.total -= outcome.price
+    state.outcome.total -= Number(outcome.price)
     state.outcome.items.splice(outcome.index, 1)
   },
 

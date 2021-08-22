@@ -61,6 +61,8 @@ export default {
           // Delete service from all database
           this.$axios.$delete('outcome/delete/' + this.SelectedOutcome.id).then(() => {
             this.$store.commit('deleteOutcome', this.SelectedOutcome)
+            document.getElementById('outcomeSelect').selectedIndex = 0
+
           }).catch(err => {
             this.$swal.fire({
               title: "Delete Outcome FAILED",
@@ -68,11 +70,12 @@ export default {
               text: err.response.data.message
             })
             console.log(err)
+            document.getElementById('outcomeSelect').selectedIndex = 0
+
 
             return false
           })
           this.$swal.fire('Outcome Deleted!', '', 'success')
-          document.getElementById('outcomeSelect').selectedIndex = 0
         }
       })
 
