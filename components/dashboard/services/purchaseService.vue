@@ -1,13 +1,13 @@
 <template>
   <div id="purchaseServiceCom">
-    <CollapseComponent collapse-name="puchase" head-btn-text="Purchase A Service"
+    <CollapseComponent collapse-name="purchase" head-btn-text="Purchase A Service"
                        btns-class="btn btn-primary" icon="mdi mdi-food-apple">
       <form class="form-horizontal w-100">
 
         <div class="form-group">
           <label for="selectService">Select The Service</label>
           <select class="form-control" id="selectService" @change="SelectedService = services[$event.target.value]">
-            <option :value="null" disabled >Choose A Service</option>
+            <option :value="null" disabled selected>Choose A Service</option>
             <option v-for="(service, index) in services" :value="index" :key="service.id">
               {{ service.name }} -- {{ service.price }}
             </option>
@@ -37,7 +37,7 @@
       <div class="tile-footer">
         <div class="row">
           <div class="col-md-8 ">
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#puchasecollapse"
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#purchasecollapse"
                     v-on:click="PurchaseService">
               <i class="mdi mdi-check-circle"></i>
               Purchase
@@ -65,34 +65,34 @@ export default {
     }
   },
   methods: {
+    resetForm: function (){
+      this.quantity=null
+      this.SelectedService = null
+      document.getElementById('selectService').selectedIndex = 0
+      document.getElementById('quantityNumber').value = null
+    },
     PurchaseService: function () {
-      // console.log(this.quantity)
+      // console.log( this.quantity)
       // return
       // purchase a service performer
+      const quantity = Number(this.quantity)
+      const SelectedService = {...this.SelectedService}
       this.$axios.$post('serviceIncome/add', {
-        id: this.SelectedService.id,
+        id:SelectedService.id,
         todayDate:moment().format("yyyy-MM-DD"),
-        quantity:this.quantity
+        quantity:quantity
       }).then(res => {
-        this.$store.commit('buyService', {...res, addQuantity:Number(this.quantity)})
-        this.quantity=null
-        this.SelectedService = null
-        document.getElementById('selectService').selectedIndex = 0
-        document.getElementById('quantityNumber').value = null
-
+        this.$store.commit('buyService', {...res, addQuantity:quantity})
+        this.resetForm()
       }).catch(err => {
         console.log(err);
-        console.log(this.SelectedService)
         this.$swal.fire({
           title: "Purchase Service FAILED",
           icon: "error",
           text: "Choose a valid Service"
         })
-        this.quantity=null
-        this.SelectedService = null
-        document.getElementById('selectService').selectedIndex = 0
-        document.getElementById('quantityNumber').value = null
-
+        this.resetForm()
+        return false
       })
 
     }
