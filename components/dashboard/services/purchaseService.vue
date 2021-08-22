@@ -18,7 +18,7 @@
           <label class="control-label col-md-5">Quantity</label>
             <input
                    @input="quantity = $event.target.value" class="form-control mx-3" type="number"
-                   placeholder="Number..">
+                   placeholder="Number.." id="quantityNumber">
         </div>
 
 <!--        <div class="form-group row" v-for="service in services" :key="service.id">-->
@@ -78,6 +78,8 @@ export default {
         this.quantity=null
         this.SelectedService = null
         document.getElementById('selectService').selectedIndex = 0
+        document.getElementById('quantityNumber').value = null
+
       }).catch(err => {
         console.log(err);
         console.log(this.SelectedService)
@@ -89,6 +91,8 @@ export default {
         this.quantity=null
         this.SelectedService = null
         document.getElementById('selectService').selectedIndex = 0
+        document.getElementById('quantityNumber').value = null
+
       })
 
     }
