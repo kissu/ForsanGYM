@@ -4,7 +4,7 @@
   <page-title icon="mdi mdi-account-star" title="Admins Page" />
   <div class="row">
     <div class="col-4" v-for="admin in admins" :key="admin.id">
-      <div v-if="admin.role=='Admin'">
+      <div v-if="admin.role==='Admin'">
         <div class="widget-small info coloured-icon">
           <i class="icon mdi mdi-account-edit-outline btn" v-on:click="clickedAdmin = admin"
           data-toggle="modal" :data-target="`#editAdmin${admin.id}Modal`"></i>
@@ -44,7 +44,7 @@ import EditAdmin from "../../components/superAdminPanal/editAdmin";
 export default {
   components: {EditAdmin, PageTitle},
   async asyncData({ $axios, $auth, redirect, store}) {
-    if ($auth.user.role != "SuperAdmin") {
+    if ($auth.user.role !== "SuperAdmin") {
       redirect("/");
     }
 
