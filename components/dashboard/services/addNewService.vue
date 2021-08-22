@@ -10,7 +10,7 @@
           <div class="col-md-8">
             <input v-bind:value="service.name"
                    @input="service.name = $event.target.value" class="form-control" type="text"
-                   placeholder="Service Name">
+                   placeholder="Service Name" id="serviceName">
           </div>
         </div>
 
@@ -19,7 +19,7 @@
           <div class="col-md-8">
             <input v-bind:value="service.price"
                    @input="service.price = $event.target.value" class="form-control" type="text"
-                   placeholder="Service Price">
+                   placeholder="Service Price" id="servicePrice">
           </div>
         </div>
       </form>
@@ -53,22 +53,26 @@ export default {
     }
   },
   methods: {
+    resetForm: function (){
+      console.log(document.getElementById('servicePrice').value)
+      console.log(document.getElementById('serviceName').value)
+      this.service= {}
+    },
     AddService: function () {
       // add the new service to the database (store and backend )
       this.service.price = Number(this.service.price)
       //Add to database it self
-      this.$axios.post('/service/new', this.service).then(res => {
-        // Add to store datatabse
-        this.$store.commit('AddService', res.data)
+      this.$axios.$post('/service/new', {...this.service}).then(res => {
+        // Add to store database
+        this.$store.commit('AddService', res)
 
-        //resetting the valuse of the Selected Object
-        this.service.name = ""
-        this.service.price = 0
+        //resetting the values of the Selected Object
+        this.resetForm()
+
       }).catch(err => {
         this.$swal.fire({
           title: "Adding Service FAILED",
           icon: "error",
-          text: err.response.data.message
         })
         console.log(err)
       })
