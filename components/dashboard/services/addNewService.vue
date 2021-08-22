@@ -54,8 +54,8 @@ export default {
   },
   methods: {
     resetForm: function (){
-      console.log(document.getElementById('servicePrice').value)
-      console.log(document.getElementById('serviceName').value)
+      document.getElementById('servicePrice').value = ''
+      document.getElementById('serviceName').value = ''
       this.service= {}
     },
     AddService: function () {
