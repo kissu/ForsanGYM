@@ -51,7 +51,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success" v-on:click="addAdmin">Add Admin</button>
+          <button type="button" class="btn btn-primary" v-on:click="addAdmin">Add Admin</button>
         </div>
       </div>
     </div>
@@ -68,10 +68,15 @@ export default {
     }
   },
   methods:{
+    resetForm: function (){
+      this.adminData = Object.assign({},{})
+      document.getElementById('adminRole').selectedIndex = 0
+    },
     addAdmin: function (){
       const admin = Object.assign({}, this.adminData)
         this.$axios.$post('auth/register', admin).then(res=>{
         this.$store.commit('addAdmin', res)
+          this.resetForm()
       }).catch(err=>{
         this.$swal.fire({
           title:"Error While Adding the Admin",
@@ -80,9 +85,7 @@ export default {
         console.log("Error in add new Admin")
         console.log(err)
       })
-      this.adminData = Object.assign({},{})
       $(`#AddAdminModal`).modal('hide')
-      document.getElementById('adminRole').selectedIndex = 0
 
     }
   }
