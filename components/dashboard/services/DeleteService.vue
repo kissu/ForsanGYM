@@ -73,6 +73,7 @@ export default {
               text: err
             })
             console.log(err)
+            this.resetForm()
             return false
           })
           this.$swal.fire('Service Deleted!', '', 'success')

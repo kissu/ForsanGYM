@@ -75,6 +75,8 @@ export default {
           icon: "error",
         })
         console.log(err)
+        this.resetForm()
+        return false
       })
     }
   }
