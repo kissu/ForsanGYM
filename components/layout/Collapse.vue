@@ -17,7 +17,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <div class="tile">
+                <div class="tile mb-0">
                   <div class="tile-body">
                     <slot></slot>
                   </div>

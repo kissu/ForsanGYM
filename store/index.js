@@ -344,7 +344,7 @@ export const mutations = {
   },
   addOutcome: function (state, outcome){
     outcome.index = state.outcome.items.length
-    state.outcome.total += Number(outcome.price)
+    state.outcome.total += outcome.price
     state.outcome.items.push(outcome)
   },
   deleteOutcome: function (state, outcome){

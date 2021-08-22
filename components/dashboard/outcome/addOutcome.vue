@@ -6,24 +6,23 @@
       <form class="form-horizontal">
         <div class="form-group row">
           <label class="control-label col-md-4">Price</label>
-          <div class="col-md-8">
+          <div class="col-md-12">
             <input v-bind:value="outcome.price"
-                   @input="outcome.price = $event.target.value" class="form-control" type="text"
+                   @input="outcome.price = $event.target.value" class="form-control" type="number"
                    placeholder="Outcome Price">
           </div>
         </div>
 
         <div class="form-group row">
-          <label class="control-label col-md-4">Description</label>
-          <div class="col-md-8">
-            <textarea
+          <label class="control-label col-md-5">Description</label>
+          <div class="col-md-12">
+            <input
               class="form-control"
-              rows="2"
               type="text"
               v-bind:value="outcome.description"
               @input="outcome.description = $event.target.value"
               placeholder="Outcome Description"
-            ></textarea>
+            >
           </div>
         </div>
       </form>
@@ -56,22 +55,24 @@ export default {
     }
   },
   methods:{
+    resetForm:function (){
+      this.outcome = {}
+    },
     addOutcome:function (){// add outcome to db
-      this.$axios.$post('outCome/new', this.outcome).then(res=>{
-        this.$store.commit("addOutcome", this.outcome)
-        this.outcome = {}
-
-
+      this.outcome.price = Number(this.outcome.price)
+      const outcome = {...this.outcome}
+      this.$axios.$post('outCome/new', outcome).then(()=>{
+        this.$store.commit("addOutcome", outcome)
+        this.resetForm()
       }).catch(err =>{
         this.$swal.fire({
-          title:"Adding operation Failed.",
+          title:"Adding Outcome operation Failed.",
           icon: "error",
         })
         console.log("Error in adding outcome: ")
         console.log(err)
-        this.outcome = {}
-
-
+        this.resetForm()
+        return false
       })
     },
   },
