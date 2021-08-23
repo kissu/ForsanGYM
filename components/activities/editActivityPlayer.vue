@@ -31,13 +31,12 @@
                     <div class="form-group">
                       <label class="control-label"> Name </label>
                       <input
-                        v-bind:value="activityPlayer.name"
+                        v-bind:value="activity_Player.name"
                         @input="activityPlayer.name = $event.target.value"
                         :class="[
                           { 'form-control': true },
                           { 'is-invalid': errors.name },
                         ]"
-                        :placeholder="activity_Player.name"
                         type="text"
                       />
                     </div>
@@ -45,7 +44,7 @@
                     <div class="form-group">
                       <label class="control-label">PhoneNumber</label>
                       <input
-                        v-bind:value="activityPlayer.phoneNumber"
+                        v-bind:value="activity_Player.phoneNumber"
                         @input="
                           activityPlayer.phoneNumber = $event.target.value
                         "
@@ -54,7 +53,6 @@
                           { 'is-invalid': errors.phoneNumber },
                         ]"
                         type="tel"
-                        :placeholder="activity_Player.phoneNumber"
                       />
                     </div>
                   </form>
