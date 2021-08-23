@@ -14,6 +14,10 @@ import AppSidebar from "../components/layout/appSidebar";
 export default {
   components: {AppSidebar, AppHeader},
   mounted() {
+    this.$axios.$get('activity/').then(activities => {
+      this.$store.commit('SetActivities', activities)
+    })
+
     document.querySelector('body').classList.add('app','sidebar-mini')
   },
 }

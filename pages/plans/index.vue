@@ -100,6 +100,15 @@ import DeleteCheck from "../../components/layout/deleteCheck";
 
 export default {
   components: {DeleteCheck, Default, PageTitle},
+  async asyncData({$axios, store}) {
+    try {
+      const plans = await $axios.$get('plan/')
+      store.commit('setPlans',plans)
+
+    } catch (e) {
+      console.log(e);
+    }
+  },
   data() {
     return {
       ClickedPlan: {}

@@ -45,7 +45,7 @@ export default {
       if(this.$refs.UploadedFile.files[0]){
         formData.append('file', this.$refs.UploadedFile.files[0])
         try {
-          photo = await axios.post(`${this.MEDIA_API}/photo/update?phone=${this.player.phoneNumber}`, formData)
+          photo = await axios.post(`${this.MEDIA_API}/photo/upload?phone=${this.player.phoneNumber}`, formData)
           formPlayer.photo = photo.data.url
         } catch (e) {
           this.player.photo = "";
