@@ -33,7 +33,6 @@
 
 <script>
 import CollapseComponent from "../../layout/Collapse";
-import login from "../../../pages/auth/login";
 
 export default {
   name: "DeleteOutcome",

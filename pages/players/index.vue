@@ -190,7 +190,7 @@ export default {
 
           this.$axios.$delete('player/delete/' + item.id).then(() => {
             if(item.photo)
-              axios.delete(`${this.MEDIA_API}/photo/delete${item.photo}`).catch(err=>{
+              axios.delete(`${this.MEDIA_API}/photo/delete/${item.photo}`).catch(err=>{
                 this.$swal.fire({
                   title: `Deleting player ${item.name} FAILED`,
                   icon: "error",

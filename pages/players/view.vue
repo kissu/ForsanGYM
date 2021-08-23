@@ -5,20 +5,25 @@
       <div class="col-md-3 mb-3 mb-md-0">
         <div class="img mx-auto text-center">
           <div v-if="player.photo">
-            <img
-              class="rounded-circle my-2"
-              :src="playerPhoto"
-              alt=""
-              style="width: 15rem; height:auto"
-            />
+
+            <div class="rounded-circle user-img my-2" :style="`background-image:url(${playerPhoto})`" ></div>
+
+<!--            <img-->
+<!--              class="rounded-circle my-2"-->
+<!--              :src="playerPhoto"-->
+<!--              alt=""-->
+<!--              style="width: 15rem; height:auto"-->
+<!--            />-->
           </div>
           <div v-else>
-            <img
-              class="rounded-circle my-2"
-              src='/defaultPlayer.jpg'
-              alt=""
-              style="width: 15rem; height:auto"
-            />
+            <div class="rounded-circle user-img my-2" style="background-image:url('/defaultPlayer.jpg')" ></div>
+
+<!--            <img-->
+<!--              class="rounded-circle my-2"-->
+<!--              src='/defaultPlayer.jpg'-->
+<!--              alt=""-->
+<!--              style="width: 15rem; height:auto"-->
+<!--            />-->
 
           </div>
         </div>
@@ -350,7 +355,7 @@ export default {
       return this.$store.state.players.items[this.$store.state.players.viewPlayer]
     },
     playerPhoto: function (){
-      return `${this.MEDIA_API}/photo${this.player.photo}`
+      return `${this.MEDIA_API}/photo/${this.player.photo}`
     },
     playerWeights:function (){
       return this.$store.state.playerWeights.items
@@ -361,4 +366,11 @@ export default {
 </script>
 
 <style>
+.user-img{
+  height: 15rem;
+  width: 15rem;
+  border-radius: 50%;
+  margin:auto;
+  background-size:cover ;
+}
 </style>

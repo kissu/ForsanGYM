@@ -169,7 +169,14 @@ export default {
       if (this.isFormOk()) {
         formData.append('file', this.$refs.UploadedFile.files[0])
         if(this.$refs.UploadedFile.files[0]){ // because photo is optional
-          this.InputPlayer.photo = `/${this.InputPlayer.phoneNumber}.${this.$refs.UploadedFile.files[0].type.split('/')[1]}`
+          try{
+           const photo =  await axios.post(`${this.MEDIA_API}/photo/upload?phone=${this.InputPlayer.phoneNumber}`, formData)
+            this.InputPlayer.photo = photo.data.url
+          }catch (err){
+            this.$swal.fire("Error in upload photo", "error")
+            console.log("Error in upload photo")
+            console.log(err)
+          }
         }
         try {
           const player = await this.$axios.$post('/player/new', this.InputPlayer);
@@ -197,9 +204,6 @@ export default {
             subscription: sub,
             weights: weights
           }
-          if(this.$refs.UploadedFile.files[0]){ // because photo is optional
-              await axios.post(`${this.MEDIA_API}/photo/upload?phone=${this.InputPlayer.phoneNumber}`, formData)
-          }
           await this.$store.commit('addPlayer', storePlayer)
 
           await this.$store.commit('addSubscriptionIncome', sub)
@@ -215,6 +219,10 @@ export default {
             dietPlan: "",
             trainingPlan: "",
           }
+          this.$swal.fire({
+            title:"Player Added Successfully",
+            icon:'success'
+          })
 
         } catch (e) {
            await axios.delete(`${this.MEDIA_API}/photo/delete/${this.InputPlayer.photo}`)
@@ -239,10 +247,6 @@ export default {
           return false;
         }
         // ....
-        this.$swal.fire({
-          title:"Player Added Successfully",
-          icon:'success'
-        })
       }
     },
     PickPlan: function () {

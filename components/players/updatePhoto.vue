@@ -46,26 +46,23 @@ export default {
       if(this.$refs.UploadedFile.files[0]){
         formData.append('file', this.$refs.UploadedFile.files[0])
         try {
-          photo = await axios.post(`${this.MEDIA_API}/photo/upload?phone=${this.player.phoneNumber}`, formData)
-          formPlayer.photo = photo.data.url.replace('storage', '')
+          photo = await axios.post(`${this.MEDIA_API}/photo/update?phone=${this.player.phoneNumber}`, formData)
+          formPlayer.photo = photo.data.url
         } catch (e) {
           this.player.photo = "";
           console.log('Photo not uploaded');
         }
-      if(!this.playerHasPhoto(this.player)){
-        // so we have to back and store
           try{
             const resPlayer = await this.$axios.$post('/player/edit/'+formPlayer.id, formPlayer);
             await this.$store.commit('editViewPlayer', resPlayer)
           }catch (err){
             this.$swal.fire({
-              title:"error happend",
+              title:"error happened",
               icon:"error",
               text:err
             })
             console.log(err)
           }
-        }
 
       }else{
         this.$swal.fire({
