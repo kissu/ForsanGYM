@@ -70,6 +70,15 @@ export default {
     //     })
     //   })
     // },
+    reSetWeights: async function(){
+      try{
+        const playerWeights = await this.$axios.$get('playerWeight/allWeights/' + this.$route.params.id + '?limit=10&page=1')
+        await this.$store.commit('setPlayerWeights', playerWeights)
+      }catch (err){
+        console.log("error is set player weights (weightsTable)")
+        console.log(err)
+      }
+    },
     editWeight: function (playerWeight) {
       this.$swal.fire({
         title: "Edit weight",
@@ -132,12 +141,16 @@ export default {
               date: moment().format('YYYY-MM-DD'),
               weight: res.value
             }).then(res2 => {
-              this.$store.commit('addPlayerWeight', {
+              if(this.$store.state.playerWeights.items.length+1>=10){
+              this.reSetWeights()
+              }else{this.$store.commit('addPlayerWeight', {
                 date: res2.date,
                 id: res2.id,
                 player: res2.player,
                 weight: Number(res2.weight)
               })
+              }
+
             })
           }
         }

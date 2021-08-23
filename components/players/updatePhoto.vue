@@ -13,7 +13,7 @@
           <input ref='UploadedFile' class="form-control" type="file" id="updatePhoto">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="resetForm">Close</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="updatePhoto">Save changes</button>
         </div>
       </div>
@@ -37,7 +37,7 @@ export default {
   },
   methods:{
     resetForm: function (){
-      document.getElementById("updatePhoto").value = null
+      document.getElementById("updatePhoto").value = ""
     },
 
     updatePhoto:async function (){

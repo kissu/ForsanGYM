@@ -161,6 +161,7 @@ export const mutations = {
     state.totalIncome += activityPlayer.subscription.price
   },
   editActivityPlayerSubscriptions(state, subscription){
+    // TODO
     let holder = state.s.items.findIndex((obj => obj.id === activityPlayer.id))
   },
   editActivity: function (state, act) {
@@ -287,43 +288,22 @@ export const mutations = {
     })
   },
 
-  // player weight area start
+    // player weight area start
 
   setPlayerWeights: function (state, playerWeights){
     state.playerWeights.items = playerWeights.items
     state.playerWeights.count = playerWeights.count
   },
 
-  deletePlayerWeight: function (state, playerWeight) {
-    const player = state.players.items.find(player => player.id === playerWeight.player.id)
-    let playerWeightsArr = player.weights
-    for (let i = 0; i < playerWeightsArr.length; i++) {
-      if (playerWeightsArr[i].id === playerWeight.id) {
-        playerWeightsArr.splice(i, 1)
-        break
-      }
-    }
-    player.weights = playerWeightsArr
-  },
   addPlayerWeight: function (state, playerWeight) {
-
-    let playerIndex = null
-    for (let i = 0; i < state.players.items.length; i++) {
-      // this loop to search for the player
-      if (state.players.items[i].id === playerWeight.player.id) {
-        if(state.players.items[i].weight.items.length===10)return
-        playerIndex = i
-        break;
-      }
+    if(state.playerWeights.items.length<10){
+      delete playerWeight.player
+      state.playerWeights.items.push(playerWeight)
+      state.playerWeights.count++
     }
-    delete playerWeight.player
-    state.players.items[playerIndex].weight.items.push(playerWeight)
-    const tmpArr = Object.assign([], state.players.items)
-    state.players.items = Object.assign([], [])
-    state.players.items = Object.assign([], tmpArr)
   },
   editViewPlayerWeight: function (state, playerWeight) {
-    for(let i=0, arr =state.players.items[state.players.viewPlayer].weights.items;i<arr.length;i++){
+    for(let i=0, arr =state.playerWeights.items;i<arr.length;i++){
       if(arr[i].id === playerWeight.id){
         arr.splice(i, 1, playerWeight)
         break;

@@ -96,7 +96,7 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Photo</label>
                           <div class="col-md-8">
-                            <input ref='UploadedFile' class="form-control" type="file" >
+                            <input ref='UploadedFile' class="form-control" type="file" id="uploadPhoto">
                           </div>
                         </div>
 
@@ -161,9 +161,21 @@ export default {
     }
   },
   methods: {
-    // test: function (msg){
-    //   console.log(this.$refs.UploadedFile.files[0])
-    // },
+    resetForm:function (){
+      this.InputPlayer = {
+        name: null,
+        phoneNumber: null,
+        weight: null,
+        height: null,
+        plan: null,
+        payedMoney:0,
+        beginDate: null,
+        endDate: null,
+        dietPlan: "",
+        trainingPlan: "",
+      }
+      document.getElementById("uploadPhoto").value = ""
+    },
     addPlayer: async function () {
       let formData = new FormData()
       if (this.isFormOk()) {
@@ -207,22 +219,11 @@ export default {
           await this.$store.commit('addPlayer', storePlayer)
 
           await this.$store.commit('addSubscriptionIncome', sub)
-          this.InputPlayer = {
-            name: null,
-            phoneNumber: null,
-            weight: null,
-            height: null,
-            plan: null,
-            payedMoney:0,
-            beginDate: null,
-            endDate: null,
-            dietPlan: "",
-            trainingPlan: "",
-          }
           this.$swal.fire({
             title:"Player Added Successfully",
             icon:'success'
           })
+          this.resetForm()
 
         } catch (e) {
            await axios.delete(`${this.MEDIA_API}/photo/delete/${this.InputPlayer.photo}`)
@@ -232,18 +233,7 @@ export default {
             title: "Adding Operation FAILED",
             text: e.response.data.message
           })
-          this.InputPlayer = {
-            name: null,
-            phoneNumber: null,
-            weight: null,
-            height: null,
-            plan: null,
-            payedMoney:0,
-            beginDate: null,
-            endDate: null,
-            dietPlan: "",
-            trainingPlan: "",
-          }
+          this.resetForm()
           return false;
         }
         // ....
@@ -265,7 +255,9 @@ export default {
           return false
         }
       }
-      if(this.$store.state.players.items.find(player=> player.phoneNumber === this.InputPlayer.phoneNumber)){
+      if(this.$store.state.players.items.length // tp check if there is any players in store first
+        &&
+        this.$store.state.players.items.find(player=> player.phoneNumber === this.InputPlayer.phoneNumber)){
         // duplicated phone number
         this.$swal.fire({
           icon: "error",
