@@ -14,7 +14,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" v-on:click="updatePhoto">Save changes</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="updatePhoto">Save changes</button>
         </div>
       </div>
     </div>
@@ -36,9 +36,8 @@ export default {
     }
   },
   methods:{
-    playerHasPhoto: function (player){
-      return !(player.photo === null || player.photo.length === 0);
-
+    resetForm: function (){
+      document.getElementById("updatePhoto").value = null
     },
 
     updatePhoto:async function (){
@@ -70,8 +69,7 @@ export default {
           icon:"error"
         })
       }
-
-      $(`#updatePhotoModal`).modal('hide')
+      this.resetForm()
     }
   }
 }
