@@ -74,7 +74,20 @@
               </tbody>
             </table>
           </div>
-          <paging v-on:getDataAtPage="loadDataOfPage" :count="count" per-page="20"/>
+<!--          <paging v-on:getDataAtPage="loadDataOfPage" :count="count" per-page="20"/>-->
+          <div class="row justify-content-center">
+            <paginate
+              :page-count="Math.ceil(count/20)"
+              :click-handler="loadDataOfPage"
+              :container-class="'pagination'"
+              :prev-class="'page-item'"
+              :prev-link-class="'page-link'"
+              :page-class="'page-item'"
+              :page-link-class="'page-link'"
+              :next-class="'page-item'"
+              :next-link-class="'page-link'"
+            ></paginate>
+          </div>
         </div>
       </div>
     </div>

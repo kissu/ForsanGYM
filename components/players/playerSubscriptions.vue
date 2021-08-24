@@ -30,7 +30,20 @@
           </tbody>
         </table>
       </div>
-      <paging per-page="10" :count="$store.state.playerSubscriptions.count"  v-on:getDataAtPage="loadDataOfPage" />
+<!--      <paging per-page="10" :count="$store.state.playerSubscriptions.count"  v-on:getDataAtPage="loadDataOfPage" />-->
+      <div class="row justify-content-center">
+        <paginate
+          :page-count="Math.ceil($store.state.playerSubscriptions.count/10)"
+          :click-handler="loadDataOfPage"
+          :container-class="'pagination'"
+          :prev-class="'page-item'"
+          :prev-link-class="'page-link'"
+          :page-class="'page-item'"
+          :page-link-class="'page-link'"
+          :next-class="'page-item'"
+          :next-link-class="'page-link'"
+        ></paginate>
+      </div>
     </div>
 
   </div>
