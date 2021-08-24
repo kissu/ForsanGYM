@@ -157,7 +157,8 @@ export default {
   data() {
     return {
       InputPlayer: {},
-      MEDIA_API:process.env.MEDIA_API
+      MEDIA_API:process.env.MEDIA_API,
+      coll: false
     }
   },
   methods: {
@@ -177,6 +178,7 @@ export default {
       document.getElementById("uploadPhoto").value = ""
     },
     addPlayer: async function () {
+
       let formData = new FormData()
       if (this.isFormOk()) {
         formData.append('file', this.$refs.UploadedFile.files[0])

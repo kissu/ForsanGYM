@@ -150,20 +150,19 @@
     </div>
     <div class="tile my-3">
       <div class="row" id="tile-Head">
-        <div class="col-3 pr-0">
-          <h3 class="tile-title">Activities Players</h3>
+        <div class="col text-center">
+          <h3 class="tile-title mb-0">Activities Players</h3>
         </div>
+      </div>
 
-        <label class="control-label" for="activitySearch"
-        >Search By Activity :
-        </label>
-        <div class="form-group col">
+      <div class="row justify-content-center mt-2">
+        <div class="form-group col-3 mx-2">
           <select
             v-model="searchByActivity"
-            class="form-control col-md-10"
+            class="form-control"
             id="activitySearch"
           >
-            <option :value="null" selected disabled>Select Activity</option>
+            <option :value="null" selected disabled>Search by Activity</option>
             <option :value="null">Get All</option>
             <option
               v-for="item in $store.state.activities"
@@ -175,22 +174,46 @@
           </select>
         </div>
 
-        <label class="control-label" for="generalSearch">Search : </label>
-        <div class="col pl-0">
-          <input
-            class="form-control form-control-sm"
-            type="search"
-            placeholder="Find player by id"
-            v-model="searchById"
-            aria-controls="#playerDataTable"
-            id="generalSearch"
-          />
+        <div class="input-group col-3 form-group p-0 border-0">
+          <div class="input-group-prepend"><span class="input-group-text">ID</span></div>
+          <input class="form-control" id="exampleInputAmount" type="text" placeholder="Search BY ID">
+          <div class="input-group-append">
+            <span class=" btn btn-primary" @click="" v-model="searchById">Search</span>
+          </div>
         </div>
-        <label for="endedSubscriptionsChoise">Show Ended Subscriptions</label>
-        <div class="col-auto">
-          <input type="checkbox" id="endedSubscriptionsChoise" v-model="EndedSubscriptions">
+
+        <!--        <label class="control-label" for="generalSearch">Search : </label>-->
+        <!--        <div class="col pl-0">-->
+        <!--          <input-->
+        <!--            class="form-control form-control-sm"-->
+        <!--            type="search"-->
+        <!--            placeholder="Find player by id"-->
+        <!--            v-model="searchById"-->
+        <!--            aria-controls="#playerDataTable"-->
+        <!--            id="generalSearch"-->
+        <!--          />-->
+        <!--        </div>-->
+        <div class="form-group col-auto mx-2">
+          <select
+            v-model="EndedSubscriptions"
+            class="form-control"
+            id="endedSubscriptionChoose"
+          >
+            <option :value="null" selected disabled>Show Ended Subscriptions</option>
+            <option :value="null">Get All</option>
+            <option
+              v-for="item in $store.state.activities"
+              :value="item.id"
+              :key="item.id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
         </div>
+
+
       </div>
+
       <div class="row">
         <div class="col-md-12">
           <div class="tile-body">
@@ -286,7 +309,7 @@ export default {
       searchById: null,
       searchByActivity: null,
       errors: {},
-      EndedSubscriptions: false,
+      EndedSubscriptions: null,
       activityPlayerInfo: null,
     };
   },

@@ -96,8 +96,8 @@
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
-                        <td>{{ item.subscription.beginDate }}</td>
-                        <td>{{ item.subscription.endDate }}</td>
+                        <td>{{ moment(item.subscription.beginDate).format('yyyy-MM-DD') }}</td>
+                        <td>{{ moment(item.subscription.endDate).format('yyyy-MM-DD')}}</td>
                         <td v-if="item.subscription.plan!=null">{{ item.subscription.plan.name }}</td>
                         <td v-else>Deleted Plan</td>
                         <td>
@@ -227,6 +227,7 @@ export default {
         this.$store.commit('setPlayers', res)
       })
     },
+    moment: (args) => moment(args),
   },
   computed: {
     activatedPlans: function () {
