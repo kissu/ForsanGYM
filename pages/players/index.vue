@@ -19,8 +19,8 @@
                   no-footer
                 "
               >
-                <div class="row mt-2 mb-0 justify-content-center">
-                  <div class="col-md-auto">
+                <div class="row mt-2 mb-0 justify-content-center align-items-baseline">
+                  <div class="col-md-auto mx-2">
                     <select name="searchOptions" id="searchOptionsId" class="form-control form-control-sm"
                             v-model="pickedSearchOption">
                       <option :value="null" disabled selected>Choose search options</option>
@@ -30,17 +30,14 @@
                       </option>
                     </select>
                   </div>
-                  <div class="col-md-auto form-group ">
-                    <div class=" text-left">
-                      <input
-                        type="search"
-                        class="form-control form-control-sm"
-                        placeholder="Search here"
-                        aria-controls="sampleTable"
-                        v-model="searchInput"
-                      />
+                    <div class="input-group col form-group p-0 border-0">
+                      <div class="input-group-prepend"><span class="input-group-text mdi mdi-search-web"></span></div>
+                      <input class="form-control" id="exampleInputAmount" type="text" placeholder="Search Here..."
+                      v-model="searchInput" @input="resetPlayers">
+                      <div class="input-group-append">
+                        <span class=" btn btn-primary" @click="performSearch" >Search</span>
+                      </div>
                     </div>
-                  </div>
 
                   <div class="col-md-auto form-group">
                     <select
@@ -75,18 +72,18 @@
                       id="sampleTable"
                       role="grid"
                       aria-describedby="sampleTable_info"
-                      width="100%"
+                      style="width: 100%"
                     >
                       <thead>
                       <tr>
                         <th>#</th>
                         <th>id</th>
-                        <th width="20%">Name</th>
+                        <th style="width: 20%">Name</th>
                         <th>Phone Number</th>
                         <th>Begin Date</th>
                         <th>End Date</th>
                         <th>Plan</th>
-                        <th width="28%">Options</th>
+                        <th style="width: 28%">Options</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -161,7 +158,7 @@ export default {
         {name: "By ID", value: 'id'},
         {name: "By begin Date", value: 'beginDate'},
         {name: "By endDate", value: 'endDate'},
-        {name: "By Phone Number", value: 'phoneNumber'},
+        {name: "By Phone Number", value: 'phone'},
       ],
       endedSubsMarked: false,
       clickedPlayer: null,
@@ -242,6 +239,34 @@ export default {
       })
     },
     moment: (args) => moment(args),
+    performSearch: async function (){
+      // console.log("search for : ", this.searchInput)
+      // console.log("with option : ", this.pickedSearchOption)
+      try{
+        const players = await this.$axios.$post('player/search?limit=10&page=1', {
+          searchOption: this.pickedSearchOption,
+          searchElement: this.searchInput
+        })
+        await this.$store.commit('setPlayers', players)
+      }catch (err){
+        this.$swal.fire({title:"Player Not Found", icon:"error"})
+        console.log("error in search function in players/index")
+        console.log(err)
+      }
+    },
+    resetPlayers: async function(){
+      console.log("input : ", this.searchInput)
+      try{
+        if (!this.searchInput) {// that means that input is empty
+          const players = await this.$axios.$get('player?limit=10&page=1')
+          await this.$store.commit('setPlayers', players)
+        }
+      }catch (err){
+        this.$swal.fire({title:"error happened", icon:"error"})
+        console.log("error in resetting the players")
+        console.log(err)
+      }
+    },
   },
   computed: {
     activatedPlans: function () {
@@ -249,30 +274,30 @@ export default {
     },
     playersData: function () {
 
-      let returnArr = this.$store.state.players.items
-      if (this.endedSubsMarked) {
-        returnArr = returnArr.filter(player => {
-          return moment(player.subscription.endDate).isBefore(moment())
-        })
-      }
-      if (this.pickedPlan) {
-        returnArr = returnArr.filter(player => {
-          return player.subscription.plan.id === this.pickedPlan.id
-        })
-      }
-      if (this.pickedSearchOption === null) {
-        // no picked search
-        return returnArr
-      } else if (this.pickedSearchOption === 'beginDate' && this.searchInput) {
-        return returnArr.filter(data => data.subscription.beginDate === this.searchInput)
-      } else if (this.pickedSearchOption === 'endDate' && this.searchInput) {
-        return returnArr.filter(data => data.subscription.endDate === this.searchInput)
-      } else if (this.pickedSearchOption === 'id' && this.searchInput) {
-        return returnArr.filter(data => data.id === Number(this.searchInput))
-      } else if (this.pickedSearchOption === 'phoneNumber' && this.searchInput) {
-        return returnArr.filter(data => data.phoneNumber === this.searchInput)
-      }
-      return returnArr
+      return this.$store.state.players.items
+      // if (this.endedSubsMarked) {
+      //   returnArr = returnArr.filter(player => {
+      //     return moment(player.subscription.endDate).isBefore(moment())
+      //   })
+      // }
+      // if (this.pickedPlan) {
+      //   returnArr = returnArr.filter(player => {
+      //     return player.subscription.plan.id === this.pickedPlan.id
+      //   })
+      // }
+      // if (this.pickedSearchOption === null) {
+      //   // no picked search
+      //   return returnArr
+      // } else if (this.pickedSearchOption === 'beginDate' && this.searchInput) {
+      //   return returnArr.filter(data => data.subscription.beginDate === this.searchInput)
+      // } else if (this.pickedSearchOption === 'endDate' && this.searchInput) {
+      //   return returnArr.filter(data => data.subscription.endDate === this.searchInput)
+      // } else if (this.pickedSearchOption === 'id' && this.searchInput) {
+      //   return returnArr.filter(data => data.id === Number(this.searchInput))
+      // } else if (this.pickedSearchOption === 'phoneNumber' && this.searchInput) {
+      //   return returnArr.filter(data => data.phoneNumber === this.searchInput)
+      // }
+      // return returnArr
     },
 
   },
