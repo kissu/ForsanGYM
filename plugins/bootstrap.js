@@ -8,4 +8,6 @@ import JQuery from 'jquery'
 window.$ = JQuery
 
 import '@mdi/font/css/materialdesignicons.css'
- 
+
+import Paginate from 'vuejs-paginate'
+Vue.component('paginate', Paginate)

@@ -22,7 +22,8 @@
     "moment": "^2.29.1",
     "nuxt": "^2.15.7",
     "popper.js": "^1.14.3",
-    "vue-sweetalert2": "^5.0.2"
+    "vue-sweetalert2": "^5.0.2",
+    "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
     "sweetalert2": "^11.0.20"

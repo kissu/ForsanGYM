@@ -58,7 +58,7 @@
                       </div>
                       <div class="form-group row">
                         <label class="control-label col-md-4">Price</label>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                           <input
                             v-model="activityPlayer.price"
                             :class="[
@@ -275,8 +275,21 @@
             </table>
           </div>
         </div>
-        <paging v-on:getDataAtPage="loadDataOfPage" :count="$store.state.activityPlayers.count" per-page="10"/>
       </div>
+      <div class="row justify-content-center mx-3">
+        <paginate
+          :page-count="Math.ceil($store.state.activityPlayers.count/10)"
+          :click-handler="loadDataOfPage"
+          :container-class="'pagination'"
+          :prev-class="'page-item'"
+          :prev-link-class="'page-link'"
+          :page-class="'page-item'"
+          :page-link-class="'page-link'"
+          :next-class="'page-item'"
+          :next-link-class="'page-link'"
+        ></paginate>
+      </div>
+
     </div>
     <div v-if="activityPlayerInfo">
       <reSubscribe :activityPlayer="activityPlayerInfo"/>
@@ -429,8 +442,8 @@ export default {
       const res = await this.$axios.$get('activityPlayerSubscription/' + activityPlayerId)
       await this.$store.commit('setAllActivityPlayersubscriptions', res)
     },
-     loadDataOfPage: function (page) {
-      this.$axios.$get("/activityPlayer?page=" + page + "&limit=10")
+     loadDataOfPage: function (pageNum) {
+      this.$axios.$get("/activityPlayer?page=" + pageNum + "&limit=10")
         .then(res => {
           this.$store.commit('setActivityPlayers', res)
         })

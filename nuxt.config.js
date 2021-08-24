@@ -1,9 +1,11 @@
 // import webpack from "webpack";
+
 const webpack = require("webpack");
 
 require('dotenv').config({
   path:__dirname+'/.env'
 })
+
 
 // export default {
 module.exports = {
