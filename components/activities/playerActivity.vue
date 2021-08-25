@@ -177,9 +177,9 @@
 
         <div class="input-group col-3 form-group p-0 border-0">
           <div class="input-group-prepend"><span class="input-group-text">ID</span></div>
-          <input class="form-control" id="exampleInputAmount" type="text" placeholder="Search BY ID">
+          <input class="form-control" v-model="inputId" @input='resetSearchById' id="exampleInputAmount" type="text" placeholder="Search BY ID">
           <div class="input-group-append">
-            <span class=" btn btn-primary" @click="searchById" v-model="inputId">Search</span>
+            <button class=" btn btn-primary" @click="searchById">Search</button>
           </div>
         </div>
         <div class="form-group col-auto mx-2">
@@ -447,6 +447,8 @@ export default {
           await this.resetActivityPlayers()
           return
         }
+        this.inputId = null
+        this.selectedActivity = null
         const res = await this.$axios.$get("activityPlayer/search/endedSubscriptions/"+this.selectedEndedSubscription+"?limit=10&page=1")
         await this.$store.commit('setActivityPlayers', res)
       }catch (err){
@@ -461,6 +463,8 @@ export default {
           await this.resetActivityPlayers()
           return
         }
+        this.selectedActivity = null
+        this.selectedEndedSubscription = null
         const res = await this.$axios.$get("activityPlayer/search/id/"+this.inputId+"?limit=10&page=1")
         await this.$store.commit('setActivityPlayers', res)
       }catch (err){
@@ -475,6 +479,8 @@ export default {
           await this.resetActivityPlayers()
           return
         }
+        this.inputId = null
+        this.selectedEndedSubscription = null
         const res = await this.$axios.$get("activityPlayer/search/activity/"+this.selectedActivity+"?limit=10&page=1")
         await this.$store.commit('setActivityPlayers', res)
       }catch (err){
@@ -483,8 +489,22 @@ export default {
         console.log(err)
       }
     },
+    resetSearchById: async function(){
+      if(this.inputId === ""){
+        try{
+        const res = await this.$axios.$get("activityPlayer?limit=10&page=1")
+        await this.$store.commit('setActivityPlayers', res)
+      }catch (err){
+        this.$swal.fire({title:"error happened while searching", icon:"error"})
+        console.log("error in activity players reset ")
+        console.log(err)
+      }
+      }
+      
+    },
     resetActivityPlayers: async function(){
       try{
+        console.log("worked");
         const res = await this.$axios.$get("activityPlayer?limit=10&page=1")
         await this.$store.commit('setActivityPlayers', res)
       }catch (err){
@@ -493,31 +513,11 @@ export default {
         console.log(err)
       }
     },
+    
   },
   computed: {
     activityPlayers: function (){
       return this.$store.state.activityPlayers.items
-    },
-    searching: function () {
-
-      let dataArray = this.$store.state.activityPlayers.items;
-
-      if (this.selectedEndedSubscription) {
-        dataArray = dataArray.filter(
-          holder => moment(holder.subscription.endDate).isBefore(moment())
-        )
-      }
-      if (this.inputId) {
-        dataArray = dataArray.filter(
-          (holder) => Number(this.inputId) === holder.id
-        );
-      }
-      if (this.selectedActivity) {
-        dataArray = dataArray.filter(
-          (holder) => this.selectedActivity === holder.subscription.activity.id
-        );
-      }
-      return dataArray;
     },
     activities:function (){
       return this.$store.state.activities
