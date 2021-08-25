@@ -126,7 +126,7 @@ export const mutations = {
   },
 
   setActivityPlayers: function (state, activityPlayers) {
-    state.activityPlayers.items = Object.assign([],activityPlayers.items)
+    state.activityPlayers.items = activityPlayers.items
     state.activityPlayers.count = activityPlayers.count
   },
   deleteActivityPlayer: function (state, activityPlayer_id) {
