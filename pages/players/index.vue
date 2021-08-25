@@ -255,7 +255,6 @@ export default {
       }
     },
     resetPlayers: async function(){
-      console.log("input : ", this.searchInput)
       try{
         if (!this.searchInput) {// that means that input is empty
           const players = await this.$axios.$get('player?limit=10&page=1')

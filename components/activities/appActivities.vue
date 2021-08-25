@@ -35,11 +35,11 @@
     <div id="delete-Activity" v-if="DeleteClickedActivity">
       <DeleteCheck header-msg="Are you sure you want to delete this activity ?" :item-id="DeleteClickedActivity.id"
                    delete_url="/activity/delete/:id" commitAction="deleteActivity">
-        <p><b>Name : </b>{{ DeleteClickedActivity.name }}</p>
-        <p><b>Coach : </b>{{ DeleteClickedActivity.coachName }}</p>
-        <p><b>Coach Phone : </b>{{ DeleteClickedActivity.coachPhoneNumber }}</p>
-        <p><b>Description : </b>{{ DeleteClickedActivity.description }}</p>
-        <p><b>Price : </b>{{ DeleteClickedActivity.price }}</p>
+        <b>Name : {{ DeleteClickedActivity.name }}</b><br>
+        <b>Coach : {{ DeleteClickedActivity.coachName }}</b><br>
+        <b>Coach Phone : {{ DeleteClickedActivity.coachPhoneNumber }}</b><br>
+        <b>Description : {{ DeleteClickedActivity.description }}</b><br>
+        <b>Price : {{ DeleteClickedActivity.price }}</b>
       </DeleteCheck>
     </div>
 

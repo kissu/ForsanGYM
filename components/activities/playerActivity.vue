@@ -158,16 +158,17 @@
       <div class="row justify-content-center mt-2">
         <div class="form-group col-3 mx-2">
           <select
-            v-model="searchByActivity"
+            v-model="selectedActivity"
             class="form-control"
             id="activitySearch"
+            @change="searchByActivity"
           >
-            <option :value="null" selected disabled>Search by Activity</option>
-            <option :value="null">Get All</option>
+            <option :value="null" selected disabled key="activitySearch-2">Search by Activity</option>
+            <option :value="null" key="activitySearch-1">Get All</option>
             <option
-              v-for="item in $store.state.activities"
+              v-for="item in activities"
               :value="item.id"
-              :key="item.id"
+              v-bind:key="item.id+'acSearch'"
             >
               {{ item.name }}
             </option>
@@ -178,35 +179,24 @@
           <div class="input-group-prepend"><span class="input-group-text">ID</span></div>
           <input class="form-control" id="exampleInputAmount" type="text" placeholder="Search BY ID">
           <div class="input-group-append">
-            <span class=" btn btn-primary" @click="" v-model="searchById">Search</span>
+            <span class=" btn btn-primary" @click="searchById" v-model="inputId">Search</span>
           </div>
         </div>
-
-        <!--        <label class="control-label" for="generalSearch">Search : </label>-->
-        <!--        <div class="col pl-0">-->
-        <!--          <input-->
-        <!--            class="form-control form-control-sm"-->
-        <!--            type="search"-->
-        <!--            placeholder="Find player by id"-->
-        <!--            v-model="searchById"-->
-        <!--            aria-controls="#playerDataTable"-->
-        <!--            id="generalSearch"-->
-        <!--          />-->
-        <!--        </div>-->
         <div class="form-group col-auto mx-2">
           <select
-            v-model="EndedSubscriptions"
+            v-model="selectedEndedSubscription"
             class="form-control"
             id="endedSubscriptionChoose"
+            @change="searchForEndedSubscriptions"
           >
             <option :value="null" selected disabled>Show Ended Subscriptions</option>
             <option :value="null">Get All</option>
             <option
-              v-for="item in $store.state.activities"
-              :value="item.id"
-              :key="item.id"
+              v-for="activity in activities"
+              :value="activity.id"
+              :key="activity.id+'endedSubs'"
             >
-              {{ item.name }}
+              {{ activity.name }}
             </option>
           </select>
         </div>
@@ -231,7 +221,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(playerActivity, index) in searching" :key="playerActivity.id">
+              <tr v-for="(playerActivity, index) in activityPlayers" v-bind:key="playerActivity.id+'activityPlayer'">
                 <td>{{ index+1 }}</td>
                 <td>{{ playerActivity.id }}</td>
                 <td>{{ playerActivity.name }}</td>
@@ -276,18 +266,20 @@
           </div>
         </div>
       </div>
-      <div class="row justify-content-center mx-3">
-        <paginate
-          :page-count="Math.ceil($store.state.activityPlayers.count/10)"
-          :click-handler="loadDataOfPage"
-          :container-class="'pagination'"
-          :prev-class="'page-item'"
-          :prev-link-class="'page-link'"
-          :page-class="'page-item'"
-          :page-link-class="'page-link'"
-          :next-class="'page-item'"
-          :next-link-class="'page-link'"
-        ></paginate>
+      <div class="row justify-content-start mx-1">
+        <div class="col">
+          <paginate
+            :page-count="Math.ceil($store.state.activityPlayers.count/10)"
+            :click-handler="loadDataOfPage"
+            :container-class="'pagination'"
+            :prev-class="'page-item'"
+            :prev-link-class="'page-link'"
+            :page-class="'page-item'"
+            :page-link-class="'page-link'"
+            :next-class="'page-item'"
+            :next-link-class="'page-link'"
+          ></paginate>
+        </div>
       </div>
 
     </div>
@@ -304,6 +296,7 @@
 import moment from "moment";
 import reSubscribe from './reSubscribe.vue'
 import editActivityPlayer from './editActivityPlayer.vue'
+import login from "../../pages/auth/login";
 
 export default {
   name: "playerActivity",
@@ -319,10 +312,10 @@ export default {
         price: 0,
       },
       editClickedPlayer: {},
-      searchById: null,
-      searchByActivity: null,
+      inputId: null,
+      selectedActivity: null,
       errors: {},
-      EndedSubscriptions: null,
+      selectedEndedSubscription: null,
       activityPlayerInfo: null,
     };
   },
@@ -447,28 +440,87 @@ export default {
         .then(res => {
           this.$store.commit('setActivityPlayers', res)
         })
-    }
+    },
+    searchForEndedSubscriptions: async function (){
+      try{
+        if(!this.selectedEndedSubscription){
+          await this.resetActivityPlayers()
+          return
+        }
+        const res = await this.$axios.$get("activityPlayer/search/endedSubscriptions/"+this.selectedEndedSubscription+"?limit=10&page=1")
+        await this.$store.commit('setActivityPlayers', res)
+      }catch (err){
+        this.$swal.fire({title:"error happened while searching", icon:"error"})
+        console.log("error in activity players (ended subscriptions search) ")
+        console.log(err)
+      }
+    },
+    searchById: async function (){
+      try{
+        if(!this.inputId){
+          await this.resetActivityPlayers()
+          return
+        }
+        const res = await this.$axios.$get("activityPlayer/search/id/"+this.inputId+"?limit=10&page=1")
+        await this.$store.commit('setActivityPlayers', res)
+      }catch (err){
+        this.$swal.fire({title:"error happened while searching", icon:"error"})
+        console.log("error in activity players (id search) ")
+        console.log(err)
+      }
+    },
+    searchByActivity: async function (){
+      try{
+        if(!this.selectedActivity){
+          await this.resetActivityPlayers()
+          return
+        }
+        const res = await this.$axios.$get("activityPlayer/search/activity/"+this.selectedActivity+"?limit=10&page=1")
+        await this.$store.commit('setActivityPlayers', res)
+      }catch (err){
+        this.$swal.fire({title:"error happened while searching", icon:"error"})
+        console.log("error in activity players (activity search) ")
+        console.log(err)
+      }
+    },
+    resetActivityPlayers: async function(){
+      try{
+        const res = await this.$axios.$get("activityPlayer?limit=10&page=1")
+        await this.$store.commit('setActivityPlayers', res)
+      }catch (err){
+        this.$swal.fire({title:"error happened while searching", icon:"error"})
+        console.log("error in activity players reset ")
+        console.log(err)
+      }
+    },
   },
   computed: {
+    activityPlayers: function (){
+      return this.$store.state.activityPlayers.items
+    },
     searching: function () {
+
       let dataArray = this.$store.state.activityPlayers.items;
 
-      if (this.EndedSubscriptions) {
+      if (this.selectedEndedSubscription) {
         dataArray = dataArray.filter(
           holder => moment(holder.subscription.endDate).isBefore(moment())
         )
       }
-      if (this.searchById) {
+      if (this.inputId) {
         dataArray = dataArray.filter(
-          (holder) => Number(this.searchById) === holder.id
+          (holder) => Number(this.inputId) === holder.id
         );
       }
-      if (this.searchByActivity) {
+      if (this.selectedActivity) {
         dataArray = dataArray.filter(
-          (holder) => this.searchByActivity === holder.subscription.activity.id
+          (holder) => this.selectedActivity === holder.subscription.activity.id
         );
       }
       return dataArray;
+    },
+    activities:function (){
+      return this.$store.state.activities
     },
   },
 };
