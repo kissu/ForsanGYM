@@ -10,7 +10,7 @@
         <button class="btn btn-outline-primary " v-on:click="createWeight"><i class="mdi mdi-plus-box"></i> Add Entry
         </button>
       </div>
-      <div class="col tile-body">
+      <div class="tile-body">
         <table class=" table table-striped ">
           <thead>
           <tr>
