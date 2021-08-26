@@ -354,7 +354,7 @@ export default {
       return this.$store.state.players.items[this.$store.state.players.viewPlayer]
     },
     playerPhoto: function (){
-      return `${this.MEDIA_API}/${this.player.photo}`
+      return `${this.MEDIA_API}/photo/${this.player.photo}`
     },
     playerWeights:function (){
       return this.$store.state.playerWeights.items
