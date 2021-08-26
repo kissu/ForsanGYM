@@ -23,7 +23,7 @@
           <tbody>
           <tr v-for="(weight, index) in playerWeights" :key="index">
             <td>{{ index + 1 }}</td>
-            <td>{{ weight.date }}</td>
+            <td>{{weight.date }}</td>
             <td>{{ weight.weight }}</td>
             <td>
               <div class="btn-group ">
@@ -38,7 +38,7 @@
         </table>
       </div>
 <!--      <paging :count="$store.state.playerWeights.count" per-page="10"  v-on:getDataAtPage="loadDataOfPage"/>-->
-      <div class="row justify-content-center">
+      <div class="row justify-content-start mx-1">
         <paginate
           :page-count="Math.ceil($store.state.playerWeights.count/10)"
           :click-handler="loadDataOfPage"

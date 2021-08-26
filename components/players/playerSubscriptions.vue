@@ -25,13 +25,13 @@
             <td v-else>Deleted Plan</td>
             <td>{{ subscription.payedMoney }}</td>
             <td>{{ subscription.beginDate }}</td>
-            <td>{{ subscription.endDate }}</td>
+            <td>{{  subscription.endDate }}</td>
           </tr>
           </tbody>
         </table>
       </div>
 <!--      <paging per-page="10" :count="$store.state.playerSubscriptions.count"  v-on:getDataAtPage="loadDataOfPage" />-->
-      <div class="row justify-content-center">
+      <div class="row justify-content-start mx-1">
         <paginate
           :page-count="Math.ceil($store.state.playerSubscriptions.count/10)"
           :click-handler="loadDataOfPage"
@@ -51,6 +51,7 @@
 
 <script>
 import Paging from "../paging";
+import moment from "moment/moment";
 export default {
   name: "playerSubscriptions.vue",
   components: {Paging},

@@ -447,8 +447,6 @@ export default {
           await this.resetActivityPlayers()
           return
         }
-        this.inputId = null
-        this.selectedActivity = null
         const res = await this.$axios.$get("activityPlayer/search/endedSubscriptions/"+this.selectedEndedSubscription+"?limit=10&page=1")
         await this.$store.commit('setActivityPlayers', res)
       }catch (err){
@@ -500,11 +498,10 @@ export default {
         console.log(err)
       }
       }
-      
+
     },
     resetActivityPlayers: async function(){
       try{
-        console.log("worked");
         const res = await this.$axios.$get("activityPlayer?limit=10&page=1")
         await this.$store.commit('setActivityPlayers', res)
       }catch (err){
@@ -513,7 +510,6 @@ export default {
         console.log(err)
       }
     },
-    
   },
   computed: {
     activityPlayers: function (){
