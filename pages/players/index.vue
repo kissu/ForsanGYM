@@ -35,7 +35,7 @@
                       <input class="form-control" id="exampleInputAmount" type="text" placeholder="Search Here..."
                       v-model="searchInput" @input="resetPlayers">
                       <div class="input-group-append">
-                        <span class=" btn btn-primary" @click="performSearch" >Search</span>
+                        <button class="btn btn-primary" @click="performSearch" >Search</button>
                       </div>
                     </div>
 
@@ -44,19 +44,26 @@
                       name="sampleTable_length"
                       class="form-control form-control-sm"
                       v-model="pickedPlan"
+                      @change="searchByPlan"
                     >
                       <option :value="null" disabled selected>Search By Plan</option>
                       <option :value="null">Default</option>
-                      <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{ plan.name }}</option>
+                      <option v-for="plan in activatedPlans" :value="plan.id" :key="plan.id">{{ plan.name }}</option>
                     </select>
                   </div>
-                  <label for="endedSubscriptionsChoise">Ended Subscriptions</label>
-                  <div class="col-auto">
-                    <input type="checkbox" id="endedSubscriptionsChoise" v-model="endedSubsMarked">
+<!--                  <label for="endedSubscriptionsChoise">Ended Subscriptions</label>-->
+<!--                  <div class="col-auto">-->
+<!--                    <input type="checkbox" id="endedSubscriptionsChoise" v-model="endedSubsMarked">-->
+<!--                  </div>-->
+                  <div class="input-group col form-group p-0 border-0">
+                    <div class="input-group-prepend"><span class="input-group-text">Ended Subscriptions</span></div>
+                    <div class="input-group-append">
+                      <button class="btn btn-warning" @click="showEndedSubscriptions" >Show</button>
+                    </div>
                   </div>
                   <div class="col-auto">
                     <a :href="API_URL+'/csv'" target="_blank" class="btn btn-primary">
-                      Download Excel Sheet
+                      <i class="mdi mdi-download"></i> Excel Sheet
                     </a>
                   </div>
                 </div>
@@ -93,8 +100,8 @@
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
-                        <td>{{ moment(item.subscription.beginDate).format('yyyy-MM-DD') }}</td>
-                        <td>{{ moment(item.subscription.endDate).format('yyyy-MM-DD')}}</td>
+                        <td>{{ item.subscription.beginDate }}</td>
+                        <td>{{ item.subscription.endDate  }}</td>
                         <td v-if="item.subscription.plan!=null">{{ item.subscription.plan.name }}</td>
                         <td v-else>Deleted Plan</td>
                         <td>
@@ -111,7 +118,8 @@
                   </div>
                 </div>
 <!--                <paging :count="$store.state.players.count" per-page="10"  v-on:getDataAtPage="loadDataOfPage"/>-->
-                <div class="row justify-content-center">
+
+                <div class="row justify-content-start mx-1">
                   <client-only>
                   <paginate
                     :page-count="Math.ceil($store.state.players.count/10)"
@@ -240,14 +248,29 @@ export default {
         this.$store.commit('setPlayers', res)
       })
     },
-    moment: (args) => moment(args),
     performSearch: async function (){
       // console.log("search for : ", this.searchInput)
       // console.log("with option : ", this.pickedSearchOption)
       try{
+        this.pickedPlan = null
         const players = await this.$axios.$post('player/search?limit=10&page=1', {
           searchOption: this.pickedSearchOption,
           searchElement: this.searchInput
+        })
+        await this.$store.commit('setPlayers', players)
+      }catch (err){
+        this.$swal.fire({title:"Player Not Found", icon:"error"})
+        console.log("error in search function in players/index")
+        console.log(err)
+      }
+    },
+    searchByPlan: async function (){
+      try{
+        this.pickedSearchOption = null
+        this.searchInput = null
+        const players = await this.$axios.$post('player/search?limit=10&page=1', {
+          searchOption: "plan",
+          searchElement: this.pickedPlan
         })
         await this.$store.commit('setPlayers', players)
       }catch (err){
@@ -265,6 +288,21 @@ export default {
       }catch (err){
         this.$swal.fire({title:"error happened", icon:"error"})
         console.log("error in resetting the players")
+        console.log(err)
+      }
+    },
+    showEndedSubscriptions: async function(){
+      try{
+        this.pickedSearchOption = null
+        this.searchInput = null
+        this.pickedPlan = null
+        const players = await this.$axios.$post('player/search?limit=10&page=1', {
+          searchOption: "ended",
+        })
+        await this.$store.commit('setPlayers', players)
+      }catch (err){
+        this.$swal.fire({title:"Player Not Found", icon:"error"})
+        console.log("error in search function in players/index")
         console.log(err)
       }
     },

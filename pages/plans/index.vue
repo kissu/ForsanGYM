@@ -13,7 +13,7 @@
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th v-if="$auth.user.role == 'SuperAdmin'" width="21%">Options</th>
+              <th v-if="$auth.user.role == 'SuperAdmin'" style="width:21%">Options</th>
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
@@ -55,7 +55,7 @@
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th width="20%">Options</th>
+              <th style="width:20%">Options</th>
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
@@ -67,7 +67,6 @@
               <td>
                 <button class="btn btn-danger mr-2" type="button"
                         @click="deletePlan(plan)" data-toggle="modal"
-                        :data-target="'#DeleteCheckModal'+ClickedPlan.id"
                         v-if="$auth.user.role == 'SuperAdmin'">Delete
                 </button>
                 <button class="btn btn-info mr-2" type="button"
@@ -82,14 +81,14 @@
       </div>
     </div>
 
-    <div v-if="ClickedPlan.id" id="deleteSection">
-      <DeleteCheck :header-msg="'Are You Sure You Want to Delete This Plan ?'" :item-id="ClickedPlan.id"
-                   delete_url="/plan/delete/:id" commit-action="deletePlan">
-        <p><b>Name : </b>{{ ClickedPlan.name }}</p>
-        <p><b>Description : </b>{{ ClickedPlan.description }}</p>
-        <p><b>Price : </b>{{ ClickedPlan.price }}</p>
-      </DeleteCheck>
-    </div>
+<!--    <div v-if="ClickedPlan.id" id="deleteSection">-->
+<!--      <DeleteCheck :header-msg="'Are You Sure You Want to Delete This Plan ?'" :item-id="ClickedPlan.id"-->
+<!--                   delete_url="/plan/delete/:id" commit-action="deletePlan">-->
+<!--        <p><b>Name : </b>{{ ClickedPlan.name }}</p>-->
+<!--        <p><b>Description : </b>{{ ClickedPlan.description }}</p>-->
+<!--        <p><b>Price : </b>{{ ClickedPlan.price }}</p>-->
+<!--      </DeleteCheck>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -116,7 +115,25 @@ export default {
   },
   methods: {
     deletePlan: function (plan) {
-      this.ClickedPlan = plan
+      this.$swal.fire({
+        title:`Are you sure ypu want to delete ${plan.name} plan`,
+        icon:'question',
+        showCancelButton:true,
+        cancelButtonText:"No",
+        confirmButtonText:"yes"
+      }).then(res=>{
+        if(res.isConfirmed){
+          this.$axios.$delete('plan/delete/'+plan.id).then(()=>{
+            this.$store.commit('deletePlan', plan.id)
+            this.$swal.fire({title:"plan deleted successfully", icon:"success"})
+          }).catch(err=>{
+            this.$swal.fire({title:"error while deleting the plan", icon:"error", text:err.response.data.message})
+            console.log("error in deleting a plan : ")
+            console.log(err)
+            return false
+          })
+        }
+      })
     },
     activatePlan: async function (plan){
       if(this.$auth.user.role =='SuperAdmin'){

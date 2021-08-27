@@ -3,9 +3,6 @@
     <div
       class="modal fade"
       id="staticBackdrop"
-      data-backdrop="static"
-      data-keyboard="false"
-      tabindex="-1"
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
     >
@@ -61,7 +58,7 @@
                       <input
                         class="form-control"
                         type="date"
-                        v-bind:value="InputPlayer.subscription.beginDate"
+                        v-bind:value="moment(InputPlayer.subscription.beginDate).format('yyyy-MM-DD')"
                         @input="InputPlayer.subscription.beginDate = $event.target.value"
                       />
                     </div>
@@ -70,7 +67,7 @@
                       <input
                         class="form-control"
                         type="date"
-                        v-bind:value="InputPlayer.subscription.endDate"
+                        v-bind:value="moment(InputPlayer.subscription.endDate).format('yyyy-MM-DD')"
                         @input="InputPlayer.subscription.endDate = $event.target.value"
                       />
                     </div>
@@ -130,6 +127,7 @@ export default {
     }
   },
   methods: {
+    moment: (args) => moment(args),
     save: function () {
       // we need to edit 2 things :
       // 1) player data
