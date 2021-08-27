@@ -268,6 +268,7 @@
       </div>
       <div class="row justify-content-start mx-1">
         <div class="col">
+          <cleint-only>
           <paginate
             :page-count="Math.ceil($store.state.activityPlayers.count/10)"
             :click-handler="loadDataOfPage"
@@ -279,6 +280,7 @@
             :next-class="'page-item'"
             :next-link-class="'page-link'"
           ></paginate>
+          </cleint-only>
         </div>
       </div>
 

@@ -76,6 +76,7 @@
           </div>
 <!--          <paging v-on:getDataAtPage="loadDataOfPage" :count="count" per-page="20"/>-->
           <div class="row justify-content-center">
+            <client-only>
             <paginate
               :page-count="Math.ceil(count/20)"
               :click-handler="loadDataOfPage"
@@ -87,6 +88,7 @@
               :next-class="'page-item'"
               :next-link-class="'page-link'"
             ></paginate>
+            </client-only>
           </div>
         </div>
       </div>

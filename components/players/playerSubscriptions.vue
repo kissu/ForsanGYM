@@ -32,6 +32,7 @@
       </div>
 <!--      <paging per-page="10" :count="$store.state.playerSubscriptions.count"  v-on:getDataAtPage="loadDataOfPage" />-->
       <div class="row justify-content-center">
+        <cleint-only>
         <paginate
           :page-count="Math.ceil($store.state.playerSubscriptions.count/10)"
           :click-handler="loadDataOfPage"
@@ -43,6 +44,7 @@
           :next-class="'page-item'"
           :next-link-class="'page-link'"
         ></paginate>
+        </cleint-only>
       </div>
     </div>
 

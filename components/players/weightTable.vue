@@ -39,6 +39,7 @@
       </div>
 <!--      <paging :count="$store.state.playerWeights.count" per-page="10"  v-on:getDataAtPage="loadDataOfPage"/>-->
       <div class="row justify-content-center">
+        <client-only>
         <paginate
           :page-count="Math.ceil($store.state.playerWeights.count/10)"
           :click-handler="loadDataOfPage"
@@ -50,6 +51,7 @@
           :next-class="'page-item'"
           :next-link-class="'page-link'"
         ></paginate>
+        </client-only>
       </div>
     </div>
 

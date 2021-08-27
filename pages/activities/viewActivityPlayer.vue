@@ -47,6 +47,7 @@
               </div>
             </div>
             <div class="row justify-content-center">
+              <client-only>
               <paginate
                 :page-count="Math.ceil($store.state.activityPlayerSubscriptions.count/10)"
                 :click-handler="loadDataOfPage"
@@ -58,6 +59,7 @@
                 :next-class="'page-item'"
                 :next-link-class="'page-link'"
               ></paginate>
+              </client-only>
             </div>
 
           </div>
