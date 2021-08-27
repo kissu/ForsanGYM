@@ -1,10 +1,8 @@
 <template>
-  <div id="editActivityPlayer">
+  <div id="editActivityPlayer" @focusout="setData">
     <div
       class="modal fade"
       id="staticBackdropEditActivityPlayerModal"
-      data-backdrop="static"
-      data-keyboard="false"
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
     >
@@ -97,13 +95,17 @@ export default {
       dis: false,
       errors: {},
       activityPlayer: {
-        name: null,
-        phoneNumber: null,
+        name: this.activity_Player.name,
+        phoneNumber: this.activity_Player.phoneNumber,
       },
+      isDataSet: false
     };
   },
   methods: {
     editActivityPlayer: function () {
+      console.log(this.activity_Player.phoneNumber)
+      console.log(typeof this.activity_Player.phoneNumber)
+      return
       const validate = this.validateForm();
       if (!validate) return false;
       this.dis = true;
@@ -143,6 +145,7 @@ export default {
       this.errors = {};
       let inputs = Object.keys(this.activityPlayer);
       let pass = true;
+
       inputs.forEach((i) => {
         if (
           !this.activityPlayer[i] ||
@@ -161,6 +164,12 @@ export default {
         .add(1, "month")
         .format("YYYY-MM-DD");
     },
+    setData : function (){
+      if(!this.isDataSet){
+        this.activityPlayer = Object.assign({}, this.activity_Player)
+        this.isDataSet = true
+      }
+    }
   },
   watch: {
     activityPlayer: function (value) {
