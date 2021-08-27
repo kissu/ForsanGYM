@@ -17,7 +17,7 @@
             <div class="col-md-8">
               <input v-bind:value="adminData.name"
                      @input="adminData.name = $event.target.value" class="form-control col-md-8"
-                     type="text" placeholder="Enter Admin Name" :value="adminData.name">
+                     type="text" placeholder="Enter Admin Name" >
             </div>
           </div>
 
@@ -26,7 +26,7 @@
             <div class="col-md-8">
               <input v-bind:value="adminData.username"
                      @input="adminData.username = $event.target.value" class="form-control col-md-8"
-                     type="text" placeholder="Enter Username" :value="adminData.username">
+                     type="text" placeholder="Enter Username">
             </div>
           </div>
 
