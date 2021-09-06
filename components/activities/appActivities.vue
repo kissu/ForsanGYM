@@ -21,7 +21,6 @@
           <div class="tile-body">
             <b>Coach : {{ item.coachName }} </b><br>
             <b>Coach Phone : {{ item.coachPhoneNumber }} </b><br>
-            <b>Price : </b>{{ item.price }}<br><br>
             <p><b>Description : </b>{{ item.description }}</p>
           </div>
         </div>

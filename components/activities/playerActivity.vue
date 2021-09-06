@@ -27,7 +27,7 @@
               <div class="col-md-12">
                 <div class="tile">
                   <div class="tile-body">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" id="addActivityPlayerForm">
                       <div class="form-group row">
                         <label class="control-label col-md-4">Name</label>
                         <div class="col-md-8">
@@ -358,6 +358,14 @@ export default {
                 title: "player added successfully!!",
               });
               $("#collapseOne").collapse("hide");
+              this.activityPlayer = {
+                name: null,
+                phoneNumber: null,
+                beginDate: null,
+                endDate: null,
+                activity: null,
+                price: 0,
+              }
             });
         })
         .catch((err) => {
@@ -375,6 +383,7 @@ export default {
           });
           // alert("There is an error while adding new activity player!");
         });
+        
     },
     computeDate: function () {
       this.activityPlayer.beginDate = moment().format("YYYY-MM-DD");

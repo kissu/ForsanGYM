@@ -50,18 +50,6 @@
               </div>
 
               <div class="form-group row">
-                <label class="control-label col-md-3 text-center">Price </label>
-                <div class="col-md-8">
-                  <input
-                    v-model="activity.price"
-                    :class="[{'form-control':true},{'is-invalid':errors.price}]"
-                    type="text"
-                    placeholder="EGP"
-                  />
-                </div>
-              </div>
-
-              <div class="form-group row">
                 <label
                   class="control-label col-md-3 text-center"
                   for="descriptionTextarea"
@@ -106,7 +94,7 @@ export default {
         name: null,
         coachName: null,
         coachPhoneNumber: null,
-        price: 0,
+        price: "1",
         description: null,
       },
       errors: {},

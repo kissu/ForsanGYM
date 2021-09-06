@@ -47,17 +47,6 @@
                     </div>
 
                     <div class="form-group">
-                      <label class="control-label">Price</label>
-                      <input
-                        v-bind:value='act.price'
-                        @input="act.price = $event.target.value"
-                        :class="[{'form-control':true},{'is-invalid':errors.price}]"
-                        type="number"
-                        step="any"
-                      />
-                    </div>
-
-                    <div class="form-group">
                       <label class="control-label">Activity Description</label>
                       <textarea
                         v-bind:value='act.description'
@@ -100,7 +89,7 @@ export default {
         name: null,
         coachName: null,
         coachPhoneNumber: null,
-        price: 0,
+        price: 1,
         description: null
       }
     }
