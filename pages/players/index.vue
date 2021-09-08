@@ -187,6 +187,8 @@ export default {
         console.log(err)
       }
     }
+
+
   },
   methods: {
     DeletePlayer: function (item) {

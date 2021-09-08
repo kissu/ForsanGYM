@@ -1,5 +1,5 @@
 <template>
-  <div id="editActivityPlayer" @focusout="setData">
+  <div id="editActivityPlayer" @focusin="setData">
     <div
       class="modal fade"
       id="staticBackdropEditActivityPlayerModal"
@@ -98,14 +98,10 @@ export default {
         name: this.activity_Player.name,
         phoneNumber: this.activity_Player.phoneNumber,
       },
-      isDataSet: false
     };
   },
   methods: {
     editActivityPlayer: function () {
-      console.log(this.activity_Player.phoneNumber)
-      console.log(typeof this.activity_Player.phoneNumber)
-      return
       const validate = this.validateForm();
       if (!validate) return false;
       this.dis = true;
@@ -165,9 +161,8 @@ export default {
         .format("YYYY-MM-DD");
     },
     setData : function (){
-      if(!this.isDataSet){
+      if(this.activity_Player.id !== this.activityPlayer){
         this.activityPlayer = Object.assign({}, this.activity_Player)
-        this.isDataSet = true
       }
     }
   },

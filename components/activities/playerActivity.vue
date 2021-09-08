@@ -238,7 +238,7 @@
                     View
                   </button>
                   <button
-                    v-if="$auth.user.role == 'SuperAdmin'"
+                    v-if="$auth.user.role === 'SuperAdmin'"
                     class="btn btn-danger"
                     type="button"
                     @click="DeleteActivityPlayer(playerActivity)"
@@ -268,7 +268,7 @@
       </div>
       <div class="row justify-content-start mx-1">
         <div class="col">
-          <cleint-only>
+          <client-only>
           <paginate
             :page-count="Math.ceil($store.state.activityPlayers.count/10)"
             :click-handler="loadDataOfPage"
@@ -280,7 +280,7 @@
             :next-class="'page-item'"
             :next-link-class="'page-link'"
           ></paginate>
-          </cleint-only>
+          </client-only>
         </div>
       </div>
 
@@ -289,7 +289,7 @@
       <reSubscribe :activityPlayer="activityPlayerInfo"/>
     </div>
     <div id = "editActivityPlayer" v-if="editClickedPlayer">
-      <editActivityPlayer :activity_Player="editClickedPlayer"/>
+      <editActivityPlayer :activity_Player="editClickedPlayer" :data_set="false"/>
     </div>
   </div>
 </template>
@@ -353,6 +353,10 @@ export default {
             })
             .then((res2) => {
               this.$store.commit('setActivityPlayers', res2)
+              console.log(res2)
+              console.log(res2.price)
+              this.$store.commit('addActivityPlayerIncome', this.activityPlayer.price)
+              console.log(typeof this.activityPlayer.price)
               this.$swal.fire({
                 icon: "success",
                 title: "player added successfully!!",
@@ -383,7 +387,7 @@ export default {
           });
           // alert("There is an error while adding new activity player!");
         });
-        
+
     },
     computeDate: function () {
       this.activityPlayer.beginDate = moment().format("YYYY-MM-DD");

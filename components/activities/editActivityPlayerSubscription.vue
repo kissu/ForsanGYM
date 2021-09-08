@@ -88,7 +88,7 @@
                   <div class="form-group">
                     <label class="control-label">Begin Date</label>
                     <input
-                      v-bind:value="subscription.beginDate"
+                      v-bind:value="moment(subscription.beginDate).format('yyyy-MM-DD')"
                       @input="subscription.beginDate = $event.target.value"
                       :class="[
                         { 'form-control': true },
@@ -101,7 +101,7 @@
                   <div class="form-group">
                     <label class="control-label">End Date</label>
                     <input
-                      v-bind:value="subscription.endDate"
+                      v-bind:value="moment(subscription.endDate).format('yyyy-MM-DD')"
                       @input="subscription.endDate = $event.target.value"
                       :class="[
                         { 'form-control': true },
@@ -150,7 +150,7 @@ export default {
     }
   },
   mounted() {
-    this.subscription = this.subscriptionSent
+    this.subscription = Object.assign({}, this.subscriptionSent)
   },
   data(){
     return{
@@ -160,6 +160,7 @@ export default {
     }
   },
   methods:{
+    moment: (args) => moment(args),
     editActivityPlayerSubscription: function () {
       const validate = this.validateForm();
       if (!validate) return false;
@@ -176,6 +177,8 @@ export default {
         .then((res) => {
           this.dis = false;
           this.$store.commit('setAllActivityPlayersubscriptions', res)
+          this.$store.commit('addActivityPlayerIncome', Number(this.subscription.price)-Number(this.subscriptionSent.price))
+
           $(`#editActivityPlayerSubscription${this.subscription.id}`).modal("hide");
         })
         .catch((err) => {
@@ -217,7 +220,7 @@ export default {
     },
   },
   computed:{
-    
+
   }
 }
 </script>

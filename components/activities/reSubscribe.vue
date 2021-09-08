@@ -112,6 +112,10 @@ export default {
           price: Number(this.InputActivityPlayer.price),
         }).then(res => {
           this.$store.commit('setActivityPlayers', res)
+          this.$store.commit('addActivityPlayerIncome', Number(this.InputActivityPlayer.price))
+          // console.log(this.InputActivityPlayer.price)
+          // console.log(typeof this.InputActivityPlayer.price)
+
           $(`#reSubscribeModal1`).modal('hide')
         }).catch(err => {
           console.log("Error is : ")

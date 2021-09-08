@@ -57,10 +57,10 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Plan</label>
                           <div class="col-md-8">
-                            <select @change="PickPlan" v-model="InputPlayer.plan" class="form-control col-md-8"
+                            <select @change="PickPlan($event.target.value)" class="form-control col-md-8"
                                     id="plansList">
                               <option :value="null" disabled selected>Choose a plan</option>
-                              <option v-for="plan in activatedPlans" :value="plan" :key="plan.id">{{ plan.name }}
+                              <option v-for="(plan, index) in activatedPlans" :value="index" :key="plan.id">{{ plan.name }}
                               </option>
                             </select>
                           </div>
@@ -70,7 +70,7 @@
                           <label class="control-label col-md-3">Price</label>
                           <div class="col-md-8">
                             <input v-bind:value="InputPlayer.payedMoney"
-                                   @input="InputPlayer.payedMoney = $event.target.value" class="form-control col-md-8"
+                                   @input="InputPlayer.payedMoney = Number($event.target.value)" class="form-control col-md-8"
                                    type="number">
                           </div>
                         </div>
@@ -156,29 +156,29 @@ import axios from "axios";
 export default {
   data() {
     return {
-      InputPlayer: {},
+      InputPlayer: {
+        payedMoney:0,
+        beginDate: "",
+        endDate: "",
+      },
       MEDIA_API:process.env.MEDIA_API,
-      coll: false
     }
   },
   methods: {
     resetForm:function (){
       this.InputPlayer = {
-        name: null,
-        phoneNumber: null,
-        weight: null,
-        height: null,
-        plan: null,
         payedMoney:0,
-        beginDate: null,
-        endDate: null,
-        dietPlan: "",
-        trainingPlan: "",
+        beginDate: "",
+        endDate: "",
       }
       document.getElementById("uploadPhoto").value = ""
+      document.getElementById('plansList').selectedIndex = 0
+
     },
     addPlayer: async function () {
-
+      // console.log(this.InputPlayer)
+      // this.resetForm()
+      // return
       let formData = new FormData()
       if (this.isFormOk()) {
         formData.append('file', this.$refs.UploadedFile.files[0])
@@ -241,7 +241,9 @@ export default {
         // ....
       }
     },
-    PickPlan: function () {
+    PickPlan: function (planIndex) {
+      console.log(this.InputPlayer.payedMoney)
+      this.InputPlayer.plan = this.activatedPlans[planIndex]
       this.InputPlayer.beginDate = moment().format("yyyy-MM-DD")
       this.InputPlayer.endDate = moment().add( this.InputPlayer.plan.months,"months").format('yyyy-MM-DD')
       this.InputPlayer.payedMoney = this.InputPlayer.plan.price

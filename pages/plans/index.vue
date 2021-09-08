@@ -13,7 +13,7 @@
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th v-if="$auth.user.role == 'SuperAdmin'" style="width:21%">Options</th>
+              <th v-if="$auth.user.role == 'SuperAdmin'" style="width:30%">Options</th>
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
@@ -22,17 +22,23 @@
               <td>{{ plan.name }}</td>
               <td>{{ plan.description }}</td>
               <td>{{ plan.price }}</td>
-              <td v-if="$auth.user.role == 'SuperAdmin'">
+              <td >
                 <button class="btn btn-danger mr-2" type="button"
-                        @click="deletePlan(plan)" data-toggle="modal"
-                        :data-target="'#DeleteCheckModal'+ClickedPlan.id"
-                        >Delete
+                        @click="deletePlan(plan)"
+                        v-if="$auth.user.role == 'SuperAdmin'"
+                >Delete
                 </button>
 
-                <button class="btn btn-info" type="button"
+                <button class="btn btn-info mr-2" type="button"
                         @click="deActivatePlan(plan)"
-                       >De-activate
+                        v-if="$auth.user.role == 'SuperAdmin'"
+                >De-activate
                 </button>
+
+                <button class="btn btn-warning mr-2" type="button"
+                      @click="ClickedPlan = plan" data-toggle="modal"
+                        :data-target="`#editPlan${plan.id}Modal`"
+                >Edit</button>
 
                 <!--TODO  -->
                 <!--                <button class="btn btn-warning " type="button">Edit</button>-->
@@ -55,7 +61,7 @@
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th style="width:20%">Options</th>
+              <th style="width:30%">Options</th>
             </tr>
             </thead>
             <tbody v-if="$store.state.plans.length">
@@ -64,15 +70,18 @@
               <td>{{ plan.name }}</td>
               <td>{{ plan.description }}</td>
               <td>{{ plan.price }}</td>
-              <td>
+              <td v-if="$auth.user.role == 'SuperAdmin'">
                 <button class="btn btn-danger mr-2" type="button"
-                        @click="deletePlan(plan)" data-toggle="modal"
-                        v-if="$auth.user.role == 'SuperAdmin'">Delete
+                        @click="deletePlan(plan)"
+                        >Delete
                 </button>
                 <button class="btn btn-info mr-2" type="button"
-                        @click="activatePlan(plan)"
-                        v-if="$auth.user.role == 'SuperAdmin'">activate
+                        @click="activatePlan(plan)">activate
                 </button>
+                <button class="btn btn-warning mr-2" type="button"
+                        @click="ClickedPlan = plan" data-toggle="modal"
+                        :data-target="`#editPlan${plan.id}Modal`"
+                >Edit</button>
               </td>
             </tr>
             </tbody>
@@ -81,14 +90,10 @@
       </div>
     </div>
 
-<!--    <div v-if="ClickedPlan.id" id="deleteSection">-->
-<!--      <DeleteCheck :header-msg="'Are You Sure You Want to Delete This Plan ?'" :item-id="ClickedPlan.id"-->
-<!--                   delete_url="/plan/delete/:id" commit-action="deletePlan">-->
-<!--        <p><b>Name : </b>{{ ClickedPlan.name }}</p>-->
-<!--        <p><b>Description : </b>{{ ClickedPlan.description }}</p>-->
-<!--        <p><b>Price : </b>{{ ClickedPlan.price }}</p>-->
-<!--      </DeleteCheck>-->
-<!--    </div>-->
+    <div v-if="ClickedPlan">
+      <edit-plan :plan-data="Object.assign({},ClickedPlan)"/>
+    </div>
+
   </div>
 </template>
 
@@ -96,9 +101,10 @@
 import PageTitle from "../../components/layout/pageTitle";
 import Default from "../../layouts/default";
 import DeleteCheck from "../../components/layout/deleteCheck";
+import EditPlan from "../../components/plans/editPlan";
 
 export default {
-  components: {DeleteCheck, Default, PageTitle},
+  components: {EditPlan, DeleteCheck, Default, PageTitle},
   async asyncData({$axios, store}) {
     try {
       const plans = await $axios.$get('plan/')

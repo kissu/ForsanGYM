@@ -46,6 +46,7 @@
 
 <script>
 import CollapseComponent from "../../layout/Collapse";
+import moment from "moment";
 export default {
   name: "addOutcome",
   components: {CollapseComponent},
@@ -60,7 +61,7 @@ export default {
     },
     addOutcome:function (){// add outcome to db
       this.outcome.price = Number(this.outcome.price)
-      const outcome = {...this.outcome}
+      const outcome = {...this.outcome, dayDate:moment().format("yyyy-MM-DD")}
       this.$axios.$post('outCome/new', outcome).then(res=>{
         this.$store.commit("addOutcome", res)
 
