@@ -17,20 +17,20 @@
           <i class="icon mdi mdi-cash-plus"></i>
           <div class="info">
             <h4>Income</h4>
-            <p><b>{{ totalDailyIncome }}</b></p>
+            <p><b>{{ totalDailyIncome - totalDailyOutcome }}</b></p>
           </div>
         </div>
       </div>
 
-      <div class="col-md-6 col-lg-3">
-        <div class="widget-small warning coloured-icon">
-          <i class="icon mdi mdi-cash-minus"></i>
-          <div class="info">
-            <h4>Outcome</h4>
-            <p><b>{{ totalDailyOutcome }}</b></p>
-          </div>
-        </div>
-      </div>
+<!--      <div class="col-md-6 col-lg-3">-->
+<!--        <div class="widget-small warning coloured-icon">-->
+<!--          <i class="icon mdi mdi-cash-minus"></i>-->
+<!--          <div class="info">-->
+<!--            <h4>Outcome</h4>-->
+<!--            <p><b>{{ totalDailyOutcome }}</b></p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
     </div>
 

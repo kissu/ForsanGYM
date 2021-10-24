@@ -22,16 +22,15 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Name</label>
                           <div class="col-md-8">
-                            <input v-bind:value="InputPlayer.name"
-                                   @input="InputPlayer.name = $event.target.value" class="form-control" type="text"
+                            <input v-model="InputPlayer.name" class="form-control" type="text"
                                    placeholder="Enter full name">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="control-label col-md-3">Phone</label>
                           <div class="col-md-8">
-                            <input v-bind:value="InputPlayer.phoneNumber"
-                                   @input="InputPlayer.phoneNumber = $event.target.value" class="form-control col-md-8"
+                            <input  v-model="InputPlayer.phoneNumber"
+                                   class="form-control col-md-8"
                                    type="tel" placeholder="Enter the phone number">
                           </div>
                         </div>
@@ -39,17 +38,16 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">height</label>
                           <div class="col-md-8">
-                            <input v-bind:value="InputPlayer.height"
-                                   @input="InputPlayer.height = $event.target.value" class="form-control col-md-8"
-                                   type="number" step="any" placeholder="Enter the player height">
+                            <input v-model="InputPlayer.height" class="form-control col-md-8"
+                                   type="number" placeholder="Enter the player height">
                           </div>
                         </div>
 
                         <div class="form-group row">
                           <label class="control-label col-md-3">weight</label>
                           <div class="col-md-8">
-                            <input v-bind:value="InputPlayer.weight"
-                                   @input="InputPlayer.weight = $event.target.value" class="form-control col-md-8"
+                            <input v-model="InputPlayer.weight"
+                                    class="form-control col-md-8"
                                    type="number" step="any" placeholder="Enter the player weight">
                           </div>
                         </div>
@@ -69,8 +67,8 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Price</label>
                           <div class="col-md-8">
-                            <input v-bind:value="InputPlayer.payedMoney"
-                                   @input="InputPlayer.payedMoney = Number($event.target.value)" class="form-control col-md-8"
+                            <input v-model="InputPlayer.payedMoney"
+                                    class="form-control col-md-8"
                                    type="number">
                           </div>
                         </div>
@@ -78,8 +76,8 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Begin Date</label>
                           <div class="col-md-8">
-                            <input v-bind:value="InputPlayer.beginDate"
-                                   @input="InputPlayer.beginDate = $event.target.value" class="form-control col-md-8"
+                            <input v-model="InputPlayer.beginDate"
+                                   class="form-control col-md-8"
                                    type="date">
                           </div>
                         </div>
@@ -87,8 +85,8 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">End Date</label>
                           <div class="col-md-8">
-                            <input v-bind:value="InputPlayer.endDate"
-                                   @input="InputPlayer.endDate = $event.target.value" class="form-control col-md-8"
+                            <input v-model="InputPlayer.endDate"
+                                    class="form-control col-md-8"
                                    type="date">
                           </div>
                         </div>
@@ -106,8 +104,7 @@
                             class="form-control"
                             rows="4"
                             type="text"
-                            v-bind:value="InputPlayer.dietPlan"
-                            @input="InputPlayer.dietPlan = $event.target.value"
+                            v-model="InputPlayer.dietPlan"
                           ></textarea>
                         </div>
 
@@ -117,8 +114,7 @@
                             class="form-control"
                             rows="4"
                             type="text"
-                            v-bind:value="InputPlayer.trainingPlan"
-                            @input="InputPlayer.trainingPlan = $event.target.value"
+                            v-model="InputPlayer.trainingPlan"
                           ></textarea>
                         </div>
 
@@ -157,9 +153,16 @@ export default {
   data() {
     return {
       InputPlayer: {
-        payedMoney:0,
-        beginDate: "",
-        endDate: "",
+        name:null,
+        phoneNumber:null,
+        height:null,
+        weight:null,
+        plan:null,
+        payedMoney:null,
+        beginDate:null,
+        endDate:null,
+        dietPlan:null,
+        trainingPlan:null
       },
       MEDIA_API:process.env.MEDIA_API,
     }
@@ -167,18 +170,26 @@ export default {
   methods: {
     resetForm:function (){
       this.InputPlayer = {
-        payedMoney:0,
-        beginDate: "",
-        endDate: "",
+        name:null,
+        phone:null,
+        height:null,
+        weight:null,
+        plan:null,
+        payedMoney:null,
+        beginDate:null,
+        endDate:null,
+        dietPlan:null,
+        trainingPlan:null
       }
       document.getElementById("uploadPhoto").value = ""
       document.getElementById('plansList').selectedIndex = 0
 
     },
     addPlayer: async function () {
+      // this.isFormOk()
       // console.log(this.InputPlayer)
-      // this.resetForm()
-      // return
+      //   this.resetForm()
+      //   return
       let formData = new FormData()
       if (this.isFormOk()) {
         formData.append('file', this.$refs.UploadedFile.files[0])
@@ -228,8 +239,8 @@ export default {
           this.resetForm()
 
         } catch (e) {
-           await axios.delete(`${this.MEDIA_API}/photo/delete/${this.InputPlayer.photo}`)
-          this.InputPlayer.photo = "";
+          if(this.$refs.UploadedFile.files[0])
+            await axios.delete(`${this.MEDIA_API}/photo/delete/${this.InputPlayer.photo}`)
           this.$swal.fire({
             icon: 'error',
             title: "Adding Operation FAILED",
@@ -249,6 +260,18 @@ export default {
       this.InputPlayer.payedMoney = this.InputPlayer.plan.price
     },
     isFormOk: function () {
+      if(!this.InputPlayer.height){
+        this.InputPlayer.height = "0"
+      }
+      if(!this.InputPlayer.weight){
+        this.InputPlayer.weight = "0"
+      }
+      if(!this.InputPlayer.dietPlan){
+        this.InputPlayer.dietPlan = "None"
+      }
+      if(!this.InputPlayer.trainingPlan){
+        this.InputPlayer.trainingPlan = "None"
+      }
       for (let i = 0, arr = Object.keys(this.InputPlayer); i < arr.length; i++) {
         if (!this.InputPlayer[arr[i]]) {
           this.$swal.fire({
@@ -261,7 +284,7 @@ export default {
       }
       if(this.$store.state.players.items.length // tp check if there is any players in store first
         &&
-        this.$store.state.players.items.find(player=> player.phoneNumber === this.InputPlayer.phoneNumber)){
+        this.$store.state.players.items.find(player=> player.phone === this.InputPlayer.phoneNumber)){
         // duplicated phone number
         this.$swal.fire({
           icon: "error",

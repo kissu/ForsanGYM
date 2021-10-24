@@ -1,8 +1,9 @@
 <template>
   <div id="PlayersPage">
     <page-title title="Players" icon="mdi mdi-account" />
-
-    <add-new-player/>
+    <client-only>
+      <add-new-player/>
+    </client-only>
 
     <div class="row mt-3">
       <div class="col-md-12">
@@ -96,7 +97,7 @@
                       <tbody>
                       <!-- Start looping -->
                       <tr v-for="(item, index) in playersData" :key="item.id">
-                        <td>{{ index + 1 }}</td>
+                        <td>{{ (index + 1) + ((pageNumber-1)*10) }}</td>
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.phoneNumber }}</td>
@@ -174,7 +175,8 @@ export default {
       clickedPlayer: null,
       searchInput: null,
       pickedSearchOption: null,
-      MEDIA_API:process.env.MEDIA_API
+      MEDIA_API:process.env.MEDIA_API,
+      pageNumber:1
     }
   },
   async asyncData({$axios, store}){
@@ -246,6 +248,7 @@ export default {
       })
     },
     loadDataOfPage: function (page){
+      this.pageNumber = page
       this.$axios.$get('/player?limit=10&page='+page).then(res=>{
         this.$store.commit('setPlayers', res)
       })

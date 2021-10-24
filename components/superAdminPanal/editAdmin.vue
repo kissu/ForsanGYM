@@ -30,14 +30,14 @@
             </div>
           </div>
 
-<!--          <div class="form-group row">-->
-<!--            <label class="control-label col-md-3">password</label>-->
-<!--            <div class="col-md-8">-->
-<!--              <input v-bind:value="adminData.password"-->
-<!--                     @input="adminData.password = $event.target.value" class="form-control col-md-8" type="password"-->
-<!--                     placeholder="Enter password">-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="form-group row">
+            <label class="control-label col-md-3">password</label>
+            <div class="col-md-8">
+              <input v-bind:value="adminData.password"
+                     @input="adminData.password = $event.target.value" class="form-control col-md-8" type="password"
+                     placeholder="Enter password">
+            </div>
+          </div>
 
           <div class="form-group row">
             <label class="control-label col-md-3">Admin Role</label>

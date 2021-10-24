@@ -38,8 +38,15 @@
     <div class="row">
       <div class="col-md-12">
         <div class="tile">
-          <div class="tile-header">
-            <h3>Logs</h3>
+          <div class="tile-header my-2">
+            <div class="row">
+              <div class="col">
+                <h3>Logs</h3>
+              </div>
+              <div class="col">
+                <button class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteLogsModal"><i class="mdi mdi-trash-can"></i> Delete Logs</button>
+              </div>
+            </div>
           </div>
           <div class="tile-body">
             <div class="row flex-row-reverse mb-4">
@@ -95,6 +102,7 @@
     </div>
     <add-new-admin/>
     <delete-admin/>
+    <delete-logs/>
   </div>
 </template>
 
@@ -104,10 +112,11 @@ import moment from "moment/moment";
 import AddNewAdmin from "../../components/superAdminPanal/addNewAdmin";
 import DeleteAdmin from "../../components/superAdminPanal/deleteAdmin";
 import Paging from "../../components/paging";
+import DeleteLogs from "../../components/superAdminPanal/deleteLogs";
 
 export default {
   name: "index",
-  components: {Paging, DeleteAdmin, AddNewAdmin, PageTitle},
+  components: {DeleteLogs, Paging, DeleteAdmin, AddNewAdmin, PageTitle},
   async asyncData({$axios, $auth, redirect, store}) {
     if ($auth.user.role != "SuperAdmin") {
       redirect("/");
