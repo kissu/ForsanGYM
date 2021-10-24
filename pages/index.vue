@@ -158,10 +158,9 @@ export default {
     if (!store.state.subscriptionsIncome.isLoaded) {
       // the true case of this if means that subscriptionsIncome is not loaded
       try {
-        console.log('Load subscriptionsIncome')
-        console.log(moment().format("yyyy-MM-DD"))
         const res = await $axios.$post('subscription/today', {todayDate:moment().format("yyyy-MM-DD")})
         await store.commit('setSubscriptionsIncome', res)
+        store.commit('setTotalIncome')
       } catch (err) {
         console.log('error on today\'s subscriptions income set (dashboard) :')
         console.log(err)
@@ -204,7 +203,7 @@ export default {
 
   computed: {
     computedSubscriptionsIncome: function () {
-      return this.$store.state.subscriptionsIncome.items
+      return this.$store.state.subscriptionsIncome.items.filter(sub=>sub.numberOfSubscriptions>0)
     },
     totalDailyIncome: function () {
       return this.$store.state.totalIncome

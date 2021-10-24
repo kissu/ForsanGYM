@@ -242,66 +242,13 @@ export const mutations = {
   },
   setSubscriptionsIncome: function (state, todaySubscriptions) {
 
-
-    // 1) we need to check if the plan has subs or not
-      // 2) if( plan has subs ) then increase the b=number of subs it has and sum the money
-      // 3) else add the plan and sum money
-
-    state.subscriptionsIncome.items = [] // to prevent duplicated subscriptions
-
-    if(todaySubscriptions.length>0){ // there is subscriptions for today
-      const visitedArr = []
-
-      for(let i=0;i<state.subscriptionsIncome.items.length;i++){
-        visitedArr[state.subscriptionsIncome.items[i].plan.id] = i
-      }
-
-      for (let i = 0, arr = todaySubscriptions; i < arr.length; i++) {
-        if (arr[i].plan) {
-          // the plan is not deleted :D
-          if (visitedArr[arr[i].plan.id] > -1) {
-            // another subscription of this plan is on the array
-            state.subscriptionsIncome.items[visitedArr[arr[i].plan.id]].numberOfSubscriptions++
-            state.subscriptionsIncome.items[visitedArr[arr[i].plan.id]].payedMoney += arr[i].payedMoney
-          } else {
-            // push subscription to array
-            state.subscriptionsIncome.items.push({
-              plan: arr[i].plan,
-              numberOfSubscriptions: 1,
-              payedMoney: arr[i].payedMoney
-            })
-            visitedArr[arr[i].plan.id] = state.subscriptionsIncome.items.length - 1
-          }
-        } else {
-          // plan is deleted :D
-          state.subscriptionsIncome.items.push({
-            plan: {
-              name: "Deleted Plan"
-            },
-            numberOfSubscriptions: 1,
-            payedMoney: arr[i].payedMoney
-          })
-          visitedArr[arr[i].plan.id] = state.subscriptionsIncome.items.length - 1
-        }
-        state.totalIncome += arr[i].payedMoney
-      }
-    }
+    state.subscriptionsIncome.items = todaySubscriptions
     state.subscriptionsIncome.isLoaded = true
   },
   addSubscriptionIncome: function (state, subscriptionIncome) {
-    for (let i = 0, arr = state.subscriptionsIncome.items; i < arr.length; i++) {
-      if (arr[i].plan.id === subscriptionIncome.plan.id) {
-        arr[i].numberOfSubscriptions++
-        arr[i].payedMoney += subscriptionIncome.payedMoney
-        state.totalIncome += subscriptionIncome.payedMoney
-        return
-      }
-    }
-    state.subscriptionsIncome.items.push({
-      plan: subscriptionIncome.plan,
-      numberOfSubscriptions: 1,
-      payedMoney: subscriptionIncome.payedMoney
-    })
+    const subscription = state.subscriptionsIncome.items.find(sub=>sub.plan.id === subscriptionIncome.plan.id)
+    subscription.numberOfSubscriptions++
+    subscription.payedMoney+=subscriptionIncome.payedMoney
     state.totalIncome += subscriptionIncome.payedMoney
   },
 
@@ -353,6 +300,18 @@ export const mutations = {
   },
 
   // outcome area end --
+
+  // income are begin
+
+  setTotalIncome: function (state){
+
+    for(let i=0, arr= state.subscriptionsIncome.items;i<arr.length;i++){
+      state.totalIncome += arr[i].payedMoney
+    }
+  },
+
+  // income are begin
+
   //----------------------------------------------------------------------
   //Admins area begin --
 
