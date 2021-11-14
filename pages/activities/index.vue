@@ -23,6 +23,15 @@ export default {
   components: {AppActivities, PageTitle, playerActivity},
 
   async asyncData({$axios, $auth, redirect, store}){
+
+    try {
+      const activities = await $axios.$get('activity/')
+      store.commit('SetActivities', activities)
+    }catch (err){
+      console.log('error on activities load (store/index) :')
+      console.log(err)
+    }
+
     try{
       const res = await $axios.$get('/activityPlayer?limit=10')
       await store.commit('setActivityPlayers', res)

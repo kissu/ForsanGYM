@@ -75,7 +75,8 @@ export default {
       // console.log( this.quantity)
       // return
       // purchase a service performer
-      const quantity = Number(this.quantity)
+      let quantity = Number(this.quantity)
+      if(quantity===0)quantity=1
       const SelectedService = {...this.SelectedService}
       this.$axios.$post('serviceIncome/add', {
         id:SelectedService.id,

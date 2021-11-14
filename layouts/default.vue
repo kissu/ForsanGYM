@@ -13,6 +13,10 @@ import AppHeader from "../components/layout/appHeader";
 import AppSidebar from "../components/layout/appSidebar";
 export default {
   components: {AppSidebar, AppHeader},
+  async asyncData({store, $axios}){
+
+
+  } ,
   mounted() {
     this.$axios.$get('activity/').then(activities => {
       this.$store.commit('SetActivities', activities)

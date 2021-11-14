@@ -180,6 +180,14 @@ export default {
     }
   },
   async asyncData({$axios, store}){
+    try{
+      // loading plans
+      const plans = await $axios.$get('plan/')
+      store.commit('setPlans',plans)
+    }catch (err){
+      console.log('error on plans load (store/index) :')
+      console.log(err)
+    }
     if(!store.state.players.isLoaded){
       try {
         const res = await $axios.$get('/player?limit=10&page=1')

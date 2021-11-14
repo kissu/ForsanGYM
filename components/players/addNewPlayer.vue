@@ -29,7 +29,7 @@
                         <div class="form-group row">
                           <label class="control-label col-md-3">Phone</label>
                           <div class="col-md-8">
-                            <input  v-model="InputPlayer.phoneNumber"
+                            <input v-model="InputPlayer.phoneNumber"
                                    class="form-control col-md-8"
                                    type="tel" placeholder="Enter the phone number">
                           </div>
@@ -169,9 +169,10 @@ export default {
   },
   methods: {
     resetForm:function (){
+      this.InputPlayer = Object.assign({}, {})
       this.InputPlayer = {
         name:null,
-        phone:null,
+        phoneNumber:null,
         height:null,
         weight:null,
         plan:null,
@@ -253,7 +254,6 @@ export default {
       }
     },
     PickPlan: function (planIndex) {
-      console.log(this.InputPlayer.payedMoney)
       this.InputPlayer.plan = this.activatedPlans[planIndex]
       this.InputPlayer.beginDate = moment().format("yyyy-MM-DD")
       this.InputPlayer.endDate = moment().add( this.InputPlayer.plan.months,"months").format('yyyy-MM-DD')
@@ -281,17 +281,6 @@ export default {
           })
           return false
         }
-      }
-      if(this.$store.state.players.items.length // tp check if there is any players in store first
-        &&
-        this.$store.state.players.items.find(player=> player.phone === this.InputPlayer.phoneNumber)){
-        // duplicated phone number
-        this.$swal.fire({
-          icon: "error",
-          title: "Input Error",
-          text: `Phone number is already in use`
-        })
-        return false
       }
       return true
     }

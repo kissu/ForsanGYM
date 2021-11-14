@@ -248,7 +248,7 @@ export const mutations = {
   addSubscriptionIncome: function (state, subscriptionIncome) {
     const subscription = state.subscriptionsIncome.items.find(sub=>sub.plan.id === subscriptionIncome.plan.id)
     subscription.numberOfSubscriptions++
-    subscription.payedMoney+=subscriptionIncome.payedMoney
+    subscription.payedMoney += subscriptionIncome.payedMoney
     state.totalIncome += subscriptionIncome.payedMoney
   },
 
@@ -301,7 +301,7 @@ export const mutations = {
 
   // outcome area end --
 
-  // income are begin
+  // income area begin
 
   setTotalIncome: function (state){
 
@@ -347,24 +347,6 @@ export const actions = {
   },
 
   async storeDispatchFunc({ commit }) {
-
-    try{
-      // loading plans
-      const plans = await this.$axios.$get('plan/')
-      commit('setPlans',plans)
-    }catch (err){
-      console.log('error on plans load (store/index) :')
-      console.log(err)
-    }
-
-    try {
-      const activities = await this.$axios.$get('activity/')
-      commit('SetActivities', activities)
-
-    }catch (err){
-     console.log('error on activities load (store/index) :')
-          console.log(err)
-    }
 
   },
 

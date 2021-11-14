@@ -133,6 +133,23 @@ export default {
   methods: {},
   async asyncData({store, $axios}) {
 
+    try{
+      // loading plans
+      const plans = await $axios.$get('plan/')
+      store.commit('setPlans',plans)
+    }catch (err){
+      console.log('error on plans load (store/index) :')
+      console.log(err)
+    }
+
+    try {
+      const activities = await $axios.$get('activity/')
+      store.commit('SetActivities', activities)
+    }catch (err){
+      console.log('error on activities load (store/index) :')
+      console.log(err)
+    }
+
     if (!store.state.isActivityPlayerSubscriptionsIncomeLoaded) {
       // the true case of this if means that subscriptionsIncome is not loaded
       try {
