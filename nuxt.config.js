@@ -64,7 +64,7 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     "vue-sweetalert2/nuxt",
-    // '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -94,7 +94,7 @@ module.exports = {
   },
 
   router: {
-    // middleware: ['auth']
+    middleware: ['auth']
   },
   auth: {
     redirect: {
