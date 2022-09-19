@@ -9,11 +9,12 @@ require('dotenv').config({
 
 // export default {
 module.exports = {
-
   server : {
     host:"127.0.0.1",
     port: 8001
   },
+  target: 'static',
+  ssr: true,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -55,15 +56,15 @@ module.exports = {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/router',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/router',
     "vue-sweetalert2/nuxt",
-    '@nuxtjs/auth-next'
+    // '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -93,9 +94,8 @@ module.exports = {
   },
 
   router: {
-    middleware: ['auth']
+    // middleware: ['auth']
   },
-
   auth: {
     redirect: {
       login: "/auth/login",
@@ -124,5 +124,4 @@ module.exports = {
       }
     }
   }
-
 }
